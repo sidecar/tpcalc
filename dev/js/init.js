@@ -201,7 +201,7 @@ module.exports = {
 var App = require('./app');
 // This entire file is here because for some fucking hard to understand reason you cannot start app.js and then export it to be referenced as a module at the end of app.js. It doesn't work you have to start it somewhere else. No clue why this is.
 App.start(); 
-}).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_6c6af8bb.js","/")
+}).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_22372c52.js","/")
 },{"./app":1,"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":26,"buffer":23}],4:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 "use strict";
@@ -214,60 +214,72 @@ var Backbone = require('backbone'),
   MenuView = require('../views/menu-view');
 
 module.exports = App.module('Calc', function(Calc) {
-  
   // Calculator must be manually started
   Calc.startWithParent = false;
+  var Router = Marionette.AppRouter.extend({
+    appRoutes: {
+        ':categories/:calculator/test': 'test',
+    }
+  }); 
+
+  var Controller = Marionette.Controller.extend({
+    loadNextView: function() {
+      console.log('Calc.controller loadNextView');
+    },
+    loadPrevView: function() {
+      console.log('Calc.controller loadPrevView');
+    },
+    // When the module starts, we need to make sure we have
+    // the correct view showing
+    show: function(calcModel) {
+      var desktopLayout = new DesktopLayout();
+      App.body.show(desktopLayout);
+      desktopLayout.headerRegion.show(new HeaderView({model: calcModel}));
+      desktopLayout.menuRegion.show(new MenuView({model: calcModel}));
+      desktopLayout.footerRegion.show(new FooterView({model: calcModel}));
+    },
+    // When the module stops, we need to clean up our views
+    hide: function() {
+      App.body.close();
+      this.data = this.view = null;
+    },
+    test: function() {
+      this._ensureAppModuleIsRunning();
+    },
+    // Makes sure that this subapp is running so that we can
+    // perform everything we need to
+    _ensureAppModuleIsRunning: function() {
+        App.execute('appModule:start', 'Calc');
+    }
+  }); 
+  var controller = new Controller();
+  var router = new Router({controller: controller});
 
   Calc.addInitializer(function(options){
     console.log('Calc.addInitializer');
-    Calc.controller = new Controller();
-    Calc.router = new Router({controller: Calc.controller});
     var calcModel = new Backbone.Model(options);
-    Calc.controller.show(calcModel);
+    
+    controller.show(calcModel);
+    
+    App.vent.on('next', function() {
+      controller.loadNextView();
+    });
+    
+    App.vent.on('prev', function() {
+      controller.loadPrevView();
+    });
   });
 
   Calc.on('start', function(options) {
-    console.log('Calc.start');
   });
 
   Calc.addFinalizer(function(){
-      Calc.controller.hide();
+      controller.hide();
       Calc.stopListening();
   }); 
+
+
 });
-
-var Router = Marionette.AppRouter.extend({
-  appRoutes: {
-      ':categories/:calculator/test': 'test',
-  }
-}); 
-
-var Controller = Marionette.Controller.extend({
-  // When the module starts, we need to make sure we have
-  // the correct view showing
-  show: function(calcModel) {
-    console.log('Calc.controller.show');
-    var desktopLayout = new DesktopLayout();
-    App.body.show(desktopLayout);
-    desktopLayout.headerRegion.show(new HeaderView({model: calcModel}));
-    desktopLayout.menuRegion.show(new MenuView({model: calcModel}));
-    desktopLayout.footerRegion.show(new FooterView({model: calcModel}));
-  },
-  // When the module stops, we need to clean up our views
-  hide: function() {
-    App.body.close();
-    this.data = this.view = null;
-  },
-  test: function() {
-    console.log('test route works');
-    this._ensureAppModuleIsRunning();
-  },
-  // Makes sure that this subapp is running so that we can
-  // perform everything we need to
-  _ensureAppModuleIsRunning: function() {
-      App.execute('appModule:start', 'Calc');
-  }
-}); 
 
 
     // var MenuItemModel = Backbone.Model.extend({});
@@ -362,15 +374,10 @@ var Handlebars = require('hbsfy/runtime');
 module.exports = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  var buffer = "", stack1, helper, functionType="function", escapeExpression=this.escapeExpression;
+  
 
 
-  buffer += "<a href=\"#";
-  if (helper = helpers.slug) { stack1 = helper.call(depth0, {hash:{},data:data}); }
-  else { helper = (depth0 && depth0.slug); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
-  buffer += escapeExpression(stack1)
-    + "\" class=\"directionBtn\" id=\"prevBtn\">Prev</a>\n<a href=\"#/d/individual/test\" class=\"directionBtn\" id=\"nextBtn\">Next</a>";
-  return buffer;
+  return "<a href=\"#\" class=\"directionBtn\" id=\"prevBtn\">Prev</a>\n<a href=\"#\" class=\"directionBtn\" id=\"nextBtn\">Next</a>";
   });
 
 }).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/templates/footer-template.hbs","/templates")
@@ -485,18 +492,31 @@ module.exports = Marionette.Layout.extend({
 }).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/views/desktop-layout.js","/views")
 },{"../app":1,"../templates/desktop-layout-template":6,"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":26,"backbone.marionette":17,"buffer":23}],13:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
-var Marionette = require('backbone.marionette'),
+var App = require('../app'),
+  Marionette = require('backbone.marionette'),
 	template = require('../templates/footer-template.hbs');
 
 module.exports = Marionette.ItemView.extend({
-	template: template//,
+	template: template,
+	events: {
+    "click #nextBtn": "next",
+    "click #prevBtn": "prev"
+	},
+  next: function() {
+    //App.execute('calc:next');
+    App.vent.trigger('next');
+  },
+  prev: function() {
+    // App.execute('calc:prev');
+    App.vent.trigger('prev');
+  }
 	// serializeData: function(){
  //      return this.model.data
  //    } 
 });
 
 }).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/views/footer-view.js","/views")
-},{"../templates/footer-template.hbs":7,"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":26,"backbone.marionette":17,"buffer":23}],14:[function(require,module,exports){
+},{"../app":1,"../templates/footer-template.hbs":7,"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":26,"backbone.marionette":17,"buffer":23}],14:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var Marionette = require('backbone.marionette'),
 	template = require('../templates/header-template.hbs');
