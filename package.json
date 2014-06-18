@@ -1,35 +1,53 @@
 {
-  "name": "OpenShift-Sample-App",
-  "version": "1.0.0",
-  "description": "OpenShift Sample Application",
-  "keywords": [
-    "OpenShift",
-    "Node.js",
-    "application",
-    "openshift"
-  ],
-  "author": {
-    "name": "OpenShift",
-    "email": "ramr@example.org",
-    "url": "http://www.openshift.com/"
+  "name": "TerraPass_Carbon_Calculator",
+  "version": "0.0.0",
+  "devDependencies": {
+    "gulp": "~3.6.2",
+    "run-sequence": "~0.3.6",
+    "gulp-sass": "~0.7.1",
+    "gulp-browserify": "~0.5.0",
+    "gulp-rename": "~1.2.0",
+    "gulp-livereload": "~1.5.0",
+    "gulp-minify-css": "~0.3.4",
+    "gulp-if": "~1.2.0",
+    "gulp-jshint": "~1.5.5",
+    "gulp-uglifyjs": "~0.3.0",
+    "gulp-replace": "~0.3.0",
+    "gulp-clean": "~0.2.4",
+    "gulp-shell": "~0.2.5",
+    "gulp-karma": "0.0.4",
+    "gulp-concat": "~2.2.0",
+    "karma": "~0.12.16",
+    "karma-chrome-launcher": "~0.1.3",
+    "karma-jasmine": "~0.2.2",
+    "karma-firefox-launcher": "~0.1.3",
+    "karma-safari-launcher": "~0.1.1",
+    "karma-ie-launcher": "~0.1.5",
+    "connect": "~2.15.0",
+    "http": "0.0.0",
+    "connect-livereload": "~0.4.0",
+    "opn": "~0.1.1",
+    "tiny-lr": "0.0.7",
+    "browser-request": "~0.3.1",
+    "hbsfy": "~1.3.2",
+    "gulp-ruby-sass": "~0.5.0",
+    "gulp-ignore": "~1.1.0",
+    "gulp-imagemin": "~0.6.1"
   },
-  "homepage": "http://www.openshift.com/",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/openshift/origin-server"
-  },
-
-  "engines": {
-    "node": ">= 0.6.0",
-    "npm": ">= 1.0.0"
-  },
-
   "dependencies": {
-    "express": "~3.4.4"
-  },
-  "devDependencies": {},
-  "bundleDependencies": [],
-
-  "private": true,
-  "main": "server.js"
+    "jquery": "~2.1.1",
+    "underscore": "~1.6.0",
+    "backbone": "~1.1.2",
+    "backbone.marionette": "~1.8.6",
+    "handlebars": "~1.3.0",
+    "express": "~4.2.0",
+    "node-rest-client": "~0.8.6",
+    "js-quantities": "~1.4.1",
+    "numeral": "~1.5.3",
+    "jquery-mobile": "~1.4.1",
+    "node-xml2json": "~1.0.0",
+    "zipcode": "~0.1.1",
+    "geodist": "~0.2.1",
+    "bootstrap-sass": "~3.1.1"
+  }
 }

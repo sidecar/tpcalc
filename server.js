@@ -1,159 +1,69 @@
-#!/bin/env node
-//  OpenShift sample Node application
 var express = require('express');
-var fs      = require('fs');
+var app = express();
+var Client = require('node-rest-client').Client;
+var client = new Client();
+var opn = require('opn');
+var xml2json = require("node-xml2json");
 
+var getData = function(url, res) {
+	client.get(url, function(parsedResponseData, rawResponseData){
+		console.log('parsedResponseData');
+		console.log(parsedResponseData);
+		res.send(parsedResponseData);
+	});
+}
 
-/**
- *  Define the sample application.
- */
-var SampleApp = function() {
+app.use(express.static(__dirname + '/dev'));
 
-    //  Scope.
-    var self = this;
+// fueleconomy.gov proxy api
+// to understand the xml being returned go here: http://www.fueleconomy.gov/feg/ws/wsData.shtml
+app.get('/vehicle/year', function(req, res) {
+	getData('http://www.fueleconomy.gov/ws/rest/vehicle/menu/year', res);
+});
 
+app.get('/vehicle/make/:year', function(req, res) {
+	getData('http://www.fueleconomy.gov/ws/rest/vehicle/menu/make?year='+req.params.year+'&make='+req.params.make, res);
+});
 
-    /*  ================================================================  */
-    /*  Helper functions.                                                 */
-    /*  ================================================================  */
+app.get('/vehicle/model/:year/:make', function(req, res) {
+	getData('http://www.fueleconomy.gov/ws/rest/vehicle/menu/model?year='+req.params.year+'&make='+req.params.make, res);
+});
 
-    /**
-     *  Set up server IP address and port # using env variables/defaults.
-     */
-    self.setupVariables = function() {
-        //  Set the environment variables we need.
-        self.ipaddress = process.env.OPENSHIFT_NODEJS_IP;
-        self.port      = process.env.OPENSHIFT_NODEJS_PORT || 8080;
+app.get('/vehicle/options/:year/:make/:model', function(req, res) {
+	getData('http://www.fueleconomy.gov/ws/rest/vehicle/menu/options?year='+req.params.year+'&make='+req.params.make+'&model='+req.params.model, res);
+});
 
-        if (typeof self.ipaddress === "undefined") {
-            //  Log errors on OpenShift but continue w/ 127.0.0.1 - this
-            //  allows us to run/test the app locally.
-            console.warn('No OPENSHIFT_NODEJS_IP var, using 127.0.0.1');
-            self.ipaddress = "127.0.0.1";
-        };
-    };
+app.get('/airport/:key', function(req, res) {
+	var url = 'http://www.terrapass.com/wp-content/themes/terrapass/flight/airports/airport_names.php?key='+req.params.key;
+	client.get(url, function(parsedResponseData, rawResponseData){
+		console.log('parsedResponseData');
+		console.log(parsedResponseData);
+		var xml = parsedResponseData;
+		var json = xml2json.parser( xml );
+		console.log( 'json.xml' );
+		console.log( json.xml );
+		console.log( 'json' );
+		console.log( json );
+		res.send(json.xml);
+	});	
+});
 
+app.listen(3000);
+console.log('Listening on port 3000...');
 
-    /**
-     *  Populate the cache.
-     */
-    self.populateCache = function() {
-        if (typeof self.zcache === "undefined") {
-            self.zcache = { 'index.html': '' };
-        }
+// app.get('/vehicle/options/:year/:make/:model', function(req, res) {
+// 	getData('http://www.terrapass.com//wp-content/themes/terrapass/js/year_make.js', res);
+// });
 
-        //  Local cache for static content.
-        self.zcache['index.html'] = fs.readFileSync('./index.html');
-    };
+// app.get('/vehicle/options/:year/:make/:model', function(req, res) {
+// 	getData('http://www.terrapass.com/wp-content/themes/terrapass/road/models/car-model.php?year=2013&make=toyota', res);
+// });
 
-
-    /**
-     *  Retrieve entry (content) from cache.
-     *  @param {string} key  Key identifying content to retrieve from cache.
-     */
-    self.cache_get = function(key) { return self.zcache[key]; };
-
-
-    /**
-     *  terminator === the termination handler
-     *  Terminate server on receipt of the specified signal.
-     *  @param {string} sig  Signal to terminate on.
-     */
-    self.terminator = function(sig){
-        if (typeof sig === "string") {
-           console.log('%s: Received %s - terminating sample app ...',
-                       Date(Date.now()), sig);
-           process.exit(1);
-        }
-        console.log('%s: Node server stopped.', Date(Date.now()) );
-    };
-
-
-    /**
-     *  Setup termination handlers (for exit and a list of signals).
-     */
-    self.setupTerminationHandlers = function(){
-        //  Process on exit and signals.
-        process.on('exit', function() { self.terminator(); });
-
-        // Removed 'SIGPIPE' from the list - bugz 852598.
-        ['SIGHUP', 'SIGINT', 'SIGQUIT', 'SIGILL', 'SIGTRAP', 'SIGABRT',
-         'SIGBUS', 'SIGFPE', 'SIGUSR1', 'SIGSEGV', 'SIGUSR2', 'SIGTERM'
-        ].forEach(function(element, index, array) {
-            process.on(element, function() { self.terminator(element); });
-        });
-    };
-
-
-    /*  ================================================================  */
-    /*  App server functions (main app logic here).                       */
-    /*  ================================================================  */
-
-    /**
-     *  Create the routing table entries + handlers for the application.
-     */
-    self.createRoutes = function() {
-        self.routes = { };
-
-        self.routes['/asciimo'] = function(req, res) {
-            var link = "http://i.imgur.com/kmbjB.png";
-            res.send("<html><body><img src='" + link + "'></body></html>");
-        };
-
-        self.routes['/'] = function(req, res) {
-            res.setHeader('Content-Type', 'text/html');
-            res.send(self.cache_get('index.html') );
-        };
-    };
-
-
-    /**
-     *  Initialize the server (express) and create the routes and register
-     *  the handlers.
-     */
-    self.initializeServer = function() {
-        self.createRoutes();
-        self.app = express.createServer();
-
-        //  Add handlers for the app (from the routes).
-        for (var r in self.routes) {
-            self.app.get(r, self.routes[r]);
-        }
-    };
-
-
-    /**
-     *  Initializes the sample application.
-     */
-    self.initialize = function() {
-        self.setupVariables();
-        self.populateCache();
-        self.setupTerminationHandlers();
-
-        // Create the express server and routes.
-        self.initializeServer();
-    };
-
-
-    /**
-     *  Start the server (starts up the sample application).
-     */
-    self.start = function() {
-        //  Start the app on the specific interface (and port).
-        self.app.listen(self.port, self.ipaddress, function() {
-            console.log('%s: Node server started on %s:%d ...',
-                        Date(Date.now() ), self.ipaddress, self.port);
-        });
-    };
-
-};   /*  Sample Application.  */
-
-
-
-/**
- *  main():  Main code.
- */
-var zapp = new SampleApp();
-zapp.initialize();
-zapp.start();
-
+// app.get('/hello', function(req, res) {
+// 	var url = 'http://www.terrapass.com/wp-content/themes/terrapass/home/models/home-model.php?zip=94607';
+// 	client.get(url, function(parsedResponseData, rawResponseData){
+// 			// res.send(data.vehicle.city08[0]);
+// 			console.log(parsedResponseData);
+// 		});
+//     res.send(200);
+// });
