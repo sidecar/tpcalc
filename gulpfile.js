@@ -152,12 +152,8 @@ gulp.task('minify-js', function() {
 
 gulp.task('optimize-images', function() {
   //squish down images and place in build folder
-  return gulp.src(config.dev.images + '**/*.{jpg,png,gif,jpeg,ico}')
-    .pipe(imageMin({
-            progressive: true,
-            svgoPlugins: [{removeViewBox: false}],
-            use: [pngcrush()]
-        }))
+  return gulp.src(config.app.images + '**/*.{jpg,png,gif,jpeg,ico}')
+    .pipe(imageMin())
     .pipe(gulp.dest(config.build.images));
 });
 
@@ -245,6 +241,6 @@ gulp.task('copy-to-build', function() {
 // Build a production version of the app 
 // I should be able to run build task without running server task first 
 gulp.task('build', function() {
-    runSequence('clean-dev','clean-build',['sass', 'browserify'], 'minify-js', 'copy-to-build' );
+    runSequence('clean-dev','clean-build',['sass', 'browserify'], 'minify-js', 'copy-to-build', 'optimize-images' );
 });
 
