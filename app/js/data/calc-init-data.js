@@ -9,22 +9,26 @@ module.exports = {
       {
         displayName: 'Vehicle',
         slug: 'vehicle',
-        icon: ''
+        icon: '',
+        views: ['defaultView', 'carView', 'boatView', 'ecarView', 'motorcycleView'],
       },
       {
         displayName: 'Public Transortation',
         slug: 'transport',
-        icon: ''
+        icon: '',
+        views: ['defaultView']
       },
       {
         displayName: 'Air Travel',
         slug: 'air',
-        icon: ''
+        icon: '',
+        views: ['defaultView','add','average','list']
       },
       {
         displayName: 'Home Energy',
         slug: 'home',
-        icon: ''
+        icon: '',
+        views: ['defaultView','add']
       }
     ]
   },
@@ -35,27 +39,32 @@ module.exports = {
       {
         displayName: 'Site',
         slug: 'site',
-        icon: ''
+        icon: '',
+        views: []
       },
       {
         displayName: 'Fleet',
         slug: 'fleet',
-        icon: ''
+        icon: '',
+        views: []
       },
       {
         displayName: 'Air Travel',
         slug: 'air',
-        icon: ''
+        icon: '',
+        views: []
       },
       {
         displayName: 'Commute',
         slug: 'commute',
-        icon: ''
+        icon: '',
+        views: []
       },
       {
         displayName: 'Shipping',
         slug: 'shipping',
-        icon: ''
+        icon: '',
+        views: []
       }
     ]
   },
@@ -66,18 +75,22 @@ module.exports = {
       {
         displayName: 'Site',
         slug: 'site',
-        icon: ''
+        icon: '',
+        views: []
       },
       {
         displayName: 'Driving',
         slug: 'driving',
-        icon: ''
+        icon: '',
+        views: []
       },
       {
         displayName: 'Flights',
         slug: 'flights',
-        icon: ''
+        icon: '',
+        views: []
       }
     ]
   }
 }
+

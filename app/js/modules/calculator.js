@@ -70,7 +70,14 @@ module.exports = App.module('Calc', function(Calc) {
   var desktopLayout = new DesktopLayout();
 
   Calc.addInitializer(function(options){
-    Calc.calcModel = new Backbone.Model(options);
+
+    var CalcModel = Backbone.Model.extend({
+        initialize: function(){
+            console.log("New Calc Model");
+        }
+    });
+    
+    Calc.calcModel = new CalcModel(options);
 
     Calc.categories = _.pluck(options.categories, 'slug');
     Calc.currentCategory = Calc.categories[0];

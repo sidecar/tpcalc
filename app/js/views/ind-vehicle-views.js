@@ -1,7 +1,7 @@
 var $ = require('jquery'),
   Backbone = require('backbone'),
   Marionette = require('backbone.marionette'),
-  defaultTemplate = require('../templates/ind-vehicle-template.hbs'),
+  defaultTemplate = require('../templates/ind-vehicle-default-template.hbs'),
   carTemplate = require('../templates/ind-vehicle-car-template.hbs'),
   ecarTemplate = require('../templates/ind-vehicle-ecar-template.hbs'),
   boatTemplate = require('../templates/ind-vehicle-boat-template.hbs'),

@@ -122,22 +122,26 @@ module.exports = {
       {
         displayName: 'Vehicle',
         slug: 'vehicle',
-        icon: ''
+        icon: '',
+        views: ['defaultView', 'carView', 'boatView', 'ecarView', 'motorcycleView'],
       },
       {
         displayName: 'Public Transortation',
         slug: 'transport',
-        icon: ''
+        icon: '',
+        views: ['defaultView']
       },
       {
         displayName: 'Air Travel',
         slug: 'air',
-        icon: ''
+        icon: '',
+        views: ['defaultView','add','average','list']
       },
       {
         displayName: 'Home Energy',
         slug: 'home',
-        icon: ''
+        icon: '',
+        views: ['defaultView','add']
       }
     ]
   },
@@ -148,27 +152,32 @@ module.exports = {
       {
         displayName: 'Site',
         slug: 'site',
-        icon: ''
+        icon: '',
+        views: []
       },
       {
         displayName: 'Fleet',
         slug: 'fleet',
-        icon: ''
+        icon: '',
+        views: []
       },
       {
         displayName: 'Air Travel',
         slug: 'air',
-        icon: ''
+        icon: '',
+        views: []
       },
       {
         displayName: 'Commute',
         slug: 'commute',
-        icon: ''
+        icon: '',
+        views: []
       },
       {
         displayName: 'Shipping',
         slug: 'shipping',
-        icon: ''
+        icon: '',
+        views: []
       }
     ]
   },
@@ -179,21 +188,26 @@ module.exports = {
       {
         displayName: 'Site',
         slug: 'site',
-        icon: ''
+        icon: '',
+        views: []
       },
       {
         displayName: 'Driving',
         slug: 'driving',
-        icon: ''
+        icon: '',
+        views: []
       },
       {
         displayName: 'Flights',
         slug: 'flights',
-        icon: ''
+        icon: '',
+        views: []
       }
     ]
   }
 }
+
+
 }).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/data/calc-init-data.js","/data")
 },{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"buffer":32}],3:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
@@ -201,7 +215,7 @@ module.exports = {
 var App = require('./app');
 // This entire file is here because for some fucking hard to understand reason you cannot start app.js and then export it to be referenced as a module at the end of app.js. It doesn't work you have to start it somewhere else. No clue why this is.
 App.start(); 
-}).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_fa49b243.js","/")
+}).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_f81527eb.js","/")
 },{"./app":1,"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"buffer":32}],4:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 "use strict";
@@ -276,7 +290,14 @@ module.exports = App.module('Calc', function(Calc) {
   var desktopLayout = new DesktopLayout();
 
   Calc.addInitializer(function(options){
-    Calc.calcModel = new Backbone.Model(options);
+
+    var CalcModel = Backbone.Model.extend({
+        initialize: function(){
+            console.log("New Calc Model");
+        }
+    });
+    
+    Calc.calcModel = new CalcModel(options);
 
     Calc.categories = _.pluck(options.categories, 'slug');
     Calc.currentCategory = Calc.categories[0];
@@ -510,7 +531,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   return "Individual Public Transport Template\n";
   });
 
-}).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/templates/ind-transport-template.hbs","/templates")
+}).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/templates/ind-transport-default-template.hbs","/templates")
 },{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"buffer":32,"hbsfy/runtime":43}],11:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 // hbsfy compiled Handlebars template
@@ -549,11 +570,25 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   
 
 
+  return "Individual Vehicle Default View\n <form role=\"form\">\n  <div class=\"form-group\">\n	<select class=\"form-control\">\n	  <option>1</option>\n	  <option>2</option>\n	  <option>3</option>\n	  <option>4</option>\n	  <option>5</option>\n	</select>\n  </div>\n  <button type=\"submit\" class=\"btn btn-default\">Submit</button>\n</form>\n";
+  });
+
+}).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/templates/ind-vehicle-default-template.hbs","/templates")
+},{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"buffer":32,"hbsfy/runtime":43}],14:[function(require,module,exports){
+(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
+// hbsfy compiled Handlebars template
+var Handlebars = require('hbsfy/runtime');
+module.exports = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  
+
+
   return "Ind Vehicle ECar Template";
   });
 
 }).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/templates/ind-vehicle-ecar-template.hbs","/templates")
-},{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"buffer":32,"hbsfy/runtime":43}],14:[function(require,module,exports){
+},{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"buffer":32,"hbsfy/runtime":43}],15:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 // hbsfy compiled Handlebars template
 var Handlebars = require('hbsfy/runtime');
@@ -567,20 +602,6 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   });
 
 }).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/templates/ind-vehicle-motorcycle-template.hbs","/templates")
-},{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"buffer":32,"hbsfy/runtime":43}],15:[function(require,module,exports){
-(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
-// hbsfy compiled Handlebars template
-var Handlebars = require('hbsfy/runtime');
-module.exports = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
-  this.compilerInfo = [4,'>= 1.0.0'];
-helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  
-
-
-  return "Individual Vehicle Default View\n <form role=\"form\">\n  <div class=\"form-group\">\n	<select class=\"form-control\">\n	  <option>1</option>\n	  <option>2</option>\n	  <option>3</option>\n	  <option>4</option>\n	  <option>5</option>\n	</select>\n  </div>\n  <button type=\"submit\" class=\"btn btn-default\">Submit</button>\n</form>\n";
-  });
-
-}).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/templates/ind-vehicle-template.hbs","/templates")
 },{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"buffer":32,"hbsfy/runtime":43}],16:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 // hbsfy compiled Handlebars template
@@ -714,7 +735,7 @@ module.exports = Marionette.ItemView.extend({
 var $ = require('jquery'),
   Backbone = require('backbone'),
   Marionette = require('backbone.marionette'),
-  template = require('../templates/ind-transport-template.hbs');
+  template = require('../templates/ind-transport-default-template.hbs');
 
 module.exports.default = Marionette.ItemView.extend({
 	template: template,
@@ -726,20 +747,13 @@ module.exports.default = Marionette.ItemView.extend({
 	}
 });
 
-module.exports = Marionette.ItemView.extend({
-	template: template,
-	events: {
-
-	}
-});
-
 }).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/views/ind-transport-views.js","/views")
-},{"../templates/ind-transport-template.hbs":10,"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"backbone":30,"backbone.marionette":26,"buffer":32,"jquery":44}],23:[function(require,module,exports){
+},{"../templates/ind-transport-default-template.hbs":10,"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"backbone":30,"backbone.marionette":26,"buffer":32,"jquery":44}],23:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var $ = require('jquery'),
   Backbone = require('backbone'),
   Marionette = require('backbone.marionette'),
-  defaultTemplate = require('../templates/ind-vehicle-template.hbs'),
+  defaultTemplate = require('../templates/ind-vehicle-default-template.hbs'),
   carTemplate = require('../templates/ind-vehicle-car-template.hbs'),
   ecarTemplate = require('../templates/ind-vehicle-ecar-template.hbs'),
   boatTemplate = require('../templates/ind-vehicle-boat-template.hbs'),
@@ -783,7 +797,7 @@ module.exports.motorcycle = Marionette.ItemView.extend({
 	}
 });
 }).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/views/ind-vehicle-views.js","/views")
-},{"../templates/ind-vehicle-boat-template.hbs":11,"../templates/ind-vehicle-car-template.hbs":12,"../templates/ind-vehicle-ecar-template.hbs":13,"../templates/ind-vehicle-motorcycle-template.hbs":14,"../templates/ind-vehicle-template.hbs":15,"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"backbone":30,"backbone.marionette":26,"buffer":32,"jquery":44}],24:[function(require,module,exports){
+},{"../templates/ind-vehicle-boat-template.hbs":11,"../templates/ind-vehicle-car-template.hbs":12,"../templates/ind-vehicle-default-template.hbs":13,"../templates/ind-vehicle-ecar-template.hbs":14,"../templates/ind-vehicle-motorcycle-template.hbs":15,"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"backbone":30,"backbone.marionette":26,"buffer":32,"jquery":44}],24:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var Marionette = require('backbone.marionette'),
 	App = require('../app'),
