@@ -1,6 +1,6 @@
-<h2>I am the main menu template foo</h2>
-<ul>
+<h2>Main menu template</h2>
+<ul class="main-menu">
   {{#each categories}}
-    <li><a href="{{slug}}">{{displayName}}</a></li>
+    <li><a class="category-icon" data-category="{{slug}}" href="#">{{displayName}}</a></li>
   {{/each}}
 </ul>

@@ -109,7 +109,7 @@ module.exports = App;
 
 
 }).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/app.js","/")
-},{"./modules/calculator":4,"./router":5,"./utils/module-manager":11,"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":26,"backbone":21,"backbone.marionette":17,"buffer":23,"jquery":35}],2:[function(require,module,exports){
+},{"./modules/calculator":4,"./router":6,"./utils/module-manager":18,"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"backbone":30,"backbone.marionette":26,"buffer":32,"jquery":44}],2:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 module.exports = {
   config: {
@@ -195,48 +195,59 @@ module.exports = {
   }
 }
 }).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/data/calc-init-data.js","/data")
-},{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":26,"buffer":23}],3:[function(require,module,exports){
+},{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"buffer":32}],3:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 "use strict";
 var App = require('./app');
 // This entire file is here because for some fucking hard to understand reason you cannot start app.js and then export it to be referenced as a module at the end of app.js. It doesn't work you have to start it somewhere else. No clue why this is.
 App.start(); 
-}).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_22372c52.js","/")
-},{"./app":1,"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":26,"buffer":23}],4:[function(require,module,exports){
+}).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_fa49b243.js","/")
+},{"./app":1,"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"buffer":32}],4:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 "use strict";
-var Backbone = require('backbone'),
+var _ = require('underscore'), 
+  $ = require('jquery'),
+  Backbone = require('backbone'),
   Marionette = require('backbone.marionette'),
   App = require('../app'),
   DesktopLayout = require('../views/desktop-layout'),
   HeaderView = require('../views/header-view'),
   FooterView = require('../views/footer-view'),
-  MenuView = require('../views/menu-view');
+  MenuView = require('../views/menu-view'),
+  viewManager = require('./view-manager');
+  // InputViews = require('../views/ind-vehicle-views'),
+  //IndividualCalcModel = require('../data/models/individual-calculator-model');
 
 module.exports = App.module('Calc', function(Calc) {
   // Calculator must be manually started
   Calc.startWithParent = false;
+
+  var currentView, lastView;
+  var calcNameMap = {
+    individual: 'ind',
+    business: 'biz',
+    events: 'evt'
+  };
+
   var Router = Marionette.AppRouter.extend({
     appRoutes: {
-        ':categories/:calculator/test': 'test',
+      ':categoriesCodes/:calculator/:category': 'goToCategory',
+      ':categoriesCodes/:calculator/:category/:view': 'goToView',
     }
   }); 
 
   var Controller = Marionette.Controller.extend({
-    loadNextView: function() {
+    loadNextInputView: function() {
       console.log('Calc.controller loadNextView');
     },
-    loadPrevView: function() {
+    loadPrevInputView: function() {
       console.log('Calc.controller loadPrevView');
     },
-    // When the module starts, we need to make sure we have
-    // the correct view showing
-    show: function(calcModel) {
-      var desktopLayout = new DesktopLayout();
-      App.body.show(desktopLayout);
-      desktopLayout.headerRegion.show(new HeaderView({model: calcModel}));
-      desktopLayout.menuRegion.show(new MenuView({model: calcModel}));
-      desktopLayout.footerRegion.show(new FooterView({model: calcModel}));
+    loadInputView: function(categoryCodes, calculator, view) {
+    },
+    // When the module starts, we need to make sure we have the correct view showing
+    show: function() {
+
     },
     // When the module stops, we need to clean up our views
     hide: function() {
@@ -246,28 +257,52 @@ module.exports = App.module('Calc', function(Calc) {
     test: function() {
       this._ensureAppModuleIsRunning();
     },
-    // Makes sure that this subapp is running so that we can
-    // perform everything we need to
+    goToCategory: function(calculator, category) {
+      Calc.currentCategoryViews = viewManager.getViewsForCategory(calculator, category);
+      console.log(Calc.currentCategoryViews);
+      desktopLayout.inputRegion.show( new Calc.currentCategoryViews[0]({model: Calc.calcModel}));
+    },
+    goToView: function(calculator, category, view) {
+
+    },
+    // Makes sure that this subapp is running so that we can perform everything we need to
     _ensureAppModuleIsRunning: function() {
-        App.execute('appModule:start', 'Calc');
+      App.execute('appModule:start', 'Calc');
     }
   }); 
+
   var controller = new Controller();
   var router = new Router({controller: controller});
+  var desktopLayout = new DesktopLayout();
 
   Calc.addInitializer(function(options){
-    console.log('Calc.addInitializer');
-    var calcModel = new Backbone.Model(options);
-    
-    controller.show(calcModel);
-    
+    Calc.calcModel = new Backbone.Model(options);
+
+    Calc.categories = _.pluck(options.categories, 'slug');
+    Calc.currentCategory = Calc.categories[0];
+    Calc.currentCategoryViews = viewManager.getViewsForCategory(options.slug, Calc.currentCategory);
+
+    App.body.show(desktopLayout);
+    desktopLayout.headerRegion.show(new HeaderView({model: Calc.calcModel}));
+    desktopLayout.menuRegion.show(new MenuView({model: Calc.calcModel}));
+    desktopLayout.footerRegion.show(new FooterView({model: Calc.calcModel}));
+
+    desktopLayout.inputRegion.show( new Calc.currentCategoryViews[0]({model: Calc.calcModel}));
+
     App.vent.on('next', function() {
-      controller.loadNextView();
+      controller.loadNextInputView();
     });
     
     App.vent.on('prev', function() {
-      controller.loadPrevView();
+      controller.loadPrevInputView();
     });
+
+    App.vent.on('goToCategory', function(target) {
+      event.preventDefault();
+      var category = $(event.target).data('category');
+      controller.goToCategory(options.slug, category);
+    });
+
   });
 
   Calc.on('start', function(options) {
@@ -277,26 +312,88 @@ module.exports = App.module('Calc', function(Calc) {
       controller.hide();
       Calc.stopListening();
   }); 
-
-
 });
 
-
-    // var MenuItemModel = Backbone.Model.extend({});
-    // var MenuItemsCollection = Backbone.Collection.extend({model: MenuItem});
-    // var menuItems = new MenuItemsCollection([
-    //   { name: 'Wet Cat' },
-    //   { name: 'Bitey Cat' },
-    //   { name: 'Surprised Cat' }
-    // ]);
-    // var MenuItemsViewObj = require('./views/angry-cats-view');
-    // var menuItemsView = new MenuItemsViewObj({
-    //   collection: menuItems
-    // });
-    // desktopLayout.menuRegion.show(menuItemsView);
-
 }).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/modules/calculator.js","/modules")
-},{"../app":1,"../views/desktop-layout":12,"../views/footer-view":13,"../views/header-view":14,"../views/menu-view":15,"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":26,"backbone":21,"backbone.marionette":17,"buffer":23}],5:[function(require,module,exports){
+},{"../app":1,"../views/desktop-layout":19,"../views/footer-view":20,"../views/header-view":21,"../views/menu-view":24,"./view-manager":5,"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"backbone":30,"backbone.marionette":26,"buffer":32,"jquery":44,"underscore":45}],5:[function(require,module,exports){
+(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
+"use strict";
+var _ = require('underscore'),
+  Backbone = require('backbone'),
+  Marionette = require('backbone.marionette'),
+  App = require('../app'),
+  Calc = require('./calculator'),
+  DesktopLayout = require('../views/desktop-layout'),
+  IndividualVehicleViews = require('../views/ind-vehicle-views');
+
+
+module.exports = App.module('ViewManager', function(ViewManager) {
+
+ var views = {
+  individual: {
+    vehicle: {},
+    transport: {},
+    air: {},
+    home: {},
+  },
+  business: {},
+  events: {}
+ }
+
+views.individual.vehicle.defaultView = (function(){
+  var View = require('../views/ind-vehicle-views').default;
+  return View;
+}())
+ 
+views.individual.vehicle.carView = (function(){
+  var View = require('../views/ind-vehicle-views').car;
+  return View;
+}())
+ 
+views.individual.vehicle.boatView = (function(){
+  var View = require('../views/ind-vehicle-views').boat;
+  return View;
+}())
+ 
+views.individual.vehicle.ecarView = (function(){
+  var View = require('../views/ind-vehicle-views').ecar;
+  return View;
+}())
+ 
+views.individual.vehicle.motorcycleView = (function(){
+  var View = require('../views/ind-vehicle-views').motorcycle;
+  return View;
+}())
+
+
+
+views.individual.transport.defaultView = (function(){
+  var View = require('../views/ind-transport-views');
+  return View;
+}())
+ 
+
+
+this.getViewsForCategory = function(calculator, category) {
+    // if(category === 'vehicle') {
+    //   console.log('view manager: category === vehicle');
+    //   return _.toArray(views.individual.vehicle);
+    // } else if () {
+    // }
+    var viewArray;
+    switch (category) {
+      case 'vehicle':
+        viewArray =  _.toArray(views.individual.vehicle);
+        break;
+      case 'transport':
+        viewArray = _.toArray(views.individual.transport);
+        break;
+    }
+    return viewArray;
+  }
+});
+}).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/modules/view-manager.js","/modules")
+},{"../app":1,"../views/desktop-layout":19,"../views/ind-transport-views":22,"../views/ind-vehicle-views":23,"./calculator":4,"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"backbone":30,"backbone.marionette":26,"buffer":32,"underscore":45}],6:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 'use strict';
 var _ = require('underscore'),
@@ -353,7 +450,7 @@ module.exports.controller = Marionette.Controller.extend({
 
  
 }).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/router.js","/")
-},{"./app":1,"./data/calc-init-data":2,"./views/welcome-view":16,"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":26,"backbone":21,"backbone.marionette":17,"buffer":23,"underscore":36}],6:[function(require,module,exports){
+},{"./app":1,"./data/calc-init-data":2,"./views/welcome-view":25,"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"backbone":30,"backbone.marionette":26,"buffer":32,"underscore":45}],7:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 // hbsfy compiled Handlebars template
 var Handlebars = require('hbsfy/runtime');
@@ -367,7 +464,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   });
 
 }).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/templates/desktop-layout-template.hbs","/templates")
-},{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":26,"buffer":23,"hbsfy/runtime":34}],7:[function(require,module,exports){
+},{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"buffer":32,"hbsfy/runtime":43}],8:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 // hbsfy compiled Handlebars template
 var Handlebars = require('hbsfy/runtime');
@@ -381,7 +478,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   });
 
 }).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/templates/footer-template.hbs","/templates")
-},{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":26,"buffer":23,"hbsfy/runtime":34}],8:[function(require,module,exports){
+},{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"buffer":32,"hbsfy/runtime":43}],9:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 // hbsfy compiled Handlebars template
 var Handlebars = require('hbsfy/runtime');
@@ -400,7 +497,91 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   });
 
 }).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/templates/header-template.hbs","/templates")
-},{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":26,"buffer":23,"hbsfy/runtime":34}],9:[function(require,module,exports){
+},{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"buffer":32,"hbsfy/runtime":43}],10:[function(require,module,exports){
+(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
+// hbsfy compiled Handlebars template
+var Handlebars = require('hbsfy/runtime');
+module.exports = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  
+
+
+  return "Individual Public Transport Template\n";
+  });
+
+}).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/templates/ind-transport-template.hbs","/templates")
+},{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"buffer":32,"hbsfy/runtime":43}],11:[function(require,module,exports){
+(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
+// hbsfy compiled Handlebars template
+var Handlebars = require('hbsfy/runtime');
+module.exports = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  
+
+
+  return "Ind Vehicle Boat Template\n\n";
+  });
+
+}).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/templates/ind-vehicle-boat-template.hbs","/templates")
+},{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"buffer":32,"hbsfy/runtime":43}],12:[function(require,module,exports){
+(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
+// hbsfy compiled Handlebars template
+var Handlebars = require('hbsfy/runtime');
+module.exports = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  
+
+
+  return "Ind Vehicle Car Template";
+  });
+
+}).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/templates/ind-vehicle-car-template.hbs","/templates")
+},{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"buffer":32,"hbsfy/runtime":43}],13:[function(require,module,exports){
+(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
+// hbsfy compiled Handlebars template
+var Handlebars = require('hbsfy/runtime');
+module.exports = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  
+
+
+  return "Ind Vehicle ECar Template";
+  });
+
+}).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/templates/ind-vehicle-ecar-template.hbs","/templates")
+},{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"buffer":32,"hbsfy/runtime":43}],14:[function(require,module,exports){
+(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
+// hbsfy compiled Handlebars template
+var Handlebars = require('hbsfy/runtime');
+module.exports = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  
+
+
+  return "Ind Vehicle Motorcycle Template";
+  });
+
+}).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/templates/ind-vehicle-motorcycle-template.hbs","/templates")
+},{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"buffer":32,"hbsfy/runtime":43}],15:[function(require,module,exports){
+(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
+// hbsfy compiled Handlebars template
+var Handlebars = require('hbsfy/runtime');
+module.exports = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  
+
+
+  return "Individual Vehicle Default View\n <form role=\"form\">\n  <div class=\"form-group\">\n	<select class=\"form-control\">\n	  <option>1</option>\n	  <option>2</option>\n	  <option>3</option>\n	  <option>4</option>\n	  <option>5</option>\n	</select>\n  </div>\n  <button type=\"submit\" class=\"btn btn-default\">Submit</button>\n</form>\n";
+  });
+
+}).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/templates/ind-vehicle-template.hbs","/templates")
+},{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"buffer":32,"hbsfy/runtime":43}],16:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 // hbsfy compiled Handlebars template
 var Handlebars = require('hbsfy/runtime');
@@ -412,11 +593,11 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 function program1(depth0,data) {
   
   var buffer = "", stack1, helper;
-  buffer += "\n    <li><a href=\"";
+  buffer += "\n    <li><a class=\"category-icon\" data-category=\"";
   if (helper = helpers.slug) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.slug); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
-    + "\">";
+    + "\" href=\"#\">";
   if (helper = helpers.displayName) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.displayName); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
@@ -424,7 +605,7 @@ function program1(depth0,data) {
   return buffer;
   }
 
-  buffer += "<h2>I am the main menu template foo</h2>\n<ul>\n  ";
+  buffer += "<h2>Main menu template</h2>\n<ul class=\"main-menu\">\n  ";
   stack1 = helpers.each.call(depth0, (depth0 && depth0.categories), {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\n</ul>\n";
@@ -432,7 +613,7 @@ function program1(depth0,data) {
   });
 
 }).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/templates/main-menu-template.hbs","/templates")
-},{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":26,"buffer":23,"hbsfy/runtime":34}],10:[function(require,module,exports){
+},{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"buffer":32,"hbsfy/runtime":43}],17:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 // hbsfy compiled Handlebars template
 var Handlebars = require('hbsfy/runtime');
@@ -446,7 +627,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   });
 
 }).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/templates/welcome-template.hbs","/templates")
-},{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":26,"buffer":23,"hbsfy/runtime":34}],11:[function(require,module,exports){
+},{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"buffer":32,"hbsfy/runtime":43}],18:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 "use strict";
 var Marionette = require('backbone.marionette'),
@@ -454,7 +635,6 @@ var Marionette = require('backbone.marionette'),
 
 module.exports = Marionette.Controller.extend({
   startAppModule: function(name, args) {
-    console.log('module-manager startAppModule')
     var newApp = App.module(name);
     // Taking this out because I need to stop the calc mod then restart with a new model
     // if (this.currentApp === newApp) {
@@ -471,7 +651,7 @@ module.exports = Marionette.Controller.extend({
   }
 });
 }).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/utils/module-manager.js","/utils")
-},{"../app":1,"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":26,"backbone.marionette":17,"buffer":23}],12:[function(require,module,exports){
+},{"../app":1,"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"backbone.marionette":26,"buffer":32}],19:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 
 var Marionette = require('backbone.marionette'),
@@ -490,7 +670,7 @@ module.exports = Marionette.Layout.extend({
 });
 
 }).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/views/desktop-layout.js","/views")
-},{"../app":1,"../templates/desktop-layout-template":6,"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":26,"backbone.marionette":17,"buffer":23}],13:[function(require,module,exports){
+},{"../app":1,"../templates/desktop-layout-template":7,"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"backbone.marionette":26,"buffer":32}],20:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var App = require('../app'),
   Marionette = require('backbone.marionette'),
@@ -516,7 +696,7 @@ module.exports = Marionette.ItemView.extend({
 });
 
 }).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/views/footer-view.js","/views")
-},{"../app":1,"../templates/footer-template.hbs":7,"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":26,"backbone.marionette":17,"buffer":23}],14:[function(require,module,exports){
+},{"../app":1,"../templates/footer-template.hbs":8,"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"backbone.marionette":26,"buffer":32}],21:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var Marionette = require('backbone.marionette'),
 	template = require('../templates/header-template.hbs');
@@ -529,17 +709,98 @@ module.exports = Marionette.ItemView.extend({
 });
 
 }).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/views/header-view.js","/views")
-},{"../templates/header-template.hbs":8,"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":26,"backbone.marionette":17,"buffer":23}],15:[function(require,module,exports){
+},{"../templates/header-template.hbs":9,"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"backbone.marionette":26,"buffer":32}],22:[function(require,module,exports){
+(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
+var $ = require('jquery'),
+  Backbone = require('backbone'),
+  Marionette = require('backbone.marionette'),
+  template = require('../templates/ind-transport-template.hbs');
+
+module.exports.default = Marionette.ItemView.extend({
+	template: template,
+	events: {
+		'click input[type=submit]': 'submitClicked'
+	},
+	submitClicked: function() {
+		console.log('submitClicked()');
+	}
+});
+
+module.exports = Marionette.ItemView.extend({
+	template: template,
+	events: {
+
+	}
+});
+
+}).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/views/ind-transport-views.js","/views")
+},{"../templates/ind-transport-template.hbs":10,"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"backbone":30,"backbone.marionette":26,"buffer":32,"jquery":44}],23:[function(require,module,exports){
+(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
+var $ = require('jquery'),
+  Backbone = require('backbone'),
+  Marionette = require('backbone.marionette'),
+  defaultTemplate = require('../templates/ind-vehicle-template.hbs'),
+  carTemplate = require('../templates/ind-vehicle-car-template.hbs'),
+  ecarTemplate = require('../templates/ind-vehicle-ecar-template.hbs'),
+  boatTemplate = require('../templates/ind-vehicle-boat-template.hbs'),
+  motorcycleTemplate = require('../templates/ind-vehicle-motorcycle-template.hbs');
+
+module.exports.default = Marionette.ItemView.extend({
+	template: defaultTemplate,
+	events: {
+		'click input[type=submit]': 'submitClicked'
+	},
+	submitClicked: function() {
+		console.log('submitClicked()');
+	}
+});
+
+module.exports.car = Marionette.ItemView.extend({
+	template: carTemplate,
+	events: {
+
+	}
+});
+
+module.exports.ecar = Marionette.ItemView.extend({
+	template: ecarTemplate,
+	events: {
+
+	}
+});
+
+module.exports.boat = Marionette.ItemView.extend({
+	template: boatTemplate,
+	events: {
+
+	}
+});
+
+module.exports.motorcycle = Marionette.ItemView.extend({
+	template: motorcycleTemplate,
+	events: {
+
+	}
+});
+}).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/views/ind-vehicle-views.js","/views")
+},{"../templates/ind-vehicle-boat-template.hbs":11,"../templates/ind-vehicle-car-template.hbs":12,"../templates/ind-vehicle-ecar-template.hbs":13,"../templates/ind-vehicle-motorcycle-template.hbs":14,"../templates/ind-vehicle-template.hbs":15,"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"backbone":30,"backbone.marionette":26,"buffer":32,"jquery":44}],24:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var Marionette = require('backbone.marionette'),
+	App = require('../app'),
 	template = require('../templates/main-menu-template.hbs');
 
 module.exports = Marionette.ItemView.extend({
-	template: template
+	template: template,
+	events: {
+		'click .category-icon': 'categoryClicked'
+	},
+	categoryClicked: function(event) {
+		App.vent.trigger('goToCategory', event);
+	}
 });
 
 }).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/views/menu-view.js","/views")
-},{"../templates/main-menu-template.hbs":9,"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":26,"backbone.marionette":17,"buffer":23}],16:[function(require,module,exports){
+},{"../app":1,"../templates/main-menu-template.hbs":16,"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"backbone.marionette":26,"buffer":32}],25:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var Marionette = require('backbone.marionette'),
   template = require("../templates/welcome-template.hbs");
@@ -548,7 +809,7 @@ module.exports = Marionette.ItemView.extend({
 	template: template,
 });
 }).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/views/welcome-view.js","/views")
-},{"../templates/welcome-template.hbs":10,"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":26,"backbone.marionette":17,"buffer":23}],17:[function(require,module,exports){
+},{"../templates/welcome-template.hbs":17,"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"backbone.marionette":26,"buffer":32}],26:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 // MarionetteJS (Backbone.Marionette)
 // ----------------------------------
@@ -3013,7 +3274,7 @@ module.exports = Marionette.ItemView.extend({
 }));
 
 }).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/backbone.marionette/lib/core/amd/backbone.marionette.js","/../../node_modules/backbone.marionette/lib/core/amd")
-},{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":26,"backbone":21,"backbone.babysitter":18,"backbone.wreqr":19,"buffer":23,"underscore":20}],18:[function(require,module,exports){
+},{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"backbone":30,"backbone.babysitter":27,"backbone.wreqr":28,"buffer":32,"underscore":29}],27:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 // Backbone.BabySitter
 // -------------------
@@ -3207,7 +3468,7 @@ module.exports = Marionette.ItemView.extend({
 }));
 
 }).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/backbone.marionette/node_modules/backbone.babysitter/lib/backbone.babysitter.js","/../../node_modules/backbone.marionette/node_modules/backbone.babysitter/lib")
-},{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":26,"backbone":21,"buffer":23,"underscore":20}],19:[function(require,module,exports){
+},{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"backbone":30,"buffer":32,"underscore":29}],28:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 // Backbone.Wreqr (Backbone.Marionette)
 // ----------------------------------
@@ -3651,7 +3912,7 @@ module.exports = Marionette.ItemView.extend({
 }));
 
 }).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/backbone.marionette/node_modules/backbone.wreqr/lib/backbone.wreqr.js","/../../node_modules/backbone.marionette/node_modules/backbone.wreqr/lib")
-},{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":26,"backbone":21,"buffer":23,"underscore":20}],20:[function(require,module,exports){
+},{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"backbone":30,"buffer":32,"underscore":29}],29:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 //     Underscore.js 1.6.0
 //     http://underscorejs.org
@@ -4998,7 +5259,7 @@ module.exports = Marionette.ItemView.extend({
 }).call(this);
 
 }).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/backbone.marionette/node_modules/underscore/underscore.js","/../../node_modules/backbone.marionette/node_modules/underscore")
-},{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":26,"buffer":23}],21:[function(require,module,exports){
+},{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"buffer":32}],30:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 //     Backbone.js 1.1.2
 
@@ -6610,7 +6871,7 @@ module.exports = Marionette.ItemView.extend({
 }));
 
 }).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/backbone/backbone.js","/../../node_modules/backbone")
-},{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":26,"buffer":23,"underscore":22}],22:[function(require,module,exports){
+},{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"buffer":32,"underscore":31}],31:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 //     Underscore.js 1.6.0
 //     http://underscorejs.org
@@ -7957,7 +8218,7 @@ module.exports = Marionette.ItemView.extend({
 }).call(this);
 
 }).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/backbone/node_modules/underscore/underscore.js","/../../node_modules/backbone/node_modules/underscore")
-},{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":26,"buffer":23}],23:[function(require,module,exports){
+},{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"buffer":32}],32:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 /*!
  * The buffer module from node.js, for the browser.
@@ -9070,7 +9331,7 @@ function assert (test, message) {
 }
 
 }).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/browserify/node_modules/buffer/index.js","/../../node_modules/browserify/node_modules/buffer")
-},{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":26,"base64-js":24,"buffer":23,"ieee754":25}],24:[function(require,module,exports){
+},{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"base64-js":33,"buffer":32,"ieee754":34}],33:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 
@@ -9195,7 +9456,7 @@ var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 }())
 
 }).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/browserify/node_modules/buffer/node_modules/base64-js/lib/b64.js","/../../node_modules/browserify/node_modules/buffer/node_modules/base64-js/lib")
-},{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":26,"buffer":23}],25:[function(require,module,exports){
+},{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"buffer":32}],34:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 exports.read = function(buffer, offset, isLE, mLen, nBytes) {
   var e, m,
@@ -9283,7 +9544,7 @@ exports.write = function(buffer, value, offset, isLE, mLen, nBytes) {
 };
 
 }).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/browserify/node_modules/buffer/node_modules/ieee754/index.js","/../../node_modules/browserify/node_modules/buffer/node_modules/ieee754")
-},{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":26,"buffer":23}],26:[function(require,module,exports){
+},{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"buffer":32}],35:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 // shim for using process in browser
 
@@ -9347,7 +9608,7 @@ process.chdir = function (dir) {
 };
 
 }).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js","/../../node_modules/browserify/node_modules/insert-module-globals/node_modules/process")
-},{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":26,"buffer":23}],27:[function(require,module,exports){
+},{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"buffer":32}],36:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 "use strict";
 /*globals Handlebars: true */
@@ -9382,7 +9643,7 @@ Handlebars.create = create;
 
 exports["default"] = Handlebars;
 }).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/handlebars/dist/cjs/handlebars.runtime.js","/../../node_modules/handlebars/dist/cjs")
-},{"./handlebars/base":28,"./handlebars/exception":29,"./handlebars/runtime":30,"./handlebars/safe-string":31,"./handlebars/utils":32,"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":26,"buffer":23}],28:[function(require,module,exports){
+},{"./handlebars/base":37,"./handlebars/exception":38,"./handlebars/runtime":39,"./handlebars/safe-string":40,"./handlebars/utils":41,"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"buffer":32}],37:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 "use strict";
 var Utils = require("./utils");
@@ -9565,7 +9826,7 @@ exports.log = log;var createFrame = function(object) {
 };
 exports.createFrame = createFrame;
 }).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/handlebars/dist/cjs/handlebars/base.js","/../../node_modules/handlebars/dist/cjs/handlebars")
-},{"./exception":29,"./utils":32,"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":26,"buffer":23}],29:[function(require,module,exports){
+},{"./exception":38,"./utils":41,"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"buffer":32}],38:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 "use strict";
 
@@ -9596,7 +9857,7 @@ Exception.prototype = new Error();
 
 exports["default"] = Exception;
 }).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/handlebars/dist/cjs/handlebars/exception.js","/../../node_modules/handlebars/dist/cjs/handlebars")
-},{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":26,"buffer":23}],30:[function(require,module,exports){
+},{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"buffer":32}],39:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 "use strict";
 var Utils = require("./utils");
@@ -9736,7 +9997,7 @@ exports.invokePartial = invokePartial;function noop() { return ""; }
 
 exports.noop = noop;
 }).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/handlebars/dist/cjs/handlebars/runtime.js","/../../node_modules/handlebars/dist/cjs/handlebars")
-},{"./base":28,"./exception":29,"./utils":32,"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":26,"buffer":23}],31:[function(require,module,exports){
+},{"./base":37,"./exception":38,"./utils":41,"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"buffer":32}],40:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 "use strict";
 // Build out our basic SafeString type
@@ -9750,7 +10011,7 @@ SafeString.prototype.toString = function() {
 
 exports["default"] = SafeString;
 }).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/handlebars/dist/cjs/handlebars/safe-string.js","/../../node_modules/handlebars/dist/cjs/handlebars")
-},{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":26,"buffer":23}],32:[function(require,module,exports){
+},{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"buffer":32}],41:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 "use strict";
 /*jshint -W004 */
@@ -9829,19 +10090,19 @@ exports.escapeExpression = escapeExpression;function isEmpty(value) {
 
 exports.isEmpty = isEmpty;
 }).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/handlebars/dist/cjs/handlebars/utils.js","/../../node_modules/handlebars/dist/cjs/handlebars")
-},{"./safe-string":31,"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":26,"buffer":23}],33:[function(require,module,exports){
+},{"./safe-string":40,"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"buffer":32}],42:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 // Create a simple path alias to allow browserify to resolve
 // the runtime on a supported path.
 module.exports = require('./dist/cjs/handlebars.runtime');
 
 }).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/handlebars/runtime.js","/../../node_modules/handlebars")
-},{"./dist/cjs/handlebars.runtime":27,"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":26,"buffer":23}],34:[function(require,module,exports){
+},{"./dist/cjs/handlebars.runtime":36,"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"buffer":32}],43:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 module.exports = require("handlebars/runtime")["default"];
 
 }).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/hbsfy/runtime.js","/../../node_modules/hbsfy")
-},{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":26,"buffer":23,"handlebars/runtime":33}],35:[function(require,module,exports){
+},{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"buffer":32,"handlebars/runtime":42}],44:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 /*!
  * jQuery JavaScript Library v2.1.1
@@ -19035,7 +19296,7 @@ return jQuery;
 }));
 
 }).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/jquery/dist/jquery.js","/../../node_modules/jquery/dist")
-},{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":26,"buffer":23}],36:[function(require,module,exports){
+},{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"buffer":32}],45:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 //     Underscore.js 1.6.0
 //     http://underscorejs.org
@@ -20382,4 +20643,4 @@ return jQuery;
 }).call(this);
 
 }).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/../../node_modules/underscore/underscore.js","/../../node_modules/underscore")
-},{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":26,"buffer":23}]},{},[3])
+},{"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":35,"buffer":32}]},{},[3])

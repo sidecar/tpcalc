@@ -1,36 +1,47 @@
 "use strict";
-var Backbone = require('backbone'),
+var _ = require('underscore'), 
+  $ = require('jquery'),
+  Backbone = require('backbone'),
   Marionette = require('backbone.marionette'),
   App = require('../app'),
   DesktopLayout = require('../views/desktop-layout'),
   HeaderView = require('../views/header-view'),
   FooterView = require('../views/footer-view'),
-  MenuView = require('../views/menu-view');
+  MenuView = require('../views/menu-view'),
+  viewManager = require('./view-manager');
+  // InputViews = require('../views/ind-vehicle-views'),
+  //IndividualCalcModel = require('../data/models/individual-calculator-model');
 
 module.exports = App.module('Calc', function(Calc) {
   // Calculator must be manually started
   Calc.startWithParent = false;
+
+  var currentView, lastView;
+  var calcNameMap = {
+    individual: 'ind',
+    business: 'biz',
+    events: 'evt'
+  };
+
   var Router = Marionette.AppRouter.extend({
     appRoutes: {
-        ':categories/:calculator/test': 'test',
+      ':categoriesCodes/:calculator/:category': 'goToCategory',
+      ':categoriesCodes/:calculator/:category/:view': 'goToView',
     }
   }); 
 
   var Controller = Marionette.Controller.extend({
-    loadNextView: function() {
+    loadNextInputView: function() {
       console.log('Calc.controller loadNextView');
     },
-    loadPrevView: function() {
+    loadPrevInputView: function() {
       console.log('Calc.controller loadPrevView');
     },
-    // When the module starts, we need to make sure we have
-    // the correct view showing
-    show: function(calcModel) {
-      var desktopLayout = new DesktopLayout();
-      App.body.show(desktopLayout);
-      desktopLayout.headerRegion.show(new HeaderView({model: calcModel}));
-      desktopLayout.menuRegion.show(new MenuView({model: calcModel}));
-      desktopLayout.footerRegion.show(new FooterView({model: calcModel}));
+    loadInputView: function(categoryCodes, calculator, view) {
+    },
+    // When the module starts, we need to make sure we have the correct view showing
+    show: function() {
+
     },
     // When the module stops, we need to clean up our views
     hide: function() {
@@ -40,28 +51,52 @@ module.exports = App.module('Calc', function(Calc) {
     test: function() {
       this._ensureAppModuleIsRunning();
     },
-    // Makes sure that this subapp is running so that we can
-    // perform everything we need to
+    goToCategory: function(calculator, category) {
+      Calc.currentCategoryViews = viewManager.getViewsForCategory(calculator, category);
+      console.log(Calc.currentCategoryViews);
+      desktopLayout.inputRegion.show( new Calc.currentCategoryViews[0]({model: Calc.calcModel}));
+    },
+    goToView: function(calculator, category, view) {
+
+    },
+    // Makes sure that this subapp is running so that we can perform everything we need to
     _ensureAppModuleIsRunning: function() {
-        App.execute('appModule:start', 'Calc');
+      App.execute('appModule:start', 'Calc');
     }
   }); 
+
   var controller = new Controller();
   var router = new Router({controller: controller});
+  var desktopLayout = new DesktopLayout();
 
   Calc.addInitializer(function(options){
-    console.log('Calc.addInitializer');
-    var calcModel = new Backbone.Model(options);
-    
-    controller.show(calcModel);
-    
+    Calc.calcModel = new Backbone.Model(options);
+
+    Calc.categories = _.pluck(options.categories, 'slug');
+    Calc.currentCategory = Calc.categories[0];
+    Calc.currentCategoryViews = viewManager.getViewsForCategory(options.slug, Calc.currentCategory);
+
+    App.body.show(desktopLayout);
+    desktopLayout.headerRegion.show(new HeaderView({model: Calc.calcModel}));
+    desktopLayout.menuRegion.show(new MenuView({model: Calc.calcModel}));
+    desktopLayout.footerRegion.show(new FooterView({model: Calc.calcModel}));
+
+    desktopLayout.inputRegion.show( new Calc.currentCategoryViews[0]({model: Calc.calcModel}));
+
     App.vent.on('next', function() {
-      controller.loadNextView();
+      controller.loadNextInputView();
     });
     
     App.vent.on('prev', function() {
-      controller.loadPrevView();
+      controller.loadPrevInputView();
     });
+
+    App.vent.on('goToCategory', function(target) {
+      event.preventDefault();
+      var category = $(event.target).data('category');
+      controller.goToCategory(options.slug, category);
+    });
+
   });
 
   Calc.on('start', function(options) {
@@ -71,20 +106,4 @@ module.exports = App.module('Calc', function(Calc) {
       controller.hide();
       Calc.stopListening();
   }); 
-
-
 });
-
-
-    // var MenuItemModel = Backbone.Model.extend({});
-    // var MenuItemsCollection = Backbone.Collection.extend({model: MenuItem});
-    // var menuItems = new MenuItemsCollection([
-    //   { name: 'Wet Cat' },
-    //   { name: 'Bitey Cat' },
-    //   { name: 'Surprised Cat' }
-    // ]);
-    // var MenuItemsViewObj = require('./views/angry-cats-view');
-    // var menuItemsView = new MenuItemsViewObj({
-    //   collection: menuItems
-    // });
-    // desktopLayout.menuRegion.show(menuItemsView);

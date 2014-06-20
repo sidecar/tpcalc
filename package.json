@@ -48,6 +48,7 @@
     "node-xml2json": "~1.0.0",
     "zipcode": "~0.1.1",
     "geodist": "~0.2.1",
-    "bootstrap-sass": "~3.1.1"
+    "bootstrap-sass": "~3.1.1",
+    "path-browserify": "0.0.0"
   }
 }

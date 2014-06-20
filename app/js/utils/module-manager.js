@@ -4,7 +4,6 @@ var Marionette = require('backbone.marionette'),
 
 module.exports = Marionette.Controller.extend({
   startAppModule: function(name, args) {
-    console.log('module-manager startAppModule')
     var newApp = App.module(name);
     // Taking this out because I need to stop the calc mod then restart with a new model
     // if (this.currentApp === newApp) {
