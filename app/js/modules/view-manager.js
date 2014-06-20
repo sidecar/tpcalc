@@ -5,7 +5,10 @@ var _ = require('underscore'),
   App = require('../app'),
   Calc = require('./calculator'),
   DesktopLayout = require('../views/desktop-layout'),
-  IndividualVehicleViews = require('../views/ind-vehicle-views');
+  IndividualVehicleViews = require('../views/ind-vehicle-views'),
+  IndividualTransportViews = require('../views/ind-transport-views'),
+  IndividualAirViews = require('../views/ind-air-views'),
+  IndividualHomeViews = require('../views/ind-home-views');
 
 
 module.exports = App.module('ViewManager', function(ViewManager) {
@@ -25,36 +28,72 @@ views.individual.vehicle.defaultView = (function(){
   var View = require('../views/ind-vehicle-views').default;
   return View;
 }())
+
+// views.individual.vehicle.carView = (function(){
+//   var View = require('../views/ind-vehicle-views').car;
+//   return View;
+// }())
  
-views.individual.vehicle.carView = (function(){
-  var View = require('../views/ind-vehicle-views').car;
+// views.individual.vehicle.boatView = (function(){
+//   var View = require('../views/ind-vehicle-views').boat;
+//   return View;
+// }())
+ 
+// views.individual.vehicle.ecarView = (function(){
+//   var View = require('../views/ind-vehicle-views').ecar;
+//   return View;
+// }())
+ 
+// views.individual.vehicle.motorcycleView = (function(){
+//   var View = require('../views/ind-vehicle-views').motorcycle;
+//   return View;
+// }())
+
+//////////////////////////////////////////////////
+views.individual.transport.defaultView = (function(){
+  var View = require('../views/ind-transport-views');
+  return View;
+}())
+
+//////////////////////////////////////////////////
+views.individual.vehicle.defaultView = (function(){
+  var View = require('../views/ind-vehicle-views').default;
   return View;
 }())
  
-views.individual.vehicle.boatView = (function(){
-  var View = require('../views/ind-vehicle-views').boat;
-  return View;
-}())
+// views.individual.vehicle.carView = (function(){
+//   var View = require('../views/ind-vehicle-views').car;
+//   return View;
+// }())
  
-views.individual.vehicle.ecarView = (function(){
-  var View = require('../views/ind-vehicle-views').ecar;
-  return View;
-}())
+// views.individual.vehicle.boatView = (function(){
+//   var View = require('../views/ind-vehicle-views').boat;
+//   return View;
+// }())
+ 
+// views.individual.vehicle.ecarView = (function(){
+//   var View = require('../views/ind-vehicle-views').ecar;
+//   return View;
+// }())
+
  
 views.individual.vehicle.motorcycleView = (function(){
   var View = require('../views/ind-vehicle-views').motorcycle;
   return View;
 }())
 
-
-
-views.individual.transport.defaultView = (function(){
-  var View = require('../views/ind-transport-views');
+//////////////////////////////////////////////////
+views.individual.home.defaultView = (function(){
+  var View = require('../views/ind-home-views').default;
   return View;
 }())
  
+// views.individual.home.addView = (function(){
+//   var View = require('../views/ind-home-views').add;
+//   return View;
+// }())
 
-
+ 
 this.getViewsForCategory = function(calculator, category) {
     // if(category === 'vehicle') {
     //   console.log('view manager: category === vehicle');

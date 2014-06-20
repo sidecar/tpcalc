@@ -8,7 +8,8 @@ var _ = require('underscore'),
   HeaderView = require('../views/header-view'),
   FooterView = require('../views/footer-view'),
   MenuView = require('../views/menu-view'),
-  viewManager = require('./view-manager');
+  viewManager = require('./view-manager'),
+  inputViewManager = require('../views/input-view-manager');
   // InputViews = require('../views/ind-vehicle-views'),
   //IndividualCalcModel = require('../data/models/individual-calculator-model');
 
@@ -52,7 +53,8 @@ module.exports = App.module('Calc', function(Calc) {
       this._ensureAppModuleIsRunning();
     },
     goToCategory: function(calculator, category) {
-      Calc.currentCategoryViews = viewManager.getViewsForCategory(calculator, category);
+      //Calc.currentCategoryViews = viewManager.getViewsForCategory(calculator, category);
+      Calc.currentCategoryViews = inputViewManager[calculator][category];
       console.log(Calc.currentCategoryViews);
       desktopLayout.inputRegion.show( new Calc.currentCategoryViews[0]({model: Calc.calcModel}));
     },
@@ -81,8 +83,8 @@ module.exports = App.module('Calc', function(Calc) {
 
     Calc.categories = _.pluck(options.categories, 'slug');
     Calc.currentCategory = Calc.categories[0];
-    Calc.currentCategoryViews = viewManager.getViewsForCategory(options.slug, Calc.currentCategory);
-
+    //Calc.currentCategoryViews = viewManager.getViewsForCategory(options.slug, Calc.currentCategory);
+    Calc.currentCategoryViews = inputViewManager[options.slug][Calc.currentCategory];
     App.body.show(desktopLayout);
     desktopLayout.headerRegion.show(new HeaderView({model: Calc.calcModel}));
     desktopLayout.menuRegion.show(new MenuView({model: Calc.calcModel}));
