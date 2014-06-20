@@ -1,7 +1,5 @@
 module.exports = {
-  config: {
-    defaultUrlCode: 'd'
-  },
+  defaultUrlCode: 'd',
   individual: {
     displayName: 'Individual',
     slug: 'individual',
@@ -9,26 +7,22 @@ module.exports = {
       {
         displayName: 'Vehicle',
         slug: 'vehicle',
-        icon: '',
-        views: ['defaultView', 'carView', 'boatView', 'ecarView', 'motorcycleView'],
+        icon: ''
       },
       {
         displayName: 'Public Transortation',
         slug: 'transport',
-        icon: '',
-        views: ['defaultView']
+        icon: ''
       },
       {
         displayName: 'Air Travel',
         slug: 'air',
-        icon: '',
-        views: ['defaultView','add','average','list']
+        icon: ''
       },
       {
         displayName: 'Home Energy',
         slug: 'home',
-        icon: '',
-        views: ['defaultView','add']
+        icon: ''
       }
     ]
   },
@@ -39,32 +33,27 @@ module.exports = {
       {
         displayName: 'Site',
         slug: 'site',
-        icon: '',
-        views: []
+        icon: ''
       },
       {
         displayName: 'Fleet',
         slug: 'fleet',
-        icon: '',
-        views: []
+        icon: ''
       },
       {
         displayName: 'Air Travel',
         slug: 'air',
-        icon: '',
-        views: []
+        icon: ''
       },
       {
         displayName: 'Commute',
         slug: 'commute',
-        icon: '',
-        views: []
+        icon: ''
       },
       {
         displayName: 'Shipping',
         slug: 'shipping',
-        icon: '',
-        views: []
+        icon: ''
       }
     ]
   },
@@ -75,20 +64,17 @@ module.exports = {
       {
         displayName: 'Site',
         slug: 'site',
-        icon: '',
-        views: []
+        icon: ''
       },
       {
         displayName: 'Driving',
         slug: 'driving',
-        icon: '',
-        views: []
+        icon: ''
       },
       {
         displayName: 'Flights',
         slug: 'flights',
-        icon: '',
-        views: []
+        icon: ''
       }
     ]
   }

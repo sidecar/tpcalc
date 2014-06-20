@@ -19,7 +19,7 @@ module.exports.controller = Marionette.Controller.extend({
   showCalculator: function(catCodes, calculator) {
     if(!calcInitData[calculator]) return;
     // if the requested url includes the code for showing default calculator
-    if(catCodes === calcInitData.config.defaultUrlCode) {
+    if(catCodes === calcInitData.defaultUrlCode) {
       App.execute('appModule:start', 'Calc', calcInitData[calculator]);
       return;
     } 
