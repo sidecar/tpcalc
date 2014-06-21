@@ -1,6 +1,7 @@
 var $ = require('jquery'),
   Backbone = require('backbone'),
   Marionette = require('backbone.marionette'),
+  App = require('../app'),
   defaultTemplate = require('../templates/ind-vehicle-default-template.hbs'),
   carTemplate = require('../templates/ind-vehicle-car-template.hbs'),
   ecarTemplate = require('../templates/ind-vehicle-ecar-template.hbs'),
@@ -13,10 +14,9 @@ var $ = require('jquery'),
 module.exports.default = Marionette.ItemView.extend({
 	template: defaultTemplate,
 	events: {
-		'click input[type=submit]': 'submitClicked'
 	},
-	submitClicked: function() {
-		console.log('submitClicked()');
+	getNextView: function() {
+		return 'car';
 	}
 });
 

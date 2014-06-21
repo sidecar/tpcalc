@@ -8,6 +8,7 @@ module.exports = Marionette.ItemView.extend({
 		'click .category-icon': 'categoryClicked'
 	},
 	categoryClicked: function(event) {
-		App.vent.trigger('goToCategory', event);
+		event.preventDefault();
+		App.vent.trigger('category', event);
 	}
 });

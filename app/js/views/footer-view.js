@@ -8,12 +8,12 @@ module.exports = Marionette.ItemView.extend({
     "click #nextBtn": "next",
     "click #prevBtn": "prev"
 	},
-  next: function() {
-    //App.execute('calc:next');
+  next: function(event) {
+    event.preventDefault();
     App.vent.trigger('next');
   },
-  prev: function() {
-    // App.execute('calc:prev');
+  prev: function(event) {
+    event.preventDefault();
     App.vent.trigger('prev');
   }
 	// serializeData: function(){

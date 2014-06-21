@@ -24,39 +24,35 @@ module.exports = App.module('Calc', function(Calc) {
 
   var Router = Marionette.AppRouter.extend({
     appRoutes: {
-      ':categoriesCodes/:calculator/:category': 'goToCategory',
-      ':categoriesCodes/:calculator/:category/:view': 'goToView',
+      ':categoriesCodes/:calculator/:category': 'goToCategory'//,
+      //':categoriesCodes/:calculator/:category/:view': 'goToView',
     }
   }); 
 
   var Controller = Marionette.Controller.extend({
     loadNextInputView: function() {
-      console.log('Calc.controller loadNextView');
+      var nextViewName = Calc.currentView.getNextView();
+      var nextViewObj = _.findWhere(Calc.currentCategoryViews, {name: nextViewName});
+      this.showInputView(nextViewObj.view);
     },
     loadPrevInputView: function() {
       console.log('Calc.controller loadPrevView');
+      //this.showInputView(prevView);
     },
-    loadInputView: function(categoryCodes, calculator, view) {
+    goToCategory: function(calculator, category) {
+      Calc.currentCategory = category;
+      Calc.currentCategoryViews = inputViewManager[calculator][category];
+      console.log('Calc.currentCategoryViews');
+      console.log(Calc.currentCategoryViews);
+      this.showInputView(Calc.currentCategoryViews[0]['view']);
     },
-    // When the module starts, we need to make sure we have the correct view showing
-    show: function() {
-
+    showInputView: function(view) {
+      desktopLayout.inputRegion.show(new view({model: Calc.calcModel}));
     },
     // When the module stops, we need to clean up our views
     hide: function() {
       App.body.close();
       this.data = this.view = null;
-    },
-    test: function() {
-      this._ensureAppModuleIsRunning();
-    },
-    goToCategory: function(calculator, category) {
-      Calc.currentCategory = category;
-      Calc.currentCategoryViews = inputViewManager[calculator][category];
-      desktopLayout.inputRegion.show( new Calc.currentCategoryViews[0]({model: Calc.calcModel}));
-    },
-    goToView: function(calculator, category, view) {
-
     },
     // Makes sure that this subapp is running so that we can perform everything we need to
     _ensureAppModuleIsRunning: function() {
@@ -86,18 +82,17 @@ module.exports = App.module('Calc', function(Calc) {
     desktopLayout.menuRegion.show(new MenuView({model: Calc.calcModel}));
     desktopLayout.footerRegion.show(new FooterView({model: Calc.calcModel}));
 
-    desktopLayout.inputRegion.show( new Calc.currentCategoryViews[0]({model: Calc.calcModel}));
+    desktopLayout.inputRegion.show(Calc.currentView = new Calc.currentCategoryViews[0]['view']({model: Calc.calcModel}));
 
-    App.vent.on('next', function() {
+    App.vent.on('next', function(event) {
       controller.loadNextInputView();
     });
     
-    App.vent.on('prev', function() {
+    App.vent.on('prev', function(event) {
       controller.loadPrevInputView();
     });
 
-    App.vent.on('goToCategory', function(target) {
-      event.preventDefault();
+    App.vent.on('category', function(event) {
       var category = $(event.target).data('category');
       if(category === Calc.currentCategory) return; 
       controller.goToCategory(options.slug, category);

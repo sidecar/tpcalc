@@ -201,7 +201,7 @@ module.exports = {
 var App = require('./app');
 // This entire file is here because for some fucking hard to understand reason you cannot start app.js and then export it to be referenced as a module at the end of app.js. It doesn't work you have to start it somewhere else. No clue why this is.
 App.start(); 
-}).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_122dcb19.js","/")
+}).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_14f57d29.js","/")
 },{"./app":1,"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":46,"buffer":43}],4:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 "use strict";
@@ -230,39 +230,35 @@ module.exports = App.module('Calc', function(Calc) {
 
   var Router = Marionette.AppRouter.extend({
     appRoutes: {
-      ':categoriesCodes/:calculator/:category': 'goToCategory',
-      ':categoriesCodes/:calculator/:category/:view': 'goToView',
+      ':categoriesCodes/:calculator/:category': 'goToCategory'//,
+      //':categoriesCodes/:calculator/:category/:view': 'goToView',
     }
   }); 
 
   var Controller = Marionette.Controller.extend({
     loadNextInputView: function() {
-      console.log('Calc.controller loadNextView');
+      var nextViewName = Calc.currentView.getNextView();
+      var nextViewObj = _.findWhere(Calc.currentCategoryViews, {name: nextViewName});
+      this.showInputView(nextViewObj.view);
     },
     loadPrevInputView: function() {
       console.log('Calc.controller loadPrevView');
+      //this.showInputView(prevView);
     },
-    loadInputView: function(categoryCodes, calculator, view) {
+    goToCategory: function(calculator, category) {
+      Calc.currentCategory = category;
+      Calc.currentCategoryViews = inputViewManager[calculator][category];
+      console.log('Calc.currentCategoryViews');
+      console.log(Calc.currentCategoryViews);
+      this.showInputView(Calc.currentCategoryViews[0]['view']);
     },
-    // When the module starts, we need to make sure we have the correct view showing
-    show: function() {
-
+    showInputView: function(view) {
+      desktopLayout.inputRegion.show(new view({model: Calc.calcModel}));
     },
     // When the module stops, we need to clean up our views
     hide: function() {
       App.body.close();
       this.data = this.view = null;
-    },
-    test: function() {
-      this._ensureAppModuleIsRunning();
-    },
-    goToCategory: function(calculator, category) {
-      Calc.currentCategory = category;
-      Calc.currentCategoryViews = inputViewManager[calculator][category];
-      desktopLayout.inputRegion.show( new Calc.currentCategoryViews[0]({model: Calc.calcModel}));
-    },
-    goToView: function(calculator, category, view) {
-
     },
     // Makes sure that this subapp is running so that we can perform everything we need to
     _ensureAppModuleIsRunning: function() {
@@ -292,18 +288,17 @@ module.exports = App.module('Calc', function(Calc) {
     desktopLayout.menuRegion.show(new MenuView({model: Calc.calcModel}));
     desktopLayout.footerRegion.show(new FooterView({model: Calc.calcModel}));
 
-    desktopLayout.inputRegion.show( new Calc.currentCategoryViews[0]({model: Calc.calcModel}));
+    desktopLayout.inputRegion.show(Calc.currentView = new Calc.currentCategoryViews[0]['view']({model: Calc.calcModel}));
 
-    App.vent.on('next', function() {
+    App.vent.on('next', function(event) {
       controller.loadNextInputView();
     });
     
-    App.vent.on('prev', function() {
+    App.vent.on('prev', function(event) {
       controller.loadPrevInputView();
     });
 
-    App.vent.on('goToCategory', function(target) {
-      event.preventDefault();
+    App.vent.on('category', function(event) {
       var category = $(event.target).data('category');
       if(category === Calc.currentCategory) return; 
       controller.goToCategory(options.slug, category);
@@ -736,12 +731,12 @@ module.exports = Marionette.ItemView.extend({
     "click #nextBtn": "next",
     "click #prevBtn": "prev"
 	},
-  next: function() {
-    //App.execute('calc:next');
+  next: function(event) {
+    event.preventDefault();
     App.vent.trigger('next');
   },
-  prev: function() {
-    // App.execute('calc:prev');
+  prev: function(event) {
+    event.preventDefault();
     App.vent.trigger('prev');
   }
 	// serializeData: function(){
@@ -853,6 +848,7 @@ module.exports.default = Marionette.ItemView.extend({
 var $ = require('jquery'),
   Backbone = require('backbone'),
   Marionette = require('backbone.marionette'),
+  App = require('../app'),
   defaultTemplate = require('../templates/ind-vehicle-default-template.hbs'),
   carTemplate = require('../templates/ind-vehicle-car-template.hbs'),
   ecarTemplate = require('../templates/ind-vehicle-ecar-template.hbs'),
@@ -865,10 +861,9 @@ var $ = require('jquery'),
 module.exports.default = Marionette.ItemView.extend({
 	template: defaultTemplate,
 	events: {
-		'click input[type=submit]': 'submitClicked'
 	},
-	submitClicked: function() {
-		console.log('submitClicked()');
+	getNextView: function() {
+		return 'car';
 	}
 });
 
@@ -921,7 +916,7 @@ module.exports.list = Marionette.ItemView.extend({
 	}
 });
 }).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/views/ind-vehicle-views.js","/views")
-},{"../templates/ind-vehicle-boat-template.hbs":16,"../templates/ind-vehicle-car-template.hbs":17,"../templates/ind-vehicle-class-template.hbs":18,"../templates/ind-vehicle-default-template.hbs":19,"../templates/ind-vehicle-ecar-template.hbs":20,"../templates/ind-vehicle-list-template.hbs":21,"../templates/ind-vehicle-motorcycle-template.hbs":22,"../templates/ind-vehicle-options-template.hbs":23,"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":46,"backbone":41,"backbone.marionette":37,"buffer":43,"jquery":55}],34:[function(require,module,exports){
+},{"../app":1,"../templates/ind-vehicle-boat-template.hbs":16,"../templates/ind-vehicle-car-template.hbs":17,"../templates/ind-vehicle-class-template.hbs":18,"../templates/ind-vehicle-default-template.hbs":19,"../templates/ind-vehicle-ecar-template.hbs":20,"../templates/ind-vehicle-list-template.hbs":21,"../templates/ind-vehicle-motorcycle-template.hbs":22,"../templates/ind-vehicle-options-template.hbs":23,"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":46,"backbone":41,"backbone.marionette":37,"buffer":43,"jquery":55}],34:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var views = {
   individual: {},
@@ -939,23 +934,40 @@ views.individual = (function() {
     var motorcycleView = require('../views/ind-vehicle-views').motorcycle;
     var classView = require('../views/ind-vehicle-views').class;
     var optionsView = require('../views/ind-vehicle-views').options;
-    return [defaultView, carView, ecarView, boatView, classView, optionsView];
+    return [
+      {name: 'default',  view: defaultView},
+      {name: 'car',  view: carView}, 
+      {name: 'ecar',  view: ecarView}, 
+      {name: 'boat',  view: boatView}, 
+      {name: 'class',  view: classView}, 
+      {name: 'options',  view: optionsView}
+    ];
   }());
   views.transport = (function() {
     var defaultView = require('../views/ind-transport-views').default;
-    return [defaultView];
+    return [
+      {name: 'default',  view: defaultView}
+    ];
   }());
   views.air = (function() {
     var defaultView = require('../views/ind-air-views').default;
     var addView = require('../views/ind-air-views').add;
     var averageView = require('../views/ind-air-views').average;
     var listView = require('../views/ind-air-views').list;
-    return [defaultView, addView, averageView, listView];
+    return [
+      {name: 'default',  view: defaultView}, 
+      {name: 'add',  view: addView}, 
+      {name: 'average',  view: averageView}, 
+      {name: 'list',  view: listView}
+    ];
   }());
   views.home = (function() {
     var defaultView = require('../views/ind-home-views').default;
     var addView = require('../views/ind-home-views').add;
-    return [defaultView, addView];
+    return [
+      {name: 'default',  view: defaultView}, 
+      {name: 'add',  view: addView}
+    ];
   }());
   return views;
 }());
@@ -982,7 +994,8 @@ module.exports = Marionette.ItemView.extend({
 		'click .category-icon': 'categoryClicked'
 	},
 	categoryClicked: function(event) {
-		App.vent.trigger('goToCategory', event);
+		event.preventDefault();
+		App.vent.trigger('category', event);
 	}
 });
 

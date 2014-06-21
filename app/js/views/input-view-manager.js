@@ -14,23 +14,40 @@ views.individual = (function() {
     var motorcycleView = require('../views/ind-vehicle-views').motorcycle;
     var classView = require('../views/ind-vehicle-views').class;
     var optionsView = require('../views/ind-vehicle-views').options;
-    return [defaultView, carView, ecarView, boatView, classView, optionsView];
+    return [
+      {name: 'default',  view: defaultView},
+      {name: 'car',  view: carView}, 
+      {name: 'ecar',  view: ecarView}, 
+      {name: 'boat',  view: boatView}, 
+      {name: 'class',  view: classView}, 
+      {name: 'options',  view: optionsView}
+    ];
   }());
   views.transport = (function() {
     var defaultView = require('../views/ind-transport-views').default;
-    return [defaultView];
+    return [
+      {name: 'default',  view: defaultView}
+    ];
   }());
   views.air = (function() {
     var defaultView = require('../views/ind-air-views').default;
     var addView = require('../views/ind-air-views').add;
     var averageView = require('../views/ind-air-views').average;
     var listView = require('../views/ind-air-views').list;
-    return [defaultView, addView, averageView, listView];
+    return [
+      {name: 'default',  view: defaultView}, 
+      {name: 'add',  view: addView}, 
+      {name: 'average',  view: averageView}, 
+      {name: 'list',  view: listView}
+    ];
   }());
   views.home = (function() {
     var defaultView = require('../views/ind-home-views').default;
     var addView = require('../views/ind-home-views').add;
-    return [defaultView, addView];
+    return [
+      {name: 'default',  view: defaultView}, 
+      {name: 'add',  view: addView}
+    ];
   }());
   return views;
 }());
