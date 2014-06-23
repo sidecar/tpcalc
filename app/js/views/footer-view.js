@@ -10,11 +10,11 @@ module.exports = Marionette.ItemView.extend({
 	},
   next: function(event) {
     event.preventDefault();
-    App.vent.trigger('next');
+    App.vent.trigger('next', event);
   },
   prev: function(event) {
     event.preventDefault();
-    App.vent.trigger('prev');
+    App.vent.trigger('prev', event);
   }
 	// serializeData: function(){
  //      return this.model.data
