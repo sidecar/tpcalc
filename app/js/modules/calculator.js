@@ -34,14 +34,15 @@ module.exports = App.module('Calc', function(Calc) {
       // get the last view shown for the chosen cateogory
       var currentView = category.get('currentView');
       if (currentView == undefined) {
-        var viewObjects = category.get('views');
-        currentView = viewObjects[0]['view']
+        var viewObjects = category.get('viewObjects');
+        currentView = viewObjects[0]['view'];
       }
       Calc.model.set({currentCategory: category});
       Calc.mainLayout.inputRegion.show(currentView);
     },
     showInputView: function(view) {
       var currentCategory = Calc.model.get('currentCategory');
+      var previousView = currentCategory.get('currentView');
       currentCategory.set({currentView: view});
       Calc.mainLayout.inputRegion.show(view);
     },
@@ -55,7 +56,7 @@ module.exports = App.module('Calc', function(Calc) {
     },
     getViewBySlug: function(viewSlug) {
       var currentCategory = Calc.model.get('currentCategory');
-      var viewObjects = currentCategory.get('views');
+      var viewObjects = currentCategory.get('viewObjects');
       var viewObj = _.findWhere(viewObjects, {name: viewSlug});
       return viewObj.view;
     },
@@ -115,13 +116,13 @@ module.exports = App.module('Calc', function(Calc) {
       $('.main-menu').append('<li class='+categorySlug+'>'+displayName+'</li>');
       menuLayout.addRegion(categorySlug, '.'+categorySlug);
       menuLayout[categorySlug].show(new MenuIconView({model: categoryModel}));
-      categoryModel.set({views: inputViewManager[calculatorSlug][categorySlug]});
+      categoryModel.set({viewObjects: inputViewManager[calculatorSlug][categorySlug]});
     });
     //get first category set it on the calc model
     var currentCategory = categoryModels[0];
     calcModel.set({currentCategory: currentCategory}); 
     // get the first view from this categories input views and set it as the current input view for the category model
-    var currentInputViews = currentCategory.get('views');
+    var currentInputViews = currentCategory.get('viewObjects');
     var currentInputView = currentInputViews[0].view;
     currentCategory.set({currentInputView: currentInputView});
     // show the input view
@@ -134,11 +135,15 @@ module.exports = App.module('Calc', function(Calc) {
       var currentView = currentCategory.get('currentView');
       var nextViewSlug = currentView.getNextViewSlug();
       var nextView = Calc.controller.getViewBySlug(nextViewSlug);
+      nextView.previousView = currentView;
       Calc.controller.showInputView(nextView);
     });
     
     App.vent.on('prev', function(event) {
-      controller.loadPrevInputView();
+      var currentCategory = Calc.model.get('currentCategory');
+      var currentView = currentCategory.get('currentView');
+      var previousView = currentView.previousView;
+      Calc.controller.showInputView(previousView);      
     });
 
     App.vent.on('category', function(event) {
