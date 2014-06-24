@@ -54,9 +54,10 @@ module.exports = App.module('Calc', function(Calc) {
       return category;
     },
     getViewBySlug: function(viewSlug) {
-      var views = Calc.currentCategory.get('views');
-      var viewObj = _.findWhere(views, {name: viewSlug});
-      return viewObj .view;
+      var currentCategory = Calc.model.get('currentCategory');
+      var viewObjects = currentCategory.get('views');
+      var viewObj = _.findWhere(viewObjects, {name: viewSlug});
+      return viewObj.view;
     },
     // When the module stops, we need to clean up our views
     hide: function() {
