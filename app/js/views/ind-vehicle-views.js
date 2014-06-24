@@ -15,7 +15,7 @@ module.exports.default = Marionette.ItemView.extend({
 	template: defaultTemplate,
 	events: {
 	},
-	getNextView: function() {
+	getNextViewSlug: function() {
 		return 'car';
 	}
 });
@@ -25,7 +25,7 @@ module.exports.car = Marionette.ItemView.extend({
 	events: {
 
 	},
-	getNextView: function() {
+	getNextViewSlug: function() {
 		return 'ecar';
 	}
 });
@@ -35,7 +35,7 @@ module.exports.ecar = Marionette.ItemView.extend({
 	events: {
 
 	},
-	getNextView: function() {
+	getNextViewSlug: function() {
 		return 'boat';
 	}
 });

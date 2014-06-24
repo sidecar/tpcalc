@@ -38,7 +38,7 @@ App.addRegions({
 
 //may need to be on 'initialize:after'
 App.on('start', function(options) {
-  console.log('App.start');
+  console.log('App.on start');
   if (Backbone.history) {
     Backbone.history.start();
   }

@@ -4,13 +4,12 @@ var _ = require('underscore'),
   Backbone = require('backbone'),
   Marionette = require('backbone.marionette'),
   App = require('../app'),
-  DesktopLayout = require('../views/main-layout'),
+  MainLayout = require('../views/main-layout'),
   HeaderView = require('../views/header-view'),
   FooterView = require('../views/footer-view'),
   MenuLayout = require('../views/menu-layout'),
   MenuIconView = require('../views/menu-icon-view'),
   inputViewManager = require('../views/input-view-manager');
-  //IndividualCalcModel = require('../data/models/individual-calculator-model');
 
 module.exports = App.module('Calc', function(Calc) {
   // Calculator must be manually started
@@ -31,48 +30,38 @@ module.exports = App.module('Calc', function(Calc) {
   }); 
 
   var Controller = Marionette.Controller.extend({
-    loadNextInputView: function(viewSlug) {
-      var nextViewName = Calc.currentView.getNextView();
-      var nextViewObj = _.findWhere(Calc.currentCategoryViews, {name: nextViewName});
-      this.showInputView(nextViewObj.view);
-    },
-    loadPrevInputView: function() {
-      console.log('Calc.controller loadPrevView');
-      //this.showInputView(prevView);
-    },
     goToCategory: function(category) {
+      // get the last view shown for the chosen cateogory
+      var currentView = category.get('currentView');
+      if (currentView == undefined) {
+        var viewObjects = category.get('views');
+        currentView = viewObjects[0]['view']
+      }
+      Calc.model.set({currentCategory: category});
+      Calc.mainLayout.inputRegion.show(currentView);
+    },
+    showInputView: function(view) {
+      var currentCategory = Calc.model.get('currentCategory');
+      currentCategory.set({currentView: view});
+      Calc.mainLayout.inputRegion.show(view);
+    },
+    getCategoryBySlug: function(categorySlug) {
       // find the chosen category within the calculators category models
       var categoryModels = Calc.model.get('categories');
-      Calc.currentCategory = _.find(categoryModels, function(model) {
-        return model.get('slug') === category;
+      var category = _.find(categoryModels, function(model) {
+        return model.get('slug') === categorySlug;
       });
-      console.log(Calc.currentCategory);
-      // get the last view shown for the chosen cateogory
-      var currentView = Calc.currentCategory.get('currentView');
-
-      // show the current input view
-      if (currentView) {
-        Calc.controller.showInputView(currentView);
-      }  else {
-        var views = Calc.currentCategory.get('views');
-        Calc.controller.showInputView(views[0].view);
-      }
+      return category;
     },
-    showInputView: function(View) {
-      //var nextViewObj = _.findWhere(Calc.currentCategoryViews, {name: view});
-      var view = new View();
-      Calc.currentCategory.set({currentView: view});
-      desktopLayout.inputRegion.show(view);
+    getViewBySlug: function(viewSlug) {
+      var views = Calc.currentCategory.get('views');
+      var viewObj = _.findWhere(views, {name: viewSlug});
+      return viewObj .view;
     },
     // When the module stops, we need to clean up our views
     hide: function() {
       App.body.close();
       this.data = this.view = null;
-    },
-    getViewBySlug: function(viewSlug) {
-      var views = Calc.currentCategory.get('views');
-      var viewObj = _.findWhere(views, {name: viewSlug});
-      return viewObj.view;
     },
     // Makes sure that this subapp is running so that we can perform everything we need to
     _ensureAppModuleIsRunning: function() {
@@ -82,40 +71,42 @@ module.exports = App.module('Calc', function(Calc) {
 
   Calc.controller = new Controller();
   Calc.router = new Router({controller: Calc.controller});
-  var desktopLayout = new DesktopLayout();
 
-  Calc.addInitializer(function(options){
-    console.log('Calc.addInitializer');
+  Calc.initializeModels = function(options) {
     // set up the calculator model that contains category models
     var CalcModel = Backbone.Model.extend({
       initialize: function(){}
     });
     var calcModel = Calc.model = new CalcModel({displayName: options.displayName, slug: options.slug});
-    var categoryModels = [];
+    Calc.categoryModels = [];
+
     // Set up models for each category
     var Category = Backbone.Model.extend({
       initialize: function(){}
     });
+
     _.each(options.categories, function(category) {
       var catModel = new Category(category);
-      categoryModels.push(catModel);
+      Calc.categoryModels.push(catModel);
     });
-    calcModel.set({categories: categoryModels});
+    calcModel.set({categories: Calc.categoryModels});
+  };
 
-    console.log('calcModel = ');
-    console.log(calcModel);
-
-    // Set up the first page with the correct calculator category and that categories default view
-    App.body.show(desktopLayout);
-    desktopLayout.headerRegion.show(new HeaderView({model: Calc.model}));
-    desktopLayout.footerRegion.show(new FooterView({model: Calc.model}));
-
-    // set up the main menu and add views to each catgory model 
+  Calc.intializeViews = function() {
+    Calc.mainLayout = new MainLayout();
+    var calcModel = Calc.model;
+    var categoryModels = Calc.categoryModels;
+    var mainLayout = Calc.mainLayout;
     var menuLayout = new MenuLayout();
+     // Set up the first page with the correct calculator category and that categories default view
+    App.body.show(Calc.mainLayout);
+    mainLayout.headerRegion.show(new HeaderView({model: calcModel}));
+    mainLayout.footerRegion.show(new FooterView({model: calcModel}));
+    //pretty sure you have to render the layout before showing it
     menuLayout.render();
-    // menuLayout has to be shown before it can do anything else
-    desktopLayout.menuRegion.show(menuLayout);
-
+    // have to call show on the menuLayout before it can do anything else
+    mainLayout.menuRegion.show(menuLayout);
+    //add views to each catgory model
     _.each(categoryModels, function(categoryModel) {
       var calculatorSlug = calcModel.get('slug');
       var displayName = categoryModel.get('displayName');
@@ -125,27 +116,24 @@ module.exports = App.module('Calc', function(Calc) {
       menuLayout[categorySlug].show(new MenuIconView({model: categoryModel}));
       categoryModel.set({views: inputViewManager[calculatorSlug][categorySlug]});
     });
+    //get first category set it on the calc model
+    var currentCategory = categoryModels[0];
+    calcModel.set({currentCategory: currentCategory}); 
+    // get the first view from this categories input views and set it as the current input view for the category model
+    var currentInputViews = currentCategory.get('views');
+    var currentInputView = currentInputViews[0].view;
+    currentCategory.set({currentInputView: currentInputView});
+    // show the input view
+    Calc.controller.showInputView(currentInputView);
+  };
 
-
-    // load the default input view for the first category
-    Calc.currentCategory = categoryModels[0];
-    var currentInputViews = Calc.currentCategory.get('views');
-    Calc.currentInputView = currentInputViews[0].view;
-    Calc.controller.showInputView(Calc.currentInputView);
-
+  Calc.initializeEventListeners = function() {
     App.vent.on('next', function(event) {
-      var currentView = Calc.currentCategory.get('currentView');
-      var nextViewSlug = currentView.getNextView();
+      var currentCategory = Calc.model.get('currentCategory');
+      var currentView = currentCategory.get('currentView');
+      var nextViewSlug = currentView.getNextViewSlug();
       var nextView = Calc.controller.getViewBySlug(nextViewSlug);
       Calc.controller.showInputView(nextView);
-      // var categoryCodes = Calc.currentCategoryCodes();
-      // var calculator = Calc.currentCalculator();
-      // var category = Calc.currentCategory();
-      // var nextViewName = Calc.currentView.getNextView();
-      // console.log('/#'+categoryCodes+calculator+category+nextViewName);
-      // router.navigate('/#'+categoryCodes+calculator+category+nextViewName, {trigger: true});
-      // console.log('App.vent.on Calc.model.currentCategoryViews = ');
-      // console.log(Calc.model.get('currentCategoryViews'));
     });
     
     App.vent.on('prev', function(event) {
@@ -153,18 +141,28 @@ module.exports = App.module('Calc', function(Calc) {
     });
 
     App.vent.on('category', function(event) {
-      var newCategory = $(event.target).data('category');
-      var oldCategory = Calc.currentCategory.get('slug');
-      if(newCategory === oldCategory) return; 
+      var newCategorySlug = $(event.target).data('category');
+      var oldCategory = Calc.model.get('currentCategory');
+      var oldCategorySlug = oldCategory.get('slug');
+      if(newCategorySlug === oldCategorySlug) return; 
+      var newCategory = Calc.controller.getCategoryBySlug(newCategorySlug);
       Calc.controller.goToCategory(newCategory);
     });
+  };
 
+  Calc.addInitializer(function(options){
+    console.log('Calc.addInitializer');
+    Calc.initializeModels(options);
+    Calc.intializeViews();
+    Calc.initializeEventListeners();
   });
 
   Calc.on('start', function(options) {
+    console.log('Calc.on start');
   });
 
   Calc.addFinalizer(function(){
+    console.log('Calc.addFinalizer');
     controller.hide();
     Calc.stopListening();
   }); 
