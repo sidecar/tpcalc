@@ -31,7 +31,7 @@ module.exports = App.module('Calc', function(Calc) {
   }); 
 
   var Controller = Marionette.Controller.extend({
-    loadNextInputView: function() {
+    loadNextInputView: function(viewSlug) {
       var nextViewName = Calc.currentView.getNextView();
       var nextViewObj = _.findWhere(Calc.currentCategoryViews, {name: nextViewName});
       this.showInputView(nextViewObj.view);
@@ -57,29 +57,22 @@ module.exports = App.module('Calc', function(Calc) {
         var views = Calc.currentCategory.get('views');
         Calc.controller.showInputView(views[0].view);
       }
-
-
-
-
-
-      // var currentInputViews = Calc.currentCategory.get('views');
-      // Calc.currentInputView = currentInputViews[0].view;
-
-      // Calc.currentCategory = category;
-      // Calc.currentCategoryViews = inputViewManager[calculator][category];
-      // console.log('Calc.currentCategoryViews');
-      // console.log(Calc.currentCategoryViews);
-      // this.showInputView(Calc.currentCategoryViews[0]['view']);
     },
-    showInputView: function(view) {
+    showInputView: function(View) {
       //var nextViewObj = _.findWhere(Calc.currentCategoryViews, {name: view});
+      var view = new View();
       Calc.currentCategory.set({currentView: view});
-      desktopLayout.inputRegion.show(new view());
+      desktopLayout.inputRegion.show(view);
     },
     // When the module stops, we need to clean up our views
     hide: function() {
       App.body.close();
       this.data = this.view = null;
+    },
+    getViewBySlug: function(viewSlug) {
+      var views = Calc.currentCategory.get('views');
+      var viewObj = _.findWhere(views, {name: viewSlug});
+      return viewObj.view;
     },
     // Makes sure that this subapp is running so that we can perform everything we need to
     _ensureAppModuleIsRunning: function() {
@@ -142,9 +135,9 @@ module.exports = App.module('Calc', function(Calc) {
 
     App.vent.on('next', function(event) {
       var currentView = Calc.currentCategory.get('currentView');
-      //var nextView = currentView.view.getNextView();
-      //Calc.controller.showInputView(nextView);
-
+      var nextViewSlug = currentView.getNextView();
+      var nextView = Calc.controller.getViewBySlug(nextViewSlug);
+      Calc.controller.showInputView(nextView);
       // var categoryCodes = Calc.currentCategoryCodes();
       // var calculator = Calc.currentCalculator();
       // var category = Calc.currentCategory();

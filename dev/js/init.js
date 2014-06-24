@@ -201,7 +201,7 @@ module.exports = {
 var App = require('./app');
 // This entire file is here because for some fucking hard to understand reason you cannot start app.js and then export it to be referenced as a module at the end of app.js. It doesn't work you have to start it somewhere else. No clue why this is.
 App.start(); 
-}).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_9cc14f69.js","/")
+}).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_c6fede45.js","/")
 },{"./app":1,"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":48,"buffer":45}],4:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 "use strict";
@@ -237,7 +237,7 @@ module.exports = App.module('Calc', function(Calc) {
   }); 
 
   var Controller = Marionette.Controller.extend({
-    loadNextInputView: function() {
+    loadNextInputView: function(viewSlug) {
       var nextViewName = Calc.currentView.getNextView();
       var nextViewObj = _.findWhere(Calc.currentCategoryViews, {name: nextViewName});
       this.showInputView(nextViewObj.view);
@@ -263,29 +263,22 @@ module.exports = App.module('Calc', function(Calc) {
         var views = Calc.currentCategory.get('views');
         Calc.controller.showInputView(views[0].view);
       }
-
-
-
-
-
-      // var currentInputViews = Calc.currentCategory.get('views');
-      // Calc.currentInputView = currentInputViews[0].view;
-
-      // Calc.currentCategory = category;
-      // Calc.currentCategoryViews = inputViewManager[calculator][category];
-      // console.log('Calc.currentCategoryViews');
-      // console.log(Calc.currentCategoryViews);
-      // this.showInputView(Calc.currentCategoryViews[0]['view']);
     },
-    showInputView: function(view) {
+    showInputView: function(View) {
       //var nextViewObj = _.findWhere(Calc.currentCategoryViews, {name: view});
+      var view = new View();
       Calc.currentCategory.set({currentView: view});
-      desktopLayout.inputRegion.show(new view());
+      desktopLayout.inputRegion.show(view);
     },
     // When the module stops, we need to clean up our views
     hide: function() {
       App.body.close();
       this.data = this.view = null;
+    },
+    getViewBySlug: function(viewSlug) {
+      var views = Calc.currentCategory.get('views');
+      var viewObj = _.findWhere(views, {name: viewSlug});
+      return viewObj.view;
     },
     // Makes sure that this subapp is running so that we can perform everything we need to
     _ensureAppModuleIsRunning: function() {
@@ -348,9 +341,9 @@ module.exports = App.module('Calc', function(Calc) {
 
     App.vent.on('next', function(event) {
       var currentView = Calc.currentCategory.get('currentView');
-      //var nextView = currentView.view.getNextView();
-      //Calc.controller.showInputView(nextView);
-
+      var nextViewSlug = currentView.getNextView();
+      var nextView = Calc.controller.getViewBySlug(nextViewSlug);
+      Calc.controller.showInputView(nextView);
       // var categoryCodes = Calc.currentCategoryCodes();
       // var calculator = Calc.currentCalculator();
       // var category = Calc.currentCategory();
