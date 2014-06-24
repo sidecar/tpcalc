@@ -15,51 +15,14 @@ module.exports = App.module('Calc', function(Calc) {
   // Calculator must be manually started
   Calc.startWithParent = false;
 
-  var currentView, lastView;
-  var calcNameMap = {
-    individual: 'ind',
-    business: 'biz',
-    events: 'evt'
-  };
-
   var Router = Marionette.AppRouter.extend({
     appRoutes: {
-      ':categoriesCodes/:calculator/:category': 'goToCategory',
-      ':categoriesCodes/:calculator/:category/:view': 'showInputView'
+      // ':categoriesCodes/:calculator/:category': 'goToCategory',
+      // ':categoriesCodes/:calculator/:category/:view': 'showInputView'
     }
   }); 
 
   var Controller = Marionette.Controller.extend({
-    goToCategory: function(category) {
-      // get the last view shown for the chosen cateogory
-      var currentView = category.get('currentView');
-      if (currentView == undefined) {
-        var viewObjects = category.get('viewObjects');
-        currentView = viewObjects[0]['view'];
-      }
-      Calc.model.set({currentCategory: category});
-      Calc.mainLayout.inputRegion.show(currentView);
-    },
-    showInputView: function(view) {
-      var currentCategory = Calc.model.get('currentCategory');
-      var previousView = currentCategory.get('currentView');
-      currentCategory.set({currentView: view});
-      Calc.mainLayout.inputRegion.show(view);
-    },
-    getCategoryBySlug: function(categorySlug) {
-      // find the chosen category within the calculators category models
-      var categoryModels = Calc.model.get('categories');
-      var category = _.find(categoryModels, function(model) {
-        return model.get('slug') === categorySlug;
-      });
-      return category;
-    },
-    getViewBySlug: function(viewSlug) {
-      var currentCategory = Calc.model.get('currentCategory');
-      var viewObjects = currentCategory.get('viewObjects');
-      var viewObj = _.findWhere(viewObjects, {name: viewSlug});
-      return viewObj.view;
-    },
     // When the module stops, we need to clean up our views
     hide: function() {
       App.body.close();
@@ -73,6 +36,22 @@ module.exports = App.module('Calc', function(Calc) {
 
   Calc.controller = new Controller();
   Calc.router = new Router({controller: Calc.controller});
+
+  Calc.getCategoryBySlug = function(categorySlug) {
+    // find the chosen category within the calculators category models
+    var categoryModels = Calc.model.get('categories');
+    var category = _.find(categoryModels, function(model) {
+      return model.get('slug') === categorySlug;
+    });
+    return category;
+  };
+
+  Calc.getViewBySlug = function(viewSlug) {
+    var currentCategory = Calc.model.get('currentCategory');
+    var viewObjects = currentCategory.get('viewObjects');
+    var viewObj = _.findWhere(viewObjects, {name: viewSlug});
+    return viewObj.view;
+  };
 
   Calc.initializeModels = function(options) {
     // set up the calculator model that contains category models
@@ -113,9 +92,9 @@ module.exports = App.module('Calc', function(Calc) {
       var calculatorSlug = calcModel.get('slug');
       var displayName = categoryModel.get('displayName');
       var categorySlug = categoryModel.get('slug');
-      $('.main-menu').append('<li class='+categorySlug+'>'+displayName+'</li>');
+      $('.main-menu').append('<li class='+categorySlug+'></li>');
       menuLayout.addRegion(categorySlug, '.'+categorySlug);
-      menuLayout[categorySlug].show(new MenuIconView({model: categoryModel}));
+      menuLayout[categorySlug].show(new MenuIconView({model: categoryModel, categorySlug: categorySlug, displayName: displayName}));
       categoryModel.set({viewObjects: inputViewManager[calculatorSlug][categorySlug]});
     });
     //get first category set it on the calc model
@@ -124,9 +103,8 @@ module.exports = App.module('Calc', function(Calc) {
     // get the first view from this categories input views and set it as the current input view for the category model
     var currentInputViews = currentCategory.get('viewObjects');
     var currentInputView = currentInputViews[0].view;
-    currentCategory.set({currentInputView: currentInputView});
-    // show the input view
-    Calc.controller.showInputView(currentInputView);
+    currentCategory.set({currentView: currentInputView});
+    Calc.mainLayout.inputRegion.show(currentInputView);
   };
 
   Calc.initializeEventListeners = function() {
@@ -134,16 +112,27 @@ module.exports = App.module('Calc', function(Calc) {
       var currentCategory = Calc.model.get('currentCategory');
       var currentView = currentCategory.get('currentView');
       var nextViewSlug = currentView.getNextViewSlug();
-      var nextView = Calc.controller.getViewBySlug(nextViewSlug);
+      var nextView = Calc.getViewBySlug(nextViewSlug);
+      if(nextView === undefined){ 
+        alert('next view doesnt exist');
+        return;
+      }
       nextView.previousView = currentView;
-      Calc.controller.showInputView(nextView);
+      currentCategory.set({currentView: nextView});
+      Calc.mainLayout.inputRegion.show(nextView);
     });
     
     App.vent.on('prev', function(event) {
       var currentCategory = Calc.model.get('currentCategory');
       var currentView = currentCategory.get('currentView');
       var previousView = currentView.previousView;
-      Calc.controller.showInputView(previousView);      
+      if(previousView === undefined){ 
+        alert('prev view doesnt exist');
+        return;
+      }
+      currentCategory.set({currentView: previousView});
+      Calc.mainLayout.inputRegion.show(previousView);
+
     });
 
     App.vent.on('category', function(event) {
@@ -151,8 +140,14 @@ module.exports = App.module('Calc', function(Calc) {
       var oldCategory = Calc.model.get('currentCategory');
       var oldCategorySlug = oldCategory.get('slug');
       if(newCategorySlug === oldCategorySlug) return; 
-      var newCategory = Calc.controller.getCategoryBySlug(newCategorySlug);
-      Calc.controller.goToCategory(newCategory);
+      var newCategory = Calc.getCategoryBySlug(newCategorySlug);
+      var currentView = newCategory.get('currentView');
+      if (currentView == undefined) {
+        var viewObjects = newCategory.get('viewObjects');
+        currentView = viewObjects[0]['view'];
+      }
+      Calc.model.set({currentCategory: newCategory});
+      Calc.mainLayout.inputRegion.show(currentView);
     });
   };
 
@@ -165,6 +160,8 @@ module.exports = App.module('Calc', function(Calc) {
 
   Calc.on('start', function(options) {
     console.log('Calc.on start');
+    console.log(options);
+    App.router.navigate('#/'+options.slug)
   });
 
   Calc.addFinalizer(function(){
