@@ -26,7 +26,7 @@ module.exports.car = Marionette.ItemView.extend({
 
 	},
 	getNextViewSlug: function() {
-		return 'ecar';
+		return 'list';
 	}
 });
 
@@ -36,7 +36,7 @@ module.exports.ecar = Marionette.ItemView.extend({
 
 	},
 	getNextViewSlug: function() {
-		return 'boat';
+		return 'list';
 	}
 });
 
@@ -44,6 +44,9 @@ module.exports.boat = Marionette.ItemView.extend({
 	template: boatTemplate,
 	events: {
 
+	},
+	getNextViewSlug: function() {
+		return 'list';
 	}
 });
 
@@ -51,6 +54,9 @@ module.exports.motorcycle = Marionette.ItemView.extend({
 	template: motorcycleTemplate,
 	events: {
 
+	},
+	getNextViewSlug: function() {
+		return 'list';
 	}
 });
 
@@ -58,6 +64,9 @@ module.exports.class = Marionette.ItemView.extend({
 	template: classTemplate,
 	events: {
 
+	},
+	getNextViewSlug: function() {
+		return 'list';
 	}
 });
 
@@ -65,6 +74,9 @@ module.exports.options = Marionette.ItemView.extend({
 	template: optionsTemplate,
 	events: {
 
+	},
+	getNextViewSlug: function() {
+		return 'list';
 	}
 });
 
@@ -72,5 +84,8 @@ module.exports.list = Marionette.ItemView.extend({
 	template: listTemplate,
 	events: {
 
+	},
+	getNextViewSlug: function() {
+		return '';
 	}
 });

@@ -201,7 +201,7 @@ module.exports = {
 var App = require('./app');
 // This entire file is here because for some fucking hard to understand reason you cannot start app.js and then export it to be referenced as a module at the end of app.js. It doesn't work you have to start it somewhere else. No clue why this is.
 App.start(); 
-}).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_8f7466bc.js","/")
+}).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_3048607a.js","/")
 },{"./app":1,"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":48,"buffer":45}],4:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 "use strict";
@@ -317,7 +317,13 @@ module.exports = App.module('Calc', function(Calc) {
     App.vent.on('next', function(event) {
       var currentCategory = Calc.model.get('currentCategory');
       var currentView = currentCategory.get('currentView');
+      console.log('currentView');
+      console.log(currentView);
       var nextViewSlug = currentView.getNextViewSlug();
+      if(nextViewSlug === '' || nextViewSlug === undefined || nextViewSlug === false) {
+        alert('no function written to go to next category');
+        return;
+      }
       var nextView = Calc.getViewBySlug(nextViewSlug);
       if(nextView === undefined){ 
         alert('next view doesnt exist');
@@ -341,7 +347,7 @@ module.exports = App.module('Calc', function(Calc) {
 
     });
 
-    App.vent.on('category', function(event) {
+    App.vent.on('category', function(event) { 
       var newCategorySlug = $(event.target).data('category');
       var oldCategory = Calc.model.get('currentCategory');
       var oldCategorySlug = oldCategory.get('slug');
@@ -351,6 +357,7 @@ module.exports = App.module('Calc', function(Calc) {
       if (currentView == undefined) {
         var viewObjects = newCategory.get('viewObjects');
         currentView = viewObjects[0]['view'];
+        newCategory.set({currentView: currentView});
       }
       Calc.model.set({currentCategory: newCategory});
       Calc.mainLayout.inputRegion.show(currentView);
@@ -358,16 +365,15 @@ module.exports = App.module('Calc', function(Calc) {
   };
 
   Calc.addInitializer(function(options){
-    console.log('Calc.addInitializer');
+    console.log(options.slug + 'Calc  initializing');
     Calc.initializeModels(options);
     Calc.intializeViews();
     Calc.initializeEventListeners();
   });
 
   Calc.on('start', function(options) {
-    console.log('Calc.on start');
-    console.log(options);
-    App.router.navigate('#/'+options.slug)
+    console.log(options.slug + 'Calc  started');
+    App.router.navigate('/'+options.slug, {trigger: false})
   });
 
   Calc.addFinalizer(function(){
@@ -809,10 +815,9 @@ var $ = require('jquery'),
 module.exports.default = Marionette.ItemView.extend({
 	template: defaultTemplate,
 	events: {
-		'click input[type=submit]': 'submitClicked'
 	},
-	submitClicked: function() {
-		console.log('submitClicked()');
+	getNextViewSlug: function() {
+		return 'add';
 	}
 });
 
@@ -820,6 +825,9 @@ module.exports.add = Marionette.ItemView.extend({
 	template: addTemplate,
 	events: {
 
+	},
+	getNextViewSlug: function() {
+		return 'list';
 	}
 });
 
@@ -827,6 +835,9 @@ module.exports.average = Marionette.ItemView.extend({
 	template: averageTemplate,
 	events: {
 
+	},
+	getNextViewSlug: function() {
+		return '';
 	}
 });
 
@@ -834,8 +845,12 @@ module.exports.list = Marionette.ItemView.extend({
 	template: listTemplate,
 	events: {
 
+	},
+	getNextViewSlug: function() {
+		return '';
 	}
 });
+
 }).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/views/ind-air-views.js","/views")
 },{"../templates/ind-air-add-template.hbs":8,"../templates/ind-air-average-template.hbs":9,"../templates/ind-air-default-template.hbs":10,"../templates/ind-air-list-template.hbs":11,"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":48,"backbone":43,"backbone.marionette":39,"buffer":45,"jquery":57}],31:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
@@ -848,10 +863,9 @@ var $ = require('jquery'),
 module.exports.default = Marionette.ItemView.extend({
 	template: defaultTemplate,
 	events: {
-		'click input[type=submit]': 'submitClicked'
 	},
-	submitClicked: function() {
-		console.log('submitClicked()');
+	getNextViewSlug: function() {
+		return 'add';
 	}
 });
 
@@ -859,6 +873,9 @@ module.exports.add = Marionette.ItemView.extend({
 	template: addTemplate,
 	events: {
 
+	},
+	getNextViewSlug: function() {
+		return '';
 	}
 });
 
@@ -868,15 +885,14 @@ module.exports.add = Marionette.ItemView.extend({
 var $ = require('jquery'),
   Backbone = require('backbone'),
   Marionette = require('backbone.marionette'),
-  template = require('../templates/ind-transport-default-template.hbs');
+  defaultTemplate = require('../templates/ind-transport-default-template.hbs');
 
 module.exports.default = Marionette.ItemView.extend({
-	template: template,
+	template: defaultTemplate,
 	events: {
-		'click input[type=submit]': 'submitClicked'
 	},
-	submitClicked: function() {
-		console.log('submitClicked()');
+	getNextViewSlug: function() {
+		return '';
 	}
 });
 
@@ -911,7 +927,7 @@ module.exports.car = Marionette.ItemView.extend({
 
 	},
 	getNextViewSlug: function() {
-		return 'ecar';
+		return 'list';
 	}
 });
 
@@ -921,7 +937,7 @@ module.exports.ecar = Marionette.ItemView.extend({
 
 	},
 	getNextViewSlug: function() {
-		return 'boat';
+		return 'list';
 	}
 });
 
@@ -929,6 +945,9 @@ module.exports.boat = Marionette.ItemView.extend({
 	template: boatTemplate,
 	events: {
 
+	},
+	getNextViewSlug: function() {
+		return 'list';
 	}
 });
 
@@ -936,6 +955,9 @@ module.exports.motorcycle = Marionette.ItemView.extend({
 	template: motorcycleTemplate,
 	events: {
 
+	},
+	getNextViewSlug: function() {
+		return 'list';
 	}
 });
 
@@ -943,6 +965,9 @@ module.exports.class = Marionette.ItemView.extend({
 	template: classTemplate,
 	events: {
 
+	},
+	getNextViewSlug: function() {
+		return 'list';
 	}
 });
 
@@ -950,6 +975,9 @@ module.exports.options = Marionette.ItemView.extend({
 	template: optionsTemplate,
 	events: {
 
+	},
+	getNextViewSlug: function() {
+		return 'list';
 	}
 });
 
@@ -957,6 +985,9 @@ module.exports.list = Marionette.ItemView.extend({
 	template: listTemplate,
 	events: {
 
+	},
+	getNextViewSlug: function() {
+		return '';
 	}
 });
 }).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/views/ind-vehicle-views.js","/views")
@@ -971,20 +1002,22 @@ var views = {
 views.individual = (function() {
   var views = {};
   views.vehicle = (function() {
-    var defaultView = require('../views/ind-vehicle-views').default;
-    var carView = require('../views/ind-vehicle-views').car;
-    var ecarView = require('../views/ind-vehicle-views').ecar;
-    var boatView = require('../views/ind-vehicle-views').boat;
-    var motorcycleView = require('../views/ind-vehicle-views').motorcycle;
-    var classView = require('../views/ind-vehicle-views').class;
-    var optionsView = require('../views/ind-vehicle-views').options;
+    var defaultView = require('../views/ind-vehicle-views').default,
+      carView = require('../views/ind-vehicle-views').car,
+      ecarView = require('../views/ind-vehicle-views').ecar,
+      boatView = require('../views/ind-vehicle-views').boat,
+      motorcycleView = require('../views/ind-vehicle-views').motorcycle,
+      classView = require('../views/ind-vehicle-views').class,
+      optionsView = require('../views/ind-vehicle-views').options,
+      listView = require('../views/ind-vehicle-views').list;
     return [
       {name: 'default',  view: new defaultView()},
       {name: 'car',  view: new carView()}, 
       {name: 'ecar',  view: new ecarView()}, 
       {name: 'boat',  view: new boatView()}, 
       {name: 'class',  view: new classView()}, 
-      {name: 'options',  view: new optionsView()}
+      {name: 'options',  view: new optionsView()},
+      {name: 'list',  view: new listView()}
     ];
   }());
   views.transport = (function() {
@@ -994,10 +1027,10 @@ views.individual = (function() {
     ];
   }());
   views.air = (function() {
-    var defaultView = require('../views/ind-air-views').default;
-    var addView = require('../views/ind-air-views').add;
-    var averageView = require('../views/ind-air-views').average;
-    var listView = require('../views/ind-air-views').list;
+    var defaultView = require('../views/ind-air-views').default,
+      addView = require('../views/ind-air-views').add,
+      averageView = require('../views/ind-air-views').average,
+      listView = require('../views/ind-air-views').list;
     return [
       {name: 'default',  view: new defaultView()}, 
       {name: 'add',  view: new addView()}, 
@@ -1006,8 +1039,8 @@ views.individual = (function() {
     ];
   }());
   views.home = (function() {
-    var defaultView = require('../views/ind-home-views').default;
-    var addView = require('../views/ind-home-views').add;
+    var defaultView = require('../views/ind-home-views').default,
+      addView = require('../views/ind-home-views').add;
     return [
       {name: 'default',  view: new defaultView()}, 
       {name: 'add',  view: new addView()}
@@ -1070,7 +1103,6 @@ module.exports = Marionette.ItemView.extend({
       })
   },
 	categoryClicked: function(event) {
-    console.log('categoryClicked');
 		event.preventDefault();
 		App.vent.trigger('category', event);
 	}

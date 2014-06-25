@@ -111,7 +111,13 @@ module.exports = App.module('Calc', function(Calc) {
     App.vent.on('next', function(event) {
       var currentCategory = Calc.model.get('currentCategory');
       var currentView = currentCategory.get('currentView');
+      console.log('currentView');
+      console.log(currentView);
       var nextViewSlug = currentView.getNextViewSlug();
+      if(nextViewSlug === '' || nextViewSlug === undefined || nextViewSlug === false) {
+        alert('no function written to go to next category');
+        return;
+      }
       var nextView = Calc.getViewBySlug(nextViewSlug);
       if(nextView === undefined){ 
         alert('next view doesnt exist');
@@ -135,7 +141,7 @@ module.exports = App.module('Calc', function(Calc) {
 
     });
 
-    App.vent.on('category', function(event) {
+    App.vent.on('category', function(event) { 
       var newCategorySlug = $(event.target).data('category');
       var oldCategory = Calc.model.get('currentCategory');
       var oldCategorySlug = oldCategory.get('slug');
@@ -145,6 +151,7 @@ module.exports = App.module('Calc', function(Calc) {
       if (currentView == undefined) {
         var viewObjects = newCategory.get('viewObjects');
         currentView = viewObjects[0]['view'];
+        newCategory.set({currentView: currentView});
       }
       Calc.model.set({currentCategory: newCategory});
       Calc.mainLayout.inputRegion.show(currentView);
@@ -152,16 +159,15 @@ module.exports = App.module('Calc', function(Calc) {
   };
 
   Calc.addInitializer(function(options){
-    console.log('Calc.addInitializer');
+    console.log(options.slug + 'Calc  initializing');
     Calc.initializeModels(options);
     Calc.intializeViews();
     Calc.initializeEventListeners();
   });
 
   Calc.on('start', function(options) {
-    console.log('Calc.on start');
-    console.log(options);
-    App.router.navigate('#/'+options.slug)
+    console.log(options.slug + 'Calc  started');
+    App.router.navigate('/'+options.slug, {trigger: false})
   });
 
   Calc.addFinalizer(function(){

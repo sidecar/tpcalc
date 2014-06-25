@@ -7,10 +7,9 @@ var $ = require('jquery'),
 module.exports.default = Marionette.ItemView.extend({
 	template: defaultTemplate,
 	events: {
-		'click input[type=submit]': 'submitClicked'
 	},
-	submitClicked: function() {
-		console.log('submitClicked()');
+	getNextViewSlug: function() {
+		return 'add';
 	}
 });
 
@@ -18,5 +17,8 @@ module.exports.add = Marionette.ItemView.extend({
 	template: addTemplate,
 	events: {
 
+	},
+	getNextViewSlug: function() {
+		return '';
 	}
 });

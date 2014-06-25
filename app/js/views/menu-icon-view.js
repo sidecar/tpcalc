@@ -21,7 +21,6 @@ module.exports = Marionette.ItemView.extend({
       })
   },
 	categoryClicked: function(event) {
-    console.log('categoryClicked');
 		event.preventDefault();
 		App.vent.trigger('category', event);
 	}
