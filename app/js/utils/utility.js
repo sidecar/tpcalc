@@ -1,5 +1,10 @@
 var $ = require('jquery');
 
+module.exports.log = function(name, val) {
+	console.log(name +'= ');
+	console.log(val);
+}
+
 module.exports.getJSON = function(reqUrl, callback) {
 	var reqObj = $.ajax({url: reqUrl, dataType: "json", async: false, failure: function(){
 	//try{console.log("ajax.failure")}catch(e){}

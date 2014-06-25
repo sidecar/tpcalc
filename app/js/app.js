@@ -19,7 +19,7 @@ App.mobile = isMobile();
 
 App.addInitializer(function(options) {
   console.log('App.addInitializer');
-  var calcModule = require('./modules/calculator');
+  var calcModule = require('./calculator');
   var ModuleManager = require('./utils/module-manager');
   var modManager = new ModuleManager();
   App.commands.setHandler('appModule:start', modManager.startAppModule, modManager);
@@ -45,10 +45,6 @@ App.on('start', function(options) {
 })
 
 module.exports = App;
-
-
-
-
 
 // App.addInitializer(function(options){
 //   var MenuItemModel = Backbone.Model.extend({});
