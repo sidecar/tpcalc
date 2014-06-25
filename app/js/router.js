@@ -8,7 +8,8 @@ var _ = require('underscore'),
 module.exports.router = Marionette.AppRouter.extend({
   appRoutes: {
     ':categories/:calculator': 'showCalculator',
-    '*other': 'defaultRoute'    
+    //TODO add the possiblity of starting category specific calculators
+    '': 'defaultRoute'    
   }
 });
 
