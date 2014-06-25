@@ -212,14 +212,15 @@ module.exports = App.module('Calc', function(Calc) {
     calcModel.set({currentCategory: currentCategory}); 
     // get the first view from this categories input views and set it as the current input view for the category model
     var currentInputViews = currentCategory.get('viewObjects');
-    var currentInputView = currentInputViews[0];
-    currentCategory.set({currentView: currentInputView});
-    Calc.mainLayout.inputRegion.show(currentInputView.view);
+    var currentInputViewObj = currentInputViews[0];
+    currentCategory.set({currentViewObj: currentInputViewObj});
+    Calc.mainLayout.inputRegion.show(currentInputViewObj.view);
   };
 
   Calc.initializeEventListeners = function() {
     App.vent.on('next', function(event) {
       var currentCategory = Calc.model.get('currentCategory');
+      var currentCategorySlug = currentCategory.get('slug');
       var currentViewObj = currentCategory.get('currentViewObj');
       var currentView = currentViewObj.view;
       var nextViewSlug = currentView.getNextViewSlug();
@@ -236,10 +237,12 @@ module.exports = App.module('Calc', function(Calc) {
       nextView.previousViewObj = currentViewObj;
       currentCategory.set({currentViewObj: nextViewObj});
       Calc.mainLayout.inputRegion.show(nextViewObj.view);
+      App.router.navigate(Calc.baseRoute+'/'+currentCategorySlug+'/'+nextViewObj.name, {trigger: false});
     });
     
     App.vent.on('prev', function(event) {
       var currentCategory = Calc.model.get('currentCategory');
+      var currentCategorySlug = currentCategory.get('slug');
       var currentViewObj = currentCategory.get('currentViewObj');
       var currentView = currentViewObj.view;
       var previousViewObj = currentView.previousViewObj;
@@ -249,6 +252,7 @@ module.exports = App.module('Calc', function(Calc) {
       }
       currentCategory.set({currentViewObj: previousViewObj});
       Calc.mainLayout.inputRegion.show(previousViewObj.view);
+      App.router.navigate(Calc.baseRoute+'/'+currentCategorySlug+'/'+previousViewObj.name, {trigger: false});
     });
 
     App.vent.on('category', function(event) { 
@@ -265,7 +269,7 @@ module.exports = App.module('Calc', function(Calc) {
       }
       Calc.model.set({currentCategory: newCategory});
       Calc.mainLayout.inputRegion.show(currentViewObj.view);
-      App.router.navigate(Calc.baseRoute+'/'+newCategorySlug+'/foo', {trigger: false});
+      App.router.navigate(Calc.baseRoute+'/'+newCategorySlug+'/'+currentViewObj.name, {trigger: false});
     });
   };
 
@@ -382,7 +386,7 @@ module.exports = {
 var App = require('./app');
 // This entire file is here because for some fucking hard to understand reason you cannot start app.js and then export it to be referenced as a module at the end of app.js. It doesn't work you have to start it somewhere else. No clue why this is.
 App.start(); 
-}).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_a457176a.js","/")
+}).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_a24d0847.js","/")
 },{"./app":1,"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":49,"buffer":46}],5:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 'use strict';
