@@ -5,6 +5,9 @@ var client = new Client();
 var opn = require('opn');
 var xml2json = require("node-xml2json");
 
+var server_port = parseInt(process.env.OPENSHIFT_INTERNAL_PORT) || parseInt(process.env.OPENSHIFT_NODEJS_PORT)|| 3000;
+var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
+
 var getData = function(url, res) {
 	client.get(url, function(parsedResponseData, rawResponseData){
 		console.log('parsedResponseData');
@@ -13,7 +16,7 @@ var getData = function(url, res) {
 	});
 }
 
-app.use(express.static(__dirname + '/dev'));
+app.use(express.static(__dirname + '/dist'));
 
 // fueleconomy.gov proxy api
 // to understand the xml being returned go here: http://www.fueleconomy.gov/feg/ws/wsData.shtml
@@ -48,8 +51,9 @@ app.get('/airport/:key', function(req, res) {
 	});	
 });
 
-app.listen(3000);
-console.log('Listening on port 3000...');
+app.listen(server_port, server_ip_address, function () {
+  console.log( "Listening on " + server_ip_address + ", server_port " + server_port )
+});
 
 // app.get('/vehicle/options/:year/:make/:model', function(req, res) {
 // 	getData('http://www.terrapass.com//wp-content/themes/terrapass/js/year_make.js', res);

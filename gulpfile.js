@@ -41,8 +41,8 @@ config.dev.styles = config.dev.baseDir +'css/'
 config.dev.js = config.dev.baseDir + 'js/'
 config.dev.images = config.dev.baseDir + 'images/'
 
-// config.build.baseDir = 'build/'
-config.build.baseDir = './'
+// config.build.baseDir = './'
+config.build.baseDir = 'dist/'
 config.build.styles = config.build.baseDir +'css/'
 config.build.js = config.build.baseDir + 'js/'
 config.build.images = config.build.baseDir + 'images/'
@@ -121,8 +121,8 @@ gulp.task('clean-dev', function() {
 });
 
 gulp.task('clean-build', function() {
-  return gulp.src(['index.html', 'css', 'js', 'php']).pipe(clean());
-  //return gulp.src(config.build.baseDir).pipe(clean());
+  //return gulp.src(['index.html', 'css', 'js', 'php']).pipe(clean());
+  return gulp.src(config.build.baseDir).pipe(clean());
 });
 
 // Bundle javascript

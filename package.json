@@ -50,5 +50,9 @@
     "geodist": "~0.2.1",
     "bootstrap-sass": "~3.1.1",
     "path-browserify": "0.0.0"
-  }
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "main": "server.js"
 }
