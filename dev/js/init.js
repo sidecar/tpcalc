@@ -139,13 +139,10 @@ module.exports = App.module('Calc', function(Calc) {
   var Controller = Marionette.Controller.extend({
     // showInputView: function(catCodes, calculator, category, inputView) {
     showInputView: function(calculator, category, inputView) {
-
       var category = Calc.getCategoryBySlug(category);
       Calc.model.set({currentCategory: category});
-
       var inputViewObj = Calc.getViewObjBySlug(inputView);
       category.set({currentInputViewObj: inputViewObj});
-      
       Calc.mainLayout.inputRegion.show(inputViewObj.view); 
     },
     // When the module stops, we need to clean up our views
@@ -178,40 +175,39 @@ module.exports = App.module('Calc', function(Calc) {
     return viewObj;
   };
 
-  Calc.initializeModels = function(options) {
+  Calc.initModels = function(options) {
     // set up the calculator model that contains category models
     var CalcModel = Backbone.Model.extend({
       initialize: function(){}
     });
     var calcModel = Calc.model = new CalcModel({displayName: options.displayName, slug: options.slug});
-    Calc.categoryModels = [];
-
+    var categoryModels = [];
     // Set up models for each category
     var Category = Backbone.Model.extend({
-      initialize: function(){}
+      initialize: function(){},
+      getCurrentInputView: function() {
+        var inputView = this.get('currentInputViewObj');
+        if (inputView === undefined) {
+          var viewObjects = this.get('viewObjects');
+          return viewObjects[0];
+        } else {
+          return inputView;
+        }
+      }
     });
-
     _.each(options.categories, function(category) {
       var catModel = new Category(category);
-      Calc.categoryModels.push(catModel);
+      categoryModels.push(catModel);
     });
-    calcModel.set({categoryModels: Calc.categoryModels});
+    calcModel.set({categoryModels: categoryModels});
   };
 
-  Calc.intializeViews = function() {
-    Calc.mainLayout = new MainLayout();
+  Calc.initNav = function() {
     var calcModel = Calc.model;
     var categoryModels = calcModel.get('categoryModels');
-    var mainLayout = Calc.mainLayout;
-    var menuLayout = new MenuLayout();
-     // Set up the first page with the correct calculator category and that categories default view
-    App.body.show(Calc.mainLayout);
-    mainLayout.headerRegion.show(new HeaderView({model: calcModel}));
-    mainLayout.footerRegion.show(new FooterView({model: calcModel}));
-    //pretty sure you have to render the layout before showing it
-    menuLayout.render();
+    var menuLayout = Calc.menuLayout = new MenuLayout();
     // have to call show on the menuLayout before it can do anything else
-    mainLayout.menuRegion.show(menuLayout);
+    Calc.mainLayout.menuRegion.show(menuLayout);
     //add views to each catgory model
     _.each(categoryModels, function(categoryModel) {
       var calculatorSlug = calcModel.get('slug');
@@ -222,23 +218,26 @@ module.exports = App.module('Calc', function(Calc) {
       menuLayout[categorySlug].show(new MenuIconView({model: categoryModel, categorySlug: categorySlug, displayName: displayName}));
       categoryModel.set({viewObjects: inputViewLoader[calculatorSlug][categorySlug]});
     });
+  };
+
+  Calc.initLayout = function() {
+    var calcModel = Calc.model;
+    var categoryModels = calcModel.get('categoryModels');
+    var mainLayout = Calc.mainLayout = new MainLayout();
+     // Set up the first page with the correct calculator category and that categories default view
+    App.body.show(mainLayout);
+    mainLayout.headerRegion.show(new HeaderView({model: calcModel}));
+    mainLayout.footerRegion.show(new FooterView({model: calcModel}));
+    Calc.initNav();
     //get first category set it on the calc model
     var currentCategory = categoryModels[0];
+    var currentCategorySlug = currentCategory.get('slug');
     calcModel.set({currentCategory: currentCategory}); 
-    calcModel.set({currentCategoryNum: 0}); 
-    // get the first view from this category's input views and set it as the current input view for the category model
-    var currentInputViews = currentCategory.get('viewObjects');
-    var currentInputViewObj = currentInputViews[0];
-    currentCategory.set({currentInputViewObj: currentInputViewObj});
-    Calc.mainLayout.inputRegion.show(currentInputViewObj.view);
+    var inputViewToShow = currentCategory.getCurrentInputView();
+    mainLayout.inputRegion.show(inputViewToShow.view);
   };
 
   Calc.goToNextCategory = function() {
-
-    // var categoryNum = Calc.model.get('currentCategoryNum');
-    // var newCategoryNum = categoryNum += 1;
-    // Calc.model.set({currentCategoryNum: newCategoryNum});
-
     var categoryModels = Calc.model.get('categoryModels');
     var currentCategoryNum = _.indexOf(categoryModels, Calc.model.get('currentCategory'));
     var newCategoryNum = currentCategoryNum + 1;
@@ -249,23 +248,26 @@ module.exports = App.module('Calc', function(Calc) {
     }
     Calc.model.set({currentCategory: newCategory});
     var newCategorySlug = newCategory.get('slug');
-
-    var inputViewToShow = Calc.getCurrentInputView(newCategory);
-
+    var inputViewToShow = newCategory.getCurrentInputView();
     App.router.navigate(Calc.baseRoute+'/'+newCategorySlug+'/'+inputViewToShow.name, {trigger: true});
   };
 
-  Calc.getCurrentInputView = function(categoryModel) {
-    var inputView = categoryModel.get('currentInputViewObj');
-    if (inputView === undefined) {
-      var viewObjects = categoryModel.get('viewObjects');
-      return viewObjects[0];
-    } else {
-      return inputView;
+  Calc.goToPrevCategory = function() {
+    var categoryModels = Calc.model.get('categoryModels');
+    var currentCategoryNum = _.indexOf(categoryModels, Calc.model.get('currentCategory'));
+    var prevCategoryNum = currentCategoryNum - 1;
+    var prevCategory = categoryModels[prevCategoryNum];
+    if(prevCategory === undefined) {
+      alert('this is the first category');
+      return;
     }
+    Calc.model.set({currentCategory: prevCategory});
+    var prevCategorySlug = prevCategory.get('slug');
+    var inputViewToShow = prevCategory.getCurrentInputView();
+    App.router.navigate(Calc.baseRoute+'/'+prevCategorySlug+'/'+inputViewToShow.name, {trigger: true});
   };
 
-  Calc.initializeEventListeners = function() {
+  Calc.initEventListeners = function() {
     App.vent.on('next', function(event) {
       var currentCategory = Calc.model.get('currentCategory');
       var currentCategorySlug = currentCategory.get('slug');
@@ -295,7 +297,7 @@ module.exports = App.module('Calc', function(Calc) {
       var currentView = currentViewObj.view;
       var previousViewObj = currentView.previousViewObj;
       if(previousViewObj === undefined){ 
-        alert('prev view doesnt exist');
+        Calc.goToPrevCategory();
         return;
       }
       currentCategory.set({currentInputViewObj: previousViewObj});
@@ -308,7 +310,7 @@ module.exports = App.module('Calc', function(Calc) {
       var oldCategorySlug = oldCategory.get('slug');
       if(newCategorySlug === oldCategorySlug) return; 
       var newCategory = Calc.getCategoryBySlug(newCategorySlug);
-      var currentViewObj = Calc.getCurrentInputView(newCategory);
+      var currentViewObj = newCategory.getCurrentInputView();
       Calc.model.set({currentCategory: newCategory});
       App.router.navigate(Calc.baseRoute+'/'+newCategorySlug+'/'+currentViewObj.name, {trigger: true});
     });
@@ -318,9 +320,9 @@ module.exports = App.module('Calc', function(Calc) {
     console.log(options.slug + 'Calc  initializing');
     Calc.baseRoute = '#/'+options.categoryCodes+'/'+options.slug;
     Calc.baseRoute = '#/'+options.slug;
-    Calc.initializeModels(options);
-    Calc.intializeViews();
-    Calc.initializeEventListeners();
+    Calc.initModels(options);
+    Calc.initLayout();
+    Calc.initEventListeners();
   });
 
   Calc.on('start', function(options) {
@@ -426,7 +428,7 @@ module.exports = {
 var App = require('./app');
 // This entire file is here because for some fucking hard to understand reason you cannot start app.js and then export it to be referenced as a module at the end of app.js. It doesn't work you have to start it somewhere else. No clue why this is.
 App.start(); 
-}).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_5002dad2.js","/")
+}).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_a794b41d.js","/")
 },{"./app":1,"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":49,"buffer":46}],5:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 'use strict';
