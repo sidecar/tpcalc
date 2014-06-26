@@ -138,8 +138,8 @@ module.exports = App.module('Calc', function(Calc) {
 
   var Controller = Marionette.Controller.extend({
     // showInputView: function(catCodes, calculator, category, inputView) {
-    showInputView: function(calculator, category, inputView) {
-      var category = Calc.getCategoryBySlug(category);
+    showInputView: function(calculator, categorySlug, inputView) {
+      var category = Calc.getCategoryBySlug(categorySlug);
       Calc.model.set({currentCategory: category});
       var inputViewObj = Calc.getViewObjBySlug(inputView);
       category.set({currentInputViewObj: inputViewObj});
@@ -175,12 +175,39 @@ module.exports = App.module('Calc', function(Calc) {
     return viewObj;
   };
 
+  Calc.goToNextCategory = function() {
+    var categoryModels = Calc.model.get('categoryModels');
+    var currentCategoryNum = _.indexOf(categoryModels, Calc.model.get('currentCategory'));
+    var newCategoryNum = currentCategoryNum + 1;
+    var newCategory = categoryModels[newCategoryNum];
+    if(newCategory === undefined) {
+      alert('this is the final category');
+      return;
+    }
+    Calc.model.set({currentCategory: newCategory});
+    var newCategorySlug = newCategory.get('slug');
+    var inputViewToShow = newCategory.getCurrentInputView();
+    App.router.navigate(Calc.baseRoute+'/'+newCategorySlug+'/'+inputViewToShow.name, {trigger: true});
+  };
+
+  Calc.goToPrevCategory = function() {
+    var categoryModels = Calc.model.get('categoryModels');
+    var currentCategoryNum = _.indexOf(categoryModels, Calc.model.get('currentCategory'));
+    var prevCategoryNum = currentCategoryNum - 1;
+    var prevCategory = categoryModels[prevCategoryNum];
+    if(prevCategory === undefined) {
+      alert('this is the first category');
+      return;
+    }
+    Calc.model.set({currentCategory: prevCategory});
+    var prevCategorySlug = prevCategory.get('slug');
+    var inputViewToShow = prevCategory.getCurrentInputView();
+    App.router.navigate(Calc.baseRoute+'/'+prevCategorySlug+'/'+inputViewToShow.name, {trigger: true});
+  };
+
   Calc.initModels = function(options) {
     // set up the calculator model that contains category models
-    var CalcModel = Backbone.Model.extend({
-      initialize: function(){}
-    });
-    var calcModel = Calc.model = new CalcModel({displayName: options.displayName, slug: options.slug});
+    var calcModel = Calc.model = new Backbone.Model({displayName: options.displayName, slug: options.slug});
     var categoryModels = [];
     // Set up models for each category
     var Category = Backbone.Model.extend({
@@ -235,36 +262,6 @@ module.exports = App.module('Calc', function(Calc) {
     calcModel.set({currentCategory: currentCategory}); 
     var inputViewToShow = currentCategory.getCurrentInputView();
     mainLayout.inputRegion.show(inputViewToShow.view);
-  };
-
-  Calc.goToNextCategory = function() {
-    var categoryModels = Calc.model.get('categoryModels');
-    var currentCategoryNum = _.indexOf(categoryModels, Calc.model.get('currentCategory'));
-    var newCategoryNum = currentCategoryNum + 1;
-    var newCategory = categoryModels[newCategoryNum];
-    if(newCategory === undefined) {
-      alert('this is the final category');
-      return;
-    }
-    Calc.model.set({currentCategory: newCategory});
-    var newCategorySlug = newCategory.get('slug');
-    var inputViewToShow = newCategory.getCurrentInputView();
-    App.router.navigate(Calc.baseRoute+'/'+newCategorySlug+'/'+inputViewToShow.name, {trigger: true});
-  };
-
-  Calc.goToPrevCategory = function() {
-    var categoryModels = Calc.model.get('categoryModels');
-    var currentCategoryNum = _.indexOf(categoryModels, Calc.model.get('currentCategory'));
-    var prevCategoryNum = currentCategoryNum - 1;
-    var prevCategory = categoryModels[prevCategoryNum];
-    if(prevCategory === undefined) {
-      alert('this is the first category');
-      return;
-    }
-    Calc.model.set({currentCategory: prevCategory});
-    var prevCategorySlug = prevCategory.get('slug');
-    var inputViewToShow = prevCategory.getCurrentInputView();
-    App.router.navigate(Calc.baseRoute+'/'+prevCategorySlug+'/'+inputViewToShow.name, {trigger: true});
   };
 
   Calc.initEventListeners = function() {
@@ -428,7 +425,7 @@ module.exports = {
 var App = require('./app');
 // This entire file is here because for some fucking hard to understand reason you cannot start app.js and then export it to be referenced as a module at the end of app.js. It doesn't work you have to start it somewhere else. No clue why this is.
 App.start(); 
-}).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_a794b41d.js","/")
+}).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_73f40841.js","/")
 },{"./app":1,"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":49,"buffer":46}],5:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 'use strict';
