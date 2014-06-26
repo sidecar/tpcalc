@@ -226,7 +226,7 @@ module.exports = App.module('Calc', function(Calc) {
     var currentCategory = categoryModels[0];
     calcModel.set({currentCategory: currentCategory}); 
     calcModel.set({currentCategoryNum: 0}); 
-    // get the first view from this categories input views and set it as the current input view for the category model
+    // get the first view from this category's input views and set it as the current input view for the category model
     var currentInputViews = currentCategory.get('viewObjects');
     var currentInputViewObj = currentInputViews[0];
     currentCategory.set({currentInputViewObj: currentInputViewObj});
@@ -235,13 +235,14 @@ module.exports = App.module('Calc', function(Calc) {
 
   Calc.goToNextCategory = function() {
 
-    var categoryNum = Calc.model.get('currentCategoryNum');
-    var newCategoryNum = categoryNum += 1;
-    Calc.model.set({currentCategoryNum: newCategoryNum});
+    // var categoryNum = Calc.model.get('currentCategoryNum');
+    // var newCategoryNum = categoryNum += 1;
+    // Calc.model.set({currentCategoryNum: newCategoryNum});
 
     var categoryModels = Calc.model.get('categoryModels');
+    var currentCategoryNum = _.indexOf(categoryModels, Calc.model.get('currentCategory'));
+    var newCategoryNum = currentCategoryNum + 1;
     var newCategory = categoryModels[newCategoryNum];
-    utils.log('newCategory', newCategory);  
     if(newCategory === undefined) {
       alert('this is the final category');
       return;
@@ -255,7 +256,7 @@ module.exports = App.module('Calc', function(Calc) {
   };
 
   Calc.getCurrentInputView = function(categoryModel) {
-    var inputView = categoryModel.get('currentInputView');
+    var inputView = categoryModel.get('currentInputViewObj');
     if (inputView === undefined) {
       var viewObjects = categoryModel.get('viewObjects');
       return viewObjects[0];
@@ -280,6 +281,7 @@ module.exports = App.module('Calc', function(Calc) {
         alert('next view doesnt exist');
         return;
       }
+
       var nextView = nextViewObj.view;
       nextView.previousViewObj = currentViewObj;
       currentCategory.set({currentInputViewObj: nextViewObj});
@@ -306,12 +308,7 @@ module.exports = App.module('Calc', function(Calc) {
       var oldCategorySlug = oldCategory.get('slug');
       if(newCategorySlug === oldCategorySlug) return; 
       var newCategory = Calc.getCategoryBySlug(newCategorySlug);
-      var currentViewObj = newCategory.get('currentInputViewObj');
-      if (currentViewObj == undefined) {
-        var viewObjects = newCategory.get('viewObjects');
-        currentViewObj = viewObjects[0];
-        newCategory.set({currentInputViewObj: currentViewObj});
-      }
+      var currentViewObj = Calc.getCurrentInputView(newCategory);
       Calc.model.set({currentCategory: newCategory});
       App.router.navigate(Calc.baseRoute+'/'+newCategorySlug+'/'+currentViewObj.name, {trigger: true});
     });
@@ -429,7 +426,7 @@ module.exports = {
 var App = require('./app');
 // This entire file is here because for some fucking hard to understand reason you cannot start app.js and then export it to be referenced as a module at the end of app.js. It doesn't work you have to start it somewhere else. No clue why this is.
 App.start(); 
-}).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_209fc2d3.js","/")
+}).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_5002dad2.js","/")
 },{"./app":1,"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":49,"buffer":46}],5:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 'use strict';
