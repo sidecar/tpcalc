@@ -141,9 +141,11 @@ module.exports = App.module('Calc', function(Calc) {
     showInputView: function(calculator, category, inputView) {
       console.log('showInputView');
       var category = Calc.getCategoryBySlug(category);
-      var inputViewObj = Calc.getViewObjBySlug(inputView);
-      Calc.model.set({currentCategory: category});
+      Calc.model.set({currentCategory: category});utils.log('category', category);
+
+      var inputViewObj = Calc.getViewObjBySlug(inputView);utils.log('inputViewObj', inputViewObj);
       category.set({currentInputViewObj: inputViewObj});
+      
       Calc.mainLayout.inputRegion.show(inputViewObj.view); 
     },
     // When the module stops, we need to clean up our views
@@ -285,7 +287,7 @@ module.exports = App.module('Calc', function(Calc) {
 
   Calc.addInitializer(function(options){
     console.log(options.slug + 'Calc  initializing');
-    // Calc.baseRoute = '#/'+options.categoryCodes+'/'+options.slug;
+    Calc.baseRoute = '#/'+options.categoryCodes+'/'+options.slug;
     Calc.baseRoute = '#/'+options.slug;
     Calc.initializeModels(options);
     Calc.intializeViews();
@@ -395,7 +397,7 @@ module.exports = {
 var App = require('./app');
 // This entire file is here because for some fucking hard to understand reason you cannot start app.js and then export it to be referenced as a module at the end of app.js. It doesn't work you have to start it somewhere else. No clue why this is.
 App.start(); 
-}).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_118bc83c.js","/")
+}).call(this,require("/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_b3905079.js","/")
 },{"./app":1,"/Users/brandon/dev/sidecar/openshift/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":49,"buffer":46}],5:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 'use strict';
@@ -790,7 +792,7 @@ module.exports = Marionette.Controller.extend({
 var $ = require('jquery');
 
 module.exports.log = function(name, val) {
-	console.log(name +'= ');
+	console.log(name +' = ');
 	console.log(val);
 }
 

@@ -1,7 +1,7 @@
 var $ = require('jquery');
 
 module.exports.log = function(name, val) {
-	console.log(name +'= ');
+	console.log(name +' = ');
 	console.log(val);
 }
 
