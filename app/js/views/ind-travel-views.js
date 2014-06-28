@@ -1,10 +1,11 @@
-var $ = require('jquery'),
-  Backbone = require('backbone'),
-  Marionette = require('backbone.marionette'),
-  defaultTemplate = require('../templates/ind-air-default-template.hbs'),
-  addTemplate = require('../templates/ind-air-add-template.hbs'),
-  averageTemplate = require('../templates/ind-air-average-template.hbs'),
-  listTemplate = require('../templates/ind-air-list-template.hbs');
+var $ = require('jquery')
+, Backbone = require('backbone')
+, Marionette = require('backbone.marionette');
+
+var defaultTemplate = require('../templates/ind-travel-default-template.hbs')
+, addTemplate = require('../templates/ind-travel-add-template.hbs')
+, averageTemplate = require('../templates/ind-travel-average-template.hbs')
+, listTemplate = require('../templates/ind-travel-list-template.hbs');
 
 module.exports.default = Marionette.ItemView.extend({
 	template: defaultTemplate,

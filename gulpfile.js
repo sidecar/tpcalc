@@ -179,14 +179,13 @@ gulp.task('xampp', shell.task([
 ]));
 
 gulp.task('start-node-server', shell.task([
-  'nodemon server.js',
-  'open http://localhost:3000' //This doesn't work :-/
+  "CONTEXT='local' nodemon server.js"
 ]));
 
 //Can't get this to work with the ser
-// gulp.task('open-browser', function() {
-//   opn('http://localhost:3000');
-// });
+gulp.task('open-browser', function() {
+  opn('http://localhost:8080');
+});
 
 gulp.task('watch-for-changes', function() {
     // this does not work for me without the client side script but I don't see that documented Arghhh :-/
@@ -218,7 +217,7 @@ gulp.task('watch-for-changes', function() {
 gulp.task('server', function() {
     //run these subtasks in sequence
     //runSequence('clean-dev', ['sass', 'browserify','copy-html-to-dev', 'copy-php-to-dev'], 'connect','watch-for-changes');
-    runSequence('clean-dev', ['sass', 'browserify','copy-html-to-dev', 'copy-php-to-dev', 'copy-images-to-dev'], 'watch-for-changes', 'start-node-server');
+    runSequence('clean-dev', ['sass', 'browserify','copy-html-to-dev', 'copy-php-to-dev', 'copy-images-to-dev'], 'watch-for-changes', 'start-node-server', 'open-browser');
 });
 
 //Copy necessary files to build dir

@@ -16,7 +16,8 @@ var getData = function(url, res) {
 	});
 }
 
-app.use(express.static(__dirname + '/dist'));
+var root = (process.env.CONTEXT === 'local'? '/dev' : '/dist');
+app.use(express.static(__dirname + root));
 
 // fueleconomy.gov proxy api
 // to understand the xml being returned go here: http://www.fueleconomy.gov/feg/ws/wsData.shtml

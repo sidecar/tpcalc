@@ -1,20 +1,23 @@
 "use strict";
-var _ = require('underscore'), 
-  $ = require('jquery'),
-  Backbone = require('backbone'),
-  Marionette = require('backbone.marionette'),
-  App = require('./app'),
-  MainLayout = require('./views/main-layout'),
-  HeaderView = require('./views/header-view'),
-  FooterView = require('./views/footer-view'),
-  MenuLayout = require('./views/menu-layout'),
-  MenuIconView = require('./views/menu-icon-view'),
-  inputViewLoader = require('./views/ind-calc-input-view-loader'),
-  utils = require('./utils/utility');
+var _ = require('underscore') 
+  ,$ = require('jquery')
+  , Backbone = require('backbone')
+  , Marionette = require('backbone.marionette')
+  , App = require('./app')
+  , MainLayout = require('./views/main-layout')
+  , HeaderView = require('./views/header-view')
+  , FooterView = require('./views/footer-view')
+  , MenuLayout = require('./views/menu-layout')
+  , MenuIconView = require('./views/menu-icon-view')
+  , utils = require('./utils/utility');
+
+  var inputViewLoader = {};
+  inputViewLoader.individual = require('./views/ind-calc-input-view-loader');
+  inputViewLoader.business = require('./views/biz-calc-input-view-loader');
+  inputViewLoader.events = require('./views/evt-calc-input-view-loader');
 
 console.log('inputViewLoader');
 console.log(inputViewLoader);
-
 
 module.exports = App.module('Calc', function(Calc) {
   // Calculator must be manually started

@@ -1,6 +1,6 @@
-var App = require('../app'),
-  Marionette = require('backbone.marionette'),
-	template = require('../templates/footer-template.hbs');
+var App = require('../app')
+, Marionette = require('backbone.marionette')
+, template = require('../templates/footer-template.hbs');
 
 module.exports = Marionette.ItemView.extend({
 	template: template,

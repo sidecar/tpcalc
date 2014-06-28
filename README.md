@@ -1,5 +1,35 @@
 # _TerraPass Carbon Emissions Calculator_
 
+
+
+## Steps to getting an app running on OpenShift with a custom Node.js version
+Based on https://github.com/ramr/nodejs-custom-version-openshift
+
+Create a github repo. In this case git://github.com/sidecar/tpcalc.git.git
+Create an account at http://openshift.redhat.com/
+Create a namespace, if you haven't already do so for example 'sidecar'
+	rhc domain create <yournamespace>
+Create a nodejs application (you can name it anything via -a) and choose node versino with -t
+	rhc app create -a <yourappname>  -t nodejs-0.10
+Open shift will create a local repo called '<yourappname>' 
+Merge the github repo as the upsteam of the existing local repo
+
+	cd tpcalc
+	git remote add upstream -m master git://github.com/sidecar/tpcalc.git.git
+	git pull -s recursive -X theirs upstream master
+
+Optionally, specify the custom version of Node.js you want to run with (Default is v0.10.25). If you want to more later version of Node (example v0.11.11), you can change to that by just writing it to the end of the NODEJS_VERSION file and committing that change.
+
+echo 0.11.11 >> .openshift/markers/NODEJS_VERSION
+git commit . -m 'use Node version 0.11.11'
+
+Then push the repo to OpenShift
+	git push
+
+This application will then run at http://<yourappname>-<yournamespace>.rhcloud.com
+( See env @ http://<yourappname>-<yourappname>.rhcloud.com/env )
+
+
 ## Build concerns 
 I based the build concerns for this project on http://davidtucker.net/articles/automating-with-grunt/
 note: This list can and should be edited/ammeded and is not 100% fufilled

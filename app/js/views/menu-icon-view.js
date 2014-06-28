@@ -1,7 +1,7 @@
-var $ = require('jquery'),
-	Marionette = require('backbone.marionette'),
-	App = require('../app'),
-	template = require('../templates/menu-icon-template.hbs');
+var $ = require('jquery')
+, Marionette = require('backbone.marionette')
+, App = require('../app')
+, template = require('../templates/menu-icon-template.hbs');
 
 module.exports = Marionette.ItemView.extend({
 	template: template,

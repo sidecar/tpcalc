@@ -1,10 +1,10 @@
 'use strict';
 // For some reason have to make jquery available
-var $ = require('jquery'),
+var $ = require('jquery')
   //why DON'T I need this ?!?
   //_ = require('underscore'),
-  Backbone = require('backbone'),
-  Marionette = require('backbone.marionette');
+, Backbone = require('backbone')
+, Marionette = require('backbone.marionette');
 // Have to assign the $ symbol in Marionette and Backbone to jquery
 Marionette.$ = Backbone.$ = $;
 

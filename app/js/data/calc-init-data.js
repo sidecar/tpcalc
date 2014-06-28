@@ -11,12 +11,12 @@ module.exports = {
       },
       {
         displayName: 'Public Transortation',
-        slug: 'transport',
+        slug: 'transit',
         icon: ''
       },
       {
         displayName: 'Air Travel',
-        slug: 'air',
+        slug: 'travel',
         icon: ''
       },
       {
@@ -42,7 +42,7 @@ module.exports = {
       },
       {
         displayName: 'Air Travel',
-        slug: 'air',
+        slug: 'travel',
         icon: ''
       },
       {
@@ -54,6 +54,11 @@ module.exports = {
         displayName: 'Shipping',
         slug: 'shipping',
         icon: ''
+      },
+      {
+        displayName: 'Server',
+        slug: 'server',
+        icon: ''
       }
     ]
   },
@@ -62,18 +67,23 @@ module.exports = {
     slug: 'events',
     categories: [
       {
-        displayName: 'Site',
-        slug: 'site',
+        displayName: 'Travel',
+        slug: 'travel',
         icon: ''
       },
       {
-        displayName: 'Driving',
-        slug: 'driving',
+        displayName: 'Venue',
+        slug: 'venue',
         icon: ''
       },
       {
-        displayName: 'Flights',
-        slug: 'flights',
+        displayName: 'Water',
+        slug: 'water',
+        icon: ''
+      },
+      {
+        displayName: 'Meals',
+        slug: 'meals',
         icon: ''
       }
     ]

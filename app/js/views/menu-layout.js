@@ -1,6 +1,6 @@
-var Marionette = require('backbone.marionette'),
-	App = require('../app'),
-	template = require('../templates/menu-template.hbs');
+var Marionette = require('backbone.marionette')
+, App = require('../app')
+, template = require('../templates/menu-template.hbs');
 
 module.exports = Marionette.Layout.extend({
 	template: template//,

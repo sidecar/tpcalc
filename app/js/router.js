@@ -1,9 +1,9 @@
 'use strict';
-var _ = require('underscore'),
-  Backbone = require('backbone'),
-  Marionette = require('backbone.marionette'),
-  App = require('./app'),
-  WelcomeView = require('./views/welcome-view');
+var _ = require('underscore')
+, Backbone = require('backbone')
+, Marionette = require('backbone.marionette')
+, App = require('./app')
+, WelcomeView = require('./views/welcome-view');
 
 module.exports.router = Marionette.AppRouter.extend({
   appRoutes: {

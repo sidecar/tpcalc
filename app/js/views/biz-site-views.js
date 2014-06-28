@@ -2,20 +2,20 @@ var $ = require('jquery')
 , Backbone = require('backbone')
 , Marionette = require('backbone.marionette');
 
-var defaultTemplate = require('../templates/ind-home-default-template.hbs')
-, addTemplate = require('../templates/ind-home-add-template.hbs');
+var defaultTemplate = require('../templates/biz-site-default-template.hbs')
+, energyTemplate = require('../templates/biz-site-energy-template.hbs');
 
 module.exports.default = Marionette.ItemView.extend({
 	template: defaultTemplate,
 	events: {
 	},
 	getNextViewSlug: function() {
-		return 'add';
+		return 'energy';
 	}
 });
 
-module.exports.add = Marionette.ItemView.extend({
-	template: addTemplate,
+module.exports.energy = Marionette.ItemView.extend({
+	template: energyTemplate,
 	events: {
 
 	},
@@ -23,3 +23,4 @@ module.exports.add = Marionette.ItemView.extend({
 		return '';
 	}
 });
+
