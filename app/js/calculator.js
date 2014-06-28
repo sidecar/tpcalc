@@ -16,9 +16,6 @@ var _ = require('underscore')
   inputViewLoader.business = require('./views/biz-calc-input-view-loader');
   inputViewLoader.events = require('./views/evt-calc-input-view-loader');
 
-console.log('inputViewLoader');
-console.log(inputViewLoader);
-
 module.exports = App.module('Calc', function(Calc) {
   // Calculator must be manually started
   Calc.startWithParent = false;
@@ -137,7 +134,7 @@ module.exports = App.module('Calc', function(Calc) {
       $('.main-menu').append('<li class='+categorySlug+'></li>');
       menuLayout.addRegion(categorySlug, '.'+categorySlug);
       menuLayout[categorySlug].show(new MenuIconView({model: categoryModel, categorySlug: categorySlug, displayName: displayName}));
-      categoryModel.set({viewObjects: inputViewLoader[calculatorSlug][categorySlug]});
+      categoryModel.set({viewObjects: inputViewLoader[calculatorSlug][categorySlug]['views']});
     });
   };
 
@@ -164,7 +161,7 @@ module.exports = App.module('Calc', function(Calc) {
     /////////////////////////////////////////////////
     /////////////////////////////////////////////////
     /////////////////////////////////////////////////
-    mainLayout.inputRegion.show(inputViewToShow.view);
+    mainLayout.inputRegion.show(inputViewObj.view);
     //App.router.navigate(Calc.baseRoute+'/'+currentCategorySlug+'/'+inputViewObj.name, {trigger: true});
   };
 

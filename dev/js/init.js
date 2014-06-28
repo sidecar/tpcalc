@@ -125,9 +125,6 @@ var _ = require('underscore')
   inputViewLoader.business = require('./views/biz-calc-input-view-loader');
   inputViewLoader.events = require('./views/evt-calc-input-view-loader');
 
-console.log('inputViewLoader');
-console.log(inputViewLoader);
-
 module.exports = App.module('Calc', function(Calc) {
   // Calculator must be manually started
   Calc.startWithParent = false;
@@ -246,7 +243,7 @@ module.exports = App.module('Calc', function(Calc) {
       $('.main-menu').append('<li class='+categorySlug+'></li>');
       menuLayout.addRegion(categorySlug, '.'+categorySlug);
       menuLayout[categorySlug].show(new MenuIconView({model: categoryModel, categorySlug: categorySlug, displayName: displayName}));
-      categoryModel.set({viewObjects: inputViewLoader[calculatorSlug][categorySlug]});
+      categoryModel.set({viewObjects: inputViewLoader[calculatorSlug][categorySlug]['views']});
     });
   };
 
@@ -273,7 +270,7 @@ module.exports = App.module('Calc', function(Calc) {
     /////////////////////////////////////////////////
     /////////////////////////////////////////////////
     /////////////////////////////////////////////////
-    mainLayout.inputRegion.show(inputViewToShow.view);
+    mainLayout.inputRegion.show(inputViewObj.view);
     //App.router.navigate(Calc.baseRoute+'/'+currentCategorySlug+'/'+inputViewObj.name, {trigger: true});
   };
 
@@ -448,7 +445,7 @@ module.exports = {
 var App = require('./app');
 // This entire file is here because for some fucking hard to understand reason you cannot start app.js and then export it to be referenced as a module at the end of app.js. It doesn't work you have to start it somewhere else. No clue why this is.
 App.start(); 
-}).call(this,require("/Users/brandon/dev/sidecar/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_e692d108.js","/")
+}).call(this,require("/Users/brandon/dev/sidecar/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_19d89708.js","/")
 },{"./app":1,"/Users/brandon/dev/sidecar/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":83,"buffer":80}],5:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 'use strict';
@@ -468,6 +465,9 @@ module.exports.router = Marionette.AppRouter.extend({
 });
 
 var calcInitData = require('./data/calc-init-data');
+
+console.log('calcInitData');
+console.log(calcInitData);
 
 //TODO this needs to deal with edge case URLS like a mix of number and alphas
 module.exports.controller = Marionette.Controller.extend({
@@ -1249,69 +1249,96 @@ module.exports.xmltojson = function(xml) {
 }).call(this,require("/Users/brandon/dev/sidecar/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/utils/utility.js","/utils")
 },{"/Users/brandon/dev/sidecar/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":83,"buffer":80,"jquery":92}],51:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
-bizCalcViews = (function() {
-  var views = {};
-  views.site = (function() {
+business = {};
+ business.site = (function() {
     var defaultView = require('../views/biz-site-views').default
     , energyView = require('../views/biz-site-views').energy;
-    return [
-      {name: 'default',  view: new defaultView()},
-      {name: 'energy',  view: new energyView()}
-    ];
+    return {
+      displayName: 'Site',
+      slug: 'site',
+      icon: '',
+      views: [
+        {name: 'default',  view: new defaultView()},
+        {name: 'energy',  view: new energyView()}
+      ]
+    } 
   }());
 
-  views.fleet = (function() {
+  business.fleet = (function() {
     var defaultView = require('../views/biz-fleet-views').default
     , carView = require('../views/biz-fleet-views').car
     , ecarView = require('../views/biz-fleet-views').ecar
     , boatView = require('../views/biz-fleet-views').boat
     , planeView = require('../views/biz-fleet-views').plane
     , listView = require('../views/biz-fleet-views').list;
-    return [
-      {name: 'default',  view: new defaultView()},
-      {name: 'car',  view: new carView()},
-      {name: 'ecar',  view: new ecarView()},
-      {name: 'boat',  view: new boatView()},
-      {name: 'list',  view: new listView()}
-    ];
+    return {
+      displayName: 'Fleet',
+      slug: 'fleet',
+      icon: '',
+      views: [
+        {name: 'default',  view: new defaultView()},
+        {name: 'car',  view: new carView()},
+        {name: 'ecar',  view: new ecarView()},
+        {name: 'boat',  view: new boatView()},
+        {name: 'list',  view: new listView()}
+      ]
+    } 
   }());
 
-  views.travel = (function() {
+  business.travel = (function() {
     var defaultView = require('../views/biz-travel-views').default
     , employeeView = require('../views/biz-travel-views').employee
     , milesView = require('../views/biz-travel-views').miles;
-    return [
-      {name: 'default',  view: new defaultView()}, 
-      {name: 'employee',  view: new employeeView()}, 
-      {name: 'miles',  view: new milesView()}
-    ];
+    return {
+      displayName: 'Air Travel',
+      slug: 'travel',
+      icon: '',
+      views: [
+        {name: 'default',  view: new defaultView()}, 
+        {name: 'employee',  view: new employeeView()}, 
+        {name: 'miles',  view: new milesView()}
+      ]
+    } 
   }());
 
-  views.commute = (function() {
+  business.commute = (function() {
     var defaultView = require('../views/biz-commute-views').default;
-    return [
-      {name: 'default',  view: new defaultView()}
-    ];
+    return {
+      displayName: 'Commute',
+      slug: 'commute',
+      icon: '',
+      views: [
+        {name: 'default',  view: new defaultView()}
+      ]
+    } 
   }());
 
-  views.shipping = (function() {
+  business.shipping = (function() {
     var defaultView = require('../views/biz-shipping-views').default;
-    return [
-      {name: 'default',  view: new defaultView()}
-    ];
+    return {
+      displayName: 'Shipping',
+      slug: 'shipping',
+      icon: '',
+      views: [
+        {name: 'default',  view: new defaultView()}
+      ]
+    } 
   }());
 
-  views.server = (function() {
+  business.server = (function() {
     var defaultView = require('../views/biz-server-views').default;
-    return [
-      {name: 'default',  view: new defaultView()}
-    ];
+    return {
+      displayName: 'Server',
+      slug: 'server',
+      icon: '',
+      views: [
+        {name: 'default',  view: new defaultView()}
+      ]
+    } 
   }());
-  
-  return views;
-}());
 
-module.exports = bizCalcViews;
+
+module.exports = business;
 }).call(this,require("/Users/brandon/dev/sidecar/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/views/biz-calc-input-view-loader.js","/views")
 },{"../views/biz-commute-views":52,"../views/biz-fleet-views":53,"../views/biz-server-views":54,"../views/biz-shipping-views":55,"../views/biz-site-views":56,"../views/biz-travel-views":57,"/Users/brandon/dev/sidecar/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":83,"buffer":80}],52:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
@@ -1515,48 +1542,65 @@ module.exports.miles = Marionette.ItemView.extend({
 }).call(this,require("/Users/brandon/dev/sidecar/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/views/biz-travel-views.js","/views")
 },{"../templates/biz-travel-default-template.hbs":17,"../templates/biz-travel-employee-template.hbs":18,"../templates/biz-travel-miles-template.hbs":19,"/Users/brandon/dev/sidecar/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":83,"backbone":78,"backbone.marionette":74,"buffer":80,"jquery":92}],58:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
-evtCalcViews = (function() {
-  var views = {};
-  views.travel = (function() {
+events = {};
+  events.travel = (function() {
     var defaultView = require('../views/evt-travel-views').default
     , flightAverageView = require('../views/evt-travel-views').flightAverage
     , flightLengthView = require('../views/evt-travel-views').flightLength
     , groundView = require('../views/evt-travel-views').ground
     , hotelView = require('../views/evt-travel-views').hotel;
-    return [
-      {name: 'default',  view: new defaultView()},
-      {name: 'flightAverage',  view: new flightAverageView()}, 
-      {name: 'flightLength',  view: new flightLengthView()}, 
-      {name: 'ground',  view: new groundView()}, 
-      {name: 'hotel',  view: new hotelView()}
-    ];
+    return {
+      displayName: 'Vehicle',
+      slug: 'vehicle',
+      icon: '',
+      views: [
+        {name: 'default',  view: new defaultView()},
+        {name: 'flightAverage',  view: new flightAverageView()}, 
+        {name: 'flightLength',  view: new flightLengthView()}, 
+        {name: 'ground',  view: new groundView()}, 
+        {name: 'hotel',  view: new hotelView()}
+      ]
+    } 
   }());
 
-  views.venue = (function() {
+  events.venue = (function() {
     var defaultView = require('../views/evt-venue-views').default;
-    return [
-      {name: 'default',  view: new defaultView()}
-    ];
+    return {
+      displayName: 'Venue',
+      slug: 'venue',
+      icon: '',
+      views: [
+        {name: 'default',  view: new defaultView()}
+      ]
+    }
   }());
 
-  views.water = (function() {
+  events.water = (function() {
     var defaultView = require('../views/evt-water-views').default;
-    return [
-      {name: 'default',  view: new defaultView()}
-    ];
+    return {
+      displayName: 'Water',
+      slug: 'water',
+      icon: '',
+      views: [
+        {name: 'default',  view: new defaultView()}
+      ]
+    }
   }());
 
-  views.meals = (function() {
+  events.meals = (function() {
     var defaultView = require('../views/evt-meals-views').default;
-    return [
-      {name: 'default',  view: new defaultView()}
-    ];
+    return {
+      displayName: 'Meals',
+      slug: 'meals',
+      icon: '',
+      views: [
+        {name: 'default',  view: new defaultView()}
+      ]
+    }
   }());
 
-  return views;
-}());
+module.exports = events;
 
-module.exports = evtCalcViews;
 }).call(this,require("/Users/brandon/dev/sidecar/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/views/evt-calc-input-view-loader.js","/views")
 },{"../views/evt-meals-views":59,"../views/evt-travel-views":60,"../views/evt-venue-views":61,"../views/evt-water-views":62,"/Users/brandon/dev/sidecar/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":83,"buffer":80}],59:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
@@ -1594,7 +1638,7 @@ module.exports.default = Marionette.ItemView.extend({
   events: {
   },
   getNextViewSlug: function() {
-    return '';
+    return 'flightLength';
   }
 });
 
@@ -1715,9 +1759,8 @@ module.exports = Marionette.ItemView.extend({
 }).call(this,require("/Users/brandon/dev/sidecar/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/views/header-view.js","/views")
 },{"../templates/header-template.hbs":29,"/Users/brandon/dev/sidecar/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":83,"backbone.marionette":74,"buffer":80}],65:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
-indCalcViews = (function() {
-  var views = {};
-  views.vehicle = (function() {
+individual = {};
+  individual.vehicle = (function() {
     var defaultView = require('../views/ind-vehicle-views').default
     , carView = require('../views/ind-vehicle-views').car
     , ecarView = require('../views/ind-vehicle-views').ecar
@@ -1726,50 +1769,67 @@ indCalcViews = (function() {
     , classView = require('../views/ind-vehicle-views').class
     , optionsView = require('../views/ind-vehicle-views').options
     , listView = require('../views/ind-vehicle-views').list;
-    return [
-      {name: 'default',  view: new defaultView()},
-      {name: 'car',  view: new carView()}, 
-      {name: 'ecar',  view: new ecarView()}, 
-      {name: 'boat',  view: new boatView()}, 
-      {name: 'class',  view: new classView()}, 
-      {name: 'options',  view: new optionsView()},
-      {name: 'list',  view: new listView()}
-    ];
+    return{
+      displayName: 'Vehicle',
+      slug: 'vehicle',
+      icon: '',
+      views: [
+        {name: 'default',  view: new defaultView()},
+        {name: 'car',  view: new carView()}, 
+        {name: 'ecar',  view: new ecarView()}, 
+        {name: 'boat',  view: new boatView()}, 
+        {name: 'class',  view: new classView()}, 
+        {name: 'options',  view: new optionsView()},
+        {name: 'list',  view: new listView()}
+      ]
+    } 
   }());
 
-  views.transit = (function() {
+  individual.transit = (function() {
     var defaultView = require('../views/ind-transit-views').default;
-    return [
-      {name: 'default',  view: new defaultView()}
-    ];
+    return {
+      displayName: 'Public Transortation',
+      slug: 'transit',
+      icon: '', 
+      views: [
+        {name: 'default',  view: new defaultView()}
+      ]
+    };
   }());
 
-  views.travel = (function() {
+  individual.travel = (function() {
     var defaultView = require('../views/ind-travel-views').default
     , addView = require('../views/ind-travel-views').add
     , averageView = require('../views/ind-travel-views').average
     , listView = require('../views/ind-travel-views').list;
-    return [
-      {name: 'default',  view: new defaultView()}, 
-      {name: 'add',  view: new addView()}, 
-      {name: 'average',  view: new averageView()}, 
-      {name: 'list',  view: new listView()}
-    ];
+    return {
+      displayName: 'Air Travel',
+      slug: 'travel',
+      icon: '', 
+      views: [
+        {name: 'default',  view: new defaultView()}, 
+        {name: 'add',  view: new addView()}, 
+        {name: 'average',  view: new averageView()}, 
+        {name: 'list',  view: new listView()}
+      ]
+    };
   }());
 
-  views.home = (function() {
+  individual.home = (function() {
     var defaultView = require('../views/ind-home-views').default
     , addView = require('../views/ind-home-views').add;
-    return [
-      {name: 'default',  view: new defaultView()}, 
-      {name: 'add',  view: new addView()}
-    ];
+    return {
+      displayName: 'Home Energy',
+      slug: 'home',
+      icon: '', 
+      views: [
+        {name: 'default',  view: new defaultView()}, 
+        {name: 'add',  view: new addView()}
+      ]
+    }
   }());
 
-  return views;
-}());
-
-module.exports = indCalcViews;
+module.exports = individual;
 }).call(this,require("/Users/brandon/dev/sidecar/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/views/ind-calc-input-view-loader.js","/views")
 },{"../views/ind-home-views":66,"../views/ind-transit-views":67,"../views/ind-travel-views":68,"../views/ind-vehicle-views":69,"/Users/brandon/dev/sidecar/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":83,"buffer":80}],66:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){

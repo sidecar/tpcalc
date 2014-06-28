@@ -1,42 +1,58 @@
-evtCalcViews = (function() {
-  var views = {};
-  views.travel = (function() {
+events = {};
+  events.travel = (function() {
     var defaultView = require('../views/evt-travel-views').default
     , flightAverageView = require('../views/evt-travel-views').flightAverage
     , flightLengthView = require('../views/evt-travel-views').flightLength
     , groundView = require('../views/evt-travel-views').ground
     , hotelView = require('../views/evt-travel-views').hotel;
-    return [
-      {name: 'default',  view: new defaultView()},
-      {name: 'flightAverage',  view: new flightAverageView()}, 
-      {name: 'flightLength',  view: new flightLengthView()}, 
-      {name: 'ground',  view: new groundView()}, 
-      {name: 'hotel',  view: new hotelView()}
-    ];
+    return {
+      displayName: 'Vehicle',
+      slug: 'vehicle',
+      icon: '',
+      views: [
+        {name: 'default',  view: new defaultView()},
+        {name: 'flightAverage',  view: new flightAverageView()}, 
+        {name: 'flightLength',  view: new flightLengthView()}, 
+        {name: 'ground',  view: new groundView()}, 
+        {name: 'hotel',  view: new hotelView()}
+      ]
+    } 
   }());
 
-  views.venue = (function() {
+  events.venue = (function() {
     var defaultView = require('../views/evt-venue-views').default;
-    return [
-      {name: 'default',  view: new defaultView()}
-    ];
+    return {
+      displayName: 'Venue',
+      slug: 'venue',
+      icon: '',
+      views: [
+        {name: 'default',  view: new defaultView()}
+      ]
+    }
   }());
 
-  views.water = (function() {
+  events.water = (function() {
     var defaultView = require('../views/evt-water-views').default;
-    return [
-      {name: 'default',  view: new defaultView()}
-    ];
+    return {
+      displayName: 'Water',
+      slug: 'water',
+      icon: '',
+      views: [
+        {name: 'default',  view: new defaultView()}
+      ]
+    }
   }());
 
-  views.meals = (function() {
+  events.meals = (function() {
     var defaultView = require('../views/evt-meals-views').default;
-    return [
-      {name: 'default',  view: new defaultView()}
-    ];
+    return {
+      displayName: 'Meals',
+      slug: 'meals',
+      icon: '',
+      views: [
+        {name: 'default',  view: new defaultView()}
+      ]
+    }
   }());
 
-  return views;
-}());
-
-module.exports = evtCalcViews;
+module.exports = events;

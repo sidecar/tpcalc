@@ -13,7 +13,7 @@ module.exports.default = Marionette.ItemView.extend({
   events: {
   },
   getNextViewSlug: function() {
-    return '';
+    return 'flightLength';
   }
 });
 

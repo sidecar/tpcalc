@@ -16,6 +16,9 @@ module.exports.router = Marionette.AppRouter.extend({
 
 var calcInitData = require('./data/calc-init-data');
 
+console.log('calcInitData');
+console.log(calcInitData);
+
 //TODO this needs to deal with edge case URLS like a mix of number and alphas
 module.exports.controller = Marionette.Controller.extend({
   showSelectCateogries: function(catCodes, calculator) {
