@@ -263,8 +263,18 @@ module.exports = App.module('Calc', function(Calc) {
     var currentCategory = categoryModels[0];
     var currentCategorySlug = currentCategory.get('slug');
     calcModel.set({currentCategory: currentCategory}); 
-    var inputViewToShow = currentCategory.getCurrentInputView();
+    var inputViewObj = currentCategory.getCurrentInputView();
+    /////////////////////////////////////////////////
+    /////////////////////////////////////////////////
+    /////////////////////////////////////////////////
+    /////////////////////////////////////////////////
+    /////////////// WTF!!!!!!!!!! ///////////////////
+    /////////////////////////////////////////////////
+    /////////////////////////////////////////////////
+    /////////////////////////////////////////////////
+    /////////////////////////////////////////////////
     mainLayout.inputRegion.show(inputViewToShow.view);
+    //App.router.navigate(Calc.baseRoute+'/'+currentCategorySlug+'/'+inputViewObj.name, {trigger: true});
   };
 
   Calc.initEventListeners = function() {
@@ -438,7 +448,7 @@ module.exports = {
 var App = require('./app');
 // This entire file is here because for some fucking hard to understand reason you cannot start app.js and then export it to be referenced as a module at the end of app.js. It doesn't work you have to start it somewhere else. No clue why this is.
 App.start(); 
-}).call(this,require("/Users/brandon/dev/sidecar/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_8f2448d1.js","/")
+}).call(this,require("/Users/brandon/dev/sidecar/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_e692d108.js","/")
 },{"./app":1,"/Users/brandon/dev/sidecar/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":83,"buffer":80}],5:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 'use strict';
@@ -450,7 +460,8 @@ var _ = require('underscore')
 
 module.exports.router = Marionette.AppRouter.extend({
   appRoutes: {
-    ':categories/:calculator': 'showCalculator',
+    ':calculator': 'showDefaultCalculator',
+    ':categories/:calculator': 'showSelectCateogries',
     //TODO add the possiblity of starting category specific calculators
     '': 'defaultRoute'    
   }
@@ -460,7 +471,7 @@ var calcInitData = require('./data/calc-init-data');
 
 //TODO this needs to deal with edge case URLS like a mix of number and alphas
 module.exports.controller = Marionette.Controller.extend({
-  showCalculator: function(catCodes, calculator) {
+  showSelectCateogries: function(catCodes, calculator) {
 
     if(!calcInitData[calculator]) return;
 
@@ -494,6 +505,11 @@ module.exports.controller = Marionette.Controller.extend({
     // replace the default array of cats with a newly constructed array based on the request codes
     initObj.categories = requestedCatData;
     // start up the calulator with the init data based on the request codes
+    App.execute('appModule:start', 'Calc', initObj);
+  },
+  showDefaultCalculator: function(calculator) {
+    if(!calcInitData[calculator]) return;
+    var initObj = calcInitData[calculator];
     App.execute('appModule:start', 'Calc', initObj);
   },
   defaultRoute: function() {

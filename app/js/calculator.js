@@ -154,8 +154,18 @@ module.exports = App.module('Calc', function(Calc) {
     var currentCategory = categoryModels[0];
     var currentCategorySlug = currentCategory.get('slug');
     calcModel.set({currentCategory: currentCategory}); 
-    var inputViewToShow = currentCategory.getCurrentInputView();
+    var inputViewObj = currentCategory.getCurrentInputView();
+    /////////////////////////////////////////////////
+    /////////////////////////////////////////////////
+    /////////////////////////////////////////////////
+    /////////////////////////////////////////////////
+    /////////////// WTF!!!!!!!!!! ///////////////////
+    /////////////////////////////////////////////////
+    /////////////////////////////////////////////////
+    /////////////////////////////////////////////////
+    /////////////////////////////////////////////////
     mainLayout.inputRegion.show(inputViewToShow.view);
+    //App.router.navigate(Calc.baseRoute+'/'+currentCategorySlug+'/'+inputViewObj.name, {trigger: true});
   };
 
   Calc.initEventListeners = function() {

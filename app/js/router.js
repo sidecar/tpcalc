@@ -7,7 +7,8 @@ var _ = require('underscore')
 
 module.exports.router = Marionette.AppRouter.extend({
   appRoutes: {
-    ':categories/:calculator': 'showCalculator',
+    ':calculator': 'showDefaultCalculator',
+    ':categories/:calculator': 'showSelectCateogries',
     //TODO add the possiblity of starting category specific calculators
     '': 'defaultRoute'    
   }
@@ -17,7 +18,7 @@ var calcInitData = require('./data/calc-init-data');
 
 //TODO this needs to deal with edge case URLS like a mix of number and alphas
 module.exports.controller = Marionette.Controller.extend({
-  showCalculator: function(catCodes, calculator) {
+  showSelectCateogries: function(catCodes, calculator) {
 
     if(!calcInitData[calculator]) return;
 
@@ -51,6 +52,11 @@ module.exports.controller = Marionette.Controller.extend({
     // replace the default array of cats with a newly constructed array based on the request codes
     initObj.categories = requestedCatData;
     // start up the calulator with the init data based on the request codes
+    App.execute('appModule:start', 'Calc', initObj);
+  },
+  showDefaultCalculator: function(calculator) {
+    if(!calcInitData[calculator]) return;
+    var initObj = calcInitData[calculator];
     App.execute('appModule:start', 'Calc', initObj);
   },
   defaultRoute: function() {
