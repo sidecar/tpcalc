@@ -14,7 +14,7 @@ var gulp = require('gulp')
 , http = require('http')
 , gulpIf = require('gulp-if')
 , gulpIgnore = require('gulp-if')
-, opn = require('opn')
+, open = require('opn')
 //http://rhumaric.com/2014/01/livereload-magic-gulp-style/
 , livereload = require('gulp-livereload')
 , karma = require('gulp-karma')
@@ -184,7 +184,12 @@ gulp.task('start-node-server', shell.task([
 
 //Can't get this to work with the ser
 gulp.task('open-browser', function() {
-  opn('http://localhost:8080');
+  var options = {
+    url: "http://localhost:8080",
+    app: "google-chrome"
+  };
+  gulp.src("./dev/index.html")
+  .pipe(open("", options));
 });
 
 gulp.task('watch-for-changes', function() {
@@ -217,7 +222,8 @@ gulp.task('watch-for-changes', function() {
 gulp.task('server', function() {
     //run these subtasks in sequence
     //runSequence('clean-dev', ['sass', 'browserify','copy-html-to-dev', 'copy-php-to-dev'], 'connect','watch-for-changes');
-    runSequence('clean-dev', ['sass', 'browserify','copy-html-to-dev', 'copy-php-to-dev', 'copy-images-to-dev'], 'watch-for-changes', 'start-node-server', 'open-browser');
+    // runSequence('clean-dev', ['sass', 'browserify','copy-html-to-dev', 'copy-php-to-dev', 'copy-images-to-dev'],'watch-for-changes', 'start-node-server', 'open-browser');
+    runSequence('clean-dev', ['sass', 'browserify','copy-html-to-dev', 'copy-php-to-dev', 'copy-images-to-dev'],'watch-for-changes', 'start-node-server');
 });
 
 //Copy necessary files to build dir

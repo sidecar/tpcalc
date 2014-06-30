@@ -132,6 +132,8 @@ module.exports = App.module('Calc', function(Calc) {
       var categoryObj = _.findWhere(options.categories, {slug: categorySlug});
       var viewObjects = categoryObj.views;
       categoryModel.set({viewObjects: viewObjects});
+      var currentInputViewObj = _.findWhere(viewObjects, {name: 'default'});
+      categoryModel.set({currentInputViewObj: currentInputViewObj});
     });
   };
 
@@ -149,17 +151,7 @@ module.exports = App.module('Calc', function(Calc) {
     var currentCategorySlug = currentCategory.get('slug');
     calcModel.set({currentCategory: currentCategory}); 
     var inputViewObj = currentCategory.getCurrentInputView();
-    /////////////////////////////////////////////////
-    /////////////////////////////////////////////////
-    /////////////////////////////////////////////////
-    /////////////////////////////////////////////////
-    /////////////// WTF!!!!!!!!!! ///////////////////
-    /////////////////////////////////////////////////
-    /////////////////////////////////////////////////
-    /////////////////////////////////////////////////
-    /////////////////////////////////////////////////
     mainLayout.inputRegion.show(inputViewObj.view);
-    //App.router.navigate(Calc.baseRoute+'/'+currentCategorySlug+'/'+inputViewObj.name, {trigger: true});
   };
 
   Calc.initEventListeners = function() {
@@ -208,7 +200,7 @@ module.exports = App.module('Calc', function(Calc) {
       var currentViewObj = newCategory.getCurrentInputView();
       Calc.model.set({currentCategory: newCategory});
       App.router.navigate(Calc.baseRoute+'/'+newCategorySlug+'/'+currentViewObj.name, {trigger: true});
-    });
+    });    
   };
 
   Calc.addInitializer(function(options){

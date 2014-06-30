@@ -338,6 +338,8 @@ module.exports = App.module('Calc', function(Calc) {
       var categoryObj = _.findWhere(options.categories, {slug: categorySlug});
       var viewObjects = categoryObj.views;
       categoryModel.set({viewObjects: viewObjects});
+      var currentInputViewObj = _.findWhere(viewObjects, {name: 'default'});
+      categoryModel.set({currentInputViewObj: currentInputViewObj});
     });
   };
 
@@ -355,17 +357,7 @@ module.exports = App.module('Calc', function(Calc) {
     var currentCategorySlug = currentCategory.get('slug');
     calcModel.set({currentCategory: currentCategory}); 
     var inputViewObj = currentCategory.getCurrentInputView();
-    /////////////////////////////////////////////////
-    /////////////////////////////////////////////////
-    /////////////////////////////////////////////////
-    /////////////////////////////////////////////////
-    /////////////// WTF!!!!!!!!!! ///////////////////
-    /////////////////////////////////////////////////
-    /////////////////////////////////////////////////
-    /////////////////////////////////////////////////
-    /////////////////////////////////////////////////
     mainLayout.inputRegion.show(inputViewObj.view);
-    //App.router.navigate(Calc.baseRoute+'/'+currentCategorySlug+'/'+inputViewObj.name, {trigger: true});
   };
 
   Calc.initEventListeners = function() {
@@ -414,7 +406,7 @@ module.exports = App.module('Calc', function(Calc) {
       var currentViewObj = newCategory.getCurrentInputView();
       Calc.model.set({currentCategory: newCategory});
       App.router.navigate(Calc.baseRoute+'/'+newCategorySlug+'/'+currentViewObj.name, {trigger: true});
-    });
+    });    
   };
 
   Calc.addInitializer(function(options){
@@ -510,7 +502,7 @@ module.exports = events;
 var App = require('./app');
 // This entire file is here because for some fucking hard to understand reason you cannot start app.js and then export it to be referenced as a module at the end of app.js. It doesn't work you have to start it somewhere else. No clue why this is.
 App.start(); 
-}).call(this,require("/Users/brandon/dev/sidecar/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_99e067a5.js","/")
+}).call(this,require("/Users/brandon/dev/sidecar/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_cc01595a.js","/")
 },{"./app":1,"/Users/brandon/dev/sidecar/tpcalc/node_modules/browserify/node_modules/insert-module-globals/node_modules/process/browser.js":82,"buffer":79}],6:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 individual = {};
@@ -617,7 +609,6 @@ module.exports.router = Marionette.AppRouter.extend({
 //TODO this needs to deal with edge case URLS like a mix of number and alphas
 module.exports.controller = Marionette.Controller.extend({
   showSelectCateogries: function(catCodes, calculator) {
-
     if(!config[calculator]) return;
 
     var initObj = config[calculator],

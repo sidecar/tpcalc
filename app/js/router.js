@@ -23,7 +23,6 @@ module.exports.router = Marionette.AppRouter.extend({
 //TODO this needs to deal with edge case URLS like a mix of number and alphas
 module.exports.controller = Marionette.Controller.extend({
   showSelectCateogries: function(catCodes, calculator) {
-
     if(!config[calculator]) return;
 
     var initObj = config[calculator],
