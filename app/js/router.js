@@ -5,6 +5,12 @@ var _ = require('underscore')
 , App = require('./app')
 , WelcomeView = require('./views/welcome-view');
 
+var config = {defaultUrlCode: 'd'};
+config.individual = require('./ind-calc-config');
+config.business = require('./biz-calc-config');
+config.events = require('./evt-calc-config');
+
+
 module.exports.router = Marionette.AppRouter.extend({
   appRoutes: {
     ':calculator': 'showDefaultCalculator',
@@ -14,25 +20,20 @@ module.exports.router = Marionette.AppRouter.extend({
   }
 });
 
-var calcInitData = require('./data/calc-init-data');
-
-console.log('calcInitData');
-console.log(calcInitData);
-
 //TODO this needs to deal with edge case URLS like a mix of number and alphas
 module.exports.controller = Marionette.Controller.extend({
   showSelectCateogries: function(catCodes, calculator) {
 
-    if(!calcInitData[calculator]) return;
+    if(!config[calculator]) return;
 
-    var initObj = calcInitData[calculator],
+    var initObj = config[calculator],
       orderedCatSlugList = _.pluck(initObj.categories, 'slug'),
       requestedCatSlugList = [];
 
     // if the requested url includes the code for showing default calculator
-    if(catCodes === calcInitData.defaultUrlCode) {
-      //App.execute('appModule:start', 'Calc', calcInitData[calculator]);
-      initObj.categoryCodes = calcInitData.defaultUrlCode;
+    if(catCodes === config.defaultUrlCode) {
+      //App.execute('appModule:start', 'Calc', config[calculator]);
+      initObj.categoryCodes = config.defaultUrlCode;
       // start up the calulator with the init data based on the request codes
       App.execute('appModule:start', 'Calc', initObj);
       return;
@@ -58,8 +59,8 @@ module.exports.controller = Marionette.Controller.extend({
     App.execute('appModule:start', 'Calc', initObj);
   },
   showDefaultCalculator: function(calculator) {
-    if(!calcInitData[calculator]) return;
-    var initObj = calcInitData[calculator];
+    if(!config[calculator]) return;
+    var initObj = config[calculator];
     App.execute('appModule:start', 'Calc', initObj);
   },
   defaultRoute: function() {

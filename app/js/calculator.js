@@ -11,11 +11,6 @@ var _ = require('underscore')
   , MenuIconView = require('./views/menu-icon-view')
   , utils = require('./utils/utility');
 
-  var inputViewLoader = {};
-  inputViewLoader.individual = require('./views/ind-calc-input-view-loader');
-  inputViewLoader.business = require('./views/biz-calc-input-view-loader');
-  inputViewLoader.events = require('./views/evt-calc-input-view-loader');
-
 module.exports = App.module('Calc', function(Calc) {
   // Calculator must be manually started
   Calc.startWithParent = false;
@@ -120,7 +115,7 @@ module.exports = App.module('Calc', function(Calc) {
     calcModel.set({categoryModels: categoryModels});
   };
 
-  Calc.initNav = function() {
+  Calc.initNav = function(options) {
     var calcModel = Calc.model;
     var categoryModels = calcModel.get('categoryModels');
     var menuLayout = Calc.menuLayout = new MenuLayout();
@@ -134,11 +129,13 @@ module.exports = App.module('Calc', function(Calc) {
       $('.main-menu').append('<li class='+categorySlug+'></li>');
       menuLayout.addRegion(categorySlug, '.'+categorySlug);
       menuLayout[categorySlug].show(new MenuIconView({model: categoryModel, categorySlug: categorySlug, displayName: displayName}));
-      categoryModel.set({viewObjects: inputViewLoader[calculatorSlug][categorySlug]['views']});
+      var categoryObj = _.findWhere(options.categories, {slug: categorySlug});
+      var viewObjects = categoryObj.views;
+      categoryModel.set({viewObjects: viewObjects});
     });
   };
 
-  Calc.initLayout = function() {
+  Calc.initLayout = function(options) {
     var calcModel = Calc.model;
     var categoryModels = calcModel.get('categoryModels');
     var mainLayout = Calc.mainLayout = new MainLayout();
@@ -146,7 +143,7 @@ module.exports = App.module('Calc', function(Calc) {
     App.body.show(mainLayout);
     mainLayout.headerRegion.show(new HeaderView({model: calcModel}));
     mainLayout.footerRegion.show(new FooterView({model: calcModel}));
-    Calc.initNav();
+    Calc.initNav(options);
     //get first category set it on the calc model
     var currentCategory = categoryModels[0];
     var currentCategorySlug = currentCategory.get('slug');
@@ -219,7 +216,7 @@ module.exports = App.module('Calc', function(Calc) {
     Calc.baseRoute = '#/'+options.categoryCodes+'/'+options.slug;
     Calc.baseRoute = '#/'+options.slug;
     Calc.initModels(options);
-    Calc.initLayout();
+    Calc.initLayout(options);
     Calc.initEventListeners();
   });
 
