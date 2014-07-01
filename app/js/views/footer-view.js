@@ -5,8 +5,8 @@ var App = require('../app')
 module.exports = Marionette.ItemView.extend({
 	template: template,
 	events: {
-    "click #nextBtn": "next",
-    "click #prevBtn": "prev"
+    "click .btn-next": "next",
+    "click .btn-prev": "prev"
 	},
   next: function(event) {
     event.preventDefault();

@@ -161,7 +161,7 @@ input[type='radio'], input[type='checkbox'] {
 
 }
 
-#ind-home-energy, 
+#ind-home, 
 #biz-site-energy,
 #ind-travel-flight-length,
 #ind-travel-flight-miles {
@@ -172,7 +172,7 @@ input[type='radio'], input[type='checkbox'] {
 
 }
 
-#ind-home-energy, #biz-site-energy {
+#ind-home, #biz-site-energy {
 
 	.form-element-container {
 		padding-right: 10px !important;
@@ -264,6 +264,7 @@ input[type='radio'], input[type='checkbox'] {
 	width: 23px;
 	height: 23px;
 	background: url(../img/ico_checkmark.png) 0 0 no-repeat;
+	display: none;
 }
 
 .checkbox-text {
@@ -478,12 +479,12 @@ input.numeric-big {
 	background: $dark-blue  url('../img/ico_travel.png') 0 0 no-repeat;
 }
 
-.ico-home-energy {
+.ico-home {
 	background: $light-blue url('../img/ico_home_energy.png') 0 0 no-repeat;
 	border: 0px solid #fff;
 }
 
-.ico-home-energy:hover {
+.ico-home:hover {
 	background: $light-blue url('../img/ico_home_energy.png') 0 0 no-repeat;
 }
 

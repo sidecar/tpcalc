@@ -128,6 +128,8 @@ module.exports = App.module('Calc', function(Calc) {
       var categorySlug = categoryModel.get('slug');
       $('.main-menu').append('<li class='+categorySlug+'></li>');
       menuLayout.addRegion(categorySlug, '.'+categorySlug);
+      console.log('categoryModel');
+      console.log(categoryModel);
       menuLayout[categorySlug].show(new MenuIconView({model: categoryModel, categorySlug: categorySlug, displayName: displayName}));
       var categoryObj = _.findWhere(options.categories, {slug: categorySlug});
       var viewObjects = categoryObj.views;
