@@ -5,6 +5,7 @@ var gulp = require('gulp')
 , browserify = require('gulp-browserify')
 , uglify = require('gulp-uglifyjs')
 , concat = require('gulp-concat')
+, concatSourceMap = require('gulp-concat-sourcemap')
 , minifyCSS = require('gulp-minify-css')
 , imageMin = require('gulp-imagemin')
 , sass = require('gulp-sass')
@@ -34,18 +35,18 @@ config.app.styles = config.app.baseDir +'styles/'
 config.app.js = config.app.baseDir + 'js/'
 config.app.templates = config.app.baseDir + 'templates/'
 config.app.views = config.app.baseDir + 'views/'
-config.app.images = config.app.baseDir + 'images/'
+config.app.images = config.app.baseDir + 'img/'
 
 config.dev.baseDir = 'dev/'
 config.dev.styles = config.dev.baseDir +'css/'
 config.dev.js = config.dev.baseDir + 'js/'
-config.dev.images = config.dev.baseDir + 'images/'
+config.dev.images = config.dev.baseDir + 'img/'
 
 // config.build.baseDir = './'
 config.build.baseDir = 'dist/'
 config.build.styles = config.build.baseDir +'css/'
 config.build.js = config.build.baseDir + 'js/'
-config.build.images = config.build.baseDir + 'images/'
+config.build.images = config.build.baseDir + 'img/'
 
 config.test.baseDir = 'test/';
 
@@ -83,6 +84,24 @@ gulp.task('lint', function() {
       .pipe(jshint())
       .pipe(jshint.reporter('default'));
 });
+
+gulp.task('package-vendor-libs', function() {
+  gulp.src([config.app.js + 'vendor/jquery-1.10.1.min.js', config.app.js + 'vendor/jquery.magnific-popup.min.js', config.app.js + 'vendor/bootstrap.min.js', config.app.js + 'vendor/bootstrap-slider.js'])
+    // .pipe(concat('libs.js'))
+    // .pipe(gulp.dest(config.dev.js));
+    // Concatenate AND minify files and create a source map
+    .pipe(uglify('libs.min.js', {
+      outSourceMap: 'libs.min.js.map'
+    }))
+    .pipe(gulp.dest(config.dev.js));
+});
+
+// gulp.task('package-vendor-libs-for-build', function() {
+//   gulp.src([config.app.js + 'vendor/jquery-1.10.1.min.js', config.app.js + 'vendor/jquery.magnific-popup.min.js', config.app.js + 'vendor/bootstrap.min.js', config.app.js + 'vendor/bootstrap-slider.js'])
+//     .pipe(concat('libs.js'))
+//     .pipe()
+//     .pipe(gulp.dest(config.dev.js));
+// });
 
 gulp.task('copy-html-to-dev', function(){
     // Copy the index.html file into the dist dir
@@ -142,12 +161,12 @@ gulp.task('browserify', function() {
 // Minify javascript after its been browserfied
 gulp.task('minify-js', function() {
   //grab init.js and libs.js mash em into one ugly messs
-  return gulp.src(config.dev.js + '**.*js')
+  return gulp.src(config.dev.js + 'init.js')
       // Concatenate AND minify files and create a source map
       .pipe(uglify('init.min.js', {
         outSourceMap: 'init.min.js.map'
       }))
-      .pipe(gulp.dest(config.dev.js));
+      .pipe(gulp.dest(config.build.js));
 });
 
 gulp.task('optimize-images', function() {
@@ -159,20 +178,20 @@ gulp.task('optimize-images', function() {
 
 // Create web server
 // Using gulp-livereload  in the watch task instead of connect-livereload middleware //.use(require('connect-livereload')({ port: 35729 }))
-gulp.task('connect', function() {
-var connect = require('connect'), server = connect();
-        //??? Not what connect.directory is for ???
-        server.use(connect.static(config.dev.baseDir))
-        //.use(connect.directory(config.dev.baseDir));
-    //??? Why dont I have to include the http module to use createServer method ???
-    http.createServer(server)
-        .listen(config.port)
-        .on('listening', function() {
-            console.log('Started connect web server on http://localhost:' + config.port + '.');
-            // Open default browser at this address
-            opn('http://localhost:' + config.port);
-        });
-});
+// gulp.task('connect', function() {
+// var connect = require('connect'), server = connect();
+//         //??? Not what connect.directory is for ???
+//         server.use(connect.static(config.dev.baseDir))
+//         //.use(connect.directory(config.dev.baseDir));
+//     //??? Why dont I have to include the http module to use createServer method ???
+//     http.createServer(server)
+//         .listen(config.port)
+//         .on('listening', function() {
+//             console.log('Started connect web server on http://localhost:' + config.port + '.');
+//             // Open default browser at this address
+//             opn('http://localhost:' + config.port);
+//         });
+// });
 
 gulp.task('xampp', shell.task([
   'sudo xampp start'
@@ -221,9 +240,9 @@ gulp.task('watch-for-changes', function() {
 // Build a dev version of the app and serve it locally 
 gulp.task('server', function() {
     //run these subtasks in sequence
-    //runSequence('clean-dev', ['sass', 'browserify','copy-html-to-dev', 'copy-php-to-dev'], 'connect','watch-for-changes');
-    // runSequence('clean-dev', ['sass', 'browserify','copy-html-to-dev', 'copy-php-to-dev', 'copy-images-to-dev'],'watch-for-changes', 'start-node-server', 'open-browser');
-    runSequence('clean-dev', ['sass', 'browserify','copy-html-to-dev', 'copy-php-to-dev', 'copy-images-to-dev'],'watch-for-changes', 'start-node-server');
+    //runSequence('clean-dev', ['sass', 'browserify', 'package-vendor-libs', 'copy-html-to-dev', 'copy-php-to-dev'], 'connect','watch-for-changes');
+    // runSequence('clean-dev', ['sass', 'browserify', 'package-vendor-libs', 'copy-html-to-dev', 'copy-php-to-dev', 'copy-images-to-dev'],'watch-for-changes', 'start-node-server', 'open-browser');
+    runSequence('clean-dev', ['sass', 'browserify', 'package-vendor-libs', 'copy-html-to-dev', 'copy-php-to-dev', 'copy-images-to-dev'],'watch-for-changes', 'start-node-server');
 });
 
 //Copy necessary files to build dir
@@ -238,7 +257,7 @@ gulp.task('copy-to-build', function() {
       .pipe(gulp.dest(config.build.baseDir + 'php/'));
 
     // Copy javascript into build dir
-    gulp.src(config.dev.js + '**/*.min.js').pipe(gulp.dest(config.build.js));
+    gulp.src([config.dev.js + 'libs.min.js', config.dev.js + 'libs.min.js.map']).pipe(gulp.dest(config.build.js));
     // Copy css into build dir
     gulp.src(config.dev.styles + '**/*.min.css').pipe(gulp.dest(config.build.styles));
 })
@@ -246,6 +265,6 @@ gulp.task('copy-to-build', function() {
 // Build a production version of the app 
 // I should be able to run build task without running server task first 
 gulp.task('build', function() {
-    runSequence('clean-dev','clean-build',['sass', 'browserify'], 'minify-js', 'copy-to-build', 'optimize-images' );
+    runSequence('clean-build',['sass', 'browserify'], 'minify-js', 'copy-to-build', 'optimize-images' );
 });
 

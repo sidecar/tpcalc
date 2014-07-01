@@ -1,6 +1,951 @@
+/* ------------------------------------------
+ * Terrapass Carbon Offset Calculator
+ *
+ * Built by: 	Sidecar Agency
+ * Date: 		2014.06.13
+ * Authors: 	Brandon Brown, Maurice Wright
+ *
+ * ========================================== */
+
 // @import "./bootstrap-sass/stylesheets/bootstrap";
 // Bootstrap striped of gradients and dropshadows
 @import "./flatstrap/bootstrap";
-#main-content{
-	font-size: 30px;
+@import "./magnific-popup.css";
+
+
+/* ------------------------------------------
+ * Colors
+ * ------------------------------------------ */
+
+$dark-blue: 	#0a61ae;
+$light-blue: 	#2ba7e5;
+$font-gray: 	#666;
+$light-gray: 	#ddd;
+$dark-gray: 	#959595;
+$dark-green: 	#1d7768;
+$green: 		#41ad49;
+$olive: 		#91c03f;
+$white: 		#fff;
+$peach: 		#f16260;
+$dark-purple: 	#1e0770;
+$purple: 		#663f82;
+$orange: 		#f69400;
+
+.light-blue { color: $light-blue; }
+.dark-blue { color: $dark-blue; }
+.light-gray { color: $light-gray; }
+.dark-gray { color: $dark-gray; }
+.purple { color: $purple; }
+.dark-purple { color: $dark-purple; }
+.green { color: $green; }
+.dark-green { color: $dark-green; }
+.peach { color: $peach; }
+.white { color: $white; }
+.orange { color: $orange; }
+
+.bg-light-blue { background-color: $light-blue !important; }
+.bg-dark-blue { background-color: $dark-blue !important; }
+.bg-light-gray { background-color: $light-gray !important; }
+.bg-dark-gray { background-color: $dark-gray !important; }
+.bg-purple { background-color: $purple !important; }
+.bg-dark-purple { background-color: $dark-purple !important; }
+.bg-green { background-color: $green !important; }
+.bg-dark-green { background-color: $dark-green !important; }
+.bg-peach { background-color: $peach !important; }
+.bg-white { background-color: $white !important; }
+.bg-orange { background-color: $orange !important; }
+
+.bg-light-blue:hover, 
+.bg-dark-blue:hover,
+.bg-light-gray:hover,
+.bg-dark-gray:hover,
+.bg-purple:hover,
+.bg-dark-purple:hover,
+.bg-dark-green:hover,
+.bg-white:hover,
+.bg-peach:hover,
+.bg-orange:hover,
+.bg-green:hover { background-color: $light-gray !important; }
+
+
+
+/* ------------------------------------------
+ * Columns
+ * ------------------------------------------ */
+
+$col1-width: 40px;
+$col2-width: 479px;
+$col3-width: 360px;
+
+#col-nav {
+	width: $col1-width;
+	position: fixed;
+	float: left;
+	z-index: 10;
+
+	li {
+		position: relative;
+		border-radius: 18px;
+		width: 36px;
+		overflow: visible !important;
+
+		a {
+			color: $white;
+			text-transform: uppercase;
+			letter-spacing: 1px;
+			text-indent: 41px;
+			width: 36px;
+			text-align: left;
+			xfont-size: .9em;
+		}
+
+		.xa:hover { // Temporary. Remove when javascript mouseover is added.
+			width: 210px;
+		}
+	}
+
+	li.help {
+		padding-top: 10px;
+	}
+}
+
+#col-content {
+	width: $col2-width;
+	padding: 0 0px 0 20px;
+	min-width: 440px;
+	position: relative;
+	float: left;
+	border-right: 1px solid $light-gray;
+	height: 600px;
+	margin-left: 40px;
+}
+
+#col-summary {
+	width: $col3-width;
+	min-width: 320px;
+	padding: 0 20px;
+	float: left;
+	height: 600px;
+	position: relative;
+}
+
+
+/* ------------------------------------------
+ * General: DOM defaults
+ * ------------------------------------------ */
+
+body {
+	padding: 0px;
+	padding-top: 10px;
+}
+
+input[type='radio'], input[type='checkbox'] {
+	width: 30px;
+}
+
+
+/* ------------------------------------------
+ * General: View-specific defaults
+ * ------------------------------------------ */
+
+#ind-travel-view {
+
+	input[type='radio'] {
+		xmargin-right: 20px;
+		width: 30px;
+	}
+
+	label {
+		display: inline !important;
+	}
+
+}
+
+#ind-home-energy, 
+#biz-site-energy,
+#ind-travel-flight-length,
+#ind-travel-flight-miles {
+
+	.form-control {
+		height: 30px;
+	}
+
+}
+
+#ind-home-energy, #biz-site-energy {
+
+	.form-element-container {
+		padding-right: 10px !important;
+	}
+
+	.form-element input, .form-element select {
+		margin-left: 10px;
+	}
+
+	.form-element:first-child input, .form-element:first-child select {
+		margin-left: 0;
+	}
+
+}
+
+
+/* ------------------------------------------
+ * General: Layout defaults
+ * ------------------------------------------ */
+
+.clear { clear: both; }
+.bold {
+	font-family: 'Roboto', sans-serif;
+	font-weight: 700;
+}
+.inline-block { display: inline-block; }
+.float-left { float: left; }
+.float-right { float: right; }
+.width-auto { width: auto; }
+.text-right { text-align: right; }
+.uppercase { text-transform: uppercase; }
+
+.padding-top-10 { padding-top: 10px; }
+.padding-top-20 { padding-top: 20px; }
+.padding-top-30 { padding-top: 30px; }
+
+.padding-left-10 { padding-left: 10px !important; }
+.padding-left-20 { padding-left: 20px !important; }
+.padding-left-30 { padding-left: 30px !important; }
+
+.margin-left-10 { margin-left: 10px !important; }
+.margin-left-20 { margin-left: 20px !important; }
+.margin-left-30 { margin-left: 30px !important; }
+
+.margin-bottom-10 { margin-bottom: 10px !important; }
+.margin-bottom-20 { margin-bottom: 20px !important; }
+.margin-bottom-30 { margin-bottom: 30px !important; }
+
+.clear-10 { clear:both; padding-top: 10px !important; }
+.clear-20 { clear:both; padding-top: 20px !important; }
+.clear-30 { clear:both; padding-top: 30px !important; }
+
+.w10 { width: 10px !important; }
+.w20 { width: 20px !important; }
+.w30 { width: 30px !important; }
+.w40 { width: 40px !important; }
+.w50 { width: 50px !important; }
+
+.float-left label,
+.float-right label {
+	display: inline;
+}
+
+.half {
+	width: 50%;
+}
+
+.third {
+	width: 33%;
+}
+
+
+/* ------------------------------------------
+ * General: Design defaults
+ * ------------------------------------------ */
+
+ #calculator-container {
+ 	max-width: 920px;
+ 	width: 920px;
+ 	position: relative;
+ 	margin: 0 auto;
+ 	height: 600px;
+ }
+
+.checkmark {
+	position: absolute;
+	top: -8px;
+	right: -8px;
+	width: 23px;
+	height: 23px;
+	background: url(../img/ico_checkmark.png) 0 0 no-repeat;
+}
+
+.checkbox-text {
+	width: 90%;
+	text-transform: uppercase;
+	font-weight: 700;
+}
+
+.note {
+	font-size: 9pt;
+	text-decoration: italic;
+}
+
+.list {
+	padding-right: 20px;
+	margin-bottom: 30px;
+	max-height: 400px;
+
+	ul {
+		xpadding-bottom: 10px;
+		xborder-bottom: 2px solid $light-gray;
+	}
+
+	li {
+		padding-top: 5px;
+		border-top: 1px solid $light-gray;
+	}
+
+	li:first-child {
+		padding-top: none;
+		border-top: none;
+	}
+
+	button {
+		text-transform: uppercase;
+		font-size: 10px;
+	}
+}
+
+button.add {
+	text-transform: uppercase;
+	font-size: 10px;
+	position: relative;
+	margin: 0 auto;
+	display: block;
+}
+
+input.numeric {
+	width: 50px;
+}
+
+input.numeric-big {
+	width: 100px;
+}
+
+
+.info_5,
+.info_10,
+.info_15,
+.info_20,
+.info {
+	position: relative;
+	display: inline-block;
+	width: 23px;
+	height: 23px;
+	background: url(../img/ico_info.png) 0 0 no-repeat;
+	right: -5px;
+	top: 5px;
+}
+
+
+.info_5:hover,
+.info_10:hover,
+.info_15:hover,
+.info_20:hover,
+.info:hover {
+	background: url(../img/ico_info_hover.png) 0 0 no-repeat;
+}
+
+.info_5 { top: -5px; }
+.info_10 { top: -10px; }
+.info_15 { top: -15px; }
+.info_20 { top: -20px; }
+
+.secondary-question {
+	padding-left: 30px;
+
+	label {
+		font-style: italic;
+		text-transform: capitalize !important;
+	}
+}
+
+.big-label {
+	display: block;
+	padding: 5px 0 0 0;
+	text-transform: uppercase;
+	clear: both;
+ 	font-weight: 700;
+ 	margin-bottom: 5px;
+}
+
+
+/* ------------------------------------------
+ * Bootstrap mods
+ * ------------------------------------------ */
+.form-control {
+ 	max-width: $col2-width;
+}
+
+.btn-lg {
+	padding-top: 7px;
+	padding-bottom: 7px;
+	letter-spacing: 1px;
+}
+
+.btn-circle-36 {
+	position: relative;
+	width: 36px;
+	height: 36px;
+	text-align: center;
+	padding: 6px 0;
+	font-size: 18px;
+	line-height: 1.42;
+	border-radius: 18px;
+	overflow: hidden;
+}
+
+.btn-circle-20 {
+	position: relative;
+	width: 20px;
+	height: 20px;
+	text-align: center;
+	padding: 6px 0;
+	font-size: 10px;
+	line-height: 1.42;
+	border-radius: 10px;
+	border: none;
+}
+
+.btn-circle-12 {
+	position: relative;
+	width: 12px;
+	height: 12px;
+	text-align: center;
+	padding: 6px 0;
+	font-size: 6px;
+	line-height: 1.42;
+	border-radius: 6px;
+	border: none;
+}
+
+.arrow:after {
+  font-family: "Glyphicons Halflings";
+  content: "\e080";
+}
+
+.edit:before { // icon-pencil
+	font-family: "Glyphicons Halflings";
+	content: "\270f";
+}
+
+.delete:before { // icon-remove
+	font-family: "Glyphicons Halflings";
+	content: "\e014";
+}
+
+.add:before { // icon-plus
+	font-family: "Glyphicons Halflings";
+	content: "\2b";
+}
+
+.min-slider-handle, .max-slider-handle {
+	color: #fff;
+	xfont-size: 9pt;
+	width: 30px !important;
+	height: 30px !important;
+	line-height: 30px;
+	text-align: center;
+	margin-top: -10px !important;
+}
+
+/* ------------------------------------------
+ * Navigation icons
+ * ------------------------------------------ */
+
+ /* Individual Calculator */
+.ico-vehicle {
+	background: $peach url('../img/ico_vehicle.png') 0 0 no-repeat;
+	border: 0px solid #fff;
+}
+
+.ico-vehicle:hover {
+	background: $peach url('../img/ico_vehicle.png') 0 0 no-repeat;
+}
+
+.ico-transit {
+	background: $purple url('../img/ico_transit.png') 0 0 no-repeat;
+	border: 0px solid #fff;
+}
+
+.ico-transit:hover {
+	background: $purple url('../img/ico_transit.png') 0 0 no-repeat;
+}
+
+.ico-travel {
+	background: $dark-blue url('../img/ico_travel.png') 0 0 no-repeat;
+	border: 0px solid #fff;
+}
+
+.ico-travel:hover {
+	background: $dark-blue  url('../img/ico_travel.png') 0 0 no-repeat;
+}
+
+.ico-home-energy {
+	background: $light-blue url('../img/ico_home_energy.png') 0 0 no-repeat;
+	border: 0px solid #fff;
+}
+
+.ico-home-energy:hover {
+	background: $light-blue url('../img/ico_home_energy.png') 0 0 no-repeat;
+}
+
+
+ /* Business Calculator - NEW */
+.ico-site {
+	background: $peach url('../img/ico_site.png') 0 0 no-repeat;
+	border: 0px solid #fff;
+}
+
+.ico-site:hover {
+	background: $peach url('../img/ico_site.png') 0 0 no-repeat;
+}
+
+.ico-server {
+	background: $purple url('../img/ico_server.png') 0 0 no-repeat;
+	border: 0px solid #fff;
+}
+
+.ico-server:hover {
+	background: $purple url('../img/ico_server.png') 0 0 no-repeat;
+}
+
+.ico-fleet {
+	background: $dark-blue url('../img/ico_fleet.png') 0 0 no-repeat;
+	border: 0px solid #fff;
+}
+
+.ico-fleet:hover {
+	background: $dark-blue url('../img/ico_fleet.png') 0 0 no-repeat;
+}
+
+.ico-business-travel {
+	background: $light-blue url('../img/ico_travel.png') 0 0 no-repeat;
+	border: 0px solid #fff;
+}
+
+.ico-business-travel:hover {
+	background: $light-blue  url('../img/ico_travel.png') 0 0 no-repeat;
+}
+
+.ico-commute {
+	background: $green url('../img/ico_commute.png') 0 0 no-repeat;
+	border: 0px solid #fff;
+}
+
+.ico-commute:hover {
+	background: $green  url('../img/ico_commute.png') 0 0 no-repeat;
+}
+
+.ico-shipping {
+	background: $dark-green url('../img/ico_shipping.png') 0 0 no-repeat;
+	border: 0px solid #fff;
+}
+
+.ico-shipping:hover {
+	background: $dark-green url('../img/ico_shipping.png') 0 0 no-repeat;
+}
+
+
+ /* Business Calculator - OLD */
+ /*
+.ico-site {
+	background: $light-blue url('../img/ico_site.png') 0 0 no-repeat;
+	border: 0px solid #fff;
+}
+
+.ico-site:hover {
+	background: $light-blue url('../img/ico_site.png') 0 0 no-repeat;
+}
+
+.ico-server {
+	background: $dark-purple url('../img/ico_server.png') 0 0 no-repeat;
+	border: 0px solid #fff;
+}
+
+.ico-server:hover {
+	background: $dark-purple url('../img/ico_server.png') 0 0 no-repeat;
+}
+
+.ico-fleet {
+	background: $peach url('../img/ico_fleet.png') 0 0 no-repeat;
+	border: 0px solid #fff;
+}
+
+.ico-fleet:hover {
+	background: $peach url('../img/ico_fleet.png') 0 0 no-repeat;
+}
+
+.ico-travel {
+	background: $dark-blue url('../img/ico_travel.png') 0 0 no-repeat;
+	border: 0px solid #fff;
+}
+
+.ico-travel:hover {
+	background: $dark-blue  url('../img/ico_travel.png') 0 0 no-repeat;
+}
+
+.ico-commute {
+	background: $purple url('../img/ico_commute.png') 0 0 no-repeat;
+	border: 0px solid #fff;
+}
+
+.ico-commute:hover {
+	background: $purple  url('../img/ico_commute.png') 0 0 no-repeat;
+}
+
+.ico-shipping {
+	background: $green url('../img/ico_shipping.png') 0 0 no-repeat;
+	border: 0px solid #fff;
+}
+
+.ico-shipping:hover {
+	background: $green url('../img/ico_shipping.png') 0 0 no-repeat;
+}
+*/
+
+ /* Event Calculator */
+.ico-venue {
+	background: $light-blue url('../img/ico_venue.png') 0 0 no-repeat;
+	border: 0px solid #fff;
+}
+
+.ico-venue:hover {
+	background: $light-blue url('../img/ico_venue.png') 0 0 no-repeat;
+}
+
+.ico-meals {
+	background: $green url('../img/ico_meals.png') 0 0 no-repeat;
+	border: 0px solid #fff;
+}
+
+.ico-meals:hover {
+	background: $green url('../img/ico_meals.png') 0 0 no-repeat;
+}
+
+.ico-water {
+	background: $dark-green url('../img/ico_water.png') 0 0 no-repeat;
+	border: 0px solid #fff;
+}
+
+.ico-water:hover {
+	background: $dark-green url('../img/ico_water.png') 0 0 no-repeat;
+}
+
+
+
+.ico-help {
+	background: $dark-gray url('../img/ico_help.png') 0 0 no-repeat;
+	border: 0px solid #fff;
+	color: #fff;
+}
+
+.ico-help:hover {
+	background: $dark-gray url('../img/ico_help.png') 0 0 no-repeat;
+	color: #fff;
+}
+
+
+/* ------------------------------------------
+ * Navigation styles
+ * ------------------------------------------ */
+
+ul {
+	margin: 0;
+	padding: 0;
+
+	li {
+		margin: 0;
+		margin-bottom: 10px;
+		padding: 0;
+		list-style: none;
+	}
+}
+
+
+/* ------------------------------------------
+ * Content Styles
+ * ------------------------------------------ */
+
+#col-content {
+	position: relative;
+
+	h1 {
+		position: relative;
+		margin-top: 0;
+		font-family: 'Roboto', sans-serif;
+		font-size: 30pt;
+		text-transform: uppercase;
+
+		.header-first-line {
+			font-size: 16pt;
+			color: $dark-gray;
+		}
+	}
+
+	.view-question {
+		padding: 10px 20px 10px 0;
+		color: $dark-gray;
+		font-size: 16pt;
+	}
+
+	form {
+		
+		label {
+			display: block;
+			padding: 5px 0 0 0;
+			text-transform: uppercase;
+		}
+
+		.form-element-container {
+			xfloat: left;
+			xwidth: 229px;
+			padding-right: 20px;
+		}
+
+		.form-element {
+			margin-bottom: 10px;
+			xwidth: 100%;
+			xmax-width: 300px;
+		}
+
+		.form-control {
+			xwidth: auto;
+		}
+	}
+
+
+	footer {
+
+		position: absolute;
+		bottom: 0px;
+		width: 100%;
+		padding-right: 20px;
+
+		.left {
+			float: left;
+			height: 44px;
+		}
+
+		.right {
+			float: right;
+			height: 44px;
+		}
+
+		.btn {
+			background-color: $dark-gray;
+			color: $white;
+			text-transform: uppercase;
+			xborder-radius: 40px;
+		}
+
+		.btn:hover {
+			background-color: $light-gray;
+		}
+
+		.btn-next {
+			margin-right: 20px;
+		}
+
+	}
+}
+
+#col-summary {
+	position: relative;
+
+	h1 {
+		margin-top: 0;
+		font-family: 'Roboto', sans-serif;
+		font-size: 30pt;
+		text-transform: uppercase;
+
+		.header-first-line {
+			font-size: 16pt;
+			color: $dark-gray;
+		}
+	}
+
+	h2 {
+		font-family: 'Roboto', sans-serif;
+		font-size: 12pt;
+		text-transform: uppercase;
+		padding-bottom: 5px;
+		border-bottom: 1px solid #ccc;
+	}
+
+	.summary-total {
+		text-transform: capitalize;
+		color: $dark-gray;
+		font-size: .9em;
+		float: right;
+		position: relative;
+		bottom: -2px;
+
+		a {
+			text-decoration: underline;
+			color: $dark-gray;
+		}
+	}
+
+	.you-table, .us-table {
+
+		table {
+			height: 35px;
+		}
+
+	}
+
+	.you-table.tall {
+
+		table {
+			height: 70px;
+		}
+
+	}
+
+	.offset-category {
+		position: relative;
+
+		> div {
+			display: inline-block;
+		}
+
+		.btn {
+			position: relative;
+			top: -1px;
+		}
+
+		.offset-category-title {
+			width: 130px;
+			padding-left: 10px;
+			padding-right: 10px;
+		}
+
+		.offset-category-amount {
+			font-weight: 700;
+			float: right;
+		}
+	}
+
+	.total {
+		position: absolute;
+		bottom: 0;
+		margin-right: 20px;
+
+		form {
+			padding-top: 10px;
+		}
+
+		.form-element {
+			padding-top: 5px;
+			margin-bottom: 5px;
+		}
+
+		.btn {
+			color: $white;
+			width: 100%;
+			max-width: 360px;
+			text-transform: uppercase;
+			xborder-radius: 40px;
+		}
+	}
+
+	#total-title {
+		padding-top: 10px;
+	}
+}
+
+
+#help {
+	background-color: $white;
+	padding: 40px;  
+	position: relative;
+	width:auto;
+	width: 800px;
+	height: 400px;
+	overflow: auto;
+	margin: 20px auto;
+
+	section {
+		padding-top: 20px;
+
+		.topic {
+			font-size: 14px;
+			font-weight: bold;
+		}
+
+		.detail {
+			font-size: 12px;
+		}
+	}
+}
+
+
+/*
+ * Tablets
+ *-------------------------------------*/
+@media (min-width: 0px) and (max-width: 919px) {
+
+	xbody { background-color: #ccc; }
+
+	$col1-width-rwd: 40px;
+	$col2-width-rwd: 420px;
+	$col3-width-rwd: 460px;
+
+	#col-nav {
+		width: $col1-width-rwd;
+	}
+
+	#col-content {
+		width: $col2-width-rwd;
+		border-right: none;
+		height: auto;
+
+		footer {
+			position: relative;
+			padding-top: 20px;
+			padding-right: 0px;
+		}
+	}
+
+	#col-summary {
+		width: $col3-width-rwd;
+		padding-top: 40px;
+		padding-left: 60px;
+		padding-right: 0px;
+		padding-bottom: 40px;
+		margin-bottom: 40px;
+
+		h1 {
+			padding-top: 40px;
+			border-top: 2px solid $light-gray;
+		}
+
+		.total {
+			position: relative;
+			margin-right: 0;
+			margin-bottom: 40px;
+			padding-bottom: 40px;
+
+			.btn {
+				max-width: none;
+			}
+		}
+	}
+
+	#calculator-container {
+		width: 479px;
+		height: auto;
+	}
+
+	#help {
+		width: 400px;
+	}
+
+}
+
+
+/*
+ * Phones
+ *-------------------------------------*/
+@media (min-width: 481px) and (max-width: 767px) {
+
+
 }
