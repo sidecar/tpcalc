@@ -76,6 +76,9 @@ note: there is another way to do handlebars templateting in Marionette, see 'Bui
 	curl http://npmjs.org/install.sh | sh
 More info here: http://howtonode.org/introduction-to-npm
 
+### Install nodemon
+	npm install -g nodemon
+
 ### Install gulp
 	npm install -g gulp
 
@@ -93,7 +96,7 @@ I have no fucking clue how these two things work together (in other words: magic
 Test suite is built with Jasmine and the test runner is Karma
 	gulp test
 
-## Deploying
+## Building
 	gulp build
 Produces a complete project in the /dist directory
 
