@@ -1,1 +1,38 @@
 Ind Air Add Template
+<div class="view-question">Please provide your flight information</div>
+		
+		<form name="ind_travel_flights_view" id="ind-travel-flights">
+
+			<div class="form-element-container">
+				<label for="ind_travel_flights_trip">One way or round trip:</label>
+				<!--div class="form-element">
+					<select name="ind_travel_flights_trip" class="form-control">
+						<option value="one_way">One Way Trip</option>
+						<option value="round_trip">Round Trip</option>
+					</select>
+				</div-->
+				<div class="form-element half float-left margin-bottom-20">
+					<input type="radio" name="ind_travel_flights_trip" value="one_way" />One Way Trip
+				</div>
+				<div class="form-element half float-left margin-bottom-20">
+					<input type="radio" name="ind_travel_flights_trip" value="round_trip" />Round Trip
+				</div>
+			</div>
+
+			<div class="clear"></div>
+
+			<div class="form-element-container float-left half">
+				<label for="ind_travel_flights_from">From:</label>
+				<div class="form-element">
+					<input type="text" name="ind_travel_flights_from" class="form-control" />
+				</div>
+			</div>
+
+			<div class="form-element-container float-right half">
+				<label for="ind_travel_flights_to">To:</label>
+				<div class="form-element">
+					<input type="text" name="ind_travel_flights_to" class="form-control" />
+				</div>
+			</div>
+
+		</form>
