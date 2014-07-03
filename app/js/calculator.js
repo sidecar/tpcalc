@@ -9,6 +9,7 @@ var _ = require('underscore')
   , FooterView = require('./views/footer-view')
   , MenuLayout = require('./views/menu-layout')
   , MenuIconView = require('./views/menu-icon-view')
+  , SummaryView = require('./views/summary-view')
   , HelpView = require('./views/help-view')
   , Bootstrap = require('bootstrap')
   // , Popup = require('magnific-popup')
@@ -153,6 +154,7 @@ module.exports = App.module('Calc', function(Calc) {
     mainLayout.footerRegion.show(new FooterView({model: calcModel}));
     mainLayout.menuRegion.show(menuLayout);
     mainLayout.inputRegion.show(inputViewObj.view);
+    mainLayout.summaryRegion.show(new SummaryView());
   };
 
   Calc.initEventListeners = function() {
