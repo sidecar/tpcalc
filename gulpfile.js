@@ -4,7 +4,6 @@ var gulp = require('gulp')
 , jshint = require('gulp-jshint')
 , browserify = require('gulp-browserify')
 , uglify = require('gulp-uglifyjs')
-//, concat = require('gulp-concat')
 , concat = require('gulp-concat-sourcemap')
 , minifyCSS = require('gulp-minify-css')
 , imageMin = require('gulp-imagemin')
@@ -96,7 +95,6 @@ gulp.task('lint', function() {
 //     .pipe(gulp.dest(config.dev.js));
 // });
 
-
 gulp.task('copy-html-to-dev', function(){
     // Copy the index.html file into the dist dir
   return gulp.src(config.app.baseDir + '*.html')
@@ -171,7 +169,8 @@ gulp.task('optimize-images', function() {
 });
 
 // Create web server
-// Using gulp-livereload  in the watch task instead of connect-livereload middleware //.use(require('connect-livereload')({ port: 35729 }))
+// Using gulp-livereload  in the watch task instead of connect-livereload middleware 
+//.use(require('connect-livereload')({ port: 35729 }))
 // gulp.task('connect', function() {
 // var connect = require('connect'), server = connect();
 //         //??? Not what connect.directory is for ???
@@ -246,16 +245,15 @@ gulp.task('copy-to-build', function() {
       // Replace the script calls in index to pull in the concatenated and minified single js script
       .pipe(replace('init.js','init.min.js'))
       .pipe(gulp.dest(config.build.baseDir));
-
     //copy the php files  
     gulp.src(config.app.baseDir + 'php/**/*.{php,html}')
       .pipe(gulp.dest(config.build.baseDir + 'php/'));
-
-    // Copy javascript into build dir
-    //gulp.src([config.dev.js + 'libs.min.js', config.dev.js + 'libs.min.js.map']).pipe(gulp.dest(config.build.js));
-    gulp.src(config.dev.js + 'libs.min.js.map').pipe(gulp.dest(config.build.js));
     // Copy css into build dir
     gulp.src(config.dev.styles + '**/*.min.css').pipe(gulp.dest(config.build.styles));
+
+    // Copy unbrowserfied lib javascript into build dir
+    //gulp.src([config.dev.js + 'libs.min.js', config.dev.js + 'libs.min.js.map']).pipe(gulp.dest(config.build.js));
+    //gulp.src(config.dev.js + 'libs.min.js.map').pipe(gulp.dest(config.build.js));
 })
 
 // Build a production version of the app 
