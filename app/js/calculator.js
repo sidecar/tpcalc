@@ -29,11 +29,12 @@ module.exports = App.module('Calc', function(Calc) {
   var Controller = Marionette.Controller.extend({
     // showInputView: function(catCodes, calculator, category, inputView) {
     showInputView: function(calculator, categorySlug, inputView) {
-      var category = Calc.getCategoryBySlug(categorySlug);
-      Calc.model.set({currentCategory: category});
+      var categoryModel = Calc.getCategoryBySlug(categorySlug);
+      Calc.model.set({currentCategory: categoryModel});
       var inputViewObj = Calc.getViewObjBySlug(inputView);
-      category.set({currentInputViewObj: inputViewObj});
+      categoryModel.set({currentInputViewObj: inputViewObj});
       Calc.mainLayout.inputRegion.show(inputViewObj.view); 
+      Calc.setFooterButtonStates(inputViewObj);
     },
     // When the module stops, we need to clean up our views
     hide: function() {
@@ -97,9 +98,27 @@ module.exports = App.module('Calc', function(Calc) {
     App.router.navigate(Calc.baseRoute+'/'+prevCategorySlug+'/'+inputViewToShow.name, {trigger: true});
   };
 
+  Calc.setFooterButtonStates = function(currentInputViewObj) {
+    var categoryModels = this.model.get('categoryModels');
+    var initialCat = categoryModels[0].get('category');
+    var currentCat = this.model.get('currentCategory').get('category');
+    var initialViewObject = currentCat.views[0];
+    if (currentInputViewObj.name === initialViewObject.name && currentCat.slug === initialCat.slug) {
+      console.log('disablePrevBtn');
+      Calc.footerView.disablePrevBtn();
+    } else {
+      console.log('activatePrevBtn');
+      Calc.footerView.activatePrevBtn();
+    }
+  };
+
   Calc.initModels = function(options) {
     // set up the calculator model that contains category models
-    var calcModel = Calc.model = new Backbone.Model({displayName: options.displayName, slug: options.slug});
+    var calcModel = Calc.model = new Backbone.Model({
+      displayName: options.displayName, 
+      slug: options.slug
+    });
+
     var categoryModels = [];
 
     // Set up models for each category
@@ -125,6 +144,14 @@ module.exports = App.module('Calc', function(Calc) {
       },
       getSlug: function() {
         return this.get('category').slug;
+      },
+      isDisplayingInitialInputView: function() {
+
+        var slug = this.get('category').slug;
+        var viewObjects = this.get('viewObjects');
+        console.log(viewObjects);
+        // if (slug === cu)
+        // return false;
       }
     });
 
@@ -147,14 +174,19 @@ module.exports = App.module('Calc', function(Calc) {
     
     var mainLayout = Calc.mainLayout = new MainLayout();  
     var menuLayout = Calc.menuLayout = new MenuLayout({categories: categoryModels});
-    
+    var headerView = Calc.headerView = new HeaderView({model: calcModel});
+    var helpView = Calc.helpView = new HelpView({model: calcModel});
+    var footerView = Calc.footerView = new FooterView({model: calcModel});
+    var summaryView = Calc.summaryView = new SummaryView({model: calcModel});
+
     App.body.show(mainLayout); // have to call show on a layout before it can do anything else
-    mainLayout.headerRegion.show(new HeaderView({model: calcModel}));
-    mainLayout.helpRegion.show(new HelpView());
-    mainLayout.footerRegion.show(new FooterView({model: calcModel}));
+    mainLayout.headerRegion.show(headerView);
+    mainLayout.helpRegion.show(helpView);
+    mainLayout.footerRegion.show(footerView);
     mainLayout.menuRegion.show(menuLayout);
     mainLayout.inputRegion.show(inputViewObj.view);
-    mainLayout.summaryRegion.show(new SummaryView({model: calcModel}));
+    mainLayout.summaryRegion.show(summaryView);
+    Calc.setFooterButtonStates(inputViewObj);
   };
 
   Calc.initEventListeners = function() {
@@ -208,7 +240,7 @@ module.exports = App.module('Calc', function(Calc) {
     });  
 
     App.vent.on('help', function(event) { 
-
+      $('#helpModal').modal(options);
     });  
 
   };

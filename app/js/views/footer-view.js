@@ -1,4 +1,5 @@
-var App = require('../app')
+var $ = require('jquery')
+, App = require('../app')
 , Marionette = require('backbone.marionette')
 , template = require('../templates/footer-template.hbs');
 
@@ -15,8 +16,13 @@ module.exports = Marionette.ItemView.extend({
   prev: function(event) {
     event.preventDefault();
     App.vent.trigger('prev', event);
+  },
+  disablePrevBtn: function() {
+    $('.btn-prev').attr('disabled', 'disabled');
+    $('.btn-prev').removeClass('active');    
+  },
+  activatePrevBtn: function() {
+    $('.btn-prev').removeAttr('disabled');
+    $('.btn-prev').addClass('active');
   }
-	// serializeData: function(){
- //      return this.model.data
- //    } 
 });
