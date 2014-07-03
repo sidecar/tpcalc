@@ -154,7 +154,7 @@ module.exports = App.module('Calc', function(Calc) {
     mainLayout.footerRegion.show(new FooterView({model: calcModel}));
     mainLayout.menuRegion.show(menuLayout);
     mainLayout.inputRegion.show(inputViewObj.view);
-    mainLayout.summaryRegion.show(new SummaryView());
+    mainLayout.summaryRegion.show(new SummaryView({model: calcModel}));
   };
 
   Calc.initEventListeners = function() {

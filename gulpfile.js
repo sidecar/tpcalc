@@ -241,9 +241,10 @@ gulp.task('server', function() {
 
 //Copy necessary files to build dir
 gulp.task('copy-to-build', function() {
-    gulp.src(config.app.baseDir + 'index.html')
+    gulp.src(config.app.baseDir + '*.html')
       // Replace the script calls in index to pull in the concatenated and minified single js script
-      .pipe(replace('init.js','init.min.js'))
+      //.pipe(replace('init.js','init.min.js'))
+      .pipe(gulpIf(/index.html$/, replace('init.js','init.min.js')))
       .pipe(gulp.dest(config.build.baseDir));
     //copy the php files  
     gulp.src(config.app.baseDir + 'php/**/*.{php,html}')
