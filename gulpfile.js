@@ -4,8 +4,8 @@ var gulp = require('gulp')
 , jshint = require('gulp-jshint')
 , browserify = require('gulp-browserify')
 , uglify = require('gulp-uglifyjs')
-, concat = require('gulp-concat')
-, concatSourceMap = require('gulp-concat-sourcemap')
+//, concat = require('gulp-concat')
+, concat = require('gulp-concat-sourcemap')
 , minifyCSS = require('gulp-minify-css')
 , imageMin = require('gulp-imagemin')
 , sass = require('gulp-sass')
@@ -53,7 +53,7 @@ config.test.baseDir = 'test/';
 gulp.task('test-prep', function() {
   //runSequence('testPrepBrowserifyTests');
   return gulp.src('test/main.spec.js')
-    .pipe(browserify({ 
+    .pipe(browserify({
       insertGlobals: true,
       transform: ['hbsfy'],
       extensions: ['.hbs']
@@ -85,23 +85,17 @@ gulp.task('lint', function() {
       .pipe(jshint.reporter('default'));
 });
 
-gulp.task('package-vendor-libs', function() {
-  gulp.src([config.app.js + 'vendor/jquery-1.10.1.min.js', config.app.js + 'vendor/jquery.magnific-popup.min.js', config.app.js + 'vendor/bootstrap.min.js', config.app.js + 'vendor/bootstrap-slider.js'])
-    // .pipe(concat('libs.js'))
-    // .pipe(gulp.dest(config.dev.js));
-    // Concatenate AND minify files and create a source map
-    .pipe(uglify('libs.min.js', {
-      outSourceMap: 'libs.min.js.map'
-    }))
-    .pipe(gulp.dest(config.dev.js));
-});
-
-// gulp.task('package-vendor-libs-for-build', function() {
+// gulp.task('package-vendor-libs', function() {
 //   gulp.src([config.app.js + 'vendor/jquery-1.10.1.min.js', config.app.js + 'vendor/jquery.magnific-popup.min.js', config.app.js + 'vendor/bootstrap.min.js', config.app.js + 'vendor/bootstrap-slider.js'])
-//     .pipe(concat('libs.js'))
-//     .pipe()
+//     // .pipe(concat('libs.js'))
+//     // .pipe(gulp.dest(config.dev.js));
+//     // Concatenate AND minify files and create a source map
+//     .pipe(uglify('libs.min.js', {
+//       outSourceMap: 'libs.min.js.map'
+//     }))
 //     .pipe(gulp.dest(config.dev.js));
 // });
+
 
 gulp.task('copy-html-to-dev', function(){
     // Copy the index.html file into the dist dir
@@ -242,7 +236,8 @@ gulp.task('server', function() {
     //run these subtasks in sequence
     //runSequence('clean-dev', ['sass', 'browserify', 'package-vendor-libs', 'copy-html-to-dev', 'copy-php-to-dev'], 'connect','watch-for-changes');
     // runSequence('clean-dev', ['sass', 'browserify', 'package-vendor-libs', 'copy-html-to-dev', 'copy-php-to-dev', 'copy-images-to-dev'],'watch-for-changes', 'start-node-server', 'open-browser');
-    runSequence('clean-dev', ['sass', 'browserify', 'package-vendor-libs', 'copy-html-to-dev', 'copy-php-to-dev', 'copy-images-to-dev'],'watch-for-changes', 'start-node-server');
+    //runSequence('clean-dev', ['sass', 'browserify', 'package-vendor-libs', 'copy-html-to-dev', 'copy-php-to-dev', 'copy-images-to-dev'],'watch-for-changes', 'start-node-server');
+    runSequence('clean-dev', ['sass', 'browserify', 'copy-html-to-dev', 'copy-php-to-dev', 'copy-images-to-dev'],'watch-for-changes', 'start-node-server');
 });
 
 //Copy necessary files to build dir
@@ -257,7 +252,8 @@ gulp.task('copy-to-build', function() {
       .pipe(gulp.dest(config.build.baseDir + 'php/'));
 
     // Copy javascript into build dir
-    gulp.src([config.dev.js + 'libs.min.js', config.dev.js + 'libs.min.js.map']).pipe(gulp.dest(config.build.js));
+    //gulp.src([config.dev.js + 'libs.min.js', config.dev.js + 'libs.min.js.map']).pipe(gulp.dest(config.build.js));
+    gulp.src(config.dev.js + 'libs.min.js.map').pipe(gulp.dest(config.build.js));
     // Copy css into build dir
     gulp.src(config.dev.styles + '**/*.min.css').pipe(gulp.dest(config.build.styles));
 })
