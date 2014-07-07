@@ -30,7 +30,7 @@ module.exports = App.module('Calc', function(Calc) {
     // showInputView: function(catCodes, calculator, category, inputView) {
     showInputView: function(calculator, categorySlug, inputView) {
       var categoryModel = Calc.getCategoryBySlug(categorySlug);
-      Calc.model.set({currentCategory: categoryModel});
+      Calc.model.set({currentCategoryModel: categoryModel});
       var inputViewObj = Calc.getViewObjBySlug(inputView);
       categoryModel.set({currentInputViewObj: inputViewObj});
       Calc.mainLayout.inputRegion.show(inputViewObj.view); 
@@ -62,7 +62,7 @@ module.exports = App.module('Calc', function(Calc) {
   };
 
   Calc.getViewObjBySlug = function(viewSlug) {
-    var currentCategoryModel = Calc.model.get('currentCategory');
+    var currentCategoryModel = Calc.model.get('currentCategoryModel');
     var viewObjects = currentCategoryModel.get('viewObjects');
     var viewObj = _.findWhere(viewObjects, {name: viewSlug});
     return viewObj;
@@ -70,14 +70,14 @@ module.exports = App.module('Calc', function(Calc) {
 
   Calc.goToNextCategory = function() {
     var categoryModels = Calc.model.get('categoryModels');
-    var currentCategoryNum = _.indexOf(categoryModels, Calc.model.get('currentCategory'));
+    var currentCategoryNum = _.indexOf(categoryModels, Calc.model.get('currentCategoryModel'));
     var newCategoryNum = currentCategoryNum + 1;
     var newCategory = categoryModels[newCategoryNum];
     if(newCategory === undefined) {
       alert('this is the final category');
       return;
     }
-    Calc.model.set({currentCategory: newCategory});
+    Calc.model.set({currentCategoryModel: newCategory});
     var newCategorySlug = newCategory.getSlug();
     var inputViewToShow = newCategory.getCurrentInputView();
     App.router.navigate(Calc.baseRoute+'/'+newCategorySlug+'/'+inputViewToShow.name, {trigger: true});
@@ -85,14 +85,14 @@ module.exports = App.module('Calc', function(Calc) {
 
   Calc.goToPrevCategory = function() {
     var categoryModels = Calc.model.get('categoryModels');
-    var currentCategoryNum = _.indexOf(categoryModels, Calc.model.get('currentCategory'));
+    var currentCategoryNum = _.indexOf(categoryModels, Calc.model.get('currentCategoryModel'));
     var prevCategoryNum = currentCategoryNum - 1;
     var prevCategory = categoryModels[prevCategoryNum];
     if(prevCategory === undefined) {
       alert('this is the first category');
       return;
     }
-    Calc.model.set({currentCategory: prevCategory});
+    Calc.model.set({currentCategoryModel: prevCategory});
     var prevCategorySlug = prevCategory.getSlug();
     var inputViewToShow = prevCategory.getCurrentInputView();
     App.router.navigate(Calc.baseRoute+'/'+prevCategorySlug+'/'+inputViewToShow.name, {trigger: true});
@@ -101,7 +101,7 @@ module.exports = App.module('Calc', function(Calc) {
   Calc.setFooterButtonStates = function(currentInputViewObj) {
     var categoryModels = this.model.get('categoryModels');
     var initialCat = categoryModels[0].get('category');
-    var currentCat = this.model.get('currentCategory').get('category');
+    var currentCat = this.model.get('currentCategoryModel').get('category');
     var initialViewObject = currentCat.views[0];
     if (currentInputViewObj.name === initialViewObject.name && currentCat.slug === initialCat.slug) {
       console.log('disablePrevBtn');
@@ -144,14 +144,6 @@ module.exports = App.module('Calc', function(Calc) {
       },
       getSlug: function() {
         return this.get('category').slug;
-      },
-      isDisplayingInitialInputView: function() {
-
-        var slug = this.get('category').slug;
-        var viewObjects = this.get('viewObjects');
-        console.log(viewObjects);
-        // if (slug === cu)
-        // return false;
       }
     });
 
@@ -162,14 +154,14 @@ module.exports = App.module('Calc', function(Calc) {
 
     calcModel.set({categoryModels: categoryModels});
     var currentCategoryModel = categoryModels[0];
-    calcModel.set({currentCategory: currentCategoryModel}); 
+    calcModel.set({currentCategoryModel: currentCategoryModel}); 
 
   };
 
   Calc.initLayout = function(options) {
     var calcModel = Calc.model
     , categoryModels = calcModel.get('categoryModels')
-    , currentCategoryModel = calcModel.get('currentCategory')
+    , currentCategoryModel = calcModel.get('currentCategoryModel')
     , inputViewObj = currentCategoryModel.getCurrentInputView();
     
     var mainLayout = Calc.mainLayout = new MainLayout();  
@@ -191,9 +183,9 @@ module.exports = App.module('Calc', function(Calc) {
 
   Calc.initEventListeners = function() {
     App.vent.on('next', function(event) {
-      var currentCategory = Calc.model.get('currentCategory');
-      var currentCategorySlug = currentCategory.getSlug();
-      var currentViewObj = currentCategory.get('currentInputViewObj');
+      var currentCategoryModel = Calc.model.get('currentCategoryModel');
+      var currentCategorySlug = currentCategoryModel.getSlug();
+      var currentViewObj = currentCategoryModel.get('currentInputViewObj');
       var currentView = currentViewObj.view;
       var nextViewSlug = currentView.getNextViewSlug();
       
@@ -210,32 +202,32 @@ module.exports = App.module('Calc', function(Calc) {
 
       var nextView = nextViewObj.view;
       nextView.previousViewObj = currentViewObj;
-      currentCategory.set({currentInputViewObj: nextViewObj});
+      currentCategoryModel.set({currentInputViewObj: nextViewObj});
       App.router.navigate(Calc.baseRoute+'/'+currentCategorySlug+'/'+nextViewObj.name, {trigger: true});
     });
     
     App.vent.on('prev', function(event) {     
-      var currentCategory = Calc.model.get('currentCategory');
-      var currentCategorySlug = currentCategory.getSlug();
-      var currentViewObj = currentCategory.get('currentInputViewObj');
+      var currentCategoryModel = Calc.model.get('currentCategoryModel');
+      var currentCategorySlug = currentCategoryModel.getSlug();
+      var currentViewObj = currentCategoryModel.get('currentInputViewObj');
       var currentView = currentViewObj.view;
       var previousViewObj = currentView.previousViewObj;
       if(previousViewObj === undefined){ 
         Calc.goToPrevCategory();
         return;
       }
-      currentCategory.set({currentInputViewObj: previousViewObj});
+      currentCategoryModel.set({currentInputViewObj: previousViewObj});
       App.router.navigate(Calc.baseRoute+'/'+currentCategorySlug+'/'+previousViewObj.name, {trigger: true});
     });
 
     App.vent.on('category', function(event) { 
       var newCategorySlug = $(event.target).data('category');
-      var oldCategory = Calc.model.get('currentCategory');
+      var oldCategory = Calc.model.get('currentCategoryModel');
       var oldCategorySlug = oldCategory.getSlug();
       if(newCategorySlug === oldCategorySlug) return; 
       var newCategory = Calc.getCategoryBySlug(newCategorySlug);
       var currentViewObj = newCategory.getCurrentInputView();
-      Calc.model.set({currentCategory: newCategory});
+      Calc.model.set({currentCategoryModel: newCategory});
       App.router.navigate(Calc.baseRoute+'/'+newCategorySlug+'/'+currentViewObj.name, {trigger: true});
     });  
 
@@ -252,6 +244,7 @@ module.exports = App.module('Calc', function(Calc) {
     Calc.initModels(options);
     Calc.initLayout(options);
     Calc.initEventListeners();
+    console.log(Calc.model);
   });
 
   Calc.on('start', function(options) {

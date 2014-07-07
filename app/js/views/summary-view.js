@@ -11,7 +11,7 @@ module.exports = Marionette.ItemView.extend({
   },
   serializeData: function(){
   	// var calculatorName = this.model.get('displayName')
-   //  , categoryModel = this.model.get('currentCategory')
+   //  , categoryModel = this.model.get('currentCategoryModel')
    //  , categoryName = categoryModel.getDisplayName();
   	// return {
   	// 	calculatorName: calculatorName,

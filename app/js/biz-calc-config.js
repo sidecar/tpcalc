@@ -32,6 +32,7 @@ business = {};
         {name: 'car',  view: new carView()},
         {name: 'ecar',  view: new ecarView()},
         {name: 'boat',  view: new boatView()},
+        {name: 'plane',  view: new planeView()},
         {name: 'list',  view: new listView()}
       ]
     } 

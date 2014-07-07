@@ -1,1 +1,44 @@
-biz fleet list
+<div class="view-question">Here are the vehicles that make up your fleet</div>
+
+		<div id="ind-vehicle-list" class="list">
+			<ul>
+				<li>30 Trucks, Gasoline, 20,000 mi/yr 
+					<span class="float-right">
+						<!--i class="glyphicon glyphicon-pencil"></i-->
+						<button class="btn btn-xs bg-dark-gray white edit"> &nbsp;Edit</button>
+						<button class="btn btn-xs bg-dark-gray white delete"> &nbsp;Delete</button>
+					</span>
+				</li>
+				<li>1 Boat, Diesel
+					<span class="float-right">
+						<button class="btn btn-xs bg-dark-gray white edit"> &nbsp;Edit</button>
+						<button class="btn btn-xs bg-dark-gray white delete"> &nbsp;Delete</button>
+					<span>
+				</li>
+				<li>10 Cars, Gasoline, 10,000 mi/yr
+					<span class="float-right">
+						<button class="btn btn-xs bg-dark-gray white edit"> &nbsp;Edit</button>
+						<button class="btn btn-xs bg-dark-gray white delete"> &nbsp;Delete</button>
+					<span>
+				</li>
+			</ul>
+		</div>
+		
+		<form name="ind_vehicle_list_view">
+		
+			<div class="form-element-container">
+				<label for="year">Add another vehicle type</label>
+				<div class="form-element">
+					<select class="form-control" name="biz_fleet_type">
+						<option value="car">Cars</option>
+						<option value="pickup">Pick-Ups / Vans / SUVs</option>
+						<option value="delivery_truck">Delivery Trucks</option>
+						<option value="semi">Semi - Trailer</option>
+						<option value="boat">Boats</option>
+						<option value="electric_car">Electric Cars</option>
+						<option value="plane">Planes</option>
+					</select>
+				</div>
+			</div>
+
+		</form>

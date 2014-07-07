@@ -113,6 +113,12 @@ gulp.task('copy-images-to-dev', function() {
     .pipe(gulp.dest(config.dev.images));
 });
 
+gulp.task('copy-fonts-to-dev', function() {
+  //copy images to the dev folder
+  return gulp.src(config.app.styles + 'bootstrap-sass/fonts/bootstrap/**/*.{eot,svg,ttf,woff}')
+    .pipe(gulp.dest(config.dev.styles + 'fonts/bootstrap/'));
+});
+
 // Compile sass then concatenate and minify all css
 gulp.task('sass', function() {
     // return gulp.src([config.app.styles + '**/*.scss', config.app.styles + '**/*.scss'])
@@ -236,7 +242,7 @@ gulp.task('server', function() {
     //runSequence('clean-dev', ['sass', 'browserify', 'package-vendor-libs', 'copy-html-to-dev', 'copy-php-to-dev'], 'connect','watch-for-changes');
     // runSequence('clean-dev', ['sass', 'browserify', 'package-vendor-libs', 'copy-html-to-dev', 'copy-php-to-dev', 'copy-images-to-dev'],'watch-for-changes', 'start-node-server', 'open-browser');
     //runSequence('clean-dev', ['sass', 'browserify', 'package-vendor-libs', 'copy-html-to-dev', 'copy-php-to-dev', 'copy-images-to-dev'],'watch-for-changes', 'start-node-server');
-    runSequence('clean-dev', ['sass', 'browserify', 'copy-html-to-dev', 'copy-php-to-dev', 'copy-images-to-dev'],'watch-for-changes', 'start-node-server');
+    runSequence('clean-dev', ['sass', 'browserify', 'copy-html-to-dev', 'copy-php-to-dev', 'copy-images-to-dev', 'copy-fonts-to-dev'],'watch-for-changes', 'start-node-server');
 });
 
 //Copy necessary files to build dir
@@ -250,7 +256,7 @@ gulp.task('copy-to-build', function() {
     gulp.src(config.app.baseDir + 'php/**/*.{php,html}')
       .pipe(gulp.dest(config.build.baseDir + 'php/'));
     // Copy css into build dir
-    gulp.src(config.dev.styles + '**/*.min.css').pipe(gulp.dest(config.build.styles));
+    gulp.src(config.dev.styles + '**/*').pipe(gulp.dest(config.build.styles));
 
     // Copy unbrowserfied lib javascript into build dir
     //gulp.src([config.dev.js + 'libs.min.js', config.dev.js + 'libs.min.js.map']).pipe(gulp.dest(config.build.js));

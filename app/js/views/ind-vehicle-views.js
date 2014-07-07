@@ -10,6 +10,7 @@ var defaultTemplate = require('../templates/ind-vehicle-default-template.hbs')
 , motorcycleTemplate = require('../templates/ind-vehicle-motorcycle-template.hbs')
 , classTemplate = require('../templates/ind-vehicle-class-template.hbs')
 , optionsTemplate = require('../templates/ind-vehicle-options-template.hbs')
+, typeTemplate = require('../templates/ind-vehicle-type-template.hbs')
 , listTemplate = require('../templates/ind-vehicle-list-template.hbs');
 
 module.exports.default = Marionette.ItemView.extend({
@@ -73,6 +74,16 @@ module.exports.class = Marionette.ItemView.extend({
 
 module.exports.options = Marionette.ItemView.extend({
 	template: optionsTemplate,
+	events: {
+
+	},
+	getNextViewSlug: function() {
+		return 'list';
+	}
+});
+
+module.exports.type = Marionette.ItemView.extend({
+	template: typeTemplate,
 	events: {
 
 	},

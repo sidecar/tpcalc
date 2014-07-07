@@ -10,6 +10,7 @@ individual = {};
     , motorcycleView = require('./views/ind-vehicle-views').motorcycle
     , classView = require('./views/ind-vehicle-views').class
     , optionsView = require('./views/ind-vehicle-views').options
+    , typeView = require('./views/ind-vehicle-views').type
     , listView = require('./views/ind-vehicle-views').list;
     return{
       displayName: 'Vehicle',
@@ -22,6 +23,7 @@ individual = {};
         {name: 'boat',  view: new boatView()}, 
         {name: 'class',  view: new classView()}, 
         {name: 'options',  view: new optionsView()},
+        {name: 'type',  view: new typeView()},
         {name: 'list',  view: new listView()}
       ]
     } 
@@ -43,6 +45,9 @@ individual = {};
     var defaultView = require('./views/ind-travel-views').default
     , addView = require('./views/ind-travel-views').add
     , averageView = require('./views/ind-travel-views').average
+    , lengthView = require('./views/ind-travel-views').length
+    , milesView = require('./views/ind-travel-views').miles
+    , fuelView = require('./views/ind-travel-views').fuel
     , listView = require('./views/ind-travel-views').list;
     return {
       displayName: 'Air Travel',
@@ -52,6 +57,9 @@ individual = {};
         {name: 'default',  view: new defaultView()}, 
         {name: 'add',  view: new addView()}, 
         {name: 'average',  view: new averageView()}, 
+        {name: 'length',  view: new lengthView()}, 
+        {name: 'miles',  view: new milesView()}, 
+        {name: 'fuel',  view: new fuelView()}, 
         {name: 'list',  view: new listView()}
       ]
     };
