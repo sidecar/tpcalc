@@ -32,7 +32,7 @@ individual = {};
   var transit = (function() {
     var defaultView = require('./views/ind-transit-views').default;
     return {
-      displayName: 'Public Transortation',
+      displayName: 'Public Transit',
       slug: 'transit',
       icon: '', 
       views: [

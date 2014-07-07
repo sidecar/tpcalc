@@ -46,6 +46,7 @@ App.on('start', function(options) {
 
 module.exports = App;
 
+
 // App.addInitializer(function(options){
 //   var MenuItemModel = Backbone.Model.extend({});
 //   var MenuItemsCollection = Backbone.Collection.extend({model: MenuItem});
