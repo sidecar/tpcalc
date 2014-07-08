@@ -2,6 +2,12 @@ events = {};
   events.displayName = 'Events';
   events.slug = 'events';
 
+  var thankYouView = require('./views/evt-thankyou-view');
+  events.thankYouViewObj = {
+    name: 'thankyou',
+    view: new thankYouView()
+  };
+
   var travel = (function() {
     var defaultView = require('./views/evt-travel-views').default
     , flightAverageView = require('./views/evt-travel-views').flightAverage

@@ -2,6 +2,12 @@ individual = {};
   individual.displayName = 'Individual';
   individual.slug = 'individual';
 
+  var thankYouView = require('./views/ind-thankyou-view');
+  individual.thankYouViewObj = {
+    name: 'thankyou',
+    view: new thankYouView()
+  };
+
   var vehicle = (function() {
     var defaultView = require('./views/ind-vehicle-views').default
     , carView = require('./views/ind-vehicle-views').car

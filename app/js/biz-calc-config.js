@@ -2,6 +2,12 @@ business = {};
   business.displayName = 'Business';
   business.slug = 'business';
 
+  var thankYouView = require('./views/biz-thankyou-view');
+  business.thankYouViewObj = {
+    name: 'thankyou',
+    view: new thankYouView()
+  };
+
   var site = (function() {
     var defaultView = require('./views/biz-site-views').default
     , energyView = require('./views/biz-site-views').energy;

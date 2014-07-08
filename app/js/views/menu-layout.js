@@ -17,7 +17,10 @@ module.exports = Marionette.Layout.extend({
   },
   onRender: function() {
     var self = this
+    , fast = 200
+    , faster = 50
     , categoryModels = this.options.categories;
+
     _.each(categoryModels, function(categoryModel) {
       var category = categoryModel.get('category');
       var displayName = category.displayName;
@@ -27,12 +30,10 @@ module.exports = Marionette.Layout.extend({
       self[categorySlug].show(new MenuIconView({model: categoryModel, categorySlug: categorySlug, displayName: displayName}));
       self.$('.menu li.'+categorySlug).append('<div class="checkmark"></div>');
     });
+
     self.$('.menu').append('<li class="help"><a href="#" class="btn btn-default btn-circle-36 ico-help" data-toggle="modal" data-target="#helpModal">Help</a></li>');
   
-    var fast = 200;
-    var faster = 50;
     self.$('.menu li').hover(function(){
-      console.log('bapioadbhpioafhbapoiubh');
       $(this).stop().animate({width:'240px'},fast,function(){});
       $(this).find('a').stop().animate({width:'240px'},fast);
       $(this).find('.checkmark').stop()
@@ -45,7 +46,5 @@ module.exports = Marionette.Layout.extend({
         .animate({top:'-8px'},faster)
         .animate({right:'-8px'},faster);
     });
-
-
   }
 });

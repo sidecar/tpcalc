@@ -22,6 +22,7 @@ module.exports = App.module('Calc', function(Calc) {
   var Router = Marionette.AppRouter.extend({
     appRoutes: {
       // ':categoriesCodes/:calculator/:category/:inputView': 'showInputView'
+      ':calculator/complete/thankyou': 'showThankYouView',
       ':calculator/:category/:inputView': 'showInputView'
     }
   }); 
@@ -35,6 +36,12 @@ module.exports = App.module('Calc', function(Calc) {
       categoryModel.set({currentInputViewObj: inputViewObj});
       Calc.mainLayout.inputRegion.show(inputViewObj.view); 
       Calc.setFooterButtonStates(inputViewObj);
+    },
+    showThankYouView: function(calculator) {
+      console.log('showThankYouView');
+      var thankYouViewObj = Calc.model.get('thankYouViewObj');
+      Calc.mainLayout.inputRegion.show(thankYouViewObj.view); 
+      //Calc.setFooterButtonStates(thankYouViewObj);
     },
     // When the module stops, we need to clean up our views
     hide: function() {
@@ -74,7 +81,7 @@ module.exports = App.module('Calc', function(Calc) {
     var newCategoryNum = currentCategoryNum + 1;
     var newCategory = categoryModels[newCategoryNum];
     if(newCategory === undefined) {
-      alert('this is the final category');
+      App.router.navigate(Calc.baseRoute+'/complete/thankyou', {trigger: true});
       return;
     }
     Calc.model.set({currentCategoryModel: newCategory});
@@ -104,10 +111,8 @@ module.exports = App.module('Calc', function(Calc) {
     var currentCat = this.model.get('currentCategoryModel').get('category');
     var initialViewObject = currentCat.views[0];
     if (currentInputViewObj.name === initialViewObject.name && currentCat.slug === initialCat.slug) {
-      console.log('disablePrevBtn');
       Calc.footerView.disablePrevBtn();
     } else {
-      console.log('activatePrevBtn');
       Calc.footerView.activatePrevBtn();
     }
   };
@@ -116,7 +121,8 @@ module.exports = App.module('Calc', function(Calc) {
     // set up the calculator model that contains category models
     var calcModel = Calc.model = new Backbone.Model({
       displayName: options.displayName, 
-      slug: options.slug
+      slug: options.slug,
+      thankYouViewObj: options.thankYouViewObj
     });
 
     var categoryModels = [];
@@ -239,7 +245,7 @@ module.exports = App.module('Calc', function(Calc) {
 
   Calc.addInitializer(function(options){
     console.log(options.slug + 'Calc  initializing');
-    Calc.baseRoute = '#/'+options.categoryCodes+'/'+options.slug;
+    //Calc.baseRoute = '#/'+options.categoryCodes+'/'+options.slug;
     Calc.baseRoute = '#/'+options.slug;
     Calc.initModels(options);
     Calc.initLayout(options);
