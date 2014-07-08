@@ -39,11 +39,10 @@ module.exports = App.module('Calc', function(Calc) {
       Calc.setFooterButtonStates(inputViewObj);
     },
     showThankYouView: function(calculator) {
-      console.log('showThankYouView');
       var thankYouViewObj = Calc.model.get('thankYouViewObj');
       Calc.mainLayout.inputRegion.show(thankYouViewObj.view); 
       Calc.mainLayout.headerRegion.$el.hide();
-      //Calc.setFooterButtonStates(thankYouViewObj);
+      Calc.setFooterButtonStates(thankYouViewObj);
     },
     // When the module stops, we need to clean up our views
     hide: function() {
@@ -108,14 +107,18 @@ module.exports = App.module('Calc', function(Calc) {
   };
 
   Calc.setFooterButtonStates = function(currentInputViewObj) {
+
     var categoryModels = this.model.get('categoryModels');
     var initialCat = categoryModels[0].get('category');
     var currentCat = this.model.get('currentCategoryModel').get('category');
     var initialViewObject = currentCat.views[0];
     if (currentInputViewObj.name === initialViewObject.name && currentCat.slug === initialCat.slug) {
       Calc.footerView.disablePrevBtn();
+    } else if (currentInputViewObj.name === 'thankyou') {
+      Calc.footerView.disableNextBtn();
     } else {
       Calc.footerView.activatePrevBtn();
+      Calc.footerView.activateNextBtn();
     }
   };
 

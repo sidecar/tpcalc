@@ -24,5 +24,13 @@ module.exports = Marionette.ItemView.extend({
   activatePrevBtn: function() {
     $('.btn-prev').removeAttr('disabled');
     $('.btn-prev').addClass('active');
+  },
+  disableNextBtn: function() {
+    $('.btn-next').attr('disabled', 'disabled');
+    $('.btn-next').removeClass('active');    
+  },
+  activateNextBtn: function() {
+    $('.btn-next').removeAttr('disabled');
+    $('.btn-next').addClass('active');
   }
 });
