@@ -35,12 +35,14 @@ module.exports = App.module('Calc', function(Calc) {
       var inputViewObj = Calc.getViewObjBySlug(inputView);
       categoryModel.set({currentInputViewObj: inputViewObj});
       Calc.mainLayout.inputRegion.show(inputViewObj.view); 
+      Calc.mainLayout.headerRegion.$el.show();
       Calc.setFooterButtonStates(inputViewObj);
     },
     showThankYouView: function(calculator) {
       console.log('showThankYouView');
       var thankYouViewObj = Calc.model.get('thankYouViewObj');
       Calc.mainLayout.inputRegion.show(thankYouViewObj.view); 
+      Calc.mainLayout.headerRegion.$el.hide();
       //Calc.setFooterButtonStates(thankYouViewObj);
     },
     // When the module stops, we need to clean up our views

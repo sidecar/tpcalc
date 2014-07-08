@@ -1,4 +1,4 @@
-var Marionette = require('backbone.marionette')
+ var Marionette = require('backbone.marionette')
 , template = require('../templates/header-template.hbs');
 
 module.exports = Marionette.ItemView.extend({
