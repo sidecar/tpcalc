@@ -30,20 +30,20 @@ module.exports = App.module('Calc', function(Calc) {
 
   var Controller = Marionette.Controller.extend({
     // showInputView: function(catCodes, calculator, category, inputView) {
-    showInputView: function(calculator, categorySlug, inputView) {
-      var categoryModel = Calc.getCategoryBySlug(categorySlug);
+    showInputView: function(calculator, categorySlug, inputViewSlug) {
+      var categoryModel = Calc.model.getCategoryBySlug(categorySlug);
       Calc.model.set({currentCategoryModel: categoryModel});
-      var inputViewObj = Calc.getViewObjBySlug(inputView);
-      categoryModel.set({currentInputViewObj: inputViewObj});
-      Calc.mainLayout.inputRegion.show(inputViewObj.view); 
+      var inputViewModel = Calc.model.getViewModelBySlug(inputViewSlug);
+      categoryModel.set({currentInputViewModel: inputViewModel});
+      Calc.mainLayout.inputRegion.show(inputViewModel.get('view')); 
       Calc.mainLayout.headerRegion.$el.show();
-      Calc.setFooterButtonStates(inputViewObj);
+      Calc.setFooterButtonStates(inputViewModel.get('name'));
     },
     showThankYouView: function(calculator) {
-      var thankYouViewObj = Calc.model.get('thankYouViewObj');
-      Calc.mainLayout.inputRegion.show(thankYouViewObj.view); 
+      var thankYouView = Calc.model.get('thankYouView');
+      Calc.mainLayout.inputRegion.show(thankYouView); 
       Calc.mainLayout.headerRegion.$el.hide();
-      Calc.setFooterButtonStates(thankYouViewObj);
+      Calc.setFooterButtonStates('thankyou');
     },
     // When the module stops, we need to clean up our views
     hide: function() {
@@ -59,63 +59,46 @@ module.exports = App.module('Calc', function(Calc) {
   Calc.controller = new Controller();
   Calc.router = new Router({controller: Calc.controller});
 
-  Calc.getCategoryBySlug = function(categorySlug) {
-    // find the chosen category within the calculators category models
-    var categoryModels = Calc.model.get('categoryModels');
-    var category = _.find(categoryModels, function(model) {
-      var category = model.get('category');
-      return category.slug === categorySlug;
-    });
-
-    return category;
-  };
-
-  Calc.getViewObjBySlug = function(viewSlug) {
-    var currentCategoryModel = Calc.model.get('currentCategoryModel');
-    var viewObjects = currentCategoryModel.get('viewObjects');
-    var viewObj = _.findWhere(viewObjects, {name: viewSlug});
-    return viewObj;
-  };
-
   Calc.goToNextCategory = function() {
-    var categoryModels = Calc.model.get('categoryModels');
-    var currentCategoryNum = _.indexOf(categoryModels, Calc.model.get('currentCategoryModel'));
-    var newCategoryNum = currentCategoryNum + 1;
-    var newCategory = categoryModels[newCategoryNum];
+    var categories = Calc.model.get('categories');
+    var index = categories.indexOf(Calc.model.get('currentCategoryModel'));
+    var newCategory = categories.at(index+1);
+
     if(newCategory === undefined) {
       App.router.navigate(Calc.baseRoute+'/complete/thankyou', {trigger: true});
       return;
     }
     Calc.model.set({currentCategoryModel: newCategory});
-    var newCategorySlug = newCategory.getSlug();
-    var inputViewToShow = newCategory.getCurrentInputView();
-    App.router.navigate(Calc.baseRoute+'/'+newCategorySlug+'/'+inputViewToShow.name, {trigger: true});
+    var newCategorySlug = newCategory.get('slug');
+    var inputViewModel = newCategory.getCurrentInputView();
+    App.router.navigate(Calc.baseRoute+'/'+newCategorySlug+'/'+inputViewModel.get('name'), {trigger: true});
   };
 
   Calc.goToPrevCategory = function() {
-    var categoryModels = Calc.model.get('categoryModels');
-    var currentCategoryNum = _.indexOf(categoryModels, Calc.model.get('currentCategoryModel'));
-    var prevCategoryNum = currentCategoryNum - 1;
-    var prevCategory = categoryModels[prevCategoryNum];
+    var categories = Calc.model.get('categories');
+    var index = categories.indexOf(Calc.model.get('currentCategoryModel'));
+    var prevCategory = categories.at(index-1);
+
     if(prevCategory === undefined) {
       alert('this is the first category');
       return;
     }
     Calc.model.set({currentCategoryModel: prevCategory});
-    var prevCategorySlug = prevCategory.getSlug();
-    var inputViewToShow = prevCategory.getCurrentInputView();
-    App.router.navigate(Calc.baseRoute+'/'+prevCategorySlug+'/'+inputViewToShow.name, {trigger: true});
+    var prevCategorySlug = prevCategory.get('slug');
+    var inputViewModel = prevCategory.getCurrentInputView();
+    App.router.navigate(Calc.baseRoute+'/'+prevCategorySlug+'/'+inputViewModel.get('name'), {trigger: true});
   };
 
-  Calc.setFooterButtonStates = function(currentInputViewObj) {
-
-    var categoryModels = this.model.get('categoryModels');
-    var initialCat = categoryModels[0].get('category');
-    var currentCat = this.model.get('currentCategoryModel').get('category');
-    var initialViewObject = currentCat.views[0];
-    if (currentInputViewObj.name === initialViewObject.name && currentCat.slug === initialCat.slug) {
+  Calc.setFooterButtonStates = function(inputName) {
+    var categories = Calc.model.get('categories');
+    var initialCat = categories.first();
+    var currentCat = this.model.get('currentCategoryModel');
+    var views = currentCat.get('viewList');
+    //TODO turn this views bizness into a collection
+    var initialViewObject = views.first();
+    if (inputName === initialViewObject.get('name') && currentCat.get('slug') === initialCat.get('slug')) {
       Calc.footerView.disablePrevBtn();
-    } else if (currentInputViewObj.name === 'thankyou') {
+    } else if (inputName === 'thankyou') {
       Calc.footerView.disableNextBtn();
     } else {
       Calc.footerView.activatePrevBtn();
@@ -125,72 +108,93 @@ module.exports = App.module('Calc', function(Calc) {
 
   Calc.initModels = function(options) {
     // set up the calculator model that contains category models
-    var calcModel = Calc.model = new Backbone.Model({
-      displayName: options.displayName, 
-      slug: options.slug,
-      thankYouViewObj: options.thankYouViewObj
+    var Calculator = Backbone.Model.extend({
+      getCategoryBySlug: function(slug) {
+        var categories = this.get('categories');
+        var category = categories.findWhere({slug: slug});
+        return category;
+      },
+      getViewModelBySlug: function(slug) {
+        var currentCategory = this.get('currentCategoryModel');
+        var views = currentCategory.get('viewList');
+        var view = views.findWhere({name: slug});
+        return view;
+      }
     });
 
-    var categoryModels = [];
+    var calcModel = Calc.model = new Calculator({      
+      displayName: options.displayName, 
+      slug: options.slug,
+      thankYouView: options.thankYouView
+    });
 
     // Set up models for each category
     var Category = Backbone.Model.extend({
       initialize: function(options){
-        var categoryObj = options.category;
-        var viewObjects = categoryObj.views;
-        this.set({viewObjects: viewObjects});
-        var currentInputViewObj = _.findWhere(viewObjects, {name: 'default'});
-        this.set({currentInputViewObj: currentInputViewObj});
+        this.set({viewList: options.viewList});
+        this.set({slug: options.slug});
+        this.set({displayName: options.displayName});
+        this.set({currentInputViewModel: options.viewList.first()});
       },
       getCurrentInputView: function() {
-        var inputView = this.get('currentInputViewObj');
-        if (inputView === undefined) {
-          var viewObjects = this.get('viewObjects');
-          return viewObjects[0];
+        var views = this.get('viewList');
+        if(this.get('currentInputViewModel') === undefined) {
+          return views.first();
         } else {
-          return inputView;
+          return this.get('currentInputViewModel')
         }
-      },
-      getDisplayName: function() {
-        return this.get('category').displayName;
-      },
-      getSlug: function() {
-        return this.get('category').slug;
       }
     });
 
-    //probably should have been using a collection for categories the whole time right now this is completely extra
     var Categories = Backbone.Collection.extend({
       model: Category
     });
+
     var categories = Calc.categories = new Categories();
 
-    _.each(options.categories, function(category) {
-      var catModel = new Category({category: category});
-      categoryModels.push(catModel);
-      //probably should have been using a collection for categories the whole time right now this is completely extra
-      categories.add(catModel);
+    var ViewModel = Backbone.Model;
+
+    var ViewList = Backbone.Collection.extend({
+      model: ViewModel
     });
 
-    calcModel.set({categoryModels: categoryModels});
-    var currentCategoryModel = categoryModels[0];
-    calcModel.set({currentCategoryModel: currentCategoryModel}); 
+    _.each(options.categories, function(category) {
+      
+      var viewList = new ViewList();
 
+      _.each(category.views, function(view) {
+        var viewModel = new ViewModel({
+          name: view.name,
+          view: view.view
+        });
+
+        viewList.add(viewModel);
+      })
+
+      var category = new Category({
+        displayName: category.displayName,
+        slug: category.slug,
+        views: category.views,
+        viewList: viewList
+      });
+
+      categories.add(category);
+    });
+
+    calcModel.set({categories: categories});
+    calcModel.set({currentCategoryModel: categories.first()}); 
   };
 
   Calc.initLayout = function(options) {
     var calcModel = Calc.model
-    , categoryModels = calcModel.get('categoryModels')
     , currentCategoryModel = calcModel.get('currentCategoryModel')
-    , inputViewObj = currentCategoryModel.getCurrentInputView();
-    
+    , inputViewModel = currentCategoryModel.getCurrentInputView();
+    // instantiate views
     var mainLayout = Calc.mainLayout = new MainLayout();  
-
     var categoriesCollectionView = Calc.categoriesCollectionView = new CategoriesCollectionView({
       collection: Calc.categories, 
       itemView: CategoryIconView
     });
- 
     var headerView = Calc.headerView = new HeaderView({model: calcModel});
     var helpView = Calc.helpView = new HelpView({model: calcModel});
     var footerView = Calc.footerView = new FooterView({model: calcModel});
@@ -199,28 +203,26 @@ module.exports = App.module('Calc', function(Calc) {
       collection: Calc.categories, 
       itemView: EmissionsCategoryView
     });
-
+    // Set up main layout
     App.body.show(mainLayout); // have to call show on a layout before it can do anything else
     mainLayout.headerRegion.show(headerView);
     mainLayout.helpRegion.show(helpView);
     mainLayout.footerRegion.show(footerView);
- 
     mainLayout.menuRegion.show(categoriesCollectionView);
-
-    mainLayout.inputRegion.show(inputViewObj.view);
+    mainLayout.inputRegion.show(inputViewModel.get('view'));
     mainLayout.summaryRegion.show(summaryLayout);
-
+    // Set up the summary layout
     summaryLayout.emissionsRegion.show(emissionsView); 
-
-    Calc.setFooterButtonStates(inputViewObj);
+    // Additional layout setup
+    Calc.setFooterButtonStates(inputViewModel.get('name'));
   };
 
   Calc.initEventListeners = function() {
     App.vent.on('next', function(event) {
       var currentCategoryModel = Calc.model.get('currentCategoryModel');
-      var currentCategorySlug = currentCategoryModel.getSlug();
-      var currentViewObj = currentCategoryModel.get('currentInputViewObj');
-      var currentView = currentViewObj.view;
+      var currentCategorySlug = currentCategoryModel.get('slug');
+      var currentViewModel = currentCategoryModel.get('currentInputViewModel');
+      var currentView = currentViewModel.get('view');
       var nextViewSlug = currentView.getNextViewSlug();
       
       if(nextViewSlug === '' || nextViewSlug === undefined || nextViewSlug === false) {
@@ -228,41 +230,35 @@ module.exports = App.module('Calc', function(Calc) {
         return;
       }
       
-      var nextViewObj = Calc.getViewObjBySlug(nextViewSlug);
-      if(nextViewObj === undefined){ 
-        alert('next view doesnt exist');
-        return;
-      }
-
-      var nextView = nextViewObj.view;
-      nextView.previousViewObj = currentViewObj;
-      currentCategoryModel.set({currentInputViewObj: nextViewObj});
-      App.router.navigate(Calc.baseRoute+'/'+currentCategorySlug+'/'+nextViewObj.name, {trigger: true});
+      var nextViewModel = Calc.model.getViewModelBySlug(nextViewSlug);
+      nextViewModel.set({previousViewModel: currentViewModel});
+      currentCategoryModel.set({currentInputViewModel: nextViewModel});
+      App.router.navigate(Calc.baseRoute+'/'+currentCategorySlug+'/'+nextViewModel.get('name'), {trigger: true});
     });
     
     App.vent.on('prev', function(event) {     
       var currentCategoryModel = Calc.model.get('currentCategoryModel');
-      var currentCategorySlug = currentCategoryModel.getSlug();
-      var currentViewObj = currentCategoryModel.get('currentInputViewObj');
-      var currentView = currentViewObj.view;
-      var previousViewObj = currentView.previousViewObj;
-      if(previousViewObj === undefined){ 
+      var currentCategorySlug = currentCategoryModel.get('slug');
+      var currentViewModel = currentCategoryModel.get('currentInputViewModel');
+      var previousViewModel = currentViewModel.get('previousViewModel');
+      if(previousViewModel === undefined){ 
         Calc.goToPrevCategory();
         return;
       }
-      currentCategoryModel.set({currentInputViewObj: previousViewObj});
-      App.router.navigate(Calc.baseRoute+'/'+currentCategorySlug+'/'+previousViewObj.name, {trigger: true});
+      currentCategoryModel.set({currentInputViewModel: previousViewModel});
+      App.router.navigate(Calc.baseRoute+'/'+currentCategorySlug+'/'+previousViewModel.get('name'), {trigger: true});
     });
 
     App.vent.on('category', function(event) { 
       var newCategorySlug = $(event.target).data('category');
       var oldCategory = Calc.model.get('currentCategoryModel');
-      var oldCategorySlug = oldCategory.getSlug();
+      var oldCategorySlug = oldCategory.get('slug');
       if(newCategorySlug === oldCategorySlug) return; 
-      var newCategory = Calc.getCategoryBySlug(newCategorySlug);
-      var currentViewObj = newCategory.getCurrentInputView();
+      var newCategory = Calc.model.getCategoryBySlug(newCategorySlug);
+      var currentViewModel = newCategory.getCurrentInputView();
+
       Calc.model.set({currentCategoryModel: newCategory});
-      App.router.navigate(Calc.baseRoute+'/'+newCategorySlug+'/'+currentViewObj.name, {trigger: true});
+      App.router.navigate(Calc.baseRoute+'/'+newCategorySlug+'/'+currentViewModel.get('name'), {trigger: true});
     });  
 
     App.vent.on('help', function(event) { 
@@ -273,12 +269,10 @@ module.exports = App.module('Calc', function(Calc) {
 
   Calc.addInitializer(function(options){
     console.log(options.slug + 'Calc  initializing');
-    //Calc.baseRoute = '#/'+options.categoryCodes+'/'+options.slug;
     Calc.baseRoute = '#/'+options.slug;
     Calc.initModels(options);
     Calc.initLayout(options);
     Calc.initEventListeners();
-    console.log(Calc.model);
   });
 
   Calc.on('start', function(options) {

@@ -3,10 +3,7 @@ events = {};
   events.slug = 'events';
 
   var thankYouView = require('./views/evt-thankyou-view');
-  events.thankYouViewObj = {
-    name: 'thankyou',
-    view: new thankYouView()
-  };
+  individual.thankYouView = new thankYouView();
 
   var travel = (function() {
     var defaultView = require('./views/evt-travel-views').default

@@ -4,15 +4,17 @@
 module.exports = Marionette.ItemView.extend({
 	template: template,
     modelEvents: {
-      "change:currentCategory": "render"
+      "change:currentCategoryModel": "render"
     },
 	initialize: function(options){
 		this.options = options;
   },
   serializeData: function(){
+    console.log('serialize data this.model');
+    console.log(this.model);
   	var calculatorName = this.model.get('displayName')
     , categoryModel = this.model.get('currentCategoryModel')
-    , categoryName = categoryModel.getDisplayName();
+    , categoryName = categoryModel.get('displayName');
   	return {
   		calculatorName: calculatorName,
   		categoryName: categoryName
