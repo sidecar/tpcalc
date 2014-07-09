@@ -67,6 +67,23 @@ $orange: 		#f69400;
 .bg-green:hover { background-color: $light-gray !important; }
 
 
+.individual-vehicle-bg { background-color: $peach !important; }
+.individual-transit-bg { background-color: $green !important; }
+.individual-travel-bg { background-color: $dark-blue !important; }
+.individual-home-bg { background-color: $light-blue !important; }
+
+.business-site-bg { background-color: $peach !important; }
+.business-fleet-bg { background-color: $dark-blue !important; }
+.business-travel-bg { background-color: $light-blue !important; }
+.business-commute-bg { background-color: $green !important; }
+.business-shipping-bg { background-color: $dark-green !important; }
+.business-server-bg { background-color: $purple !important; }
+
+.events-travel-bg { background-color: $dark-blue !important; }
+.events-venue-bg { background-color: $light-blue !important; }
+.events-water-bg { background-color: $dark-green !important; }
+.events-meals-bg { background-color: $green !important; }
+
 
 /* ------------------------------------------
  * Columns
