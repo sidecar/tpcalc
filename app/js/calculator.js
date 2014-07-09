@@ -8,11 +8,12 @@ var _ = require('underscore')
   , HeaderView = require('./views/header-view')
   , FooterView = require('./views/footer-view')
   , MenuLayout = require('./views/menu-layout')
+  , MenuCollectionView = require('./views/menu-collection-view')
+  , CategoryIconView = require('./views/category-icon-view')
   , MenuIconView = require('./views/menu-icon-view')
   , SummaryView = require('./views/summary-view')
   , HelpView = require('./views/help-view')
   , Bootstrap = require('bootstrap')
-  // , Popup = require('magnific-popup')
   , utils = require('./utils/utility');
 
 module.exports = App.module('Calc', function(Calc) {
@@ -158,9 +159,17 @@ module.exports = App.module('Calc', function(Calc) {
       }
     });
 
+    //probably should have been using a collection for categories the whole time right now this is completely extra
+    var Categories = Backbone.Collection.extend({
+      model: Category
+    });
+    var categories = Calc.categories = new Categories();
+
     _.each(options.categories, function(category) {
       var catModel = new Category({category: category});
       categoryModels.push(catModel);
+      //probably should have been using a collection for categories the whole time right now this is completely extra
+      categories.add(catModel);
     });
 
     calcModel.set({categoryModels: categoryModels});
@@ -176,7 +185,25 @@ module.exports = App.module('Calc', function(Calc) {
     , inputViewObj = currentCategoryModel.getCurrentInputView();
     
     var mainLayout = Calc.mainLayout = new MainLayout();  
-    var menuLayout = Calc.menuLayout = new MenuLayout({categories: categoryModels});
+
+    /////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////
+
+    //var menuLayout = Calc.menuLayout = new MenuLayout({categories: categoryModels});
+
+    var MenuCollectionView = require('./views/menu-collection-view')
+
+    var menuCollectionView = Calc.menuCollectionView = new MenuCollectionView({
+      collection: Calc.categories, 
+      itemView: CategoryIconView
+    });
+
+    /////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////
+
+
     var headerView = Calc.headerView = new HeaderView({model: calcModel});
     var helpView = Calc.helpView = new HelpView({model: calcModel});
     var footerView = Calc.footerView = new FooterView({model: calcModel});
@@ -186,7 +213,20 @@ module.exports = App.module('Calc', function(Calc) {
     mainLayout.headerRegion.show(headerView);
     mainLayout.helpRegion.show(helpView);
     mainLayout.footerRegion.show(footerView);
-    mainLayout.menuRegion.show(menuLayout);
+    
+    /////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////
+
+
+    //mainLayout.menuRegion.show(menuLayout);
+    mainLayout.menuRegion.show(menuCollectionView);
+    
+    /////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////
+
+
     mainLayout.inputRegion.show(inputViewObj.view);
     mainLayout.summaryRegion.show(summaryView);
     Calc.setFooterButtonStates(inputViewObj);
