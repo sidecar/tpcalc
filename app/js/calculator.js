@@ -7,12 +7,12 @@ var _ = require('underscore')
   , MainLayout = require('./views/main-layout')
   , HeaderView = require('./views/header-view')
   , FooterView = require('./views/footer-view')
-  , MenuLayout = require('./views/menu-layout')
-  , MenuCollectionView = require('./views/menu-collection-view')
+  , CategoriesCollectionView = require('./views/categories-collection-view')
   , CategoryIconView = require('./views/category-icon-view')
-  , MenuIconView = require('./views/menu-icon-view')
-  , SummaryView = require('./views/summary-view')
+  , SummaryLayout = require('./views/summary-layout')
   , HelpView = require('./views/help-view')
+  , EmissionsView = require('./views/emissions-view')
+  , EmissionsCategoryView = require('./views/emissions-category-view')
   , Bootstrap = require('bootstrap')
   , utils = require('./utils/utility');
 
@@ -186,49 +186,32 @@ module.exports = App.module('Calc', function(Calc) {
     
     var mainLayout = Calc.mainLayout = new MainLayout();  
 
-    /////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////
-
-    //var menuLayout = Calc.menuLayout = new MenuLayout({categories: categoryModels});
-
-    var MenuCollectionView = require('./views/menu-collection-view')
-
-    var menuCollectionView = Calc.menuCollectionView = new MenuCollectionView({
+    var categoriesCollectionView = Calc.categoriesCollectionView = new CategoriesCollectionView({
       collection: Calc.categories, 
       itemView: CategoryIconView
     });
-
-    /////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////
-
-
+ 
     var headerView = Calc.headerView = new HeaderView({model: calcModel});
     var helpView = Calc.helpView = new HelpView({model: calcModel});
     var footerView = Calc.footerView = new FooterView({model: calcModel});
-    var summaryView = Calc.summaryView = new SummaryView({model: calcModel});
+    var summaryLayout = Calc.summaryLayout = new SummaryLayout({model: calcModel});
+    var emissionsView = Calc.emissionsView = new EmissionsView({
+      collection: Calc.categories, 
+      itemView: EmissionsCategoryView
+    });
 
     App.body.show(mainLayout); // have to call show on a layout before it can do anything else
     mainLayout.headerRegion.show(headerView);
     mainLayout.helpRegion.show(helpView);
     mainLayout.footerRegion.show(footerView);
-    
-    /////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////
-
-
-    //mainLayout.menuRegion.show(menuLayout);
-    mainLayout.menuRegion.show(menuCollectionView);
-    
-    /////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////
-
+ 
+    mainLayout.menuRegion.show(categoriesCollectionView);
 
     mainLayout.inputRegion.show(inputViewObj.view);
-    mainLayout.summaryRegion.show(summaryView);
+    mainLayout.summaryRegion.show(summaryLayout);
+
+    summaryLayout.emissionsRegion.show(emissionsView); 
+
     Calc.setFooterButtonStates(inputViewObj);
   };
 
