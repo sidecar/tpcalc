@@ -11,8 +11,8 @@ var _ = require('underscore')
   , CategoryIconView = require('./views/category-icon-view')
   , SummaryLayout = require('./views/summary-layout')
   , HelpView = require('./views/help-view')
+  , GraphView = require('./views/graph-view')
   , EmissionsView = require('./views/emissions-view')
-  , EmissionsCategoryView = require('./views/emissions-category-view')
   , Bootstrap = require('bootstrap')
   , utils = require('./utils/utility');
 
@@ -181,6 +181,7 @@ module.exports = App.module('Calc', function(Calc) {
     var calcModel = Calc.model
     , currentCategoryModel = calcModel.get('currentCategoryModel')
     , inputViewModel = currentCategoryModel.getCurrentInputView();
+    
     // instantiate views
     var mainLayout = Calc.mainLayout = new MainLayout();  
     var categoriesCollectionView = Calc.categoriesCollectionView = new CategoriesCollectionView({
@@ -190,12 +191,7 @@ module.exports = App.module('Calc', function(Calc) {
     var headerView = Calc.headerView = new HeaderView({model: calcModel});
     var helpView = Calc.helpView = new HelpView({model: calcModel});
     var footerView = Calc.footerView = new FooterView({model: calcModel});
-    var summaryLayout = Calc.summaryLayout = new SummaryLayout({model: calcModel});
-    var emissionsView = Calc.emissionsView = new EmissionsView({
-      model: calcModel,
-      collection: Calc.categories, 
-      itemView: EmissionsCategoryView
-    });
+    
     // Set up main layout
     App.body.show(mainLayout); // have to call show on a layout before it can do anything else
     mainLayout.headerRegion.show(headerView);
@@ -203,10 +199,24 @@ module.exports = App.module('Calc', function(Calc) {
     mainLayout.footerRegion.show(footerView);
     mainLayout.menuRegion.show(categoriesCollectionView);
     mainLayout.inputRegion.show(inputViewModel.get('view'));
-    mainLayout.summaryRegion.show(summaryLayout);
+
     // Set up the summary layout
-    //summaryLayout.graphsRegion.show(graphsView); 
+    var summaryLayout = Calc.summaryLayout = new SummaryLayout({model: calcModel});
+    
+    var graphView = Calc.graphView = new GraphView({
+      model: calcModel,
+      collection: Calc.categories 
+    });
+
+    var emissionsView = Calc.emissionsView = new EmissionsView({
+      model: calcModel,
+      collection: Calc.categories 
+    });
+
+    mainLayout.summaryRegion.show(summaryLayout);
+    summaryLayout.graphsRegion.show(graphView); 
     summaryLayout.emissionsRegion.show(emissionsView); 
+
     // Additional layout setup
     Calc.controller.setFooterButtonStates(inputViewModel.get('name'));
   };
