@@ -10,9 +10,15 @@ module.exports = Marionette.ItemView.extend({
     'mouseover li': 'animateMouseOver',
     'mouseout li': 'animateMouseOut'
   },
+  modelEvents: {
+    "change:completed": "categoryCompleted"
+  },
   categoryClicked: function(event) {
     event.preventDefault();
     App.vent.trigger('category', event);
+  },
+  categoryCompleted: function() {
+    $(this.el).children('.checkmark').show();
   },
   animateMouseOver: function(event) {
     var fast = 200
@@ -35,5 +41,15 @@ module.exports = Marionette.ItemView.extend({
     $li.find('.checkmark').stop()
       .animate({top:'-8px'},faster)
       .animate({right:'-8px'},faster);
+  },
+  onRender: function () {
+    // Get rid of that pesky wrapping-div.
+    // Assumes 1 child element present in template.
+    this.$el = this.$el.children();
+    // Unwrap the element to prevent infinitely 
+    // nesting elements during re-render.
+    this.$el.unwrap();
+    //setElement is the key
+    this.setElement(this.$el);
   }
 });

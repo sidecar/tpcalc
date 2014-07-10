@@ -11,6 +11,13 @@
 // @import "./flatstrap/bootstrap";
 @import "./bootstrap-sass/stylesheets/bootstrap";
 
+/* ------------------------------------------
+ * Resets
+ * ------------------------------------------ */
+
+.h1, .h2, .h3, h1, h2, h3 {
+	margin-top: 16px;
+}
 
 /* ------------------------------------------
  * Colors

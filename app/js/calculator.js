@@ -7,14 +7,13 @@ var _ = require('underscore')
   , MainLayout = require('./views/main-layout')
   , HeaderView = require('./views/header-view')
   , FooterView = require('./views/footer-view')
-  , CategoriesCollectionView = require('./views/categories-collection-view')
+  , CategoriesMenuView = require('./views/categories-menu-view')
   , CategoryIconView = require('./views/category-icon-view')
   , SummaryLayout = require('./views/summary-layout')
   , HelpView = require('./views/help-view')
   , GraphView = require('./views/graph-view')
   , EmissionsView = require('./views/emissions-view')
-  , Bootstrap = require('bootstrap')
-  , utils = require('./utils/utility');
+  , Bootstrap = require('bootstrap');
 
 module.exports = App.module('Calc', function(Calc) {
   // Calculator must be manually started
@@ -47,9 +46,10 @@ module.exports = App.module('Calc', function(Calc) {
     },
     goToNextCategory: function() {
       var categories = Calc.model.get('categories');
-      var index = categories.indexOf(Calc.model.get('currentCategoryModel'));
+      var currentCategoryModel = Calc.model.get('currentCategoryModel');
+      currentCategoryModel.set({completed: true});
+      var index = categories.indexOf(currentCategoryModel);
       var newCategory = categories.at(index+1);
-
       if(newCategory === undefined) {
         App.router.navigate(Calc.baseRoute+'/complete/thankyou', {trigger: true});
         return;
@@ -74,11 +74,12 @@ module.exports = App.module('Calc', function(Calc) {
       App.router.navigate(Calc.baseRoute+'/'+prevCategorySlug+'/'+inputViewModel.get('name'), {trigger: true});
     },
     setFooterButtonStates: function(inputName) {
-      var categories = Calc.model.get('categories');
-      var initialCat = categories.first();
-      var currentCat = Calc.model.get('currentCategoryModel');
-      var views = currentCat.get('viewList');
-      var initialViewObject = views.first();
+      var categories = Calc.model.get('categories')
+      , initialCat = categories.first()
+      , currentCat = Calc.model.get('currentCategoryModel')
+      , views = currentCat.get('viewList')
+      , initialViewObject = views.first();
+
       if (inputName === initialViewObject.get('name') && currentCat.get('slug') === initialCat.get('slug')) {
         Calc.footerView.disablePrevBtn();
       } else if (inputName === 'thankyou') {
@@ -167,7 +168,8 @@ module.exports = App.module('Calc', function(Calc) {
         views: category.views,
         viewList: viewList,
         currentInputViewModel: viewList.first(),
-        calculator: Calc.model.get('slug')
+        calculator: Calc.model.get('slug'),
+        completed: false
       });
 
       categories.add(category);
@@ -184,7 +186,7 @@ module.exports = App.module('Calc', function(Calc) {
     
     // instantiate views
     var mainLayout = Calc.mainLayout = new MainLayout();  
-    var categoriesCollectionView = Calc.categoriesCollectionView = new CategoriesCollectionView({
+    var categoriesCollectionView = Calc.categoriesCollectionView = new CategoriesMenuView({
       collection: Calc.categories, 
       itemView: CategoryIconView
     });
@@ -198,6 +200,8 @@ module.exports = App.module('Calc', function(Calc) {
     mainLayout.helpRegion.show(helpView);
     mainLayout.footerRegion.show(footerView);
     mainLayout.menuRegion.show(categoriesCollectionView);
+    //add the help icon to the menu
+
     mainLayout.inputRegion.show(inputViewModel.get('view'));
 
     // Set up the summary layout

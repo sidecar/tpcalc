@@ -3,7 +3,7 @@ business = {};
   business.slug = 'business';
 
   var thankYouView = require('./views/biz-thankyou-view');
-  individual.thankYouView = new thankYouView();
+  business.thankYouView = new thankYouView();
 
   var site = (function() {
     var defaultView = require('./views/biz-site-views').default
