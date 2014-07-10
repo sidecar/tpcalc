@@ -91,6 +91,15 @@ $orange: 		#f69400;
 .events-water-bg { background-color: $dark-green !important; }
 .events-meals-bg { background-color: $green !important; }
 
+.welcome p {
+	text-align: center;
+}
+
+.calculator-start-btn { 
+	min-width: 225px;
+	text-align: center;
+}
+
 
 /* ------------------------------------------
  * Columns

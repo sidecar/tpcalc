@@ -226,6 +226,7 @@ module.exports = App.module('Calc', function(Calc) {
   };
 
   Calc.initEventListeners = function() {
+
     App.vent.on('next', function(event) {
       var currentCategoryModel = Calc.model.get('currentCategoryModel');
       var currentCategorySlug = currentCategoryModel.get('slug');
@@ -268,6 +269,10 @@ module.exports = App.module('Calc', function(Calc) {
 
     App.vent.on('help', function(event) { 
       $('#helpModal').modal(options);
+    });  
+
+    App.vent.on('buy', function(event) { 
+      alert('The buy button was clicked.');
     });  
 
   };

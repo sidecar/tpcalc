@@ -28,6 +28,10 @@ App.addInitializer(function(options) {
   // Add the router to the app and app it the controller
   var Router = require('./app-initializing-router').router;
   App.router = new Router({controller: App.controller});
+
+  App.vent.on('startCalculator', function(calcName) {
+    App.router.navigate('#/d/'+calcName , {trigger: true});
+  });
 });
 
 App.addRegions({
