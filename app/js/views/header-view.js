@@ -10,12 +10,16 @@ module.exports = Marionette.ItemView.extend({
 		this.options = options;
   },
   serializeData: function(){
-  	var calculatorName = this.model.get('displayName')
+  	var calculatorDisplayName = this.model.get('displayName')
+    , calculatorSlug = this.model.get('slug')
     , categoryModel = this.model.get('currentCategoryModel')
-    , categoryName = categoryModel.get('displayName');
+    , categoryDisplayName = categoryModel.get('displayName')
+    , categorySlug = categoryModel.get('slug');
   	return {
-  		calculatorName: calculatorName,
-  		categoryName: categoryName
+      calculatorDisplayName: calculatorDisplayName,
+  		calculatorSlug: calculatorSlug,
+      categoryDisplayName: categoryDisplayName,
+  		categorySlug: categorySlug
   	}
   }
 });

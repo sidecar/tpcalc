@@ -9,6 +9,9 @@ module.exports = Marionette.ItemView.extend({
     "click .btn-next": "next",
     "click .btn-prev": "prev"
 	},
+  modelEvents: {
+    "change:currentCategoryModel": "render"
+  },
   next: function(event) {
     event.preventDefault();
     App.vent.trigger('next', event);
@@ -32,5 +35,19 @@ module.exports = Marionette.ItemView.extend({
   activateNextBtn: function() {
     $('.btn-next').removeAttr('disabled');
     $('.btn-next').addClass('active');
+  },
+  serializeData: function(){
+    var calculatorDisplayName = this.model.get('displayName')
+    , calculatorSlug = this.model.get('slug')
+    , categoryModel = this.model.get('currentCategoryModel')
+    , categoryDisplayName = categoryModel.get('displayName')
+    , categorySlug = categoryModel.get('slug');
+    return {
+      calculatorDisplayName: calculatorDisplayName,
+      calculatorSlug: calculatorSlug,
+      categoryDisplayName: categoryDisplayName,
+      categorySlug: categorySlug
+    }
   }
+
 });

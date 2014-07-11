@@ -1,17 +1,4 @@
 <div class="view-question">What kind of car do you drive?</div>
- <!--<form role="form">
-  <div class="form-group">
-	<select class="form-control">
-	  <option>1</option>
-	  <option>2</option>
-	  <option>3</option>
-	  <option>4</option>
-	  <option>5</option>
-	</select>
-  </div>
-  <button type="submit" class="btn btn-default">Submit</button>
-</form>-->
-
   <!-- Modal -->
 <div class="modal fade" id="contextualModal" tabindex="-1" role="dialog" aria-labelledby="contextualModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -52,16 +39,7 @@
 	<div class="form-element-container">
 		<label for="car_make">Make</label>
 		<div class="form-element">
-			{{!-- <select name="car_make" class="form-control">
-				<option value="" selected="selected">Select Make</option>	
-				<option value="unknown">Don't Know</option>	
-				<option value="ACURA">Acura</option>	
-				<option value="ALFA">Alfa Romeo</option>	
-				<option value="AMC">AMC</option>	
-				<option value="ASTON">Aston Martin</option>	
-				<option value="AUDI">Audi</option>
-			</select> --}}
-      <select name="car_make" class="form-control">
+      <select name="car_make" class="form-control" >
           {{#each makes.menuItem}}
               <option value="{{value}}">{{text}}</option>
           {{/each}}
@@ -72,13 +50,11 @@
 	<div class="form-element-container">
 		<label for="car_model">Model</label>
 		<div class="form-element">
-			<select name="car_model" class="form-control">
-				<option value="" selected="selected">Select Model</option>		
-				<option value="unknown">Don't Know</option>	
-				<option value="RSX">RSX</option>
-				<option value="TL">TL</option>
-				<option value="RL">RL</option>
-			</select>
+      <select name="car_models" class="form-control" >
+          {{#each carModels.menuItem}}
+              <option value="{{value}}">{{text}}</option>
+          {{/each}}
+      </select>
 		</div>
 	</div>
 

@@ -91,6 +91,23 @@ $orange: 		#f69400;
 .events-water-bg { background-color: $dark-green !important; }
 .events-meals-bg { background-color: $green !important; }
 
+.individual-vehicle-color { color: $peach; }
+.individual-transit-color { color: $green; }
+.individual-travel-color { color: $dark-blue; }
+.individual-home-color { color: $light-blue; }
+
+.business-site-color { color: $peach; }
+.business-fleet-color { color: $dark-blue; }
+.business-travel-color { color: $light-blue; }
+.business-commute-color { color: $green; }
+.business-shipping-color { color: $dark-green; }
+.business-server-color { color: $purple; }
+
+.events-travel-color { color: $dark-blue; }
+.events-venue-color { color: $light-blue; }
+.events-water-color { color: $dark-green; }
+.events-meals-color { color: $green; }
+
 .welcome p {
 	text-align: center;
 }

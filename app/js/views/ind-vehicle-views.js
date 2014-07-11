@@ -17,10 +17,13 @@ var defaultTemplate = require('../templates/ind-vehicle-default-template.hbs')
 module.exports.default = Marionette.ItemView.extend({
 	template: defaultTemplate,
 	ui: {
-		yearDropDown: 'select[name="car_year"]' 
+		yearDropDown: 'select[name="car_year"]',
+		makesDropDown: 'select[name="car_make"]', 
+		modelsDropDown: 'select[name="car_models"]' 
 	},
 	events: {
-		'change select[name="car_year"]': 'yearSelected'
+		'change select[name="car_year"]': 'yearSelected',
+		'change select[name="car_make"]': 'makeSelected',
 	},
 	initialize: function() {
 		this.data = {};
@@ -37,12 +40,22 @@ module.exports.default = Marionette.ItemView.extend({
 	},
 	yearSelected: function() {
 		var self = this;
-		var year = this.ui.yearDropDown.val();
-		utils.getJSON('/vehicle/make/'+year, function(jsonResponse) {
+		self.year = this.ui.yearDropDown.val();
+		utils.getJSON('/vehicle/make/'+self.year, function(jsonResponse) {
 			self.data.makes = jsonResponse.menuItems;
 		});	
 		self.render();
-	}
+		//$(makesDropDown).prop('disabled', false);
+	},
+	makeSelected: function() {
+		var self = this;
+		self.make = this.ui.makesDropDown.val();
+		utils.getJSON('/vehicle/model/'+self.year+'/'+self.make, function(jsonResponse) {
+			self.data.carModels = jsonResponse.menuItems;
+		});	
+		self.render();
+		//$(modelsDropDown).prop('disabled', false);
+	},
 });
 
 module.exports.car = Marionette.ItemView.extend({
