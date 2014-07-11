@@ -61,7 +61,7 @@ note: This list can and should be edited/ammeded and is not 100% fufilled
 - Handlebars - Templating
 - hbsfy - Handlebars template transform for browserify
 note: there is another way to do handlebars templateting in Marionette, see 'Building Better Backbone Apps With Marionette pg. 38'
-- Epoxy - Two-way databinding
+- NYTimes' Stickit for two-way databinding
 - Karma/Karma-Jasmine(2.*) - Test runner/Test framework
 - numerals.js and JS-Quantities for number formatting
 

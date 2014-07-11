@@ -47,21 +47,21 @@
 		</div>
 	</div>
 
-	<div class="form-element-container">
-		<label for="car_model">Model</label>
-		<div class="form-element">
+  <div class="form-element-container">
+    <label for="car_model">Model</label>
+    <div class="form-element">
       <select name="car_models" class="form-control" >
           {{#each carModels.menuItem}}
               <option value="{{value}}">{{text}}</option>
           {{/each}}
       </select>
-		</div>
-	</div>
+    </div>
+  </div>
 
 	<div class="form-element-container">
 		<label for="car_mileage">Annual Mileage</label>
 		<div class="form-element">
-			<select name="car_mileage" class="form-control">
+			<select id="mileage" name="car_mileage" class="form-control">
 				<option value="" selected="selected">Select Annual Mileage</option>	
 				<option value="2000">2,000</option>
 				<option value="3000">3,000</option>

@@ -1,6 +1,8 @@
 var $ = require('jquery')
 , Backbone = require('backbone')
 , Marionette = require('backbone.marionette')
+, Stickit = require('backbone.stickit')
+, Databinding = require('backbone.databinding')
 , App = require('../app');
 
 var defaultTemplate = require('../templates/ind-vehicle-default-template.hbs')
@@ -27,6 +29,11 @@ module.exports.default = Marionette.ItemView.extend({
 	},
 	initialize: function() {
 		this.data = {};
+		this.modelBinder = new Databinding.ModelBinder(this, this.model);
+		this.modelBinder.watch('value: year', {selector: '[name="car_year"]'});
+		this.modelBinder.watch('value: make', {selector: '[name="car_make"]'});
+		this.modelBinder.watch('value: model', {selector: '[name="car_model"]'});
+		this.modelBinder.watch('value: mileage', {selector: '[name="car_mileage"]'});
 	},
 	getNextViewSlug: function() {
 		return 'car';
@@ -45,7 +52,7 @@ module.exports.default = Marionette.ItemView.extend({
 			self.data.makes = jsonResponse.menuItems;
 		});	
 		self.render();
-		//$(makesDropDown).prop('disabled', false);
+		self.ui.makesDropDown.prop('disabled', false);
 	},
 	makeSelected: function() {
 		var self = this;
@@ -54,7 +61,7 @@ module.exports.default = Marionette.ItemView.extend({
 			self.data.carModels = jsonResponse.menuItems;
 		});	
 		self.render();
-		//$(modelsDropDown).prop('disabled', false);
+		self.ui.modelsDropDown.prop('disabled', false);
 	},
 });
 
@@ -158,3 +165,14 @@ module.exports.list = Marionette.ItemView.extend({
 // 		});	
 // 	}
 // });
+
+
+  // render: function(){
+  //     // Invoke original render function
+  //     var args = Array.prototype.slice.apply(arguments);
+  //     var result = Marionette.ItemView.prototype.render.apply(this, args);
+  //     // Apply stickit
+  //     //this.stickit();
+  //     // Return render result
+  //     return result;
+  // },

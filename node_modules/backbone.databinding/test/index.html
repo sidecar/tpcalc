@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+
+        <title>Backbone.DataBinding Test Suite</title>
+
+        <!-- Mocha -->
+        <link rel="stylesheet" href="../lib/mocha/mocha.css">
+        <script src="../lib/mocha/mocha.js"></script>
+        <script>mocha.setup('bdd');</script>
+
+        <!-- Assertion Libraries -->
+        <script src="../lib/chai/chai.js"></script>
+        <script src="../lib/sinon/sinon.js"></script>
+        <script src="../lib/sinon/sinon.chai.js"></script>
+
+        <!-- Libraries -->
+        <script src="../lib/jquery/jquery.js"></script>
+        <script src="../lib/underscore/underscore.js"></script>
+        <script src="../lib/backbone/backbone.js"></script>
+
+        <!-- Sources -->
+        <script src="../src/backbone/model_binder.js"></script>
+        <script src="../src/backbone/collection_binder.js"></script>
+
+        <!-- Tests -->
+        <script src="backbone/model_binder.test.js"></script>
+        <script src="backbone/collection_binder.test.js"></script>
+
+        <script>$(mocha.run);</script>
+    </head>
+
+    <body>
+        <div id="mocha"></div>
+
+        <div id="mocha-fixture">
+            <form id="form-fixture">
+                <fieldset>
+                    <output name="html-content"></output>
+                    <output name="text-content"></output>
+                </fieldset>
+
+                <fieldset>
+                    <input type="text" name="text-field-value">
+                    <textarea name="textarea-value"></textarea>
+                </fieldset>
+
+                <fieldset>
+                    <select name="single-select-value">
+                        <option value="string">Option "string"</option>
+                        <option value="">Option ""</option>
+                        <option value="1">Option "1"</option>
+                        <option value="0">Option "0"</option>
+                        <option value="true">Option "true"</option>
+                        <option value="false">Option "false"</option>
+                    </select>
+
+                    <select name="multiple-select-value" multiple>
+                        <option value="string">Option "string"</option>
+                        <option value="">Option ""</option>
+                        <option value="1">Option "1"</option>
+                        <option value="0">Option "0"</option>
+                        <option value="true">Option "true"</option>
+                        <option value="false">Option "false"</option>
+                    </select>
+                </fieldset>
+
+                <fieldset>
+                    <input type="radio" name="radio-button-checked" value="string">
+                    <input type="radio" name="radio-button-checked" value="">
+                    <input type="radio" name="radio-button-checked" value="1">
+                    <input type="radio" name="radio-button-checked" value="0">
+                    <input type="radio" name="radio-button-checked" value="true">
+                    <input type="radio" name="radio-button-checked" value="false">
+                </fieldset>
+
+                <fieldset>
+                    <input type="checkbox" name="single-checkbox-checked">
+
+                    <input type="checkbox" name="checkbox-group-checked" value="string">
+                    <input type="checkbox" name="checkbox-group-checked" value="">
+                    <input type="checkbox" name="checkbox-group-checked" value="1">
+                    <input type="checkbox" name="checkbox-group-checked" value="0">
+                    <input type="checkbox" name="checkbox-group-checked" value="true">
+                    <input type="checkbox" name="checkbox-group-checked" value="false">
+                </fieldset>
+
+                <fieldset>
+                    <button type="button" name="button-visible" hidden>Visible</button>
+                    <button type="button" name="button-hidden">Hidden</button>
+                    <button type="button" name="button-enabled" disabled>Enabled</button>
+                    <button type="button" name="button-disabled">Disabled</button>
+                </fieldset>
+            </form>
+
+            <div id="list-fixture">
+                <ul class="odd"></ul>
+                <ul class="even"></ul>
+            </div>
+        </div>
+    </body>
+</html>

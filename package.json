@@ -50,27 +50,31 @@
     "zipcode": "~0.1.1",
     "geodist": "~0.2.1",
     "bootstrap-sass": "~3.1.1",
-    "path-browserify": "0.0.0"
+    "path-browserify": "0.0.0",
+    "backbone.stickit": "~0.8.0",
+    "backbone.databinding": "~0.4.5"
   },
   "scripts": {
     "start": "node server.js"
   },
   "main": "server.js",
-
   "browser": {
-      "bootstrap": "./app/js/vendor/bootstrap.min.js",
-      "bootstrap-slider": "./app/js/vendor/bootstrap-slider.js"
+    "bootstrap": "./app/js/vendor/bootstrap.min.js",
+    "bootstrap-slider": "./app/js/vendor/bootstrap-slider.js"
   },
   "browserify-shim": {
-      "bootstrap": {"exports": "bootstrap", "depends": "jquery:jQuery"},
-      "bootstrap-slider": {"exports": "bootstrap-slider", "depends": "bootstrap"}
+    "bootstrap": {
+      "exports": "bootstrap",
+      "depends": "jquery:jQuery"
+    },
+    "bootstrap-slider": {
+      "exports": "bootstrap-slider",
+      "depends": "bootstrap"
+    }
   },
   "browserify": {
-      "transform": [
-          "browserify-shim"
-      ]
+    "transform": [
+      "browserify-shim"
+    ]
   }
-
-
 }
-

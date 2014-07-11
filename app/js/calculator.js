@@ -125,7 +125,7 @@ module.exports = App.module('Calc', function(Calc) {
       thankYouView: options.thankYouView
     });
 
-    // Set up models for each category
+    // set up models for each category
     var Category = Backbone.Model.extend({
       getCurrentInputView: function() {
         var views = this.get('viewList');
@@ -137,41 +137,39 @@ module.exports = App.module('Calc', function(Calc) {
       }
     });
 
+    // create a collection of categories to be set on the Calculator model
     var Categories = Backbone.Collection.extend({
       model: Category
     });
-
     var categories = Calc.categories = new Categories();
-
+    // create ViewModel models and a collection of them called ViewList to be set on each category    
     var ViewModel = Backbone.Model;
-
     var ViewList = Backbone.Collection.extend({
       model: ViewModel
     });
-
     _.each(options.categories, function(category) {
-      
       var viewList = new ViewList();
-
+      // new instances of ViewModel model for each view associated with the category
       _.each(category.views, function(view) {
         var viewModel = new ViewModel({
           name: view.name,
-          view: view.view
+          view: view.view,
         });
-
+        // add each ViewModel the collection of ViewModels that is set on the Category model
         viewList.add(viewModel);
       })
-
+      // new instance of the Category model
       var category = new Category({
         displayName: category.displayName,
         slug: category.slug,
         views: category.views,
+        // add the collection of ViewModel models
         viewList: viewList,
         currentInputViewModel: viewList.first(),
         calculator: Calc.model.get('slug'),
         completed: false
       });
-
+      // add the Category instance to the collectin of catgories set on the Calculator model
       categories.add(category);
     });
 
