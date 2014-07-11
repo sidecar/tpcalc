@@ -11,14 +11,37 @@ var defaultTemplate = require('../templates/ind-vehicle-default-template.hbs')
 , classTemplate = require('../templates/ind-vehicle-class-template.hbs')
 , optionsTemplate = require('../templates/ind-vehicle-options-template.hbs')
 , typeTemplate = require('../templates/ind-vehicle-type-template.hbs')
-, listTemplate = require('../templates/ind-vehicle-list-template.hbs');
+, listTemplate = require('../templates/ind-vehicle-list-template.hbs')
+, utils = require('../utils/utility');
 
 module.exports.default = Marionette.ItemView.extend({
 	template: defaultTemplate,
+	ui: {
+		yearDropDown: 'select[name="car_year"]' 
+	},
 	events: {
+		'change select[name="car_year"]': 'yearSelected'
+	},
+	initialize: function() {
+		this.data = {};
 	},
 	getNextViewSlug: function() {
 		return 'car';
+	},
+	serializeData: function() {
+		var self = this;
+		utils.getJSON('/vehicle/year', function(jsonResponse) {
+			self.data.years = jsonResponse.menuItems;
+		});	
+		return self.data;
+	},
+	yearSelected: function() {
+		var self = this;
+		var year = this.ui.yearDropDown.val();
+		utils.getJSON('/vehicle/make/'+year, function(jsonResponse) {
+			self.data.makes = jsonResponse.menuItems;
+		});	
+		self.render();
 	}
 });
 

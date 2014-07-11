@@ -230,7 +230,7 @@ gulp.task('watch-for-changes', function() {
     // If js files are changed run scripts task
     gulp.watch(config.app.js + '**/*.js').on('change', function (file) {
       // ??? why am I able to access server inside this callback ??
-      runSequence('lint', 'browserify', function() {
+      runSequence('browserify', function() {
         server.changed(file.path);
       });
     }); 
