@@ -39,7 +39,7 @@
 	<div class="form-element-container">
 		<label for="car_make">Make</label>
 		<div class="form-element">
-      <select name="car_make" class="form-control" >
+      <select name="car_make" class="form-control" disabled="true">
           {{#each makes.menuItem}}
               <option value="{{value}}">{{text}}</option>
           {{/each}}
@@ -50,7 +50,7 @@
   <div class="form-element-container">
     <label for="car_model">Model</label>
     <div class="form-element">
-      <select name="car_models" class="form-control" >
+      <select name="car_models" class="form-control" disabled="true">
           {{#each carModels.menuItem}}
               <option value="{{value}}">{{text}}</option>
           {{/each}}

@@ -52,6 +52,7 @@ module.exports.default = Marionette.ItemView.extend({
 			self.data.makes = jsonResponse.menuItems;
 		});	
 		self.render();
+		$(self.ui.makesDropDown).prepend('<option value="" selected="selected">Select Car Make</option>	');
 		self.ui.makesDropDown.prop('disabled', false);
 	},
 	makeSelected: function() {
@@ -61,6 +62,7 @@ module.exports.default = Marionette.ItemView.extend({
 			self.data.carModels = jsonResponse.menuItems;
 		});	
 		self.render();
+		$(self.ui.modelsDropDown).prepend('<option value="" selected="selected">Select Car Model</option>	');
 		self.ui.modelsDropDown.prop('disabled', false);
 	},
 });
