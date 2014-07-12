@@ -24,13 +24,13 @@ individual = {};
       icon: '',
       views: [
         {name: 'default',  view: new defaultView({model: vehicleModel})},
-        {name: 'car',  view: new carView()}, 
-        {name: 'ecar',  view: new ecarView()}, 
-        {name: 'boat',  view: new boatView()}, 
-        {name: 'class',  view: new classView()}, 
-        {name: 'options',  view: new optionsView()},
-        {name: 'type',  view: new typeView()},
-        {name: 'list',  view: new listView()}
+        {name: 'car',  view: new carView({model: vehicleModel})}, 
+        {name: 'ecar',  view: new ecarView({model: vehicleModel})}, 
+        {name: 'boat',  view: new boatView({model: vehicleModel})}, 
+        {name: 'class',  view: new classView({model: vehicleModel})}, 
+        {name: 'options',  view: new optionsView({model: vehicleModel})},
+        {name: 'type',  view: new typeView({model: vehicleModel})},
+        {name: 'list',  view: new listView({model: vehicleModel})}
       ]
     } 
   }());

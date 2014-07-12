@@ -1,72 +1,87 @@
 <div class="view-question">What kind of car do you drive?</div>
-		
-		<form name="ind_vehicle_car_view" id="ind-vehicle-car">
-		
-			<div class="form-element-container">
-				<label for="ind_vehicle_car_year">Year</label>
-				<div class="form-element">
-					<select name="car_year" class="form-control">
-						<option value="2015">2015</option>
-						<option value="2014">2014</option>
-						<option value="2013">2013</option>
-						<option value="2012">2012</option>
-						<option value="2011">2011</option>
-					</select>
-				</div>
-			</div>
+  <!-- Modal -->
+<div class="modal fade" id="contextualModal" tabindex="-1" role="dialog" aria-labelledby="contextualModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="contextualModalLabel">Our Methodology</h4>
+      </div>
+      <div class="modal-body">
 
-			<div class="form-element-container">
-				<label for="ind_vehicle_car_make">Make</label>
-				<div class="form-element">
-					<select name="ind_vehicle_car_make" class="form-control">
-						<option value="" selected="selected">Select Make</option>	
-						<option value="unknown">Don't Know</option>	
-						<option value="ACURA">Acura</option>	
-						<option value="ALFA">Alfa Romeo</option>	
-						<option value="AMC">AMC</option>	
-						<option value="ASTON">Aston Martin</option>	
-						<option value="AUDI">Audi</option>
-					</select>
-				</div>
-			</div>
+        <section>
+          <a name="topic1"></a>
+          <div class="topic">This is a sample topic.</div>
+          <div class="detail">Mauris vestibulum, massa sit amet venenatis molestie, tortor eros ultrices purus, sed lacinia ipsum diam vel augue. Sed erat orci, semper non ipsum ut, cursus eleifend risus.</div>
+        </section>
 
-			<div class="form-element-container">
-				<label for="ind_vehicle_car_model">Model</label>
-				<div class="form-element">
-					<select name="ind_vehicle_car_model" class="form-control">
-						<option value="" selected="selected">Select Model</option>		
-						<option value="unknown">Don't Know</option>	
-						<option value="RSX">RSX</option>
-						<option value="TL">TL</option>
-						<option value="RL">RL</option>
-					</select>
-				</div>
-			</div>
+      </div>
+      <div class="modal-footer">
+        {{!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> --}}
+      </div>
+    </div>
+  </div>
+</div>
 
-			<div class="form-element-container">
-				<label for="ind_vehicle_car_mileage">Annual Mileage</label>
-				<div class="form-element">
-					<select name="ind_vehicle_car_mileage" class="form-control">
-						<option value="" selected="selected">Select Annual Mileage</option>	
-						<option value="2000">2,000</option>
-						<option value="3000">3,000</option>
-						<option value="4000">4,000</option>
-						<option value="5000">5,000</option>
-						<option value="7000">7,000</option>
-						<option value="10000">10,000</option>
-						<option value="12000">12,000</option>
-						<option value="15000">15,000</option>
-						<option value="20000">20,000</option>
-						<option value="25000">25,000</option>
-						<option value="30000">30,000</option>
-						<option value="40000">40,000</option>
-						<option value="50000">50,000</option>
-						<option value="60000">60,000</option>
-						<option value="70000">70,000</option>
-						<option value="80000">80,000</option>
-						<option value="90000">90,000</option>
-						<option value="100000">100,000</option>
-					</select>
-				</div>
-			</div>
-		</form>
+<form name="ind_vehicle_view">
+
+	<div class="form-element-container">
+		<label for="car_year">Year</label>
+		<div class="form-element">
+      <select name="car_year" class="form-control">
+          {{#each years.menuItem}}
+              <option value="{{value}}">{{text}}</option>
+          {{/each}}
+      </select>
+		</div>
+	</div>
+
+	<div class="form-element-container">
+		<label for="car_make">Make</label>
+		<div class="form-element">
+      <select name="car_make" class="form-control" disabled="true">
+          {{#each makes.menuItem}}
+              <option value="{{value}}">{{text}}</option>
+          {{/each}}
+      </select>
+		</div>
+	</div>
+
+  <div class="form-element-container">
+    <label for="car_model">Model</label>
+    <div class="form-element">
+      <select name="car_models" class="form-control" disabled="true">
+          {{#each carModels.menuItem}}
+              <option value="{{value}}">{{text}}</option>
+          {{/each}}
+      </select>
+    </div>
+  </div>
+
+	<div class="form-element-container">
+		<label for="car_mileage">Annual Mileage</label>
+		<div class="form-element">
+			<select id="mileage" name="car_mileage" class="form-control">
+				<option value="" selected="selected">Select Annual Mileage</option>	
+				<option value="2000">2,000</option>
+				<option value="3000">3,000</option>
+				<option value="4000">4,000</option>
+				<option value="5000">5,000</option>
+				<option value="7000">7,000</option>
+				<option value="10000">10,000</option>
+				<option value="12000">12,000</option>
+				<option value="15000">15,000</option>
+				<option value="20000">20,000</option>
+				<option value="25000">25,000</option>
+				<option value="30000">30,000</option>
+				<option value="40000">40,000</option>
+				<option value="50000">50,000</option>
+				<option value="60000">60,000</option>
+				<option value="70000">70,000</option>
+				<option value="80000">80,000</option>
+				<option value="90000">90,000</option>
+				<option value="100000">100,000</option>
+			</select>
+		</div>
+	</div>
+</form>

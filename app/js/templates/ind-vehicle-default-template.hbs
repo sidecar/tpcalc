@@ -1,4 +1,4 @@
-<div class="view-question">What kind of car do you drive?</div>
+<div class="view-question">Select a type of vehicle to add</div>
   <!-- Modal -->
 <div class="modal fade" id="contextualModal" tabindex="-1" role="dialog" aria-labelledby="contextualModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -23,64 +23,15 @@
   </div>
 </div>
 
-<form name="ind_vehicle_view">
-
+<form name="ind_vehicle_default_view">
 	<div class="form-element-container">
-		<label for="car_year">Year</label>
+		<label for="vehicle_type">Vehicle Type</label>
 		<div class="form-element">
-      <select name="car_year" class="form-control">
-          {{#each years.menuItem}}
-              <option value="{{value}}">{{text}}</option>
-          {{/each}}
-      </select>
-		</div>
-	</div>
-
-	<div class="form-element-container">
-		<label for="car_make">Make</label>
-		<div class="form-element">
-      <select name="car_make" class="form-control" disabled="true">
-          {{#each makes.menuItem}}
-              <option value="{{value}}">{{text}}</option>
-          {{/each}}
-      </select>
-		</div>
-	</div>
-
-  <div class="form-element-container">
-    <label for="car_model">Model</label>
-    <div class="form-element">
-      <select name="car_models" class="form-control" disabled="true">
-          {{#each carModels.menuItem}}
-              <option value="{{value}}">{{text}}</option>
-          {{/each}}
-      </select>
-    </div>
-  </div>
-
-	<div class="form-element-container">
-		<label for="car_mileage">Annual Mileage</label>
-		<div class="form-element">
-			<select id="mileage" name="car_mileage" class="form-control">
-				<option value="" selected="selected">Select Annual Mileage</option>	
-				<option value="2000">2,000</option>
-				<option value="3000">3,000</option>
-				<option value="4000">4,000</option>
-				<option value="5000">5,000</option>
-				<option value="7000">7,000</option>
-				<option value="10000">10,000</option>
-				<option value="12000">12,000</option>
-				<option value="15000">15,000</option>
-				<option value="20000">20,000</option>
-				<option value="25000">25,000</option>
-				<option value="30000">30,000</option>
-				<option value="40000">40,000</option>
-				<option value="50000">50,000</option>
-				<option value="60000">60,000</option>
-				<option value="70000">70,000</option>
-				<option value="80000">80,000</option>
-				<option value="90000">90,000</option>
-				<option value="100000">100,000</option>
+			<select id="vehicle-type" name="vehicle_type" class="form-control">
+				<option selected="selected" value="car">Car</option>
+				<option value="ecar">Electric Car</option>
+				<option value="motorcycle">Motorcycle</option>
+				<option value="boat">Boat</option>
 			</select>
 		</div>
 	</div>

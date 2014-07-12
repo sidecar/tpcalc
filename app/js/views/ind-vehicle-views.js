@@ -16,12 +16,22 @@ var defaultTemplate = require('../templates/ind-vehicle-default-template.hbs')
 , listTemplate = require('../templates/ind-vehicle-list-template.hbs')
 , utils = require('../utils/utility');
 
-module.exports.default = Marionette.ItemView.extend({
-	template: defaultTemplate,
+module.exports.default = Marionette.ItemView.extend({	
 	ui: {
-		yearDropDown: 'select[name="car_year"]',
-		makesDropDown: 'select[name="car_make"]', 
-		modelsDropDown: 'select[name="car_models"]' 
+		vehicleTypeSelect: 'select[name="vehicle_type"]'
+	},
+	template: defaultTemplate,
+	getNextViewSlug: function() {
+		return this.ui.vehicleTypeSelect.val();
+	}
+});
+
+module.exports.car = Marionette.ItemView.extend({
+	template: carTemplate,
+	ui: {
+		yearSelect: 'select[name="car_year"]',
+		makesSelect: 'select[name="car_make"]', 
+		modelsSelect: 'select[name="car_models"]' 
 	},
 	events: {
 		'change select[name="car_year"]': 'yearSelected',
@@ -47,34 +57,24 @@ module.exports.default = Marionette.ItemView.extend({
 	},
 	yearSelected: function() {
 		var self = this;
-		self.year = this.ui.yearDropDown.val();
+		self.year = this.ui.yearSelect.val();
 		utils.getJSON('/vehicle/make/'+self.year, function(jsonResponse) {
 			self.data.makes = jsonResponse.menuItems;
 		});	
 		self.render();
-		$(self.ui.makesDropDown).prepend('<option value="" selected="selected">Select Car Make</option>	');
-		self.ui.makesDropDown.prop('disabled', false);
+		$(self.ui.makesSelect).prepend('<option value="" selected="selected">Select Car Make</option>	');
+		self.ui.makesSelect.prop('disabled', false);
 	},
 	makeSelected: function() {
 		var self = this;
-		self.make = this.ui.makesDropDown.val();
+		self.make = this.ui.makesSelect.val();
 		utils.getJSON('/vehicle/model/'+self.year+'/'+self.make, function(jsonResponse) {
 			self.data.carModels = jsonResponse.menuItems;
 		});	
 		self.render();
-		$(self.ui.modelsDropDown).prepend('<option value="" selected="selected">Select Car Model</option>	');
-		self.ui.modelsDropDown.prop('disabled', false);
+		$(self.ui.modelsSelect).prepend('<option value="" selected="selected">Select Car Model</option>	');
+		self.ui.modelsSelect.prop('disabled', false);
 	},
-});
-
-module.exports.car = Marionette.ItemView.extend({
-	template: carTemplate,
-	events: {
-
-	},
-	getNextViewSlug: function() {
-		return 'list';
-	}
 });
 
 module.exports.ecar = Marionette.ItemView.extend({
