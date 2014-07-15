@@ -6,6 +6,7 @@ var $ = require('jquery')
 
 module.exports = Backbone.Model.extend({
   defaults: {
+    vehicleType: 'car', //fueleconomy.gov and map
     year: 2013, //user entered
     make: 'Select a year', //user entered
     model: 'Select a make', //user entered

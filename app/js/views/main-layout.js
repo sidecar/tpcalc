@@ -6,6 +6,7 @@ module.exports = Marionette.Layout.extend({
   template: template,
 
   regions: {
+    testRegion: '[data-region=test]',
     headerRegion: '[data-region=header]',
     helpRegion: '[data-region=help]',
     menuRegion: '[data-region=menu]',

@@ -26,6 +26,7 @@ individual = {};
         {name: 'default',  view: new defaultView({model: vehicleModel})},
         {name: 'car',  view: new carView({model: vehicleModel})}, 
         {name: 'ecar',  view: new ecarView({model: vehicleModel})}, 
+        {name: 'motorcycle',  view: new motorcycleView({model: vehicleModel})}, 
         {name: 'boat',  view: new boatView({model: vehicleModel})}, 
         {name: 'class',  view: new classView({model: vehicleModel})}, 
         {name: 'options',  view: new optionsView({model: vehicleModel})},

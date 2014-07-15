@@ -24,14 +24,18 @@
 </div>
 
 <form name="ind_vehicle_view">
+  <div data-region="year"></div>
+  <div data-region="make"></div>
+  <div data-region="model"></div>
 
-	<div class="form-element-container">
+{{!-- 	<div class="form-element-container">
 		<label for="car_year">Year</label>
 		<div class="form-element">
       <select name="car_year" class="form-control">
-          {{#each years.menuItem}}
-              <option value="{{value}}">{{text}}</option>
-          {{/each}}
+        <option value="" selected="selected">Select the car's year</option>
+        {{#each years.menuItem}}
+          <option value="{{value}}">{{text}}</option>
+        {{/each}}
       </select>
 		</div>
 	</div>
@@ -39,10 +43,11 @@
 	<div class="form-element-container">
 		<label for="car_make">Make</label>
 		<div class="form-element">
-      <select name="car_make" class="form-control" disabled="true">
-          {{#each makes.menuItem}}
-              <option value="{{value}}">{{text}}</option>
-          {{/each}}
+      <select name="car_make" class="form-control">
+        <option value="" selected="selected">Select the car's make</option>
+        {{#each makes.menuItem}}
+          <option value="{{value}}">{{text}}</option>
+        {{/each}}
       </select>
 		</div>
 	</div>
@@ -50,13 +55,14 @@
   <div class="form-element-container">
     <label for="car_model">Model</label>
     <div class="form-element">
-      <select name="car_models" class="form-control" disabled="true">
-          {{#each carModels.menuItem}}
-              <option value="{{value}}">{{text}}</option>
-          {{/each}}
+      <select name="car_models" class="form-control">
+        <option value="" selected="selected">Select the car's model</option>
+        {{#each carModels.menuItem}}
+          <option value="{{value}}">{{text}}</option>
+        {{/each}}
       </select>
     </div>
-  </div>
+  </div> --}}
 
 	<div class="form-element-container">
 		<label for="car_mileage">Annual Mileage</label>

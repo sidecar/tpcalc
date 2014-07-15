@@ -198,10 +198,8 @@ module.exports = App.module('Calc', function(Calc) {
     mainLayout.helpRegion.show(helpView);
     mainLayout.footerRegion.show(footerView);
     mainLayout.menuRegion.show(categoriesCollectionView);
-    //add the help icon to the menu
-
     mainLayout.inputRegion.show(inputViewModel.get('view'));
-
+    
     // Set up the summary layout
     var summaryLayout = Calc.summaryLayout = new SummaryLayout({model: calcModel});
     
@@ -221,37 +219,46 @@ module.exports = App.module('Calc', function(Calc) {
 
     // Additional layout setup
     Calc.controller.setFooterButtonStates(inputViewModel.get('name'));
+
+
   };
 
   Calc.initEventListeners = function() {
 
     App.vent.on('next', function(event) {
-      var currentCategoryModel = Calc.model.get('currentCategoryModel');
-      var currentCategorySlug = currentCategoryModel.get('slug');
-      var currentViewModel = currentCategoryModel.get('currentInputViewModel');
-      var currentView = currentViewModel.get('view');
-      var nextViewSlug = currentView.getNextViewSlug();
-      if(nextViewSlug === '' || nextViewSlug === undefined || nextViewSlug === false) {
-        Calc.controller.goToNextCategory();
-        return;
-      }
-      var nextViewModel = Calc.model.getViewModelBySlug(nextViewSlug);
+      var currentCategoryModel = Calc.model.get('currentCategoryModel')
+      , currentCategorySlug = currentCategoryModel.get('slug')
+      , currentViewModel = currentCategoryModel.get('currentInputViewModel')
+      , currentView = currentViewModel.get('view');
+      currentView.getNextView();
+    });
+
+    App.vent.on('goToView', function(slug) {
+      var currentCategoryModel = Calc.model.get('currentCategoryModel')
+      , currentCategorySlug = currentCategoryModel.get('slug')
+      , currentViewModel = currentCategoryModel.get('currentInputViewModel')
+      , nextViewModel = Calc.model.getViewModelBySlug(slug);
       nextViewModel.set({previousViewModel: currentViewModel});
       currentCategoryModel.set({currentInputViewModel: nextViewModel});
       App.router.navigate(Calc.baseRoute+'/'+currentCategorySlug+'/'+nextViewModel.get('name'), {trigger: true});
     });
+
+    App.vent.on('goToNextCategory', function() {
+      Calc.controller.goToPrevCategory();
+    });
     
     App.vent.on('prev', function(event) {     
-      var currentCategoryModel = Calc.model.get('currentCategoryModel');
-      var currentCategorySlug = currentCategoryModel.get('slug');
-      var currentViewModel = currentCategoryModel.get('currentInputViewModel');
-      var previousViewModel = currentViewModel.get('previousViewModel');
+      var currentCategoryModel = Calc.model.get('currentCategoryModel')
+      , currentCategorySlug = currentCategoryModel.get('slug')
+      , currentViewModel = currentCategoryModel.get('currentInputViewModel')
+      , previousViewModel = currentViewModel.get('previousViewModel');
       if(previousViewModel === undefined){ 
         Calc.controller.goToPrevCategory();
         return;
+      } else {
+        currentCategoryModel.set({currentInputViewModel: previousViewModel});
+        App.router.navigate(Calc.baseRoute+'/'+currentCategorySlug+'/'+previousViewModel.get('name'), {trigger: true});
       }
-      currentCategoryModel.set({currentInputViewModel: previousViewModel});
-      App.router.navigate(Calc.baseRoute+'/'+currentCategorySlug+'/'+previousViewModel.get('name'), {trigger: true});
     });
 
     App.vent.on('category', function(event) { 
@@ -271,6 +278,10 @@ module.exports = App.module('Calc', function(Calc) {
 
     App.vent.on('buy', function(event) { 
       alert('The buy button was clicked.');
+    });  
+
+    App.vent.on('errorAlert', function(msg) { 
+      alert(msg);
     });  
 
   };

@@ -16,22 +16,34 @@ var defaultTemplate = require('../templates/ind-vehicle-default-template.hbs')
 , listTemplate = require('../templates/ind-vehicle-list-template.hbs')
 , utils = require('../utils/utility');
 
+var SelectView = require('./select-view');
+
 module.exports.default = Marionette.ItemView.extend({	
+	template: defaultTemplate,
 	ui: {
 		vehicleTypeSelect: 'select[name="vehicle_type"]'
 	},
-	template: defaultTemplate,
-	getNextViewSlug: function() {
-		return this.ui.vehicleTypeSelect.val();
+	initialize: function() {
+		this.modelBinder = new Databinding.ModelBinder(this, this.model);
+		this.modelBinder.watch('value: vehicleType', {selector: '[name="vehicle_type"]'});
+	},
+	getNextView: function() {
+		App.vent.trigger('goToView', this.ui.vehicleTypeSelect.val());
+		return;
 	}
 });
 
-module.exports.car = Marionette.ItemView.extend({
+module.exports.car = Marionette.Layout.extend({
 	template: carTemplate,
+	regions: {
+    yearRegion: "[data-region=year]",
+    makeRegion: "[data-region=make]",
+    modelRegion: "[data-region=model]"
+  },
 	ui: {
 		yearSelect: 'select[name="car_year"]',
-		makesSelect: 'select[name="car_make"]', 
-		modelsSelect: 'select[name="car_models"]' 
+		makeSelect: 'select[name="car_make"]', 
+		modelSelect: 'select[name="car_models"]' 
 	},
 	events: {
 		'change select[name="car_year"]': 'yearSelected',
@@ -45,36 +57,64 @@ module.exports.car = Marionette.ItemView.extend({
 		this.modelBinder.watch('value: model', {selector: '[name="car_model"]'});
 		this.modelBinder.watch('value: mileage', {selector: '[name="car_mileage"]'});
 	},
-	getNextViewSlug: function() {
-		return 'car';
+	onShow: function() {
+		this.loadYearSelect();
 	},
-	serializeData: function() {
+	loadYearSelect: function() {
 		var self = this;
 		utils.getJSON('/vehicle/year', function(jsonResponse) {
-			self.data.years = jsonResponse.menuItems;
+			var data = {}
+			data.years = jsonResponse.menuItems;
+			data.selectName = 'car_year';
+			data.displayName = 'Year';
+			data.instruction = 'Choose the vehicle\'s year';
+			self.yearRegion.show( new SelectView({json: data}) );
 		});	
-		return self.data;
 	},
-	yearSelected: function() {
+	loadMakeSelect: function(year) {
 		var self = this;
-		self.year = this.ui.yearSelect.val();
-		utils.getJSON('/vehicle/make/'+self.year, function(jsonResponse) {
-			self.data.makes = jsonResponse.menuItems;
-		});	
-		self.render();
-		$(self.ui.makesSelect).prepend('<option value="" selected="selected">Select Car Make</option>	');
-		self.ui.makesSelect.prop('disabled', false);
+		utils.getJSON('/vehicle/make/'+year, function(jsonResponse) {
+			var data = {}
+			data.years = jsonResponse.menuItems;
+			data.selectName = 'car_make';
+			data.displayName = 'Make';
+			data.instruction = 'Choose the vehicle\'s make';
+			self.makeRegion.show( new SelectView({json: data}) );
+		});
 	},
-	makeSelected: function() {
+	loadModelSelect: function(year, make) {
+		console.log('loadModelSelect');
+		console.log('make');
+		console.log(make);
 		var self = this;
-		self.make = this.ui.makesSelect.val();
-		utils.getJSON('/vehicle/model/'+self.year+'/'+self.make, function(jsonResponse) {
-			self.data.carModels = jsonResponse.menuItems;
-		});	
-		self.render();
-		$(self.ui.modelsSelect).prepend('<option value="" selected="selected">Select Car Model</option>	');
-		self.ui.modelsSelect.prop('disabled', false);
+		utils.getJSON('/vehicle/model/'+year+'/'+make, function(jsonResponse) {
+			var data = {}
+			data.years = jsonResponse.menuItems;
+			data.selectName = 'car_model';
+			data.displayName = 'Model';
+			data.instruction = 'Choose the vehicle\'s model';
+			self.modelRegion.show( new SelectView({json: data}) );
+		});
 	},
+	getNextView: function() {
+		if(!this.ui.modelSelect.val()) {
+			App.vent.trigger('errorAlert', 'Please, choose your car\'s model');
+			return;
+		} else {
+			App.vent.trigger('goToView', 'list');
+			return;
+		}
+	},
+	yearSelected: function(event) {
+		var year = $(event.target).val();
+		this.model.set({year: year});
+		this.loadMakeSelect(year);
+	},
+	makeSelected: function(event) {
+		var year = this.model.get('year');
+		var make = $(event.target).val();
+		this.loadModelSelect(year, make);
+	}
 });
 
 module.exports.ecar = Marionette.ItemView.extend({
