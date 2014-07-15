@@ -1,6 +1,9 @@
+"use strict";
 var $ = require('jquery')
-, Backbone = require('backbone')
-, Marionette = require('backbone.marionette');
+, Marionette = require('backbone.marionette')
+, Stickit = require('backbone.stickit')
+, Databinding = require('backbone.databinding')
+, App = require('../app');
 
 var defaultTemplate = require('../templates/ind-travel-default-template.hbs')
 , addTemplate = require('../templates/ind-travel-add-template.hbs')
@@ -16,6 +19,9 @@ module.exports.default = Marionette.ItemView.extend({
 	},
 	getNextViewSlug: function() {
 		return 'add';
+	},
+	getNextView: function() {
+		App.vent.trigger('goToView', 'add');
 	}
 });
 
@@ -26,6 +32,9 @@ module.exports.add = Marionette.ItemView.extend({
 	},
 	getNextViewSlug: function() {
 		return 'list';
+	},
+	getNextView: function() {
+		App.vent.trigger('goToView', 'list');
 	}
 });
 
@@ -36,6 +45,9 @@ module.exports.average = Marionette.ItemView.extend({
 	},
 	getNextViewSlug: function() {
 		return 'list';
+	},
+	getNextView: function() {
+		App.vent.trigger('goToView', 'list');
 	}
 });
 
@@ -46,6 +58,9 @@ module.exports.length = Marionette.ItemView.extend({
 	},
 	getNextViewSlug: function() {
 		return 'list';
+	},
+	getNextView: function() {
+		App.vent.trigger('goToView', 'list');
 	}
 });
 
@@ -56,6 +71,9 @@ module.exports.miles = Marionette.ItemView.extend({
 	},
 	getNextViewSlug: function() {
 		return 'list';
+	},
+	getNextView: function() {
+		App.vent.trigger('goToView', 'list');
 	}
 });
 
@@ -66,6 +84,9 @@ module.exports.fuel = Marionette.ItemView.extend({
 	},
 	getNextViewSlug: function() {
 		return '';
+	},
+	getNextView: function() {
+		App.vent.trigger('goToNextCategory');
 	}
 });
 
@@ -76,5 +97,8 @@ module.exports.list = Marionette.ItemView.extend({
 	},
 	getNextViewSlug: function() {
 		return '';
+	},
+	getNextView: function() {
+		App.vent.trigger('goToNextCategory');
 	}
 });

@@ -9,12 +9,7 @@ var template = require('../templates/select-template');
 
 module.exports = Marionette.ItemView.extend({
   template: template,
-  initialize: function() {
-    console.log('Select View initialize');
-  },
   serializeData: function() {
-    console.log('this.options')
-    console.log(this.options)
     return this.options.json;
   }
 });

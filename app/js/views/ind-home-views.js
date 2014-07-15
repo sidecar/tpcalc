@@ -1,6 +1,9 @@
+"use strict";
 var $ = require('jquery')
-, Backbone = require('backbone')
-, Marionette = require('backbone.marionette');
+, Marionette = require('backbone.marionette')
+, Stickit = require('backbone.stickit')
+, Databinding = require('backbone.databinding')
+, App = require('../app');
 
 var defaultTemplate = require('../templates/ind-home-default-template.hbs')
 , addTemplate = require('../templates/ind-home-add-template.hbs');
@@ -11,6 +14,9 @@ module.exports.default = Marionette.ItemView.extend({
 	},
 	getNextViewSlug: function() {
 		return 'add';
+	},
+	getNextView: function() {
+		App.vent.trigger('goToView', 'add');
 	}
 });
 
@@ -21,5 +27,8 @@ module.exports.add = Marionette.ItemView.extend({
 	},
 	getNextViewSlug: function() {
 		return '';
+	},
+	getNextView: function() {
+		App.vent.trigger('goToNextCategory');
 	}
 });

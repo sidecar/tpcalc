@@ -1,5 +1,4 @@
 var $ = require('jquery')
-, Backbone = require('backbone')
 , Marionette = require('backbone.marionette')
 , Stickit = require('backbone.stickit')
 , Databinding = require('backbone.databinding')
@@ -97,13 +96,14 @@ module.exports.car = Marionette.Layout.extend({
 		});
 	},
 	getNextView: function() {
-		if(!this.ui.modelSelect.val()) {
-			App.vent.trigger('errorAlert', 'Please, choose your car\'s model');
-			return;
-		} else {
-			App.vent.trigger('goToView', 'list');
-			return;
-		}
+		App.vent.trigger('goToView', 'list');
+		// if(!this.ui.modelSelect.val()) {
+		// 	App.vent.trigger('errorAlert', 'Please, choose your car\'s model');
+		// 	return;
+		// } else {
+		// 	App.vent.trigger('goToView', 'list');
+		// 	return;
+		// }
 	},
 	yearSelected: function(event) {
 		var year = $(event.target).val();
@@ -114,7 +114,7 @@ module.exports.car = Marionette.Layout.extend({
 		var year = this.model.get('year');
 		var make = $(event.target).val();
 		this.loadModelSelect(year, make);
-	}
+	} 
 });
 
 module.exports.ecar = Marionette.ItemView.extend({
@@ -124,6 +124,9 @@ module.exports.ecar = Marionette.ItemView.extend({
 	},
 	getNextViewSlug: function() {
 		return 'list';
+	},
+	getNextView: function() {
+		App.vent.trigger('goToView', 'list');
 	}
 });
 
@@ -134,6 +137,9 @@ module.exports.boat = Marionette.ItemView.extend({
 	},
 	getNextViewSlug: function() {
 		return 'list';
+	},
+	getNextView: function() {
+		App.vent.trigger('goToView', 'list');
 	}
 });
 
@@ -144,6 +150,9 @@ module.exports.motorcycle = Marionette.ItemView.extend({
 	},
 	getNextViewSlug: function() {
 		return 'list';
+	},
+	getNextView: function() {
+		App.vent.trigger('goToView', 'list');
 	}
 });
 
@@ -154,6 +163,9 @@ module.exports.class = Marionette.ItemView.extend({
 	},
 	getNextViewSlug: function() {
 		return 'list';
+	},
+	getNextView: function() {
+		App.vent.trigger('goToView', 'list');
 	}
 });
 
@@ -164,6 +176,9 @@ module.exports.options = Marionette.ItemView.extend({
 	},
 	getNextViewSlug: function() {
 		return 'list';
+	},
+	getNextView: function() {
+		App.vent.trigger('goToView', 'list');
 	}
 });
 
@@ -174,6 +189,9 @@ module.exports.type = Marionette.ItemView.extend({
 	},
 	getNextViewSlug: function() {
 		return 'list';
+	},
+	getNextView: function() {
+		App.vent.trigger('goToView', 'list');
 	}
 });
 
@@ -184,6 +202,9 @@ module.exports.list = Marionette.ItemView.extend({
 	},
 	getNextViewSlug: function() {
 		return '';
+	},
+	getNextView: function() {
+		App.vent.trigger('goToNextCategory');
 	}
 });
 

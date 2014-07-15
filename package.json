@@ -52,7 +52,9 @@
     "bootstrap-sass": "~3.1.1",
     "path-browserify": "0.0.0",
     "backbone.stickit": "~0.8.0",
-    "backbone.databinding": "~0.4.5"
+    "backbone.databinding": "~0.4.5",
+    "backbone.localstorage": "~1.1.9",
+    "barf": "~1.0.3"
   },
   "scripts": {
     "start": "node server.js"

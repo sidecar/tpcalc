@@ -12,8 +12,8 @@ events = {};
     , groundView = require('./views/evt-travel-views').ground
     , hotelView = require('./views/evt-travel-views').hotel;
     return {
-      displayName: 'Vehicle',
-      slug: 'vehicle',
+      displayName: 'Travel',
+      slug: 'travel',
       icon: '',
       views: [
         {name: 'default',  view: new defaultView()},
