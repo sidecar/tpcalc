@@ -6,17 +6,17 @@ var $ = require('jquery')
 module.exports = Marionette.ItemView.extend({
 	template: template,
 	events: {
-    "click .btn-next": "next",
-    "click .btn-prev": "prev"
+    "click .btn-next": "nextBtnClicked",
+    "click .btn-prev": "prevBtnClicked"
 	},
   modelEvents: {
     "change:currentCategoryModel": "render"
   },
-  next: function(event) {
+  nextBtnClicked: function(event) {
     event.preventDefault();
     App.vent.trigger('next', event);
   },
-  prev: function(event) {
+  prevBtnClicked: function(event) {
     event.preventDefault();
     App.vent.trigger('prev', event);
   },

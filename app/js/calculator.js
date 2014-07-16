@@ -25,29 +25,21 @@ module.exports = App.module('Calc', function(Calc) {
   Calc.router = new Router({controller: Calc.controller});
 
   Calc.initModels = function(options) {
-    // set up the calculator model that contains category models
+    
     var Calculator = Backbone.Model.extend({      
       getCategoryBySlug: function(slug) {
-        var categories = this.get('categories');
-        var category = categories.findWhere({slug: slug});
+        var categories = this.get('categories')
+        , category = categories.findWhere({slug: slug});
         return category;
       },
       getViewModelBySlug: function(slug) {
-        var currentCategory = this.get('currentCategoryModel');
-        var views = currentCategory.get('viewList');
-        var view = views.findWhere({name: slug});
+        var currentCategory = this.get('currentCategoryModel')
+        , views = currentCategory.get('viewList')
+        , view = views.findWhere({name: slug});
         return view;
       }
     });
 
-    var calcModel = Calc.model = new Calculator({
-      id: 1,      
-      displayName: options.displayName, 
-      slug: options.slug,
-      thankYouView: options.thankYouView
-    });
-
-    // set up models for each category
     var Category = Backbone.Model.extend({      
       getCurrentInputView: function() {
         var views = this.get('viewList');
@@ -59,27 +51,37 @@ module.exports = App.module('Calc', function(Calc) {
       }
     });
 
-    // create a collection of categories to be set on the Calculator model
     var Categories = Backbone.Collection.extend({      
       model: Category
     });
-    var categories = Calc.categories = new Categories();
-    // create ViewModel models and a collection of them called ViewList to be set on each category    
+
     var ViewModel = Backbone.Model;
     var ViewList = Backbone.Collection.extend({
       model: ViewModel
     });
+
+    //////////////////////////////////////////////////////////////////////////
+    var calcModel = Calc.model = new Calculator({
+      displayName: options.displayName, 
+      slug: options.slug,
+      thankYouView: options.thankYouView
+    });
+
+    var categories = Calc.categories = new Categories();
+
     _.each(options.categories, function(category) {
       var viewList = new ViewList();
+      
       // new instances of ViewModel model for each view associated with the category
       _.each(category.views, function(view) {
         var viewModel = new ViewModel({
           name: view.name,
-          view: view.view,
+          view: view.view
         });
         // add each ViewModel the collection of ViewModels that is set on the Category model
         viewList.add(viewModel);
-      })
+      });
+
       // new instance of the Category model
       var category = new Category({
         displayName: category.displayName,
@@ -97,6 +99,7 @@ module.exports = App.module('Calc', function(Calc) {
 
     calcModel.set({categories: categories});
     calcModel.set({currentCategoryModel: categories.first()}); 
+
   };
 
   Calc.initLayout = function(options) {
@@ -145,7 +148,6 @@ module.exports = App.module('Calc', function(Calc) {
   };
 
   Calc.addInitializer(function(options){
-    console.log(options.slug + 'Calc  initializing');
     Calc.baseRoute = '#/'+options.slug;
     Calc.initModels(options);
     Calc.initLayout(options);
@@ -154,11 +156,10 @@ module.exports = App.module('Calc', function(Calc) {
   });
 
   Calc.on('start', function(options) {
-    console.log(options.slug + 'Calc  started');
+    //console.log(options.slug + 'Calc  started');
   });
 
   Calc.addFinalizer(function(){
-    console.log('Calc.addFinalizer');
     Calc.controller.hide();
     Calc.stopListening();
   }); 

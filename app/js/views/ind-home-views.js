@@ -12,11 +12,8 @@ module.exports.default = Marionette.ItemView.extend({
 	template: defaultTemplate,
 	events: {
 	},
-	getNextViewSlug: function() {
-		return 'add';
-	},
-	getNextView: function() {
-		App.vent.trigger('goToView', 'add');
+	getNextInputView: function() {
+		App.vent.trigger('showInputView', 'add');
 	}
 });
 
@@ -25,10 +22,7 @@ module.exports.add = Marionette.ItemView.extend({
 	events: {
 
 	},
-	getNextViewSlug: function() {
-		return '';
-	},
-	getNextView: function() {
+	getNextInputView: function() {
 		App.vent.trigger('goToNextCategory');
 	}
 });

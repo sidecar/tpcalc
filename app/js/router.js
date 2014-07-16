@@ -32,7 +32,12 @@ module.exports.controller  = Marionette.Controller.extend({
       Calc.model.set({currentCategoryModel: categoryModel});
       var inputViewModel = Calc.model.getViewModelBySlug(inputViewSlug);
       categoryModel.set({currentInputViewModel: inputViewModel});
-      Calc.mainLayout.inputRegion.show(inputViewModel.get('view')); 
+      var inputView = inputViewModel.get('view');
+      inputView.model = categoryModel;
+      console.log(inputView);
+      Calc.mainLayout.inputRegion.show(inputView); 
+      // var InputView = inputViewModel.get('view');
+      // Calc.mainLayout.inputRegion.show(new InputView({model: categoryModel})); 
       Calc.mainLayout.headerRegion.$el.show();
       this.setFooterButtonStates(inputViewModel.get('name'));
     },

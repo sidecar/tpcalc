@@ -16,7 +16,6 @@ function isMobile() {
 App.mobile = isMobile();
 
 App.addInitializer(function(options) {
-  console.log('App.addInitializer');
   var calcModule = require('./calculator');
   var ModuleManager = require('./utils/module-manager');
   var modManager = new ModuleManager();
@@ -40,7 +39,6 @@ App.addRegions({
 
 //may need to be on 'initialize:after'
 App.on('start', function(options) {
-  console.log('App.on start');
   if (Backbone.history) {
     Backbone.history.start();
   }

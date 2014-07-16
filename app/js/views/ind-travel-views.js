@@ -17,11 +17,8 @@ module.exports.default = Marionette.ItemView.extend({
 	template: defaultTemplate,
 	events: {
 	},
-	getNextViewSlug: function() {
-		return 'add';
-	},
-	getNextView: function() {
-		App.vent.trigger('goToView', 'add');
+	getNextInputView: function() {
+		App.vent.trigger('showInputView', 'add');
 	}
 });
 
@@ -30,11 +27,8 @@ module.exports.add = Marionette.ItemView.extend({
 	events: {
 
 	},
-	getNextViewSlug: function() {
-		return 'list';
-	},
-	getNextView: function() {
-		App.vent.trigger('goToView', 'list');
+	getNextInputView: function() {
+		App.vent.trigger('showInputView', 'list');
 	}
 });
 
@@ -43,11 +37,8 @@ module.exports.average = Marionette.ItemView.extend({
 	events: {
 
 	},
-	getNextViewSlug: function() {
-		return 'list';
-	},
-	getNextView: function() {
-		App.vent.trigger('goToView', 'list');
+	getNextInputView: function() {
+		App.vent.trigger('showInputView', 'list');
 	}
 });
 
@@ -56,11 +47,8 @@ module.exports.length = Marionette.ItemView.extend({
 	events: {
 
 	},
-	getNextViewSlug: function() {
-		return 'list';
-	},
-	getNextView: function() {
-		App.vent.trigger('goToView', 'list');
+	getNextInputView: function() {
+		App.vent.trigger('showInputView', 'list');
 	}
 });
 
@@ -69,11 +57,8 @@ module.exports.miles = Marionette.ItemView.extend({
 	events: {
 
 	},
-	getNextViewSlug: function() {
-		return 'list';
-	},
-	getNextView: function() {
-		App.vent.trigger('goToView', 'list');
+	getNextInputView: function() {
+		App.vent.trigger('showInputView', 'list');
 	}
 });
 
@@ -82,10 +67,7 @@ module.exports.fuel = Marionette.ItemView.extend({
 	events: {
 
 	},
-	getNextViewSlug: function() {
-		return '';
-	},
-	getNextView: function() {
+	getNextInputView: function() {
 		App.vent.trigger('goToNextCategory');
 	}
 });
@@ -95,10 +77,7 @@ module.exports.list = Marionette.ItemView.extend({
 	events: {
 
 	},
-	getNextViewSlug: function() {
-		return '';
-	},
-	getNextView: function() {
+	getNextInputView: function() {
 		App.vent.trigger('goToNextCategory');
 	}
 });

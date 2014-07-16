@@ -1,9 +1,5 @@
 "use strict";
-var $ = require('jquery')
-, _ = require('underscore')
-, Backbone = require('backbone')
-, Marionette = require('backbone.marionette')
-, App = require('../app');
+var Backbone = require('backbone');
 
 module.exports = Backbone.Model.extend({
   defaults: {

@@ -18,26 +18,27 @@ individual = {};
     , typeView = require('./views/ind-vehicle-views').type
     , listView = require('./views/ind-vehicle-views').list;
 
-    return{
+    return {
       displayName: 'Vehicle',
       slug: 'vehicle',
       icon: '',
       views: [
-        {name: 'default',  view: new defaultView({model: vehicleModel})},
-        {name: 'car',  view: new carView({model: vehicleModel})}, 
-        {name: 'ecar',  view: new ecarView({model: vehicleModel})}, 
-        {name: 'motorcycle',  view: new motorcycleView({model: vehicleModel})}, 
-        {name: 'boat',  view: new boatView({model: vehicleModel})}, 
-        {name: 'class',  view: new classView({model: vehicleModel})}, 
-        {name: 'options',  view: new optionsView({model: vehicleModel})},
-        {name: 'type',  view: new typeView({model: vehicleModel})},
-        {name: 'list',  view: new listView({model: vehicleModel})}
+        {name: 'default',  view: new defaultView()},
+        {name: 'car',  view: new carView()}, 
+        {name: 'ecar',  view: new ecarView()}, 
+        {name: 'motorcycle',  view: new motorcycleView()}, 
+        {name: 'boat',  view: new boatView()}, 
+        {name: 'class',  view: new classView()}, 
+        {name: 'options',  view: new optionsView()},
+        {name: 'type',  view: new typeView()},
+        {name: 'list',  view: new listView()}
       ]
     } 
   }());
 
   var transit = (function() {
     var defaultView = require('./views/ind-transit-views').default;
+    
     return {
       displayName: 'Public Transit',
       slug: 'transit',
@@ -56,6 +57,7 @@ individual = {};
     , milesView = require('./views/ind-travel-views').miles
     , fuelView = require('./views/ind-travel-views').fuel
     , listView = require('./views/ind-travel-views').list;
+    
     return {
       displayName: 'Air Travel',
       slug: 'travel',
@@ -75,6 +77,7 @@ individual = {};
   var home = (function() {
     var defaultView = require('./views/ind-home-views').default
     , addView = require('./views/ind-home-views').add;
+    
     return {
       displayName: 'Home Energy',
       slug: 'home',

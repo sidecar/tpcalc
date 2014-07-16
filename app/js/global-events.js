@@ -11,23 +11,8 @@ module.exports = function() {
       , currentCategorySlug = currentCategoryModel.get('slug')
       , currentViewModel = currentCategoryModel.get('currentInputViewModel')
       , currentView = currentViewModel.get('view');
-      currentView.getNextView();
+      currentView.getNextInputView();
     });
-
-    App.vent.on('goToView', function(slug) {
-      var currentCategoryModel = Calc.model.get('currentCategoryModel')
-      , currentCategorySlug = currentCategoryModel.get('slug')
-      , currentViewModel = currentCategoryModel.get('currentInputViewModel')
-      , nextViewModel = Calc.model.getViewModelBySlug(slug);
-      nextViewModel.set({previousViewModel: currentViewModel});
-      currentCategoryModel.set({currentInputViewModel: nextViewModel});
-      App.router.navigate(Calc.baseRoute+'/'+currentCategorySlug+'/'+nextViewModel.get('name'), {trigger: true});
-    });
-
-    App.vent.on('goToNextCategory', function() {
-      Calc.controller.goToNextCategory();
-    });
-    
     App.vent.on('prev', function(event) {     
       var currentCategoryModel = Calc.model.get('currentCategoryModel')
       , currentCategorySlug = currentCategoryModel.get('slug')
@@ -40,6 +25,24 @@ module.exports = function() {
         currentCategoryModel.set({currentInputViewModel: previousViewModel});
         App.router.navigate(Calc.baseRoute+'/'+currentCategorySlug+'/'+previousViewModel.get('name'), {trigger: true});
       }
+    });
+
+    App.vent.on('showInputView', function(slug) {
+      var currentCategoryModel = Calc.model.get('currentCategoryModel')
+      , currentCategorySlug = currentCategoryModel.get('slug')
+      , currentViewModel = currentCategoryModel.get('currentInputViewModel')
+      , nextViewModel = Calc.model.getViewModelBySlug(slug);
+      nextViewModel.set({previousViewModel: currentViewModel});
+      currentCategoryModel.set({currentInputViewModel: nextViewModel});
+      App.router.navigate(Calc.baseRoute+'/'+currentCategorySlug+'/'+nextViewModel.get('name'), {trigger: true});
+    });
+
+    App.vent.on('goToNextCategory', function() {
+      Calc.controller.goToNextCategory();
+    });
+
+    App.vent.on('goToPrevCategory', function() {
+      Calc.controller.goToPrevCategory();
     });
 
     App.vent.on('category', function(event) { 
