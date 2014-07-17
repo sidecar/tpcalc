@@ -11,20 +11,20 @@ var MainLayout = require('./views/main-layout')
   , GraphView = require('./views/graph-view')
   , EmissionsView = require('./views/emissions-view');
 
-module.exports = function() {
-  var calcModel = this.model
+module.exports = function(Calc) {
+  var calcModel = Calc.model
   , currentCategory = calcModel.get('currentCategory')
   , inputViewModel = currentCategory.getCurrentInputView();
 
   // instantiate views
-  var mainLayout = this.mainLayout = new MainLayout();  
-  var categoriesMenuView = this.categoriesMenuView = new CategoriesMenuView({
+  var mainLayout = Calc.mainLayout = new MainLayout();  
+  var categoriesMenuView = Calc.categoriesMenuView = new CategoriesMenuView({
     collection: calcModel.get('categories'), 
     itemView: CategoryIconView
   });
-  var headerView = this.headerView = new HeaderView({model: calcModel});
-  var helpView = this.helpView = new HelpView({model: calcModel});
-  var footerView = this.footerView = new FooterView({model: calcModel});
+  var headerView = Calc.headerView = new HeaderView({model: calcModel});
+  var helpView = Calc.helpView = new HelpView({model: calcModel});
+  var footerView = Calc.footerView = new FooterView({model: calcModel});
 
   // Set up main layout
   App.body.show(mainLayout); // have to call show on a layout before it can do anything else
@@ -35,16 +35,16 @@ module.exports = function() {
   mainLayout.inputRegion.show(inputViewModel.get('view'));
 
   // Set up the summary layout
-  var summaryLayout = this.summaryLayout = new SummaryLayout({model: calcModel});
+  var summaryLayout = Calc.summaryLayout = new SummaryLayout({model: calcModel});
 
-  var graphView = this.graphView = new GraphView({
+  var graphView = Calc.graphView = new GraphView({
     model: calcModel,
-    collection: this.categories 
+    collection: Calc.categories 
   });
 
-  var emissionsView = this.emissionsView = new EmissionsView({
+  var emissionsView = Calc.emissionsView = new EmissionsView({
     model: calcModel,
-    collection: this.categories 
+    collection: Calc.categories 
   });
 
   mainLayout.summaryRegion.show(summaryLayout);
@@ -52,7 +52,7 @@ module.exports = function() {
   summaryLayout.emissionsRegion.show(emissionsView); 
 
   // Additional layout setup
-  this.controller.setFooterButtonStates(inputViewModel.get('name'));
+  //Calc.controller.setFooterButtonStates(inputViewModel.get('name'));
 
 };
 
