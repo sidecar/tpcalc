@@ -7,24 +7,11 @@ var _ = require('underscore')
 
 module.exports = App.calculator =  App.module('individual', function(Calc) {
 
-  // Calculator must be manually started
-  Calc.startWithParent = false;
+  Calc.startWithParent = false; // Calculator must be manually started
 
-  // var Controller = require('./router').controller;
-  // var Router = require('./router').router;
-  // Calc.controller = new Controller();
-  // Calc.router = new Router({controller: Calc.controller});
-
-  Calc.initCalcModel = function() {
-    var calcModel = this.model;
-    calcModel.set({currentCategory: calcModel.get('categories').first()});
-  }
-  
   Calc.addInitializer(function(calculator){
     Calc.baseRoute = '#/individual';
-    //Calc.initModels(options);
     Calc.model = require('./ind-calc-model');
-    Calc.initCalcModel();
     Calc.initCalcLayout = require('./init-calc-layout');
     Calc.initCalcLayout(Calc);
     Calc.initGlobalEvents = require('./init-global-calc-events');
@@ -33,16 +20,27 @@ module.exports = App.calculator =  App.module('individual', function(Calc) {
     Calc.initRouter(Calc);
   });
 
-  Calc.on('start', function(options) {
-    //console.log(options.slug + 'Calc  started');
-  });
-
   Calc.addFinalizer(function(){
     Calc.controller.hide();
     Calc.stopListening();
   });
 
-}); //end App.module Calc
+}); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   // Calc.initModels = function(options) {
     

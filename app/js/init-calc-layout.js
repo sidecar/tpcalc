@@ -51,9 +51,6 @@ module.exports = function(Calc) {
   summaryLayout.graphsRegion.show(graphView); 
   summaryLayout.emissionsRegion.show(emissionsView); 
 
-  // Additional layout setup
-  //Calc.controller.setFooterButtonStates(inputViewModel.get('name'));
-
 };
 
 

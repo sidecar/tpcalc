@@ -25,7 +25,7 @@ module.exports = function(Calc) {
     }
   }); 
 
-var Controller  = Marionette.Controller.extend({
+  var Controller  = Marionette.Controller.extend({
     // showInputView: function(catCodes, calculator, category, inputView) {
     showInputView: function(calculator, categorySlug, inputViewSlug) {
       var categoryModel = Calc.model.getCategoryBySlug(categorySlug);
@@ -100,10 +100,21 @@ var Controller  = Marionette.Controller.extend({
     }
   }); 
 
- Calc.controller = new Controller();
- Calc.router = new Router({controller: Calc.controller});
+  Calc.controller = new Controller();
+  Calc.router = new Router({controller: Calc.controller});
 
 }
+
+
+
+
+
+
+
+
+
+
+
 
 // module.exports.router = Marionette.AppRouter.extend({
 //     appRoutes: {

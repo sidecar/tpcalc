@@ -23,7 +23,10 @@ var defaultTravelView = require('./views/ind-travel-views').default
 var defaultHomeView = require('./views/ind-home-views').default
 , addHomeView = require('./views/ind-home-views').add;
 
-var Calculator = Backbone.Model.extend({      
+var Calculator = Backbone.Model.extend({  
+  initialize: function() {
+    this.set({currentCategory: this.get('categories').first()});
+  },    
   getCategoryBySlug: function(slug) {
     var categories = this.get('categories')
     , category = categories.findWhere({slug: slug});
@@ -59,15 +62,6 @@ var ViewModel = Backbone.Model;
 
 var ViewList = Backbone.Collection.extend({
   model: ViewModel
-});
-
-////////////////////////////////////////////////////////
-var indThankYouView = require('./views/ind-thankyou-view');
-var individual = new Calculator({
-  displayName: 'Individual',
-  slug: 'individual',
-  thankYouView: new indThankYouView(),
-  categories: new Categories()
 });
 
 ////////////////////////////////////////////////////////
@@ -128,9 +122,30 @@ var home = new Category({
   completed: false
 });
 
-individual.set({categories : new Categories([vehicle,transit,travel,home])});
+////////////////////////////////////////////////////////
+var indThankYouView = require('./views/ind-thankyou-view');
+var individual = new Calculator({
+  displayName: 'Individual',
+  slug: 'individual',
+  thankYouView: new indThankYouView(),
+  categories: new Categories([vehicle,transit,travel,home])
+});
   
 module.exports = individual;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

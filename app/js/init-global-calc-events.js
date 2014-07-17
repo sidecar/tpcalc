@@ -3,7 +3,6 @@ var $ = require('jquery')
   , App = require('./app');
 
 module.exports = function(Calc) {
-  console.log(Calc);
   App.vent.on('next', function(event) {
     var currentCategory = Calc.model.get('currentCategory');
     var currentCategorySlug = currentCategory.get('slug');
