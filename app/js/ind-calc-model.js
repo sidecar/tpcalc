@@ -1,4 +1,5 @@
-var Backbone = require('backbone');
+var _ = require('underscore')
+, Backbone = require('backbone');
 
 var defaultVehicleView = require('./views/ind-vehicle-views').default
 , carVehicleView = require('./views/ind-vehicle-views').car
@@ -25,8 +26,28 @@ var defaultHomeView = require('./views/ind-home-views').default
 
 var Calculator = Backbone.Model.extend({  
   initialize: function() {
+    this.set({categories: new Categories([vehicle,transit,travel,home])});
     this.set({currentCategory: this.get('categories').first()});
-  },    
+    var catCodes = this.get('catCodes');
+    if (catCodes) this.showSelectCategories(catCodes);
+    var indThankYouView = require('./views/ind-thankyou-view');
+    this.set({thankYouView: indThankYouView});
+  },
+  showSelectCategories: function(catCodes) {
+    console.log('catCodes');
+    console.log(catCodes);
+    var categories = this.get('categories');
+    var newListofCats = [];
+    // strip out duplicates
+    catCodes = _.uniq(catCodes, false);
+    // order ascending
+    catCodes = _.sortBy(catCodes, function(num) {return num});
+    // construct a list of requested cats based on codes
+    _.each(catCodes, function(catCode, index) {
+       newListofCats.push(categories.at([catCode - 1]));
+    })
+    categories.reset(newListofCats);
+  },   
   getCategoryBySlug: function(slug) {
     var categories = this.get('categories')
     , category = categories.findWhere({slug: slug});
@@ -123,15 +144,8 @@ var home = new Category({
 });
 
 ////////////////////////////////////////////////////////
-var indThankYouView = require('./views/ind-thankyou-view');
-var individual = new Calculator({
-  displayName: 'Individual',
-  slug: 'individual',
-  thankYouView: new indThankYouView(),
-  categories: new Categories([vehicle,transit,travel,home])
-});
-  
-module.exports = individual;
+
+module.exports = Calculator;
 
 
 

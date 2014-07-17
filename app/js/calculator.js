@@ -9,9 +9,14 @@ module.exports = App.calculator =  App.module('individual', function(Calc) {
 
   Calc.startWithParent = false; // Calculator must be manually started
 
-  Calc.addInitializer(function(calculator){
+  Calc.addInitializer(function(catCodes){
     Calc.baseRoute = '#/individual';
-    Calc.model = require('./ind-calc-model');
+    var CalculatorModel = require('./ind-calc-model');
+    Calc.model = new CalculatorModel({
+      displayName: 'Individual',
+      slug: 'individual',
+      catCodes: catCodes
+    });
     Calc.initCalcLayout = require('./init-calc-layout');
     Calc.initCalcLayout(Calc);
     Calc.initGlobalEvents = require('./init-global-calc-events');
