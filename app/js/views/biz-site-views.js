@@ -1,6 +1,9 @@
+'use strict';
 var $ = require('jquery')
-, Backbone = require('backbone')
-, Marionette = require('backbone.marionette');
+, Marionette = require('backbone.marionette')
+, Stickit = require('backbone.stickit')
+, Databinding = require('backbone.databinding')
+, App = require('../app');
 
 var defaultTemplate = require('../templates/biz-site-default-template.hbs')
 , energyTemplate = require('../templates/biz-site-energy-template.hbs');
@@ -9,18 +12,17 @@ module.exports.default = Marionette.ItemView.extend({
 	template: defaultTemplate,
 	events: {
 	},
-	getNextViewSlug: function() {
-		return 'energy';
+	getNextInputView: function() {
+		App.vent.trigger('showInputView', 'energy');
 	}
 });
 
 module.exports.energy = Marionette.ItemView.extend({
 	template: energyTemplate,
 	events: {
-
 	},
-	getNextViewSlug: function() {
-		return '';
+	getNextInputView: function() {
+		App.vent.trigger('goToNextCategory');
 	}
 });
 

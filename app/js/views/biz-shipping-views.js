@@ -1,6 +1,9 @@
+'use strict';
 var $ = require('jquery')
-, Backbone = require('backbone')
-, Marionette = require('backbone.marionette');
+, Marionette = require('backbone.marionette')
+, Stickit = require('backbone.stickit')
+, Databinding = require('backbone.databinding')
+, App = require('../app');
 
 var defaultTemplate = require('../templates/biz-shipping-default-template.hbs')
 
@@ -8,8 +11,8 @@ module.exports.default = Marionette.ItemView.extend({
 	template: defaultTemplate,
 	events: {
 	},
-	getNextViewSlug: function() {
-		return '';
-	}
+  getNextInputView: function() {
+    App.vent.trigger('goToNextCategory');
+  }
 });
 

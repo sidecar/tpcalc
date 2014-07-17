@@ -12,9 +12,6 @@ module.exports.default = Marionette.ItemView.extend({
   template: defaultTemplate,
   events: {
   },
-  getNextViewSlug: function() {
-    return 'flightLength';
-  },
   getNextInputView: function() {
     App.vent.trigger('showInputView', 'flightLength');
   }
@@ -23,9 +20,6 @@ module.exports.default = Marionette.ItemView.extend({
 module.exports.flightAverage = Marionette.ItemView.extend({
   template: flightAverageTemplate,
   events: {
-  },
-  getNextViewSlug: function() {
-    return 'hotel';
   },
   getNextInputView: function() {
     App.vent.trigger('showInputView', 'hotel');
@@ -36,9 +30,6 @@ module.exports.flightLength = Marionette.ItemView.extend({
   template: flightLengthTemplate,
   events: {
   },
-  getNextViewSlug: function() {
-    return 'hotel';
-  },
   getNextInputView: function() {
     App.vent.trigger('showInputView', 'hotel');
   }
@@ -48,9 +39,6 @@ module.exports.ground = Marionette.ItemView.extend({
   template: groundTemplate,
   events: {
   },
-  getNextViewSlug: function() {
-    return '';
-  },
   getNextInputView: function() {
     App.vent.trigger('goToNextCategory');
   }
@@ -59,9 +47,6 @@ module.exports.ground = Marionette.ItemView.extend({
 module.exports.hotel = Marionette.ItemView.extend({
 	template: hotelTemplate,
 	events: {
-	},
-	getNextViewSlug: function() {
-		return '';
 	},
   getNextInputView: function() {
     App.vent.trigger('goToNextCategory');

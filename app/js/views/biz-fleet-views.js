@@ -1,6 +1,10 @@
+'use strict';
 var $ = require('jquery')
-, Backbone = require('backbone')
-, Marionette = require('backbone.marionette');
+, Marionette = require('backbone.marionette')
+, Stickit = require('backbone.stickit')
+, Databinding = require('backbone.databinding')
+, App = require('../app');
+
 
 var defaultTemplate = require('../templates/biz-fleet-default-template.hbs')
 , carTemplate = require('../templates/biz-fleet-car-template.hbs')
@@ -13,18 +17,17 @@ module.exports.default = Marionette.ItemView.extend({
 	template: defaultTemplate,
 	events: {
 	},
-	getNextViewSlug: function() {
-		return 'car';
+	getNextInputView: function() {
+		App.vent.trigger('showInputView', 'car');
 	}
 });
 
 module.exports.car = Marionette.ItemView.extend({
 	template: carTemplate,
 	events: {
-
 	},
-	getNextViewSlug: function() {
-		return 'list';
+	getNextInputView: function() {
+		App.vent.trigger('showInputView', 'list');
 	}
 });
 
@@ -32,18 +35,17 @@ module.exports.ecar = Marionette.ItemView.extend({
 	template: ecarTemplate,
 	events: {
 	},
-	getNextViewSlug: function() {
-		return 'list';
+	getNextInputView: function() {
+		App.vent.trigger('showInputView', 'list');
 	}
 });
 
 module.exports.boat = Marionette.ItemView.extend({
 	template: boatTemplate,
 	events: {
-
 	},
-	getNextViewSlug: function() {
-		return 'list';
+	getNextInputView: function() {
+		App.vent.trigger('showInputView', 'list');
 	}
 });
 
@@ -51,18 +53,17 @@ module.exports.plane = Marionette.ItemView.extend({
 	template: planeTemplate,
 	events: {
 	},
-	getNextViewSlug: function() {
-		return 'list';
+	getNextInputView: function() {
+		App.vent.trigger('showInputView', 'list');
 	}
 });
 
 module.exports.list = Marionette.ItemView.extend({
 	template: listTemplate,
 	events: {
-
 	},
-	getNextViewSlug: function() {
-		return '';
+	getNextInputView: function() {
+		App.vent.trigger('goToNextCategory');
 	}
 });
 

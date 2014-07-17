@@ -8,7 +8,7 @@ module.exports = Marionette.ItemView.extend({
 	template: template,
 	events: {
 	},
-	getNextViewSlug: function() {
-		return '';
-	}
+  getNextInputView: function() {
+    App.vent.trigger('goToNextCategory');
+  }
 });

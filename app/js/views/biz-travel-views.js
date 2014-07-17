@@ -1,6 +1,9 @@
+'use strict';
 var $ = require('jquery')
-, Backbone = require('backbone')
-, Marionette = require('backbone.marionette');
+, Marionette = require('backbone.marionette')
+, Stickit = require('backbone.stickit')
+, Databinding = require('backbone.databinding')
+, App = require('../app');
 
 var defaultTemplate = require('../templates/biz-travel-default-template.hbs')
 , employeeTemplate = require('../templates/biz-travel-employee-template.hbs')
@@ -10,28 +13,26 @@ module.exports.default = Marionette.ItemView.extend({
 	template: defaultTemplate,
 	events: {
 	},
-	getNextViewSlug: function() {
-		return 'employee';
+	getNextInputView: function() {
+		App.vent.trigger('showInputView', 'employee');
 	}
 });
 
 module.exports.employee = Marionette.ItemView.extend({
 	template: employeeTemplate,
 	events: {
-
 	},
-	getNextViewSlug: function() {
-		return 'miles';
+	getNextInputView: function() {
+		App.vent.trigger('showInputView', 'miles');
 	}
 });
 
 module.exports.miles = Marionette.ItemView.extend({
 	template: milesTemplate,
 	events: {
-
 	},
-	getNextViewSlug: function() {
-		return '';
+	getNextInputView: function() {
+		App.vent.trigger('goToNextCategory');
 	}
 });
 

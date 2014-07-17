@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 var $ = require('jquery')
 , Marionette = require('backbone.marionette')
 , Stickit = require('backbone.stickit')
