@@ -10,7 +10,6 @@ config.individual = require('./ind-calc-config');
 config.business = require('./biz-calc-config');
 config.events = require('./evt-calc-config');
 
-
 module.exports.router = Marionette.AppRouter.extend({
   appRoutes: {
     ':calculator': 'showDefaultCalculator',
@@ -55,12 +54,14 @@ module.exports.controller = Marionette.Controller.extend({
     // replace the default array of cats with a newly constructed array based on the request codes
     initObj.categories = requestedCatData;
     // start up the calulator with the init data based on the request codes
-    App.execute('appModule:start', 'Calc', initObj);
+    //App.execute('appModule:start', 'Calc', initObj);
+    App.execute('appModule:start', 'individual');
   },
   showDefaultCalculator: function(calculator) {
     if(!config[calculator]) return;
     var initObj = config[calculator];
-    App.execute('appModule:start', 'Calc', initObj);
+    //App.execute('appModule:start', 'Calc', initObj);
+    App.execute('appModule:start', 'individual');
   },
   defaultRoute: function() {
     var welcomeView = new WelcomeView();

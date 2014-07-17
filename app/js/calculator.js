@@ -5,17 +5,7 @@ var _ = require('underscore')
   , Marionette = require('backbone.marionette')
   , App = require('./app');
 
-var MainLayout = require('./views/main-layout')
-  , HeaderView = require('./views/header-view')
-  , FooterView = require('./views/footer-view')
-  , CategoriesMenuView = require('./views/categories-menu-view')
-  , CategoryIconView = require('./views/category-icon-view')
-  , SummaryLayout = require('./views/summary-layout')
-  , HelpView = require('./views/help-view')
-  , GraphView = require('./views/graph-view')
-  , EmissionsView = require('./views/emissions-view');
-
-module.exports = App.module('Calc', function(Calc) {
+module.exports = App.calculator =  App.module('individual', function(Calc) {
   // Calculator must be manually started
   Calc.startWithParent = false;
 
@@ -24,135 +14,22 @@ module.exports = App.module('Calc', function(Calc) {
   Calc.controller = new Controller();
   Calc.router = new Router({controller: Calc.controller});
 
-  Calc.initModels = function(options) {
-    
-    var Calculator = Backbone.Model.extend({      
-      getCategoryBySlug: function(slug) {
-        var categories = this.get('categories')
-        , category = categories.findWhere({slug: slug});
-        return category;
-      },
-      getViewModelBySlug: function(slug) {
-        var currentCategory = this.get('currentCategoryModel')
-        , views = currentCategory.get('viewList')
-        , view = views.findWhere({name: slug});
-        return view;
-      }
-    });
+  Calc.initCalcModel = function() {
+    var calcModel = this.model;
+    calcModel.set({currentCategory: calcModel.get('categories').first()});
+  }
+  
 
-    var Category = Backbone.Model.extend({      
-      getCurrentInputView: function() {
-        var views = this.get('viewList');
-        if(this.get('currentInputViewModel') === undefined) {
-          return views.first();
-        } else {
-          return this.get('currentInputViewModel')
-        }
-      }
-    });
 
-    var Categories = Backbone.Collection.extend({      
-      model: Category
-    });
-
-    var ViewModel = Backbone.Model;
-    var ViewList = Backbone.Collection.extend({
-      model: ViewModel
-    });
-
-    //////////////////////////////////////////////////////////////////////////
-    var calcModel = Calc.model = new Calculator({
-      displayName: options.displayName, 
-      slug: options.slug,
-      thankYouView: options.thankYouView
-    });
-
-    var categories = Calc.categories = new Categories();
-
-    _.each(options.categories, function(category) {
-      var viewList = new ViewList();
-      
-      // new instances of ViewModel model for each view associated with the category
-      _.each(category.views, function(view) {
-        var viewModel = new ViewModel({
-          name: view.name,
-          view: view.view
-        });
-        // add each ViewModel the collection of ViewModels that is set on the Category model
-        viewList.add(viewModel);
-      });
-
-      // new instance of the Category model
-      var category = new Category({
-        displayName: category.displayName,
-        slug: category.slug,
-        views: category.views,
-        // add the collection of ViewModel models
-        viewList: viewList,
-        currentInputViewModel: viewList.first(),
-        calculator: Calc.model.get('slug'),
-        completed: false
-      });
-      // add the Category instance to the collectin of catgories set on the Calculator model
-      categories.add(category);
-    });
-
-    calcModel.set({categories: categories});
-    calcModel.set({currentCategoryModel: categories.first()}); 
-
-  };
-
-  Calc.initLayout = function(options) {
-    var calcModel = Calc.model
-    , currentCategoryModel = calcModel.get('currentCategoryModel')
-    , inputViewModel = currentCategoryModel.getCurrentInputView();
-    
-    // instantiate views
-    var mainLayout = Calc.mainLayout = new MainLayout();  
-    var categoriesCollectionView = Calc.categoriesCollectionView = new CategoriesMenuView({
-      collection: Calc.categories, 
-      itemView: CategoryIconView
-    });
-    var headerView = Calc.headerView = new HeaderView({model: calcModel});
-    var helpView = Calc.helpView = new HelpView({model: calcModel});
-    var footerView = Calc.footerView = new FooterView({model: calcModel});
-    
-    // Set up main layout
-    App.body.show(mainLayout); // have to call show on a layout before it can do anything else
-    mainLayout.headerRegion.show(headerView);
-    mainLayout.helpRegion.show(helpView);
-    mainLayout.footerRegion.show(footerView);
-    mainLayout.menuRegion.show(categoriesCollectionView);
-    mainLayout.inputRegion.show(inputViewModel.get('view'));
-    
-    // Set up the summary layout
-    var summaryLayout = Calc.summaryLayout = new SummaryLayout({model: calcModel});
-    
-    var graphView = Calc.graphView = new GraphView({
-      model: calcModel,
-      collection: Calc.categories 
-    });
-
-    var emissionsView = Calc.emissionsView = new EmissionsView({
-      model: calcModel,
-      collection: Calc.categories 
-    });
-
-    mainLayout.summaryRegion.show(summaryLayout);
-    summaryLayout.graphsRegion.show(graphView); 
-    summaryLayout.emissionsRegion.show(emissionsView); 
-
-    // Additional layout setup
-    Calc.controller.setFooterButtonStates(inputViewModel.get('name'));
-
-  };
-
-  Calc.addInitializer(function(options){
-    Calc.baseRoute = '#/'+options.slug;
-    Calc.initModels(options);
-    Calc.initLayout(options);
-    Calc.initGlobalEvents = require('./global-events');
-    Calc.initGlobalEvents();
+  Calc.addInitializer(function(calculator){
+    Calc.baseRoute = '#/'+calculator;
+    //Calc.initModels(options);
+    Calc.model = require('./ind-calc-model');
+    Calc.initCalcModel();
+    Calc.buildLayout = require('./layout-builder');
+    Calc.buildLayout();
+    Calc.subscribeToEvents = require('./global-events');
+    Calc.subscribeToEvents();
   });
 
   Calc.on('start', function(options) {
@@ -162,5 +39,84 @@ module.exports = App.module('Calc', function(Calc) {
   Calc.addFinalizer(function(){
     Calc.controller.hide();
     Calc.stopListening();
-  }); 
-});
+  });
+
+}); //end App.module Calc
+
+  // Calc.initModels = function(options) {
+    
+  //   var Calculator = Backbone.Model.extend({      
+  //     getCategoryBySlug: function(slug) {
+  //       var categories = this.get('categories')
+  //       , category = categories.findWhere({slug: slug});
+  //       return category;
+  //     },
+  //     getViewModelBySlug: function(slug) {
+  //       var currentCategory = this.get('currentCategory')
+  //       , views = currentCategory.get('viewList')
+  //       , view = views.findWhere({name: slug});
+  //       return view;
+  //     }
+  //   });
+
+  //   var Category = Backbone.Model.extend({      
+  //     getCurrentInputView: function() {
+  //       var views = this.get('viewList');
+  //       if(this.get('currentInputView') === undefined) {
+  //         return views.first();
+  //       } else {
+  //         return this.get('currentInputView')
+  //       }
+  //     }
+  //   });
+
+  //   var Categories = Backbone.Collection.extend({      
+  //     model: Category
+  //   });
+
+  //   var ViewModel = Backbone.Model;
+  //   var ViewList = Backbone.Collection.extend({
+  //     model: ViewModel
+  //   });
+
+  //   /////////////////////////////////////////////
+  //   var calcModel = Calc.model = new Calculator({
+  //     displayName: options.displayName, 
+  //     slug: options.slug,
+  //     thankYouView: options.thankYouView
+  //   });
+
+  //   var categories = Calc.categories = new Categories();
+
+  //   _.each(options.categories, function(category) {
+  //     var viewList = new ViewList();
+      
+  //     // new instances of ViewModel model for each view associated with the category
+  //     _.each(category.views, function(view) {
+  //       var viewModel = new ViewModel({
+  //         name: view.name,
+  //         view: view.view
+  //       });
+  //       // add each ViewModel the collection of ViewModels that is set on the Category model
+  //       viewList.add(viewModel);
+  //     });
+
+  //     // new instance of the Category model
+  //     var category = new Category({
+  //       displayName: category.displayName,
+  //       slug: category.slug,
+  //       views: category.views,
+  //       // add the collection of ViewModel models
+  //       viewList: viewList,
+  //       currentInputView: viewList.first(),
+  //       calculator: Calc.model.get('slug'),
+  //       completed: false
+  //     });
+  //     // add the Category instance to the collectin of catgories set on the Calculator model
+  //     categories.add(category);
+  //   });
+
+  //   calcModel.set({categories: categories});
+  //   calcModel.set({currentCategory: categories.first()}); 
+
+  // };//end Calc.initModels

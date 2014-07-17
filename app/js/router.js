@@ -4,7 +4,7 @@ var $ = require('jquery')
   , RouteFilter = require('barf')
   , App = require('./app');
 
-var Calc = App.module("Calc");
+var Calc = App.calculator;
 
 module.exports.router = Marionette.AppRouter.extend({
     appRoutes: {
@@ -28,58 +28,60 @@ module.exports.router = Marionette.AppRouter.extend({
 module.exports.controller  = Marionette.Controller.extend({
     // showInputView: function(catCodes, calculator, category, inputView) {
     showInputView: function(calculator, categorySlug, inputViewSlug) {
+      var Calc = App.calculator;
       var categoryModel = Calc.model.getCategoryBySlug(categorySlug);
-      Calc.model.set({currentCategoryModel: categoryModel});
+      Calc.model.set({currentCategory: categoryModel});
       var inputViewModel = Calc.model.getViewModelBySlug(inputViewSlug);
-      categoryModel.set({currentInputViewModel: inputViewModel});
+      categoryModel.set({currentInputView: inputViewModel});
       var inputView = inputViewModel.get('view');
       inputView.model = categoryModel;
-      console.log(inputView);
       Calc.mainLayout.inputRegion.show(inputView); 
-      // var InputView = inputViewModel.get('view');
-      // Calc.mainLayout.inputRegion.show(new InputView({model: categoryModel})); 
       Calc.mainLayout.headerRegion.$el.show();
       this.setFooterButtonStates(inputViewModel.get('name'));
     },
     showThankYouView: function(calculator) {
+      var Calc = App.calculator;
       var thankYouView = Calc.model.get('thankYouView');
       Calc.mainLayout.inputRegion.show(thankYouView); 
       Calc.mainLayout.headerRegion.$el.hide();
       this.setFooterButtonStates('thankyou');
     },
     goToNextCategory: function() {
+      var Calc = App.calculator;
       var categories = Calc.model.get('categories');
-      var currentCategoryModel = Calc.model.get('currentCategoryModel');
-      currentCategoryModel.set({completed: true});
-      var index = categories.indexOf(currentCategoryModel);
+      var currentCategory = Calc.model.get('currentCategory');
+      currentCategory.set({completed: true});
+      var index = categories.indexOf(currentCategory);
       var newCategory = categories.at(index+1);
       if(newCategory === undefined) {
         App.router.navigate(Calc.baseRoute+'/complete/thankyou', {trigger: true});
         return;
       }
-      Calc.model.set({currentCategoryModel: newCategory});
+      Calc.model.set({currentCategory: newCategory});
       var newCategorySlug = newCategory.get('slug');
       var inputViewModel = newCategory.getCurrentInputView();
       App.router.navigate(Calc.baseRoute+'/'+newCategorySlug+'/'+inputViewModel.get('name'), {trigger: true});
     },
     goToPrevCategory: function() {
+      var Calc = App.calculator;
       var categories = Calc.model.get('categories');
-      var index = categories.indexOf(Calc.model.get('currentCategoryModel'));
+      var index = categories.indexOf(Calc.model.get('currentCategory'));
       var prevCategory = categories.at(index-1);
 
       if(prevCategory === undefined) {
         alert('this is the first category');
         return;
       }
-      Calc.model.set({currentCategoryModel: prevCategory});
+      Calc.model.set({currentCategory: prevCategory});
       var prevCategorySlug = prevCategory.get('slug');
       var inputViewModel = prevCategory.getCurrentInputView();
       App.router.navigate(Calc.baseRoute+'/'+prevCategorySlug+'/'+inputViewModel.get('name'), {trigger: true});
     },
     setFooterButtonStates: function(inputName) {
+      var Calc = App.calculator;
       var categories = Calc.model.get('categories')
       , initialCat = categories.first()
-      , currentCat = Calc.model.get('currentCategoryModel')
+      , currentCat = Calc.model.get('currentCategory')
       , views = currentCat.get('viewList')
       , initialViewObject = views.first();
 
