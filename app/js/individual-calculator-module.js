@@ -5,19 +5,18 @@ var _ = require('underscore')
 , Marionette = require('backbone.marionette')
 , App = require('./app');
 
-module.exports.individual = App.module('individual', function(Calc) {
+module.exports = App.module('individual', function(Calc) {
   Calc.startWithParent = false; // Calculator must be manually started
   Calc.addInitializer(function(catCodes){
     Calc.baseRoute = '#/individual';
 
-    var Calculator = require('./models/models').calculator
-    , Category = require('./models/models').category
-    , Categories = require('./models/models').categories
-    , ViewModel = require('./models/models').viewModel
-    , ViewList = require('./models/models').viewList
-    , Vehicle = require('./models/models').vehicle
-    , Vehicles = require('./models/models').vehicles;
-
+    // Common models and collections
+    var Calculator = require('./models/common-models').calculator
+    , Category = require('./models/common-models').category
+    , Categories = require('./models/common-models').categories
+    , ViewModel = require('./models/common-models').viewModel
+    , ViewList = require('./models/common-models').viewList;
+    // Input views
     var defaultVehicleView = require('./views/ind-vehicle-views').default
     , carVehicleView = require('./views/ind-vehicle-views').car
     , ecarVehicleView = require('./views/ind-vehicle-views').ecar
@@ -27,9 +26,7 @@ module.exports.individual = App.module('individual', function(Calc) {
     , optionsVehicleView = require('./views/ind-vehicle-views').options
     , typeVehicleView = require('./views/ind-vehicle-views').type
     , listVehicleView = require('./views/ind-vehicle-views').list;
-
     var defaultTransitView = require('./views/ind-transit-views').default;
-
     var defaultTravelView = require('./views/ind-travel-views').default
     , addTravelView = require('./views/ind-travel-views').add
     , averageTravelView = require('./views/ind-travel-views').average
@@ -37,10 +34,11 @@ module.exports.individual = App.module('individual', function(Calc) {
     , milesTravelView = require('./views/ind-travel-views').miles
     , fuelTravelView = require('./views/ind-travel-views').fuel
     , listTravelView = require('./views/ind-travel-views').list;
-
     var defaultHomeView = require('./views/ind-home-views').default
     , addHomeView = require('./views/ind-home-views').add;
-
+    // Specific models and collections
+    var Vehicles = require('./models/vehicle-related-models').vehicles;
+    
     Calc.model = new Calculator({
       displayName: 'Individual',
       slug: 'individual',

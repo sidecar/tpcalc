@@ -27,12 +27,8 @@ module.exports.default = Marionette.ItemView.extend({
 		//this.modelBinder.watch('value: vehicleType', {selector: '[name="vehicle_type"]'});
 	},
 	getNextInputView: function() {
-		// var vehicles = this.model.get('vehicles');
-		// vehicles.add({vehicleType: this.ui.vehicleTypeSelect.val()});
-		// console.log('vehicles');
-		// console.log(vehicles);
-		console.log('vehicle default view this.calculator');
-		console.log(this.calculator);
+		var Vehicle = require('../models/vehicle-related-models').vehicle
+		this.category.set({currentVehicle: new Vehicle({vehicleType: this.ui.vehicleTypeSelect.val()})});
 		App.vent.trigger('showInputView', this.ui.vehicleTypeSelect.val());
 		return;
 	}
@@ -48,7 +44,8 @@ module.exports.car = Marionette.Layout.extend({
 	ui: {
 		yearSelect: 'select[name="car_year"]',
 		makeSelect: 'select[name="car_make"]', 
-		modelSelect: 'select[name="car_models"]' 
+		modelSelect: 'select[name="car_model"]', 
+		mileageSelect: 'select[name="car_mileage"]' 
 	},
 	events: {
 		'change select[name="car_year"]': 'yearSelected',
@@ -79,6 +76,10 @@ module.exports.car = Marionette.Layout.extend({
 	},
 	loadMakeSelect: function(year) {
 		var self = this;
+		if(self.ui.yearSelect.val() === '')	{
+			self.makeRegion.$el.hide();
+			return;
+		}
 		utils.getJSON('/vehicle/make/'+year, function(jsonResponse) {
 			var data = {}
 			data.years = jsonResponse.menuItems;
@@ -86,11 +87,16 @@ module.exports.car = Marionette.Layout.extend({
 			data.displayName = 'Make';
 			data.instruction = 'Choose the vehicle\'s make';
 			self.makeRegion.show( new SelectView({json: data}) );
+			self.makeRegion.$el.show();
 			self.bindUIElements(); //re-implement the ui hash
 		});
 	},
 	loadModelSelect: function(year, make) {
 		var self = this;
+		if(self.ui.makeSelect.val() === '')	{
+			self.modelRegion.$el.hide();
+			return;
+		}
 		utils.getJSON('/vehicle/model/'+year+'/'+make, function(jsonResponse) {
 			var data = {}
 			data.years = jsonResponse.menuItems;
@@ -98,6 +104,7 @@ module.exports.car = Marionette.Layout.extend({
 			data.displayName = 'Model';
 			data.instruction = 'Choose the vehicle\'s model';
 			self.modelRegion.show( new SelectView({json: data}) );
+			self.modelRegion.$el.show();
 			self.bindUIElements(); //re-implement the ui hash
 		});
 	},
@@ -114,6 +121,13 @@ module.exports.car = Marionette.Layout.extend({
 			App.vent.trigger('errorAlert', 'Please, select your car\'s model');
 			return;
 		}
+		var vehicle = this.category.get('currentVehicle');
+		vehicle.set({
+			year: this.ui.yearSelect.val(), 
+			make: this.ui.makeSelect.val(), 
+			model: this.ui.modelSelect.val(), 
+			mileage: this.ui.mileageSelect.val()
+		});
 		App.vent.trigger('showInputView', 'list');
 	},
 	yearSelected: function(event) {
@@ -131,7 +145,6 @@ module.exports.car = Marionette.Layout.extend({
 module.exports.ecar = Marionette.ItemView.extend({
 	template: ecarTemplate,
 	events: {
-
 	},
 	getNextInputView: function() {
 		App.vent.trigger('showInputView', 'list');
@@ -141,7 +154,6 @@ module.exports.ecar = Marionette.ItemView.extend({
 module.exports.boat = Marionette.ItemView.extend({
 	template: boatTemplate,
 	events: {
-
 	},
 	getNextInputView: function() {
 		App.vent.trigger('showInputView', 'list');
@@ -151,7 +163,6 @@ module.exports.boat = Marionette.ItemView.extend({
 module.exports.motorcycle = Marionette.ItemView.extend({
 	template: motorcycleTemplate,
 	events: {
-
 	},
 	getNextInputView: function() {
 		App.vent.trigger('showInputView', 'list');
@@ -161,7 +172,6 @@ module.exports.motorcycle = Marionette.ItemView.extend({
 module.exports.class = Marionette.ItemView.extend({
 	template: classTemplate,
 	events: {
-
 	},
 	getNextInputView: function() {
 		App.vent.trigger('showInputView', 'list');
@@ -170,8 +180,38 @@ module.exports.class = Marionette.ItemView.extend({
 
 module.exports.options = Marionette.ItemView.extend({
 	template: optionsTemplate,
+	regions: {
+    transmissionRegion: "[data-region=transmission]",
+    fuelTypeRegion: "[data-region=fuelType]",
+  },
+	ui: {
+		transmissionSelect: 'select[name="car_transmission"]',
+		fuelTypeSelect: 'select[name="car_fuelType"]', 
+	},
 	events: {
-
+		'change select[name="car_transmission"]': 'transmissionSelected',
+	},
+	onShow: function() {
+		this.loadTransmissionSelect();
+	},
+	loadTransmissionSelect: function() {
+		var self = this;
+		var vehicle = this.category.get('currentVehicle');
+		var year = vehicle.get('year');
+		var make = vehicle.get('make');
+		var model = vehicle.get('model');
+		utils.getJSON('/vehicle/options/'+year+'/'+make+'/'+model, function(jsonResponse) {
+			var data = {}
+			data.years = jsonResponse.menuItems;
+			data.selectName = 'car_transmission';
+			data.displayName = 'Transmission';
+			data.instruction = 'Choose the vehicle\'s transmission';
+			self.transmissionRegion.show( new SelectView({json: data}) );
+			self.bindUIElements(); //re-implement the ui hash
+		});	
+	},
+	transmissionSelected: function() {
+		alert('trans selected');
 	},
 	getNextInputView: function() {
 		App.vent.trigger('showInputView', 'list');
@@ -181,7 +221,6 @@ module.exports.options = Marionette.ItemView.extend({
 module.exports.type = Marionette.ItemView.extend({
 	template: typeTemplate,
 	events: {
-
 	},
 	getNextInputView: function() {
 		App.vent.trigger('showInputView', 'list');
@@ -191,7 +230,6 @@ module.exports.type = Marionette.ItemView.extend({
 module.exports.list = Marionette.ItemView.extend({
 	template: listTemplate,
 	events: {
-
 	},
 	getNextInputView: function() {
 		App.vent.trigger('goToNextCategory');

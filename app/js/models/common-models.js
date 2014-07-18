@@ -19,6 +19,7 @@ var Calculator = Backbone.Model.extend({
       var calculator = self;
       viewModels.each(function(viewModel){
          var view = viewModel.get('view')
+         view.category = category;
          view.calculator = calculator;
       });
     });
@@ -79,21 +80,3 @@ var ViewList = Backbone.Collection.extend({
 });
 module.exports.viewList = ViewList;
 
-var Vehicle = Backbone.Model.extend({
-  defaults: {
-    vehicleType: 'car', //fueleconomy.gov and map
-    year: 2013, //user entered
-    make: 'Select a year', //user entered
-    model: 'Select a make', //user entered
-    mileage: 10000, //user entered
-    mpg: 20, //will come from fueleconomy.gov
-    fuelType: 'gas', //?!?!
-    vehicleClass: 'car' //fueleconomy.gov and map
-  }
-});
-module.exports.vehicle = Vehicle;
-
-var Vehicles = Backbone.Collection.extend({
-  model: Vehicle
-});
-module.exports.vehicles = Vehicles;

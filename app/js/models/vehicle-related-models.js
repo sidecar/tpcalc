@@ -10,7 +10,7 @@ client = new Client();
 var utils = require('../utils/utility');
 
 // to expose this module to browseirfy (i.e. CommonJS) http://stackoverflow.com/questions/19747500/how-to-use-browserify-to-bundle-a-backbone-app
-module.exports = Backbone.Model.extend({
+Vehicle = Backbone.Model.extend({
 	defaults: {
 		year: 2013, //user entered
 		make: '', //user entered
@@ -81,4 +81,9 @@ module.exports = Backbone.Model.extend({
 		] 
 	}
 });
+module.exports.vehicle = Vehicle;
 
+var Vehicles = Backbone.Collection.extend({
+  model: Vehicle
+});
+module.exports.vehicles = Vehicles;

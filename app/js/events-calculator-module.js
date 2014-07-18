@@ -5,18 +5,18 @@ var _ = require('underscore')
 , Marionette = require('backbone.marionette')
 , App = require('./app');
 
-module.exports.events = App.module('events', function(Calc) {
+module.exports = App.module('events', function(Calc) {
   Calc.startWithParent = false; // Calculator must be manually started
   Calc.addInitializer(function(catCodes){
     Calc.baseRoute = '#/events';
 
-    var Calculator = require('./models/models').calculator
-    , Category = require('./models/models').category
-    , Categories = require('./models/models').categories
-    , ViewModel = require('./models/models').viewModel
-    , ViewList = require('./models/models').viewList
-    , Vehicle = require('./models/models').vehicle
-    , Vehicles = require('./models/models').vehicles;
+    var Calculator = require('./models/common-models').calculator
+    , Category = require('./models/common-models').category
+    , Categories = require('./models/common-models').categories
+    , ViewModel = require('./models/common-models').viewModel
+    , ViewList = require('./models/common-models').viewList
+    , Vehicle = require('./models/common-models').vehicle
+    , Vehicles = require('./models/common-models').vehicles;
 
     var defaultTravelView = require('./views/evt-travel-views').default
     , flightAverageTravelView = require('./views/evt-travel-views').flightAverage
