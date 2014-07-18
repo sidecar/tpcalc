@@ -16,7 +16,10 @@ function isMobile() {
 App.mobile = isMobile();
 
 App.addInitializer(function(options) {
-  var calcModules = require('./calculator-modules');
+  //var calcModules = require('./calculator-modules');
+  var individualCalModule = require('./individual-calculator-module');
+  var businessCalModule = require('./business-calculator-module');
+  var eventsCalModule = require('./events-calculator-module');
   var ModuleManager = require('./utils/module-manager');
   var modManager = new ModuleManager();
   App.commands.setHandler('appModule:start', modManager.startAppModule, modManager);

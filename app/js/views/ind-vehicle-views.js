@@ -27,10 +27,12 @@ module.exports.default = Marionette.ItemView.extend({
 		//this.modelBinder.watch('value: vehicleType', {selector: '[name="vehicle_type"]'});
 	},
 	getNextInputView: function() {
-		var vehicles = this.model.get('vehicles');
-		vehicles.add({vehicleType: this.ui.vehicleTypeSelect.val()});
-		console.log('vehicles');
-		console.log(vehicles);
+		// var vehicles = this.model.get('vehicles');
+		// vehicles.add({vehicleType: this.ui.vehicleTypeSelect.val()});
+		// console.log('vehicles');
+		// console.log(vehicles);
+		console.log('vehicle default view this.calculator');
+		console.log(this.calculator);
 		App.vent.trigger('showInputView', this.ui.vehicleTypeSelect.val());
 		return;
 	}
