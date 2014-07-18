@@ -27,6 +27,10 @@ module.exports.default = Marionette.ItemView.extend({
 		//this.modelBinder.watch('value: vehicleType', {selector: '[name="vehicle_type"]'});
 	},
 	getNextInputView: function() {
+		var vehicles = this.model.get('vehicles');
+		vehicles.add({vehicleType: this.ui.vehicleTypeSelect.val()});
+		console.log('vehicles');
+		console.log(vehicles);
 		App.vent.trigger('showInputView', this.ui.vehicleTypeSelect.val());
 		return;
 	}
@@ -49,7 +53,7 @@ module.exports.car = Marionette.Layout.extend({
 		'change select[name="car_make"]': 'makeSelected',
 	},
 	initialize: function() {
-		this.data = {};
+		//this.data = {};
 		// this.modelBinder = new Databinding.ModelBinder(this, this.model);
 		// this.modelBinder.watch('value: year', {selector: '[name="car_year"]'});
 		// this.modelBinder.watch('value: make', {selector: '[name="car_make"]'});
@@ -68,6 +72,7 @@ module.exports.car = Marionette.Layout.extend({
 			data.displayName = 'Year';
 			data.instruction = 'Choose the vehicle\'s year';
 			self.yearRegion.show( new SelectView({json: data}) );
+			self.bindUIElements(); //re-implement the ui hash
 		});	
 	},
 	loadMakeSelect: function(year) {
@@ -79,6 +84,7 @@ module.exports.car = Marionette.Layout.extend({
 			data.displayName = 'Make';
 			data.instruction = 'Choose the vehicle\'s make';
 			self.makeRegion.show( new SelectView({json: data}) );
+			self.bindUIElements(); //re-implement the ui hash
 		});
 	},
 	loadModelSelect: function(year, make) {
@@ -90,17 +96,23 @@ module.exports.car = Marionette.Layout.extend({
 			data.displayName = 'Model';
 			data.instruction = 'Choose the vehicle\'s model';
 			self.modelRegion.show( new SelectView({json: data}) );
+			self.bindUIElements(); //re-implement the ui hash
 		});
 	},
 	getNextInputView: function() {
-		// App.vent.trigger('showInputView', 'list');
-		if(!this.ui.modelSelect.val()) {
-			App.vent.trigger('errorAlert', 'Please, choose your car\'s model');
+		if(!this.ui.yearSelect.val()) {
+			App.vent.trigger('errorAlert', 'Please, select your car\'s year');
 			return;
-		} else {
-			App.vent.trigger('showInputView', 'list');
+		} 
+		if(!this.ui.makeSelect.val()) {
+			App.vent.trigger('errorAlert', 'Please, select your car\'s make');
 			return;
 		}
+		if(!this.ui.modelSelect.val()) {
+			App.vent.trigger('errorAlert', 'Please, select your car\'s model');
+			return;
+		}
+		App.vent.trigger('showInputView', 'list');
 	},
 	yearSelected: function(event) {
 		var year = $(event.target).val();

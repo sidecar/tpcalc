@@ -1,17 +1,17 @@
 var _ = require('underscore')
 , Backbone = require('backbone');
 
-var defaultTravelView = require('./views/evt-travel-views').default
-, flightAverageTravelView = require('./views/evt-travel-views').flightAverage
-, flightLengthTravelView = require('./views/evt-travel-views').flightLength
-, groundTravelView = require('./views/evt-travel-views').ground
-, hotelTravelView = require('./views/evt-travel-views').hotel;
+var defaultTravelView = require('../views/evt-travel-views').default
+, flightAverageTravelView = require('../views/evt-travel-views').flightAverage
+, flightLengthTravelView = require('../views/evt-travel-views').flightLength
+, groundTravelView = require('../views/evt-travel-views').ground
+, hotelTravelView = require('../views/evt-travel-views').hotel;
 
-var defaultVenueView = require('./views/evt-venue-views').default;
+var defaultVenueView = require('../views/evt-venue-views').default;
 
-var defaultWaterView = require('./views/evt-water-views').default;
+var defaultWaterView = require('../views/evt-water-views').default;
 
-var defaultMealsView = require('./views/evt-meals-views').default;
+var defaultMealsView = require('../views/evt-meals-views').default;
 
 
 var Calculator = Backbone.Model.extend({  
@@ -20,7 +20,7 @@ var Calculator = Backbone.Model.extend({
     this.set({currentCategory: this.get('categories').first()});
     var catCodes = this.get('catCodes');
     if (catCodes) this.showSelectCategories(catCodes);
-    var evtThankYouView = require('./views/evt-thankyou-view');
+    var evtThankYouView = require('../views/evt-thankyou-view');
     this.set({thankYouView: evtThankYouView});
   },
   showSelectCategories: function(catCodes) {

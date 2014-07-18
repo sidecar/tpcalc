@@ -25,7 +25,7 @@ module.exports = App.calculator =  App.module('individual', function(Calc) {
   Calc.startWithParent = false; // Calculator must be manually started
   Calc.addInitializer(function(catCodes){
     Calc.baseRoute = '#/individual';
-    var CalculatorModel = require('./individual-calc-model');
+    var CalculatorModel = require('./models/individual-calc-model');
     Calc.model = new CalculatorModel({
       displayName: 'Individual',
       slug: 'individual',
@@ -40,7 +40,7 @@ module.exports = App.calculator =  App.module('business', function(Calc) {
   Calc.startWithParent = false; // Calculator must be manually started
   Calc.addInitializer(function(catCodes){
     Calc.baseRoute = '#/business';
-    var CalculatorModel = require('./business-calc-model');
+    var CalculatorModel = require('./models/business-calc-model');
     Calc.model = new CalculatorModel({
       displayName: 'Business',
       slug: 'business',
@@ -55,7 +55,7 @@ module.exports = App.calculator =  App.module('events', function(Calc) {
   Calc.startWithParent = false; // Calculator must be manually started
   Calc.addInitializer(function(catCodes){
     Calc.baseRoute = '#/events';
-    var CalculatorModel = require('./events-calc-model');
+    var CalculatorModel = require('./models/events-calc-model');
     Calc.model = new CalculatorModel({
       displayName: 'Events',
       slug: 'events',

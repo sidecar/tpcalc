@@ -47,11 +47,11 @@ module.exports = Backbone.Model.extend({
 		return annualFuelGallons * factor
 	},
 	getTotalEmissions: function() {
-		var annualFuelGallons = this.mileage/this.mpg,
-			MTCO2 = this.getTotalCO2(annualFuelGallons),
-			gCH4 = this.getTotalCH4(this.mileage),
-			gN2O = this.getTotalN2O(this.mileage),
-			totalEmissions = convertEmissionsToCO2(MTCO2, gCH4, gN20);
+		var annualFuelGallons = this.mileage/this.mpg
+		, MTCO2 = this.getTotalCO2(annualFuelGallons)
+		, gCH4 = this.getTotalCH4(this.mileage)
+		, gN2O = this.getTotalN2O(this.mileage)
+		, totalEmissions = convertEmissionsToCO2(MTCO2, gCH4, gN20);
 		return totalEmissions;
 	},
 	isCarOrTruck: function(vehicleClass) {

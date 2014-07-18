@@ -1,25 +1,25 @@
 var _ = require('underscore')
 , Backbone = require('backbone');
 
-var defaultSiteView = require('./views/biz-site-views').default
-, energySiteView = require('./views/biz-site-views').energy;
+var defaultSiteView = require('../views/biz-site-views').default
+, energySiteView = require('../views/biz-site-views').energy;
 
-var defaultFleetView = require('./views/biz-fleet-views').default
-, carFleetView = require('./views/biz-fleet-views').car
-, ecarFleetView = require('./views/biz-fleet-views').ecar
-, boatFleetView = require('./views/biz-fleet-views').boat
-, planeFleetView = require('./views/biz-fleet-views').plane
-, listFleetView = require('./views/biz-fleet-views').list;
+var defaultFleetView = require('../views/biz-fleet-views').default
+, carFleetView = require('../views/biz-fleet-views').car
+, ecarFleetView = require('../views/biz-fleet-views').ecar
+, boatFleetView = require('../views/biz-fleet-views').boat
+, planeFleetView = require('../views/biz-fleet-views').plane
+, listFleetView = require('../views/biz-fleet-views').list;
 
-var defaultTravelView = require('./views/biz-travel-views').default
-, employeeTravelView = require('./views/biz-travel-views').employee
-, milesTravelView = require('./views/biz-travel-views').miles;
+var defaultTravelView = require('../views/biz-travel-views').default
+, employeeTravelView = require('../views/biz-travel-views').employee
+, milesTravelView = require('../views/biz-travel-views').miles;
 
-var defaultCommuteView = require('./views/biz-commute-views').default;
+var defaultCommuteView = require('../views/biz-commute-views').default;
 
-var defaultShippingView = require('./views/biz-shipping-views').default;
+var defaultShippingView = require('../views/biz-shipping-views').default;
 
-var defaultServerView = require('./views/biz-server-views').default;
+var defaultServerView = require('../views/biz-server-views').default;
 
 var Calculator = Backbone.Model.extend({  
   initialize: function() {
@@ -27,8 +27,8 @@ var Calculator = Backbone.Model.extend({
     this.set({currentCategory: this.get('categories').first()});
     var catCodes = this.get('catCodes');
     if (catCodes) this.showSelectCategories(catCodes);
-    var indThankYouView = require('./views/biz-thankyou-view');
-    this.set({thankYouView: indThankYouView});
+    var bizThankYouView = require('../views/biz-thankyou-view');
+    this.set({thankYouView: bizThankYouView});
   },
   showSelectCategories: function(catCodes) {
     var categories = this.get('categories');
