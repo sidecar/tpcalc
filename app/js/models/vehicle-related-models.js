@@ -18,7 +18,8 @@ Vehicle = Backbone.Model.extend({
 		mileage: 100000, //user entered
 		mpg: 20, //will come from fueleconomy.gov
 		fuelType: 'gas', //?!?!
-		vehicleClass: 'car' //fueleconomy.gov and map
+		vehicleClass: 'car', //fueleconomy.gov and map
+		transmission: 'auto'
 	},
 	initialize: function() {
 		utils.getJSON('http://terrapass.local/php/home-model.php?zip=94607', function(jsonObj) {

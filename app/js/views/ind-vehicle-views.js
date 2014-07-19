@@ -1,4 +1,5 @@
 var $ = require('jquery')
+, _ = require('underscore')
 , Marionette = require('backbone.marionette')
 , Stickit = require('backbone.stickit')
 , Databinding = require('backbone.databinding')
@@ -66,13 +67,23 @@ module.exports.car = Marionette.Layout.extend({
 		var self = this;
 		utils.getJSON('/vehicle/year', function(jsonResponse) {
 			var data = {}
-			data.years = jsonResponse.menuItems;
+			data.items = jsonResponse.menuItems;
 			data.selectName = 'car_year';
 			data.displayName = 'Year';
 			data.instruction = 'Choose the vehicle\'s year';
 			self.yearRegion.show( new SelectView({json: data}) );
 			self.bindUIElements(); //re-implement the ui hash
 		});	
+	},
+	yearSelected: function(event) {
+		var year = $(event.target).val();
+		this.model.set({year: year});
+		this.loadMakeSelect(year);
+	},
+	makeSelected: function(event) {
+		var year = this.model.get('year');
+		var make = $(event.target).val();
+		this.loadModelSelect(year, make);
 	},
 	loadMakeSelect: function(year) {
 		var self = this;
@@ -82,7 +93,7 @@ module.exports.car = Marionette.Layout.extend({
 		}
 		utils.getJSON('/vehicle/make/'+year, function(jsonResponse) {
 			var data = {}
-			data.years = jsonResponse.menuItems;
+			data.items = jsonResponse.menuItems;
 			data.selectName = 'car_make';
 			data.displayName = 'Make';
 			data.instruction = 'Choose the vehicle\'s make';
@@ -99,7 +110,7 @@ module.exports.car = Marionette.Layout.extend({
 		}
 		utils.getJSON('/vehicle/model/'+year+'/'+make, function(jsonResponse) {
 			var data = {}
-			data.years = jsonResponse.menuItems;
+			data.items = jsonResponse.menuItems;
 			data.selectName = 'car_model';
 			data.displayName = 'Model';
 			data.instruction = 'Choose the vehicle\'s model';
@@ -122,24 +133,40 @@ module.exports.car = Marionette.Layout.extend({
 			return;
 		}
 		var vehicle = this.category.get('currentVehicle');
+		var year = this.ui.yearSelect.val(); 
+		var	make = this.ui.makeSelect.val(); 
+		var	model = this.ui.modelSelect.val(); 
+		var	mileage = this.ui.mileageSelect.val();
+
 		vehicle.set({
-			year: this.ui.yearSelect.val(), 
-			make: this.ui.makeSelect.val(), 
-			model: this.ui.modelSelect.val(), 
-			mileage: this.ui.mileageSelect.val()
+			year: year, 
+			make: make, 
+			model: model, 
+			mileage: mileage
 		});
-		App.vent.trigger('showInputView', 'list');
-	},
-	yearSelected: function(event) {
-		var year = $(event.target).val();
-		this.model.set({year: year});
-		this.loadMakeSelect(year);
-	},
-	makeSelected: function(event) {
-		var year = this.model.get('year');
-		var make = $(event.target).val();
-		this.loadModelSelect(year, make);
-	} 
+
+		utils.getJSON('/vehicle/options/'+year+'/'+make+'/'+model, function(jsonResponse) {
+			var data = {}
+			data.items = jsonResponse.menuItems;
+			var hasManual, hasDiesel;
+			if (data.items) {
+				hasManual = _.some(data.items.menuItem, function(item) {
+					var matched = item.text[0].match(/^Man\b/g);
+					if (matched) return true;
+				});
+				hasDiesel = _.some(data.items.menuItem, function(item) {
+					var matched = item.text[0].match(/\bDiesel\b/g);
+					if (matched) return true;
+				});
+			}
+			if(!hasManual && !hasDiesel) {
+				App.vent.trigger('showInputView', 'list');
+			} else {
+				App.vent.trigger('showInputView', 'options');
+			}
+		});	
+
+	}
 });
 
 module.exports.ecar = Marionette.ItemView.extend({
@@ -178,23 +205,20 @@ module.exports.class = Marionette.ItemView.extend({
 	}
 });
 
-module.exports.options = Marionette.ItemView.extend({
+module.exports.options = Marionette.Layout.extend({
 	template: optionsTemplate,
 	regions: {
     transmissionRegion: "[data-region=transmission]",
-    fuelTypeRegion: "[data-region=fuelType]",
+    fuelTypeRegion: "[data-region=fuelType]"
   },
 	ui: {
-		transmissionSelect: 'select[name="car_transmission"]',
-		fuelTypeSelect: 'select[name="car_fuelType"]', 
-	},
-	events: {
-		'change select[name="car_transmission"]': 'transmissionSelected',
+		transmissionSelect: 'select[name="transmission"]',
+		fuelTypeSelect: 'select[name="fuelType"]'
 	},
 	onShow: function() {
-		this.loadTransmissionSelect();
+		this.loadSelects();
 	},
-	loadTransmissionSelect: function() {
+	loadSelects: function() {
 		var self = this;
 		var vehicle = this.category.get('currentVehicle');
 		var year = vehicle.get('year');
@@ -202,18 +226,56 @@ module.exports.options = Marionette.ItemView.extend({
 		var model = vehicle.get('model');
 		utils.getJSON('/vehicle/options/'+year+'/'+make+'/'+model, function(jsonResponse) {
 			var data = {}
-			data.years = jsonResponse.menuItems;
-			data.selectName = 'car_transmission';
-			data.displayName = 'Transmission';
-			data.instruction = 'Choose the vehicle\'s transmission';
-			self.transmissionRegion.show( new SelectView({json: data}) );
-			self.bindUIElements(); //re-implement the ui hash
+			data.items = jsonResponse.menuItems;
+
+			var hasManual, hasDiesel;
+			if (data.items) {
+				hasManual = _.some(data.items.menuItem, function(item) {
+					var matched = item.text[0].match(/^Man\b/g);
+					if (matched) return true;
+				});
+
+				if (hasManual) {
+					self.transmissionRegion.show( new SelectView({
+						json: {
+							'selectName': 'transmission',
+							'displayName': 'Transmission',
+							'instruction': 'Choose your car\'s transmission type',
+							'items': {'menuItem': [{'text':'Automatic', 'value':'auto'},{'text':'Manual', 'value':'man'}]}
+						}
+					}));
+					self.bindUIElements(); //re-implement the ui hash
+				}
+
+				hasDiesel = _.some(data.items.menuItem, function(item) {
+					var matched = item.text[0].match(/\bDiesel\b/g);
+					if (matched) return true;
+				});
+
+				if (hasDiesel) {
+					self.fuelTypeRegion.show( new SelectView({
+						json: {
+							'selectName': 'fuelType',
+							'displayName': 'Fuel Type',
+							'instruction': 'Choose your car\'s fuel type',
+							'items': {'menuItem': [{'text':'Gasoline', 'value':'gas'},{'text':'Diesel', 'value':'diesel'}]}
+						}
+					}));
+					self.bindUIElements(); //re-implement the ui hash
+				}
+			}
 		});	
 	},
-	transmissionSelected: function() {
-		alert('trans selected');
-	},
 	getNextInputView: function() {
+		var vehicle = this.category.get('currentVehicle');
+		var transmission = this.ui.transmissionSelect.val(); 
+		var	fuelType = this.ui.fuelTypeSelect.val(); 
+		vehicle.set({
+			transmission: transmission, 
+			fuelType: fuelType
+		});
+		console.log('vehicle');
+		console.log(vehicle);
 		App.vent.trigger('showInputView', 'list');
 	}
 });
