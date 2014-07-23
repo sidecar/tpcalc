@@ -2,13 +2,15 @@
  * INDIVIDUAL CALCULATOR - Constants and Tables
  * ==================================================== */
 
-var mtCH4toCO2e = 21; 		// 1 mt CH4 = 21 mt CO2e
-var mtN2OtoCO2e = 310;		// 1 mt N2O = 310 mt CO2e
-var gasGallonEquiv = 33.4; 	// 1 gas gallon = 33.4 kWh
-var miletokm = 0.621371;  	// 1 mile = 0.621371 km
-var rfi = 2.7;				// The refractive forcing index. Used with flight calculations
+var constants = {};
 
-var egridSubregion = {  // Use the zipSubregion.js file and zipSubregion to cross-reference against zip codes.
+constants.mtCH4toCO2e = 21; 		// 1 mt CH4 = 21 mt CO2e
+constants.mtN2OtoCO2e = 310;		// 1 mt N2O = 310 mt CO2e
+constants.gasGallonEquiv = 33.4; 	// 1 gas gallon = 33.4 kWh
+constants.miletokm = 0.621371;  	// 1 mile = 0.621371 km
+constants.rfi = 2.7;				// The refractive forcing index. Used with flight calculations
+
+constants.egridSubregion = {  // Use the zipSubregion.js file and zipSubregion to cross-reference against zip codes.
 	AKGD : 0.571,
 	AKMS : 0.204,
 	ERCT : 0.555,
@@ -38,7 +40,7 @@ var egridSubregion = {  // Use the zipSubregion.js file and zipSubregion to cros
 	notSpecified : 0.562
 }
 
-var transportFactors = {
+constants.transportFactors = {
 
 	/* ----------------------------
 	 * Public Transit
@@ -66,7 +68,7 @@ var transportFactors = {
 
 	ferry : {	// Large RoPax Ferry 				
 				// Units: kg/Passenger Kilometer
-				kgCO2perPassMi : 	0.11516/miletokm,
+				kgCO2perPassMi : 	0.11516/constants.miletokm,
 				gCH4perPassMi : 	0,
 				gN2OperPassMi : 	0
 	},
@@ -93,3 +95,5 @@ var transportFactors = {
 	 defaultFactor : 	0.097			// Air - Short Haul - Seating Unknown
 
 }
+
+module.exports = constants;

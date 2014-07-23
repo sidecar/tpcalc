@@ -1,37 +1,22 @@
 <div class="view-question">Here is your list of vehicles</div>
+		
 		<div id="ind-vehicle-list" class="list">
-			<ul>
-				<li>1997 Volkswagon Golf, 10,000 mi/yr 
-					<span class="float-right">
-						<!--i class="glyphicon glyphicon-pencil"></i-->
-						<button class="btn btn-xs bg-dark-gray white edit"> &nbsp;Edit</button>
-						<button class="btn btn-xs bg-dark-gray white delete"> &nbsp;Delete</button>
-					</span>
-				</li>
-				<li>2003 Porsche Boxter, 3,000 mi/yr 
-					<span class="float-right">
-						<button class="btn btn-xs bg-dark-gray white edit"> &nbsp;Edit</button>
-						<button class="btn btn-xs bg-dark-gray white delete"> &nbsp;Delete</button>
-					<span>
-				</li>
-				<li>2005 Ford Focus, 2,000 mi/yr 
-					<span class="float-right">
-						<button class="btn btn-xs bg-dark-gray white edit"> &nbsp;Edit</button>
-						<button class="btn btn-xs bg-dark-gray white delete"> &nbsp;Delete</button>
-					<span>
-				</li>
-			</ul>
-		</div>
-		<form name="ind_vehicle_list_view" id="ind-vehicle-list">
-			<div class="form-element-container">
+		  <ul class="vehicle-list"></ul>
+		</div>		
+
+		<form class="form-inline" role="form" name="ind_vehicle_list_view" id="ind-vehicle-list">
 				<label for="ind_vehicle_type">Add another vehicle</label>
-				<div class="form-element">
-					<select class="form-control" name="ind_vehicle_type">
-						<option value="car">Car</option>
-						<option value="electric_car">Electric Car</option>
-						<option value="motorcycle">Motorcyle</option>
-						<option value="boat">Boat</option>
-					</select>
-				</div>
-			</div>
+					<div class="form-group">
+						<select class="form-control" name="ind_vehicle_type">
+							<option value="car">Car</option>
+							<option value="electric_car">Electric Car</option>
+							<option value="motorcycle">Motorcyle</option>
+							<option value="boat">Boat</option>
+						</select>
+					</div>
+				<div class="form-group">
+		        <button id="add-vehicle" class="btn btn-default">
+		            Add
+		        </button>
+		    </div>
 		</form>

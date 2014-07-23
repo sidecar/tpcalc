@@ -58,11 +58,17 @@ module.exports = function(Calc) {
   });  
 
   App.vent.on('buy', function(event) { 
-    alert('The buy button was clicked.');
+    window.alert('The buy button was clicked.');
   });  
 
   App.vent.on('errorAlert', function(msg) { 
-    alert(msg);
+    window.alert(msg);
+    console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+    console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+    console.log(msg);
+    console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+    console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+    return;
   });  
 
 };

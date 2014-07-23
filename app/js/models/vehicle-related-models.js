@@ -1,32 +1,20 @@
-var $ = require('jquery'); //included via bower > packeged in libs.js via gulpfile.js > exposed as CommonJS module by browserify-shim in packag.json with the alias used here
-var _ = require('underscore'); //included via bower > packeged in libs.js via gulpfile.js > exposed as CommonJS module by browserify-shim in packag.json with the alias used here
-var Backbone = require('backbone'); //included via bower > packeged in libs.js via gulpfile.js > exposed as CommonJS module by browserify-shim in packag.json with the alias used here
-var Marionette = require('backbone.marionette'); //included via bower > packeged in libs.js via gulpfile.js > exposed as CommonJS module by browserify-shim in packag.json with the alias used here
-Marionette.$ = Backbone.$ = $;
-var Qty = require('js-quantities');
-var numeral = require('numeral');
-var Client = require('node-rest-client').Client;
-client = new Client();
-var utils = require('../utils/utility');
+var _ = require('underscore')
+, Backbone = require('backbone')
+, Qty = require('js-quantities')
+, utils = require('../utils/utility')
+, LocalStorage = require('backbone.Localstorage');
 
 // to expose this module to browseirfy (i.e. CommonJS) http://stackoverflow.com/questions/19747500/how-to-use-browserify-to-bundle-a-backbone-app
 Vehicle = Backbone.Model.extend({
-	defaults: {
-		year: 2013, //user entered
-		make: '', //user entered
-		model: '', //user entered
-		mileage: 100000, //user entered
-		mpg: 20, //will come from fueleconomy.gov
-		fuelType: 'gas', //?!?!
-		vehicleClass: 'car', //fueleconomy.gov and map
-		transmission: 'auto'
-	},
-	initialize: function() {
-		utils.getJSON('http://terrapass.local/php/home-model.php?zip=94607', function(jsonObj) {
-			console.log('trying the getJSON function: ');
-			console.log(jsonObj);
-		})
-	},
+	// defaults: {
+	// 	year: 2013,
+	// 	make: '',
+	// 	model: '',
+	// 	mileage: 100000, 
+	// 	mpg: 20,
+	// 	fuelType: 'gasoline',
+	// 	vehicleClass: 'car', //fueleconomy.gov and map
+	// },
 	convertEmissionsToCO2: function(MTC02, gCH4, gN20) {
 		var num = MTC02 + (((21*gCH4 + 310*gN20)/1000)/1000);
 		var qty = Qty(''+num); //for some damn reason has to be a string
@@ -85,6 +73,7 @@ Vehicle = Backbone.Model.extend({
 module.exports.vehicle = Vehicle;
 
 var Vehicles = Backbone.Collection.extend({
-  model: Vehicle
+  model: Vehicle,
+  localStorage: new LocalStorage("VehiclesCollection")
 });
 module.exports.vehicles = Vehicles;

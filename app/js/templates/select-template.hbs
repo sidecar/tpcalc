@@ -2,8 +2,8 @@
     <label for="{{selectName}}">{{displayName}}</label>
     <div class="form-element">
       <select name="{{selectName}}" class="form-control">
-        <option value="" selected="selected">{{instruction}}</option>
-        {{#each items.menuItem}}
+        <option value="{{selectedOptionVal}}" selected="selected">{{selectedOptionText}}</option>
+        {{#each items}}
           <option value="{{value}}">{{text}}</option>
         {{/each}}
       </select>

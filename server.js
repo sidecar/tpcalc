@@ -10,8 +10,8 @@ var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 
 var getData = function(url, res) {
 	client.get(url, function(parsedResponseData, rawResponseData){
-		console.log('parsedResponseData');
-		console.log(parsedResponseData);
+		//console.log('parsedResponseData');
+		//console.log(parsedResponseData);
 		res.send(parsedResponseData);
 	});
 }
@@ -35,6 +35,10 @@ app.get('/vehicle/model/:year/:make', function(req, res) {
 
 app.get('/vehicle/options/:year/:make/:model', function(req, res) {
 	getData('http://www.fueleconomy.gov/ws/rest/vehicle/menu/options?year='+req.params.year+'&make='+req.params.make+'&model='+req.params.model, res);
+});
+
+app.get('/vehicle/mpg/:id', function(req, res) {
+	getData('http://www.fueleconomy.gov/ws/rest/vehicle/'+req.params.id, res);
 });
 
 app.get('/airport/:key', function(req, res) {

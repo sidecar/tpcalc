@@ -1,4 +1,4 @@
-var zipSubregion = {
+module.exports = {
 	'00002' : { state : 'AK', egridSubregion : 'AKMS'},
 	'00006' : { state : 'AK', egridSubregion : 'AKGD'},
 	'00007' : { state : 'AK', egridSubregion : 'AKMS'},

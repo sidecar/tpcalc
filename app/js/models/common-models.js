@@ -1,7 +1,21 @@
 var _ = require('underscore')
-, Backbone = require('backbone');
+, Backbone = require('backbone')
+, LocalStorage = require("backbone.localstorage");
 
-var Calculator = Backbone.Model.extend({  
+var Calculator = Backbone.Model.extend({ 
+  fetch: function() {
+      console.log("===== FETCH FIRED LOADING LOCAL STORAGE ====");
+      this.set(JSON.parse(LocalStorage.getItem(this.id)));
+  },
+
+  save: function(attributes) {
+      console.log("===== CHANGE FIRED SAVING LOCAL STORAGE ====");
+      LocalStorage.setItem(this.id, JSON.stringify(this.toJSON()));
+  },
+
+  destroy: function(options) {
+      LocalStorage.removeItem(this.id);
+  }, 
   initialize: function() {
     //this.set({categories: new Categories([vehicleCategory,transitCategory,travelCategory,homeCategory])});
     this.set({currentCategory: this.get('categories').first()});
@@ -68,7 +82,8 @@ var Category = Backbone.Model.extend({
 module.exports.category = Category;
 
 var Categories = Backbone.Collection.extend({      
-  model: Category
+  model: Category,
+  localStorage: new LocalStorage("CategoriesCollection")
 });
 module.exports.categories = Categories;      
 
@@ -76,7 +91,8 @@ var ViewModel = Backbone.Model;
 module.exports.viewModel = ViewModel;
 
 var ViewList = Backbone.Collection.extend({
-  model: ViewModel
+  model: ViewModel,
+  localStorage: new LocalStorage("ViewListCollection")
 });
 module.exports.viewList = ViewList;
 

@@ -17,15 +17,15 @@ module.exports = App.module('individual', function(Calc) {
     , ViewModel = require('./models/common-models').viewModel
     , ViewList = require('./models/common-models').viewList;
     // Input views
-    var defaultVehicleView = require('./views/ind-vehicle-views').default
-    , carVehicleView = require('./views/ind-vehicle-views').car
+    var defaultVehicleView = require('./views/ind-vehicle-default-view')
+    , carVehicleView = require('./views/ind-vehicle-car-view')
     , ecarVehicleView = require('./views/ind-vehicle-views').ecar
     , boatVehicleView = require('./views/ind-vehicle-views').boat
     , motorcycleVehicleView = require('./views/ind-vehicle-views').motorcycle
     , classVehicleView = require('./views/ind-vehicle-views').class
-    , optionsVehicleView = require('./views/ind-vehicle-views').options
+    , optionsVehicleView = require('./views/ind-vehicle-options-view')
     , typeVehicleView = require('./views/ind-vehicle-views').type
-    , listVehicleView = require('./views/ind-vehicle-views').list;
+    , listVehicleView = require('./views/ind-vehicle-list-view');
     var defaultTransitView = require('./views/ind-transit-views').default;
     var defaultTravelView = require('./views/ind-travel-views').default
     , addTravelView = require('./views/ind-travel-views').add
@@ -38,7 +38,8 @@ module.exports = App.module('individual', function(Calc) {
     , addHomeView = require('./views/ind-home-views').add;
     // Specific models and collections
     var Vehicles = require('./models/vehicle-related-models').vehicles;
-    
+    var vehicles = new Vehicles();
+
     Calc.model = new Calculator({
       displayName: 'Individual',
       slug: 'individual',
@@ -56,10 +57,10 @@ module.exports = App.module('individual', function(Calc) {
             {name: 'class',  view: new classVehicleView()}, 
             {name: 'options',  view: new optionsVehicleView()},
             {name: 'type',  view: new typeVehicleView()},
-            {name: 'list',  view: new listVehicleView()}
+            {name: 'list',  view: new listVehicleView({collection: vehicles})}
           ]),
           completed: false,
-          vehicles: new Vehicles()
+          vehicles: vehicles
         }),
         ////////////////////////////////////////////////////////
         new Category({

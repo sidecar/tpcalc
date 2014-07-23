@@ -54,7 +54,8 @@
     "backbone.stickit": "~0.8.0",
     "backbone.databinding": "~0.4.5",
     "backbone.localstorage": "~1.1.9",
-    "barf": "~1.0.3"
+    "barf": "~1.0.3",
+    "browsernizr": "~1.0.2"
   },
   "scripts": {
     "start": "node server.js"
