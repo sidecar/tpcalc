@@ -15,6 +15,11 @@ Vehicle = Backbone.Model.extend({
 	// 	fuelType: 'gasoline',
 	// 	vehicleClass: 'car', //fueleconomy.gov and map
 	// },
+	toJSON: function() {
+	  var json = Backbone.Model.prototype.toJSON.apply(this, arguments);
+	  json.cid = this.cid;
+	  return json;
+	},
 	convertEmissionsToCO2: function(MTC02, gCH4, gN20) {
 		var num = MTC02 + (((21*gCH4 + 310*gN20)/1000)/1000);
 		var qty = Qty(''+num); //for some damn reason has to be a string

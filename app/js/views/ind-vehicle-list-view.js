@@ -20,12 +20,19 @@ module.exports = Marionette.CompositeView.extend({
     'vehicleSelect': 'select[name=ind_vehicle_type]'
   },
   events: {
-    'click #add-vehicle': 'addVehicleClicked'
+    'click #add-vehicle': 'addVehicleClicked',
+    'click .delete': 'deleteClicked'
   },
   onShow: function() {
+    console.log(this.collection);
     var currentVehicle = this.category.get('currentVehicle');
     var vehicles = this.category.get('vehicles');
     vehicles.add(currentVehicle);
+    // in order to get the newly added vehicle rendered I call...
+    this.render();
+  },
+  deleteClicked: function(event) {
+    this.collection.remove( this.collection.get($(event.target).data('cid')) );
     this.render();
   },
   addVehicleClicked: function(event) {
