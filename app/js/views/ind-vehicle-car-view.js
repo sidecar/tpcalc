@@ -30,13 +30,14 @@ module.exports = Marionette.Layout.extend({
     'change select[name="car_model"]': 'modelSelected'
   },
   onShow: function() {
-    this.model = this.category.get('currentVehicle');
-    this.modelBinder = new Databinding.ModelBinder(this, this.model);
-    var year = this.model.get('year')
-    , make = this.model.get('make')
-    , modelOfCar = this.model.get('model');
+    this.vehicle = this.category.get('currentVehicle');
+    this.modelBinder = new Databinding.ModelBinder(this, this.vehicle);
     
-    if(modelOfCar !== '' && modelOfCar !== undefined) {
+    var year = this.vehicle.get('year') || undefined
+    , make = this.vehicle.get('make') || undefined
+    , modelOfCar = this.vehicle.get('model') || undefined;
+    
+    if(modelOfCar) {
       this.loadYearSelect();
       this.modelBinder.watch('value: year', {selector: '[name="car_year"]'});
       this.loadMakeSelect(year);
@@ -51,21 +52,18 @@ module.exports = Marionette.Layout.extend({
   },
   yearSelected: function(event) {
     var year = $(event.target).val();
-    this.modelBinder.watch('value: year', {selector: '[name="car_year"]'});
-    this.model.set({year: year});
+    this.vehicle.set({year: year});
     this.loadMakeSelect(year);
   },
   makeSelected: function(event) {
-    var year = this.model.get('year');
+    var year = this.vehicle.get('year');
     var make = $(event.target).val();
-    this.model.set({make: make});
-    this.modelBinder.watch('value: make', {selector: '[name="car_make"]'});
+    this.vehicle.set({make: make});
     this.loadModelSelect(year, make);
   },
   modelSelected: function(event) {
     var model = $(event.target).val();
-    this.model.set({model: model});
-    this.modelBinder.watch('value: model', {selector: '[name="car_model"]'});
+    this.vehicle.set({model: model});
   },
   loadYearSelect: function() {
     var self = this;
@@ -120,10 +118,10 @@ module.exports = Marionette.Layout.extend({
     });
   },
   getNextInputView: function() {
-    var year = this.model.get('year')
-    , make = this.model.get('make')
-    , modelOfCar = this.model.get('model')
-    , mileage = this.model.get('mileage');
+    var year = this.vehicle.get('year')
+    , make = this.vehicle.get('make')
+    , modelOfCar = this.vehicle.get('model')
+    , mileage = this.vehicle.get('mileage');
 
     if(typeof(year) == 'undefined' || year == null || year == '') {
       App.vent.trigger('errorAlert', 'Please, select your car\'s year');

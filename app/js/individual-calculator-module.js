@@ -16,7 +16,8 @@ module.exports = App.module('individual', function(Calc) {
     , Categories = require('./models/common-models').categories
     , ViewModel = require('./models/common-models').viewModel
     , ViewList = require('./models/common-models').viewList;
-    // Input views
+    
+    // Vehicle Input views
     var defaultVehicleView = require('./views/ind-vehicle-default-view')
     , carVehicleView = require('./views/ind-vehicle-car-view')
     , ecarVehicleView = require('./views/ind-vehicle-views').ecar
@@ -26,7 +27,9 @@ module.exports = App.module('individual', function(Calc) {
     , optionsVehicleView = require('./views/ind-vehicle-options-view')
     , typeVehicleView = require('./views/ind-vehicle-views').type
     , listVehicleView = require('./views/ind-vehicle-list-view');
+    // Public Transit Input Views
     var defaultTransitView = require('./views/ind-transit-views').default;
+    // Air Travel Input Views
     var defaultTravelView = require('./views/ind-travel-views').default
     , addTravelView = require('./views/ind-travel-views').add
     , averageTravelView = require('./views/ind-travel-views').average
@@ -34,8 +37,10 @@ module.exports = App.module('individual', function(Calc) {
     , milesTravelView = require('./views/ind-travel-views').miles
     , fuelTravelView = require('./views/ind-travel-views').fuel
     , listTravelView = require('./views/ind-travel-views').list;
+    // Home Energy Input Views
     var defaultHomeView = require('./views/ind-home-views').default
     , addHomeView = require('./views/ind-home-views').add;
+    
     // Specific models and collections
     var Vehicles = require('./models/vehicle-related-models').vehicles;
     var vehicles = new Vehicles();

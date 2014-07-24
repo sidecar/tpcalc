@@ -34,10 +34,10 @@ module.exports = Marionette.Layout.extend({
     this.vehicle = this.category.get('currentVehicle');
     this.modelBinder = new Databinding.ModelBinder(this, this.vehicle);
     
-    var description = this.vehicle.get('description') || undefined;
-    var isDiesel = this.vehicle.get('isDiesel') || undefined;
-    var usesBiodiesel = this.vehicle.get('usesBiodiesel') || undefined;
-    var fuelType = this.vehicle.get('fuelType') || undefined;
+    var description = this.vehicle.get('description') || undefined
+    , isDiesel = this.vehicle.get('isDiesel') || undefined
+    , usesBiodiesel = this.vehicle.get('usesBiodiesel') || undefined
+    , fuelType = this.vehicle.get('fuelType') || undefined;
 
     if(fuelType) {
       this.loadDescriptionSelect();

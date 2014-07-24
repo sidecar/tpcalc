@@ -26,6 +26,7 @@ module.exports = Marionette.CompositeView.extend({
     var currentVehicle = this.category.get('currentVehicle');
     var vehicles = this.category.get('vehicles');
     vehicles.add(currentVehicle);
+    this.render();
   },
   addVehicleClicked: function(event) {
     event.preventDefault();

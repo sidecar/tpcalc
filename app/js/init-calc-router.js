@@ -33,8 +33,10 @@ module.exports = function(Calc) {
       var inputViewModel = Calc.model.getViewModelBySlug(inputViewSlug);
       categoryModel.set({currentInputView: inputViewModel});
       var inputView = inputViewModel.get('view');
-      inputView.model = categoryModel;
-      Calc.mainLayout.inputRegion.show(inputView); 
+      Calc.mainLayout.inputRegion.show(inputView);
+      // REBIND EVENTS AND RESET UI HASH WHEN VIEW IS RE-SHOWN 
+      inputView.bindUIElements();
+      inputView.delegateEvents();
       Calc.mainLayout.headerRegion.$el.show();
       this.setFooterButtonStates(inputViewModel.get('name'));
     },
