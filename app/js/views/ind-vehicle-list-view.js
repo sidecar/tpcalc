@@ -30,7 +30,8 @@ module.exports = Marionette.CompositeView.extend({
   addVehicleClicked: function(event) {
     event.preventDefault();
     var whichView = this.ui.vehicleSelect.val();
-    console.log(whichView);
+    var Vehicle = require('../models/vehicle-related-models').vehicle
+    this.category.set({currentVehicle: new Vehicle({vehicleType: whichView})});
     App.vent.trigger('showInputView', whichView);
   },
   getNextInputView: function() {

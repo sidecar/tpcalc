@@ -17,47 +17,80 @@ module.exports = Marionette.Layout.extend({
   template: optionsTemplate,
   regions: {
     descriptionRegion: "[data-region=description]",
-    biodieselYesNoRegion: "[data-region=biodieselYesNo]",
+    usesBiodieselRegion: "[data-region=usesBiodiesel]",
     biodieselBlendRegion: "[data-region=biodieselBlend]"
   },
   ui: {
     descriptionSelect: 'select[name="description"]',
-    biodieselYesNo: 'input[name="biodieselYesNo"]',
+    usesBiodiesel: 'input[name="usesBiodiesel"]',
     biodieselBlendSelect: 'select[name="biodieselBlend"]'
   },
   events: {
     'change select[name="description"]': 'descriptionSelectChanged',
-    'change input[name="biodieselYesNo"]': 'biodieselYesNoChanged',
+    'change input[name="usesBiodiesel"]': 'usesBiodieselChanged',
     'change select[name="biodieselBlend"]': 'biodieselBlendChanged'
   },
   onShow: function() {
     this.vehicle = this.category.get('currentVehicle');
-    this.loadDescriptionSelect();
+    this.modelBinder = new Databinding.ModelBinder(this, this.vehicle);
+    
+    var description = this.vehicle.get('description') || undefined;
+    var isDiesel = this.vehicle.get('isDiesel') || undefined;
+    var usesBiodiesel = this.vehicle.get('usesBiodiesel') || undefined;
+    var fuelType = this.vehicle.get('fuelType') || undefined;
+
+    if(fuelType) {
+      this.loadDescriptionSelect();
+      this.modelBinder.watch('value: description', {selector: '[name="description"]'});
+      if(isDiesel) {
+        this.loadUsesBiodiesel();
+        this.modelBinder.watch('value: usesBiodiesel', {selector: '[name="usesBiodiesel"]'});
+        if(usesBiodiesel) {
+          $('#usesBiodiesel-yes').prop('checked', true);
+          this.loadBiodieselBlendSelect();
+          this.modelBinder.watch('value: fuelType', {selector: '[name="biodieselBlend"]'});
+        } else { $('#usesBiodiesel-no').prop('checked', true); }
+      }
+    } else {
+      this.loadDescriptionSelect();
+    }
+
   },
   biodieselBlendChanged: function() {
-    this.vehicle.set({fuelType: this.ui.biodieselBlendSelect.val() });
+    this.vehicle.set({fuelType: this.ui.biodieselBlendSelect.val()});
   },
-  biodieselYesNoChanged: function() {
-    if($("input[name=biodieselYesNo]:checked").val() === 'yes') {
+  usesBiodieselChanged: function() {
+    if($("input[name=usesBiodiesel]:checked").val() === 'yes') {
       if (_.isUndefined(this.biodieselBlendRegion.currentView)) this.loadBiodieselBlendSelect();
       this.biodieselBlendRegion.$el.show();
+      this.vehicle.set({usesBiodiesel: true});
     } else {
       this.biodieselBlendRegion.$el.hide();
+      this.vehicle.set({usesBiodiesel: false});
     }
   },
   isDiesel: function(str) {
     var matched = str.match(/\bDiesel\b/g);
-    return (matched) ? true : false;
+    if (matched) {
+      this.vehicle.set({isDiesel: true});
+      return true;
+    } else {
+      this.vehicle.set({isDiesel: false});
+      return false;
+    }
   },
   descriptionSelectChanged: function(event) {
     var target = event.target;
+    this.vehicle.set({description: $(event.target).val()});
     if(this.isDiesel(target.options[target.selectedIndex].text)) {
-      if (_.isUndefined(this.biodieselYesNoRegion.currentView)) this.loadBiodieselYesNo();
-      this.biodieselYesNoRegion.$el.show();
+      if (_.isUndefined(this.usesBiodieselRegion.currentView)) this.loadUsesBiodiesel();
+      this.usesBiodieselRegion.$el.show();
+      //this.modelBinder.watch('value: description', {selector: '[name="description"]'});
       this.vehicle.set({fuelType: 'diesel'});
     } else {
-      if(this.biodieselYesNoRegion.$el) this.biodieselYesNoRegion.$el.hide();
+      if(this.usesBiodieselRegion.$el) this.usesBiodieselRegion.$el.hide();
       if(this.biodieselBlendRegion.$el) this.biodieselBlendRegion.$el.hide();
+      //this.modelBinder.watch('value: description', {selector: '[name="description"]'});
       this.vehicle.set({fuelType: 'gasoline'});
     }
   },
@@ -82,10 +115,10 @@ module.exports = Marionette.Layout.extend({
 
     this.bindUIElements(); //re-implement the ui hash
   },
-  loadBiodieselYesNo: function() {
-    this.biodieselYesNoRegion.show( new YesNoView({
+  loadUsesBiodiesel: function() {
+    this.usesBiodieselRegion.show( new YesNoView({
       json: {
-        'name': 'biodieselYesNo',
+        'name': 'usesBiodiesel',
         'label': 'Do you use biodiesel?'
       }
     }));
