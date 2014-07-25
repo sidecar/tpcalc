@@ -77,7 +77,12 @@ var Category = Backbone.Model.extend({
     } else {
       return this.get('currentInputView')
     }
-  }
+  },
+  setCurrentInputView: function(slug) {
+    var views = this.get('viewList')
+    , view =views.findWhere({name: slug});
+    this.set({'currentInputView': view});
+  },
 });
 module.exports.category = Category;
 

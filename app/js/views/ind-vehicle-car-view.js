@@ -136,29 +136,10 @@ module.exports = Marionette.Layout.extend({
       return;
     }
     if(typeof(mileage) == 'undefined' || mileage == null || mileage == '') {
-      console.log(App);
       App.vent.trigger('errorAlert', 'Please, select your car\'s mileage');
       return;
     }
 
-    utils.getJSON('/vehicle/options/'+year+'/'+make+'/'+modelOfCar, function(jsonResponse) {
-      if(!jsonResponse.menuItems) return;
-      var data = {};
-      data.items = jsonResponse.menuItems.menuItem;
-      var hasManual = _.some(data.items, function(item) {
-        var matched = item.text[0].match(/^Man\b/g);
-        return (matched) ? true : false;
-      });
-      var hasDiesel = _.some(data.items, function(item) {
-        var matched = item.text[0].match(/\bDiesel\b/g);
-        return (matched) ? true : false;
-      });
-      if(!hasManual && !hasDiesel) {
-        App.vent.trigger('showInputView', 'list');
-      } else {
-        App.vent.trigger('showInputView', 'options');
-      }
-    }); 
-
+    App.vent.trigger('showInputView', 'options');
   }
 });

@@ -85,12 +85,10 @@ module.exports = Marionette.Layout.extend({
     if(this.isDiesel(target.options[target.selectedIndex].text)) {
       if (_.isUndefined(this.usesBiodieselRegion.currentView)) this.loadUsesBiodiesel();
       this.usesBiodieselRegion.$el.show();
-      //this.modelBinder.watch('value: description', {selector: '[name="description"]'});
       this.vehicle.set({fuelType: 'diesel'});
     } else {
       if(this.usesBiodieselRegion.$el) this.usesBiodieselRegion.$el.hide();
       if(this.biodieselBlendRegion.$el) this.biodieselBlendRegion.$el.hide();
-      //this.modelBinder.watch('value: description', {selector: '[name="description"]'});
       this.vehicle.set({fuelType: 'gasoline'});
     }
   },
@@ -147,8 +145,7 @@ module.exports = Marionette.Layout.extend({
   getNextInputView: function() {
     var self = this, mpg;
     utils.getJSON('/vehicle/mpg/'+this.ui.descriptionSelect.val(), function(jsonResponse) {
-      if(!jsonResponse) return;
-      mpg = jsonResponse['comb08'];
+      if(jsonResponse['vehicle']) mpg = jsonResponse['vehicle']['comb08'][0];
     });
     self.vehicle.set({ mpg: mpg });
     App.vent.trigger('showInputView', 'list');

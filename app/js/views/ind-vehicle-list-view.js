@@ -24,11 +24,9 @@ module.exports = Marionette.CompositeView.extend({
     'click .delete': 'deleteClicked'
   },
   onShow: function() {
-    console.log(this.collection);
     var currentVehicle = this.category.get('currentVehicle');
-    var vehicles = this.category.get('vehicles');
-    vehicles.add(currentVehicle);
-    // in order to get the newly added vehicle rendered I call...
+    this.collection.add(currentVehicle);
+    // in order to get the newly added vehicle rendered call...
     this.render();
   },
   deleteClicked: function(event) {
@@ -40,6 +38,7 @@ module.exports = Marionette.CompositeView.extend({
     var whichView = this.ui.vehicleSelect.val();
     var Vehicle = require('../models/vehicle-related-models').vehicle
     this.category.set({currentVehicle: new Vehicle({vehicleType: whichView})});
+    this.category.setCurrentInputView('default');
     App.vent.trigger('showInputView', whichView);
   },
   getNextInputView: function() {
