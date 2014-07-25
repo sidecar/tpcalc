@@ -1,3 +1,4 @@
+'use strict';
 var _ = require('underscore')
 , Backbone = require('backbone')
 , LocalStorage = require("backbone.localstorage");

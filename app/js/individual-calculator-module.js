@@ -20,12 +20,11 @@ module.exports = App.module('individual', function(Calc) {
     // Vehicle Input views
     var defaultVehicleView = require('./views/ind-vehicle-default-view')
     , carVehicleView = require('./views/ind-vehicle-car-view')
-    , ecarVehicleView = require('./views/ind-vehicle-views').ecar
-    , boatVehicleView = require('./views/ind-vehicle-views').boat
-    , motorcycleVehicleView = require('./views/ind-vehicle-views').motorcycle
-    , classVehicleView = require('./views/ind-vehicle-views').class
+    , ecarVehicleView = require('./views/ind-vehicle-ecar-view')
+    , boatVehicleView = require('./views/ind-vehicle-boat-view')
+    , motorcycleVehicleView = require('./views/ind-vehicle-motorcycle-view')
+    , classVehicleView = require('./views/ind-vehicle-class-view')
     , optionsVehicleView = require('./views/ind-vehicle-options-view')
-    , typeVehicleView = require('./views/ind-vehicle-views').type
     , listVehicleView = require('./views/ind-vehicle-list-view');
     // Public Transit Input Views
     var defaultTransitView = require('./views/ind-transit-views').default;
@@ -61,7 +60,6 @@ module.exports = App.module('individual', function(Calc) {
             {name: 'boat',  view: new boatVehicleView()}, 
             {name: 'class',  view: new classVehicleView()}, 
             {name: 'options',  view: new optionsVehicleView()},
-            {name: 'type',  view: new typeVehicleView()},
             {name: 'list',  view: new listVehicleView({collection: vehicles})}
           ]),
           completed: false,

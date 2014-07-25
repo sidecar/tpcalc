@@ -1,16 +1,17 @@
 <div class="view-question">Tell us about your electric car</div>
 	<form name="ind_vehicle_ecar_view" id="ind-vehicle-ecar">
 		<div class="form-element-container">
-			<label for="ind_vehicle_ecar_zip">Zip Code:</label>
+			<label class="control-label" for="ecar_zip" data-default-label="Zip Code:">Zip Code:</label>
 			<div class="form-element">
-				<input name="ind_vehicle_car_zip" value="0" class="form-control" maxlength="11" />
+				<input name="ecar_zip" value="0" class="form-control" maxlength="11" />
 			</div>
 		</div>
 
 		<div class="form-element-container">
-			<label for="ind_vehicle_ecar_year">Year:</label>
+			<label class="control-label" for="ecar_year" data-default-label="Year:">Year:</label>
 			<div class="form-element">
-				<select name="ind_vehicle_car_year" class="form-control">
+				<select name="ecar_year" class="form-control">
+					<option value="">Select Annual Mileage</option>	
 					<option value="2015">2015</option>
 					<option value="2014">2014</option>
 					<option value="2013">2013</option>
@@ -21,9 +22,9 @@
 		</div>
 		
 		<div class="form-element-container">
-			<label for="ind_vehicle_ecar_mileage">Annual Mileage:</label>
+			<label class="control-label" for="ecar_mileage" data-default-label="Annual Mileage:">Annual Mileage:</label>
 			<div class="form-element">
-				<select name="ind_vehicle_ecar_mileage" class="form-control">
+				<select name="ecar_mileage" class="form-control">
 					<option value="" selected="selected">Select Annual Mileage</option>	
 					<option value="2000">2,000</option>
 					<option value="3000">3,000</option>

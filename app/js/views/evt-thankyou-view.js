@@ -1,6 +1,6 @@
+'use strict';
 var $ = require('jquery')
 , Marionette = require('backbone.marionette')
-, Stickit = require('backbone.stickit')
 , Databinding = require('backbone.databinding')
 , App = require('../app');
 

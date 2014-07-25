@@ -1,20 +1,17 @@
+'use strict';
 var _ = require('underscore')
 , Backbone = require('backbone')
+, validator = require('backbone-validator')
 , Qty = require('js-quantities')
 , utils = require('../utils/utility')
 , LocalStorage = require('backbone.Localstorage');
 
-// to expose this module to browseirfy (i.e. CommonJS) http://stackoverflow.com/questions/19747500/how-to-use-browserify-to-bundle-a-backbone-app
-Vehicle = Backbone.Model.extend({
-	// defaults: {
-	// 	year: 2013,
-	// 	make: '',
-	// 	model: '',
-	// 	mileage: 100000, 
-	// 	mpg: 20,
-	// 	fuelType: 'gasoline',
-	// 	vehicleClass: 'car', //fueleconomy.gov and map
-	// },
+var Vehicle = Backbone.Model.extend({
+	validate: validator.create({
+    zip: { regexp: /^\d{5}(?:[-\s]\d{4})?$/, msg: "Please enter a valid zip code" },
+    year: { required: true, msg: "Please choose your vehicle\'s year " },
+    mileage: { required: true, msg: "Please choose your vehicle\'s mileage " }
+  }),
 	toJSON: function() {
 	  var json = Backbone.Model.prototype.toJSON.apply(this, arguments);
 	  json.cid = this.cid;
@@ -75,6 +72,7 @@ Vehicle = Backbone.Model.extend({
 		] 
 	}
 });
+
 module.exports.vehicle = Vehicle;
 
 var Vehicles = Backbone.Collection.extend({
