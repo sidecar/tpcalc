@@ -22,18 +22,21 @@ module.exports = Marionette.ItemView.extend({
   onShow: function() {
     var self = this;
     this.vehicle = this.category.get('currentVehicle');
-    this.validated = {};
+    this.valid = false;
     this.vehicle.on('invalid', function (m, err) {
       // `err` will be an object with the error message {type:'message'}.
-      if(err.zip) { 
+      if(err.zip) {
+        self.valid = false; 
         self.displayError(self.ui.zipInput, err.zip)
         return;
       }
       if(err.year) {
+        self.valid = false; 
         self.displayError(self.ui.yearSelect, err.year)
         return;
       }
       if(err.mileage) {
+        self.valid = false; 
         self.displayError(self.ui.mileageSelect, err.mileage)
         return;
       }
@@ -50,8 +53,11 @@ module.exports = Marionette.ItemView.extend({
     if(mileage) this.modelBinder.watch('value: mileage', {selector: '[name="ecar_mileage"]'});
   },
   validate: function(event) {
-    event.preventDefault();
-    this.displaySuccess($(event.target));
+    if(event) { 
+      event.preventDefault();
+      this.displaySuccess($(event.target));
+    }
+    this.valid = true;
     this.vehicle.set({
       zip: this.ui.zipInput.val(),
       year: this.ui.yearSelect.val(),
@@ -77,23 +83,7 @@ module.exports = Marionette.ItemView.extend({
       .removeClass('has-success');
   },
   getNextInputView: function() {
-    var zip = this.vehicle.get('zip')
-    , year = this.vehicle.get('year')
-    , mileage = this.vehicle.get('mileage');
-
-    if(typeof(zip) == 'undefined' || zip == null || zip == '') {
-      App.vent.trigger('errorAlert', 'Please, enter your car\'s zip');
-      return;
-    }
-    if(typeof(year) == 'undefined' || year == null || year == '') {
-      App.vent.trigger('errorAlert', 'Please, select your car\'s year');
-      return;
-    } 
-    if(typeof(mileage) == 'undefined' || mileage == null || mileage == '') {
-      App.vent.trigger('errorAlert', 'Please, select your car\'s mileage');
-      return;
-    }
-    console.log(this.vehicle);
-    //App.vent.trigger('showInputView', 'list');
+    this.validate();
+    if(this.valid) App.vent.trigger('showInputView', 'list');
   }
 });
