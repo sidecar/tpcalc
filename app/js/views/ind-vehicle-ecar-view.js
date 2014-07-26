@@ -64,24 +64,6 @@ module.exports = Marionette.ItemView.extend({
       mileage: this.ui.mileageSelect.val()
     }, {validate: true});
   },
-  displaySuccess: function($elem) {
-    $elem.parent()
-      .prev('label')
-      .html(function() {
-          return $(this).data('default-label');
-        })
-      .parent('div')
-      .addClass('has-success')
-      .removeClass('has-error');
-  },
-  displayError: function($elem, err) {
-    $elem.parent()
-      .prev('label')
-      .html(err)
-      .parent('div')
-      .addClass('has-error')
-      .removeClass('has-success');
-  },
   getNextInputView: function() {
     this.validate();
     if(this.valid) App.vent.trigger('showInputView', 'list');
