@@ -1,5 +1,6 @@
 'use strict';
-var Marionette = require('backbone.marionette')
+var $ = require('jquery')
+, Marionette = require('backbone.marionette')
 , Databinding = require('backbone.databinding')
 , App = require('../app');
 
@@ -9,6 +10,11 @@ module.exports = Marionette.ItemView.extend({
   template: defaultTemplate,
   ui: {
     vehicleTypeSelect: 'select[name="vehicle_type"]'
+  },
+  events: {
+    'keydown body': 'processKey',
+    'keyup body': 'processKey',
+    'keyUp': 'processKey'
   },
   onShow: function() {
     this.vehicle = this.category.get('currentVehicle');
@@ -21,6 +27,9 @@ module.exports = Marionette.ItemView.extend({
       this.modelBinder = new Databinding.ModelBinder(this, this.vehicle);
       this.modelBinder.watch('value: vehicleType', {selector: '[name="vehicle_type"]'});
     }
+  },
+  onDestroy: function() {
+    this.vehicle.off('invalid');
   },
   getNextInputView: function() {
     var oldVehicleType = this.vehicle.get('vehicleType')

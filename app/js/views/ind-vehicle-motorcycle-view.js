@@ -1,6 +1,7 @@
 'use strict';
 var $ = require('jquery')
 , _ = require('underscore')
+, Backbone = require('backbone')
 , Marionette = require('backbone.marionette')
 , Databinding = require('backbone.databinding')
 , App = require('../app');
@@ -33,6 +34,28 @@ module.exports = Marionette.ItemView.extend({
     var mileage = this.vehicle.get('mileage') || undefined;
     
     if(mileage) this.modelBinder.watch('value: mileage', {selector: '[name="moto_mileage"]'});
+  },
+  remove: function() {
+    this.vehicle.off('invalid');
+    Backbone.View.prototype.remove.call(this);
+  },
+  displaySuccess: function($elem) {
+    $elem.parent()
+      .prev('label')
+      .html(function() {
+          return $(this).data('default-label');
+        })
+      .parent('div')
+      .addClass('has-success')
+      .removeClass('has-error');
+  },
+  displayError: function($elem, err) {
+    $elem.parent()
+      .prev('label')
+      .html(err)
+      .parent('div')
+      .addClass('has-error')
+      .removeClass('has-success');
   },
   validate: function(event) {
     if(event) { 

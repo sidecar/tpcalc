@@ -6,7 +6,10 @@ var _ = require('underscore')
 , App = require('./app');
 
 module.exports = App.module('individual', function(Calc) {
+  var app = App;
+  
   Calc.startWithParent = false; // Calculator must be manually started
+  
   Calc.addInitializer(function(catCodes){
     Calc.baseRoute = '#/individual';
 
@@ -106,7 +109,22 @@ module.exports = App.module('individual', function(Calc) {
     Calc.initGlobalEvents(Calc);
     Calc.initRouter = require('./init-calc-router');
     Calc.initRouter(Calc);
-  });
+
+    // $(document).delegate('form', 'submit', function(event) {
+    //   event.preventDefault();
+    //   // if(event.keyCode == 13) {
+    //   //   app.vent.trigger('next');
+    //   // }
+    // });
+
+    // $(document).on('keyup', function(event) {
+    //   if(event.keyCode == 13) {
+    //     app.vent.trigger('next');
+    //   }
+    // });
+
+  });// end Calc.addIntializer
+
   Calc.addFinalizer(function(){
     Calc.controller.hide();
     Calc.stopListening();

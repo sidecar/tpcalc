@@ -35,6 +35,7 @@ App.addInitializer(function(options) {
   App.vent.on('startCalculator', function(calcName) {
     App.router.navigate('#/d/'+calcName , {trigger: true});
   });
+  
 });
 
 App.addRegions({

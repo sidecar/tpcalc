@@ -1,8 +1,12 @@
 "use strict";
 var $ = require('jquery')
-  , App = require('./app');
+, App = require('./app');
 
 module.exports = function(Calc) {
+  // $(document).on('keyup', function(event) {
+  //   var App = require('./app');
+  //   if(event.keyCode == 13) App.vent.trigger('next');
+  // });
   App.vent.on('next', function(event) {
     var currentCategory = Calc.model.get('currentCategory');
     var currentCategorySlug = currentCategory.get('slug');
@@ -10,6 +14,7 @@ module.exports = function(Calc) {
     var currentView = currentViewModel.get('view');
     currentView.getNextInputView();
   });
+
   App.vent.on('prev', function(event) {     
     var currentCategory = Calc.model.get('currentCategory')
     , currentCategorySlug = currentCategory.get('slug')
@@ -63,11 +68,6 @@ module.exports = function(Calc) {
 
   App.vent.on('errorAlert', function(msg) { 
     window.alert(msg);
-    console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-    console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-    console.log(msg);
-    console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-    console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
     return;
   });  
 
