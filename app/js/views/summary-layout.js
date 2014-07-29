@@ -17,5 +17,18 @@ module.exports = Marionette.Layout.extend({
   buyBtnClicked: function(event) {
     event.preventDefault();
     App.vent.trigger('buy', event);
-  }
+  }//,
+  // serializeData: function(){
+  //   var calculatorDisplayName = this.model.get('displayName')
+  //   , calculatorSlug = this.model.get('slug')
+  //   , categoryModel = this.model.get('currentCategory')
+  //   , categoryDisplayName = categoryModel.get('displayName')
+  //   , categorySlug = categoryModel.get('slug');
+  //   return {
+  //     calculatorDisplayName: calculatorDisplayName,
+  //     calculatorSlug: calculatorSlug,
+  //     categoryDisplayName: categoryDisplayName,
+  //     categorySlug: categorySlug
+  //   }
+  // }
 });
