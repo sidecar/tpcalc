@@ -11,11 +11,6 @@ module.exports = Marionette.ItemView.extend({
   ui: {
     vehicleTypeSelect: 'select[name="vehicle_type"]'
   },
-  events: {
-    'keydown body': 'processKey',
-    'keyup body': 'processKey',
-    'keyUp': 'processKey'
-  },
   onShow: function() {
     this.vehicle = this.category.get('currentVehicle');
     var vehicleType = (this.vehicle) ? this.vehicle.get('vehicleType') : undefined;
@@ -27,9 +22,6 @@ module.exports = Marionette.ItemView.extend({
       this.modelBinder = new Databinding.ModelBinder(this, this.vehicle);
       this.modelBinder.watch('value: vehicleType', {selector: '[name="vehicle_type"]'});
     }
-  },
-  onDestroy: function() {
-    this.vehicle.off('invalid');
   },
   getNextInputView: function() {
     var oldVehicleType = this.vehicle.get('vehicleType')

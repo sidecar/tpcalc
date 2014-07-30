@@ -23,25 +23,31 @@ module.exports = Marionette.ItemView.extend({
   onShow: function() {
     var self = this;
     this.vehicle = this.category.get('currentVehicle');
-    this.valid = false;
-    this.vehicle.on('invalid', function (m, err) {
-      // `err` will be an object with the error message {type:'message'}.
-      if(err.zip) {
-        self.valid = false; 
-        self.displayError(self.ui.zipInput, err.zip)
-        return;
+
+    this.vehicle.validate = function(attrs, options) {
+      if(!attrs.zip || attrs.zip == '' || attrs.zip.match(/^\d{5}(-\d{4})?$/) == null) {
+        self.displayError(self.ui.zipInput);
+        return false;
+      } else {
+        self.displaySuccess(self.ui.zipInput);
       }
-      if(err.year) {
-        self.valid = false; 
-        self.displayError(self.ui.yearSelect, err.year)
-        return;
+
+      if(!attrs.year || attrs.year == '') {
+        self.displayError(self.ui.yearSelect);
+        return false;
+      } else {
+        self.displaySuccess(self.ui.yearSelect);
       }
-      if(err.mileage) {
-        self.valid = false; 
-        self.displayError(self.ui.mileageSelect, err.mileage)
-        return;
+      
+      if(!attrs.mileage || attrs.mileage == '') {
+        self.displayError(self.ui.mileageSelect);
+        return false;
+      } else {
+        self.displaySuccess(self.ui.mileageSelect);
       }
-    });
+
+      return true;
+    }
 
     this.modelBinder = new Databinding.ModelBinder(this, this.vehicle);
 
@@ -53,10 +59,6 @@ module.exports = Marionette.ItemView.extend({
     if(year) this.modelBinder.watch('value: year', {selector: '[name="ecar_year"]'});
     if(mileage) this.modelBinder.watch('value: mileage', {selector: '[name="ecar_mileage"]'});
   },
-  remove: function() {
-    this.vehicle.off('invalid');
-    Backbone.View.prototype.remove.call(this);
-  },
   displaySuccess: function($elem) {
     $elem.parent()
       .prev('label')
@@ -67,28 +69,25 @@ module.exports = Marionette.ItemView.extend({
       .addClass('has-success')
       .removeClass('has-error');
   },
-  displayError: function($elem, err) {
+  displayError: function($elem) {
     $elem.parent()
       .prev('label')
-      .html(err)
+      .html(function() {
+          return $(this).data('error-msg');
+        })
       .parent('div')
       .addClass('has-error')
       .removeClass('has-success');
   },
-  validate: function(event) {
-    if(event) { 
-      event.preventDefault();
-      this.displaySuccess($(event.target));
-    }
-    this.valid = true;
-    this.vehicle.set({
+  getNextInputView: function() {
+    var attrs = {
       zip: this.ui.zipInput.val(),
       year: this.ui.yearSelect.val(),
       mileage: this.ui.mileageSelect.val()
-    }, {validate: true});
-  },
-  getNextInputView: function() {
-    this.validate();
-    if(this.valid) App.vent.trigger('showInputView', 'list');
+    }
+    if(this.vehicle.validate(attrs)) {
+      this.vehicle.set(attrs);
+      App.vent.trigger('showInputView', 'list');
+    }
   }
 });

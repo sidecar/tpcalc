@@ -56,7 +56,8 @@
     "backbone.localstorage": "~1.1.9",
     "barf": "~1.0.3",
     "browsernizr": "~1.0.2",
-    "backbone-validator": "~0.1.0"
+    "backbone-validator": "~0.1.0",
+    "backbone-validation": "~0.9.1"
   },
   "scripts": {
     "start": "node server.js"

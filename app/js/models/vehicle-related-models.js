@@ -7,12 +7,6 @@ var _ = require('underscore')
 , LocalStorage = require('backbone.Localstorage');
 
 var Vehicle = Backbone.Model.extend({
-	validate: validator.create({
-    zip: { required: true, regexp: /^\d{5}(?:[-\s]\d{4})?$/, msg: "Please enter a valid zip code" },
-    year: { required: true, msg: "Please choose your vehicle\'s year" },
-    mileage: { required: true, msg: "Please choose your vehicle\'s mileage" },
-    fuelQty: { required: true, msg: "Enter the amount of gas you use in a year" }
-  }),
 	toJSON: function() {
 	  var json = Backbone.Model.prototype.toJSON.apply(this, arguments);
 	  json.cid = this.cid;

@@ -6,7 +6,6 @@ var $ = require('jquery')
 , Databinding = require('backbone.databinding')
 , App = require('../app');
 
-
 var boatTemplate = require('../templates/ind-vehicle-boat-template.hbs');
 
 module.exports = Marionette.ItemView.extend({
@@ -22,20 +21,16 @@ module.exports = Marionette.ItemView.extend({
   onShow: function() {
     var self = this;
     this.vehicle = this.category.get('currentVehicle');
-    this.valid = false;
-    this.vehicle.on('invalid', function (m, err) {
-      // `err` will be an object with the error message {type:'message'}.
-      if(err.fuelQty) {
-        self.valid = false; 
-        self.displayError(self.ui.fuelQtyInput, err.fuelQty)
-        return;
+
+    this.vehicle.validate = function(attrs, options) {
+      if(!attrs.fuelQty || attrs.fuelQty == '' || attrs.fuelQty.match(/^\d+$/) == null) {
+        self.displayError(self.ui.fuelQtyInput);
+        return false;
+      } else {
+        self.displaySuccess(self.ui.fuelQtyInput);
       }
-      if(err.fuelType) {
-        self.valid = false; 
-        self.displayError(self.ui.fuelTypeSelect, err.fuelType)
-        return;
-      }
-    });
+      return true;
+    }
 
     this.modelBinder = new Databinding.ModelBinder(this, this.vehicle);
 
@@ -44,10 +39,6 @@ module.exports = Marionette.ItemView.extend({
     
     if(fuelQty) this.modelBinder.watch('value: fuelQty', {selector: '[name="boat_fuel_qty"]'});
     if(fuelType) this.modelBinder.watch('value: fuelType', {selector: '[name="boat_fuel_type"]'});
-  },
-  remove: function() {
-    this.vehicle.off('invalid');
-    Backbone.View.prototype.remove.call(this);
   },
   displaySuccess: function($elem) {
     $elem.parent()
@@ -59,27 +50,36 @@ module.exports = Marionette.ItemView.extend({
       .addClass('has-success')
       .removeClass('has-error');
   },
-  displayError: function($elem, err) {
+  displayError: function($elem) {
     $elem.parent()
       .prev('label')
-      .html(err)
+      .html(function() {
+          return $(this).data('error-msg');
+        })
       .parent('div')
       .addClass('has-error')
       .removeClass('has-success');
   },
-  validate: function(event) {
-    if(event) { 
-      event.preventDefault();
-      this.displaySuccess($(event.target));
-    }
-    this.valid = true;
-    this.vehicle.set({
+  getNextInputView: function() {
+    var attrs = {
       fuelQty: this.ui.fuelQtyInput.val(),
       fuelType: this.ui.fuelTypeSelect.val()
-    }, {validate: true});
-  },
-  getNextInputView: function() {
-    this.validate();
-    if(this.valid) App.vent.trigger('showInputView', 'list');
+    }
+    if(this.vehicle.validate(attrs)) {
+      this.vehicle.set(attrs);
+      App.vent.trigger('showInputView', 'list');
+    }
   }
 });
+
+
+
+
+
+
+
+
+
+
+
+
