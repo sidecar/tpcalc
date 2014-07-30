@@ -15,7 +15,8 @@ module.exports = Marionette.Layout.extend({
   regions: {
     yearRegion: "[data-region=year]",
     makeRegion: "[data-region=make]",
-    modelRegion: "[data-region=model]"
+    modelRegion: "[data-region=model]",
+    mileageRegion: "[data-region=mileage]"
   },
   ui: {
     yearSelect: 'select[name="car_year"]',
@@ -29,7 +30,7 @@ module.exports = Marionette.Layout.extend({
     'change select[name="car_model"]': 'modelSelected'
   },
   onShow: function() {
-
+    $('.mileage-select-container').hide();
     var self = this;
     this.vehicle = this.category.get('currentVehicle');
 
@@ -87,17 +88,30 @@ module.exports = Marionette.Layout.extend({
   },
   yearSelected: function(event) {
     var year = $(event.target).val();
-    this.vehicle.set({year: year});
-    this.loadMakeSelect(year);
+    if(year !== this.vehicle.get('year')){
+      this.vehicle.set({year: year});
+      if(this.modelRegion.$el) this.modelRegion.$el.hide();
+      this.loadMakeSelect(year);
+    }
   },
   makeSelected: function(event) {
     var year = this.vehicle.get('year');
     var make = $(event.target).val();
+    if(make == 'unknown') {
+      if(this.modelRegion.$el) this.modelRegion.$el.hide();
+      $('.mileage-select-container').hide();
+    } else if (make !== this.vehicle.get('make')){
+      this.loadModelSelect(year, make);
+    }
     this.vehicle.set({make: make});
-    this.loadModelSelect(year, make);
   },
   modelSelected: function(event) {
     var model = $(event.target).val();
+    if(model == 'unknown') {
+      $('.mileage-select-container').hide();
+    } else if (model !== this.vehicle.get('model')){
+      $('.mileage-select-container').show();
+    }
     this.vehicle.set({model: model});
   },
   loadYearSelect: function() {
@@ -132,6 +146,7 @@ module.exports = Marionette.Layout.extend({
       data.selectedOptionVal = '';
       self.makeRegion.show( new SelectView({json: data}) );
       self.makeRegion.$el.show();
+      $('select[name="car_make"]').prepend('<option value="unknown">Can\'t find your vehicle\'s make?<option>');
       self.bindUIElements(); //re-implement the ui hash
     });
   },
@@ -152,6 +167,7 @@ module.exports = Marionette.Layout.extend({
       data.selectedOptionVal = '';
       self.modelRegion.show( new SelectView({json: data}) );
       self.modelRegion.$el.show();
+      $('select[name="car_model"]').prepend('<option value="unknown">Can\'t find your vehicle\'s model?<option>');
       self.bindUIElements(); //re-implement the ui hash
     });
   },
@@ -160,6 +176,11 @@ module.exports = Marionette.Layout.extend({
     , make = this.vehicle.get('make')
     , modelOfCar = this.vehicle.get('model')
     , mileage = this.vehicle.get('mileage');
+
+    if(make === 'unknown') {
+      App.vent.trigger('showInputView', 'class');
+      return;
+    }
 
     var attrs = {
       year: this.ui.yearSelect.val(),

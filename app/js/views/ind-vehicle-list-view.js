@@ -25,6 +25,17 @@ module.exports = Marionette.CompositeView.extend({
   },
   onShow: function() {
     var currentVehicle = this.category.get('currentVehicle');
+    var vehicleType = currentVehicle.get('vehicleType');
+    switch(vehicleType) {
+      case 'car': currentVehicle.set({isCar: true})
+        break;
+      case 'ecar': currentVehicle.set({isEcar: true})
+        break;
+      case 'boat': currentVehicle.set({isBoat: true})
+        break;
+      case 'motorcycle': currentVehicle.set({isMotorcycle: true})
+        break;
+    }
     this.collection.add(currentVehicle);
     // in order to get the newly added vehicle rendered call...
     this.render();

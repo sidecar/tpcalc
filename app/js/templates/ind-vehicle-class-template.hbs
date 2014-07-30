@@ -1,18 +1,20 @@
 <div class="view-question">Tell us what you know about your vehicle</div>
-	<form name="ind_vehicle_class_view" id="ind-vehicle-class">
+	{{!-- <form name="ind_vehicle_class_view" id="ind-vehicle-class"> --}}
 		<div class="form-element-container">
-			<label for="ind_vehicle_class_type">How would you describe your vehicle?</label>
+			<label for="vehicle_class" data-error-msg="Choose a description" data-default-label="How would you describe your vehicle?">How would you describe your vehicle?</label>
 			<div class="form-element">
-				<select name="ind_vehicle_class_type" class="form-control">
+				<select name="vehicle_class" class="form-control">
 					<option value="car">Car</option>
 					<option value="truck">Truck</option>
 					<option value="suv">SUV</option>
 					<option value="van">Van</option>
 				</select>
 			</div>
-			<label for="ind_vehicle_class_fuel_type">What type of fuel do you use?</label>
+		</div>
+		<div class="form-element-container">	
+			<label for="fuel_type" data-error-msg="What type of fuel do you use?" data-default-label="What type of fuel do you use?">What type of fuel do you use?</label>
 			<div class="form-element">
-				<select name="ind_vehicle_class_fuel_type" class="form-control">
+				<select name="fuel_type" class="form-control">
 					<option value="gasoline">Gasoline</option>
 					<option value="diesel">Diesel</option>
 					<option value="biodiesel_b20">Biodiesel (B20)</option>
@@ -21,9 +23,11 @@
 					<option value="e85_ethanol">E85 Ethanol</option>
 				</select>
 			</div>
-			<label for="ind_vehicle_class_mileage">Annual Mileage</label>
+		</div>
+		<div class="form-element-container">
+			<label for="mileage"data-error-msg="How many miles do you drive this car in a year?" data-default-label="Annual Mileage:">Annual Mileage</label>
 			<div class="form-element">
-				<select name="ind_vehicle_class_mileage" class="form-control">
+				<select name="mileage" class="form-control">
 					<option value="" selected="selected">Select Annual Mileage</option>	
 					<option value="2000">2,000</option>
 					<option value="3000">3,000</option>
@@ -46,4 +50,4 @@
 				</select>
 			</div>
 		</div>
-	</form>
+	{{!-- </form> --}}

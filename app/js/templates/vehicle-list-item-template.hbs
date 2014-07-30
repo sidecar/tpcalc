@@ -1,4 +1,23 @@
-<li>{{year}} {{make}} {{model}}, {{mileage}} mi/yr 
+<li>
+  {{#if isCar}}
+    {{#if makeModelIsUnknown}}
+      {{year}} {{vehicleClass}}, {{mileage}} mi/yr 
+    {{else}}
+      {{year}} {{make}} {{model}}, {{mileage}} mi/yr 
+    {{/if}}  
+  {{/if}}  
+  
+  {{#if isEcar}}
+    {{year}} Electric Car, {{mileage}} mi/yr 
+  {{/if}}  
+  
+  {{#if isBoat}}
+    Boat, Fueltype: {{fuelType}}, Gallons of fuel: {{fuelQty}} 
+  {{/if}}  
+  
+  {{#if isMotorcycle}}
+    Motorcyle, Mileage {{mileage}} 
+  {{/if}}
   <span class="float-right">
     <button class="btn btn-xs bg-dark-gray white delete" data-cid="{{cid}}"> &nbsp;Delete</button>
   <span>
