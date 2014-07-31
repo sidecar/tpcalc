@@ -135,7 +135,7 @@ module.exports = App.module('individual', function(Calc) {
           // end of defaults
         })
       ]), //end categories
-      thankYouView: indThankYouView
+      thankYouView: new indThankYouView()
     }); //end Calc.model
     Calc.initCalcLayout = require('./init-calc-layout');
     Calc.initCalcLayout(Calc);

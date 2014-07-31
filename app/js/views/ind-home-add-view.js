@@ -51,8 +51,6 @@ module.exports= Marionette.ItemView.extend({
 			dieselInterval: $('[name="diesel_interval"]').val()
     }
     this.category.set(attrs);
-    console.log('this.category.attributes');
-    console.log(this.category.attributes);
     App.vent.trigger('goToNextCategory');
   }
 });
