@@ -30,7 +30,7 @@ module.exports = App.module('individual', function(Calc) {
     , optionsVehicleView = require('./views/ind-vehicle-options-view')
     , listVehicleView = require('./views/ind-vehicle-list-view');
     // Public Transit Input Views
-    var defaultTransitView = require('./views/ind-transit-views').default;
+    var defaultTransitView = require('./views/ind-transit-default-view');
     // Air Travel Input Views
     var defaultTravelView = require('./views/ind-travel-views').default
     , addTravelView = require('./views/ind-travel-views').add
@@ -40,9 +40,11 @@ module.exports = App.module('individual', function(Calc) {
     , fuelTravelView = require('./views/ind-travel-views').fuel
     , listTravelView = require('./views/ind-travel-views').list;
     // Home Energy Input Views
-    var defaultHomeView = require('./views/ind-home-views').default
-    , addHomeView = require('./views/ind-home-views').add;
-    
+    var defaultHomeView = require('./views/ind-home-default-view')
+    , addHomeView = require('./views/ind-home-add-view');
+    // Thank You View
+    var indThankYouView = require('./views/ind-thankyou-view');
+
     // Specific models and collections
     var Vehicles = require('./models/vehicle-related-models').vehicles;
     var vehicles = new Vehicles();
@@ -75,7 +77,17 @@ module.exports = App.module('individual', function(Calc) {
           viewList: new ViewList([
             {name: 'default',  view: new defaultTransitView()}
           ]),
-          completed: false
+          completed: false,
+          // defaults that show up in the view
+          trainMileage: 0,
+          trainInterval: 'week',
+          busMileage: 0,
+          busInterval: 'week',
+          taxiMileage: 0,
+          taxiInterval: 'week',
+          ferryMileage: 0,
+          ferryInterval: 'week',
+          // end of defaults
         }),
         ////////////////////////////////////////////////////////
         new Category({
@@ -97,32 +109,40 @@ module.exports = App.module('individual', function(Calc) {
           displayName: 'Home Energy',
           slug: 'home',
           viewList: new ViewList([
-            {name: 'default',  view: new defaultTransitView()}
+            {name: 'default',  view: new defaultHomeView()},
+            {name: 'add',  view: new addHomeView()}
           ]),
-          completed: false
+          completed: false,
+          // defaults that show up in the view
+          electricityAmount: 0,
+          electricityUnit: 'dollars',
+          electricityInterval: 'month',
+          naturalGasAmount: 0,
+          naturalGasUnit: 'dollars',
+          naturalGasInterval: 'month',
+          heatingOilAmount: 0,
+          heatingOilUnit: 'dollars',
+          heatingOilInterval: 'month',
+          propaneAmount: 0,
+          propaneUnit: 'dollars',
+          propaneInterval: 'month',
+          gasolineAmount: 0,
+          gasolineUnit: 'dollars',
+          gasolineInterval: 'month',
+          dieselAmount: 0,
+          dieselUnit: 'dollars',
+          dieselInterval: 'month',
+          // end of defaults
         })
-      ]),
-    });
+      ]), //end categories
+      thankYouView: indThankYouView
+    }); //end Calc.model
     Calc.initCalcLayout = require('./init-calc-layout');
     Calc.initCalcLayout(Calc);
     Calc.initGlobalEvents = require('./init-global-calc-events');
     Calc.initGlobalEvents(Calc);
     Calc.initRouter = require('./init-calc-router');
     Calc.initRouter(Calc);
-
-    // $(document).delegate('form', 'submit', function(event) {
-    //   event.preventDefault();
-    //   // if(event.keyCode == 13) {
-    //   //   app.vent.trigger('next');
-    //   // }
-    // });
-
-    // $(document).on('keyup', function(event) {
-    //   if(event.keyCode == 13) {
-    //     app.vent.trigger('next');
-    //   }
-    // });
-
   });// end Calc.addIntializer
 
   Calc.addFinalizer(function(){

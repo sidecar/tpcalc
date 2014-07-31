@@ -22,9 +22,6 @@ var Calculator = Backbone.Model.extend({
     this.set({currentCategory: this.get('categories').first()});
     var catCodes = this.get('catCodes');
     if (catCodes) this.showSelectCategories(catCodes);
-    var indThankYouView = require('../views/ind-thankyou-view');
-    this.set({thankYouView: indThankYouView});
-
     // give all categories and views access to the calculator model
     var categories = this.get('categories');
     var self = this;
@@ -83,7 +80,7 @@ var Category = Backbone.Model.extend({
     var views = this.get('viewList')
     , view =views.findWhere({name: slug});
     this.set({'currentInputView': view});
-  },
+  }
 });
 module.exports.category = Category;
 

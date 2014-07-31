@@ -15,9 +15,9 @@ module.exports = Marionette.ItemView.extend({
     mileageSelect: 'select[name="ecar_mileage"]' 
   },
   events: {
-    'blur input[name="ecar_zip"]': 'validate',
-    'change select[name="ecar_year"]': 'validate',
-    'change select[name="ecar_mileage"]': 'validate'
+    'blur input[name="ecar_zip"]': 'validate'//,
+    //'change select[name="ecar_year"]': 'validate',
+    //'change select[name="ecar_mileage"]': 'validate'
   },
   onShow: function() {
     var self = this;
@@ -57,6 +57,14 @@ module.exports = Marionette.ItemView.extend({
     if(zip) this.modelBinder.watch('value: zip', {selector: '[name="ecar_zip"]'});
     if(year) this.modelBinder.watch('value: year', {selector: '[name="ecar_year"]'});
     if(mileage) this.modelBinder.watch('value: mileage', {selector: '[name="ecar_mileage"]'});
+  },
+  validate: function() {
+    var attrs = {
+      zip: this.ui.zipInput.val(),
+      year: this.ui.yearSelect.val(),
+      mileage: this.ui.mileageSelect.val()
+    }
+    this.vehicle.validate(attrs);
   },
   displaySuccess: function($elem) {
     $elem.parent()

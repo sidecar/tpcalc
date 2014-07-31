@@ -1,9 +1,9 @@
 <div class="view-question">Let's find out about your home energy usage</div>	
-	<form name="ind_home_view" id="ind-home">
+	{{!-- <form name="ind_home_view" id="ind-home"> --}}
 		<div class="form-element-container">
-			<label for="ind_home_zip">Enter your zip code:</label>
+			<label for="zip" data-error-msg="Please enter a valid zipcode" data-default-label="Enter your zip code:">Enter your zip code:</label>
 			<div class="form-element">
-				<input type="text" name="ind_home_zip" class="form-control" />
+				<input type="text" name="zip" class="form-control" />
 			</div>
 		</div>
-	</form>
+{{!-- 	</form> --}}

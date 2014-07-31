@@ -1,19 +1,19 @@
 <div class="view-question">Enter your home energy usage</div>
 	
-	<form name="ind_home_energy_view" id="ind-home-energy">
+	{{!-- <form name="ind_home_energy_view" id="ind-home-energy"> --}}
 	
 		<!-------------- ELECTRICAL -------------->
 		<div class="big-label">Electricity:</div>
 
 		<div class="form-element-container float-left third">
 			<div class="form-element">
-				<input type="text" name="ind_home_electricity" class="form-control" value="0" placeholder="units" />
+				<input type="text" name="electricity_amount" class="form-control" value="0" />
 			</div>
 		</div>
 
 		<div class="form-element-container float-left third">
 			<div class="form-element">
-				<select name="ind_home_electrical_unit" class="form-control">
+				<select name="electricity_unit" class="form-control">
 					<option value="dollars">Dollars</option>
 					<option value="kwh">kWh</option>
 				</select>
@@ -22,7 +22,7 @@
 
 		<div class="form-element-container float-left third">
 			<div class="form-element">
-				<select name="ind_home_electrical_interval" class="form-control">
+				<select name="electricity_interval" class="form-control">
 					<option value="month">per Month</option>
 					<option value="year">per Year</option>
 				</select>
@@ -35,13 +35,13 @@
 
 		<div class="form-element-container float-left third">
 			<div class="form-element">
-				<input type="text" name="ind_home_natural_gas" class="form-control" value="0" placeholder="units" />
+				<input type="text" name="natural_gas_amount" class="form-control" value="0" />
 			</div>
 		</div>
 
 		<div class="form-element-container float-left third">
 			<div class="form-element">
-				<select name="ind_home_natural_gas_unit" class="form-control">
+				<select name="natural_gas_unit" class="form-control">
 					<option value="dollars">Dollars</option>
 					<option value="cf">cf</option>
 				</select>
@@ -50,7 +50,7 @@
 
 		<div class="form-element-container float-left third">
 			<div class="form-element">
-				<select name="ind_home_natural_gas" class="form-control">
+				<select name="natural_gas_interval" class="form-control">
 					<option value="month">per Month</option>
 					<option value="year">per Year</option>
 				</select>
@@ -63,13 +63,13 @@
 
 		<div class="form-element-container float-left third">
 			<div class="form-element">
-				<input type="text" name="ind_home_heating_oil" class="form-control" value="0" placeholder="units" />
+				<input type="text" name="heating_oil_amount" class="form-control" value="0" />
 			</div>
 		</div>
 
 		<div class="form-element-container float-left third">
 			<div class="form-element">
-				<select name="ind_home_heating_oil_unit" class="form-control">
+				<select name="heating_oil_unit" class="form-control">
 					<option value="dollars">Dollars</option>
 					<option value="gallons">gallons</option>
 				</select>
@@ -78,7 +78,7 @@
 
 		<div class="form-element-container float-left third">
 			<div class="form-element">
-				<select name="ind_home_heating_oil_interval" class="form-control">
+				<select name="heating_oil_interval" class="form-control">
 					<option value="month">per Month</option>
 					<option value="year">per Year</option>
 				</select>
@@ -91,13 +91,13 @@
 
 		<div class="form-element-container float-left third">
 			<div class="form-element">
-				<input type="text" name="ind_home_propane" class="form-control" value="0" placeholder="units" />
+				<input type="text" name="propane_amount" class="form-control" value="0" />
 			</div>
 		</div>
 
 		<div class="form-element-container float-left third">
 			<div class="form-element">
-				<select name="ind_home_propane_unit" class="form-control">
+				<select name="propane_unit" class="form-control">
 					<option value="dollars">Dollars</option>
 					<option value="gallons">gallons</option>
 				</select>
@@ -106,7 +106,7 @@
 
 		<div class="form-element-container float-left third">
 			<div class="form-element">
-				<select name="ind_home_propane_interval" class="form-control">
+				<select name="propane_interval" class="form-control">
 					<option value="month">per Month</option>
 					<option value="year">per Year</option>
 				</select>
@@ -119,13 +119,13 @@
 
 		<div class="form-element-container float-left third">
 			<div class="form-element">
-				<input type="text" name="ind_home_gasoline" class="form-control" value="0" placeholder="units" />
+				<input type="text" name="gasoline_amount" class="form-control" value="0" />
 			</div>
 		</div>
 
 		<div class="form-element-container float-left third">
 			<div class="form-element">
-				<select name="ind_home_gasoline_unit" class="form-control">
+				<select name="gasoline_unit" class="form-control">
 					<option value="dollars">Dollars</option>
 					<option value="gallons">gallons</option>
 				</select>
@@ -134,7 +134,7 @@
 
 		<div class="form-element-container float-left third">
 			<div class="form-element">
-				<select name="ind_home_gasoline_interval" class="form-control">
+				<select name="gasoline_interval" class="form-control">
 					<option value="month">per Month</option>
 					<option value="year">per Year</option>
 				</select>
@@ -147,13 +147,13 @@
 
 		<div class="form-element-container float-left third">
 			<div class="form-element">
-				<input type="text" name="ind_home_diesel" class="form-control" value="0" placeholder="units" />
+				<input type="text" name="diesel_amount" class="form-control" value="0" />
 			</div>
 		</div>
 
 		<div class="form-element-container float-left third">
 			<div class="form-element">
-				<select name="ind_home_diesel_unit" class="form-control">
+				<select name="diesel_unit" class="form-control">
 					<option value="dollars">Dollars</option>
 					<option value="gallons">gallons</option>
 				</select>
@@ -162,11 +162,10 @@
 
 		<div class="form-element-container float-left third">
 			<div class="form-element">
-				<select name="ind_home_diesel_interval" class="form-control">
+				<select name="diesel_interval" class="form-control">
 					<option value="month">per Month</option>
 					<option value="year">per Year</option>
 				</select>
 			</div>
 		</div>
-
-	</form>
+	{{!-- </form> --}}
