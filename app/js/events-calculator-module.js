@@ -29,6 +29,8 @@ module.exports = App.module('events', function(Calc) {
     var defaultWaterView = require('./views/evt-water-views').default;
 
     var defaultMealsView = require('./views/evt-meals-views').default;
+    // Thank You View
+    var evtThankYouView = require('./views/evt-thankyou-view');
 
     Calc.model = new Calculator({
       displayName: 'Business',
@@ -75,8 +77,9 @@ module.exports = App.module('events', function(Calc) {
           ]),
           completed: false
         })
-      ]),
-    });
+      ]), //end categories
+      thankYouView: new evtThankYouView()
+    }); //end Calc.model
     Calc.initCalcLayout = require('./init-calc-layout');
     Calc.initCalcLayout(Calc);
     Calc.initGlobalEvents = require('./init-global-calc-events');

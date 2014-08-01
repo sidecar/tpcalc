@@ -37,6 +37,8 @@ module.exports = App.module('business', function(Calc) {
     var defaultShippingView = require('./views/biz-shipping-views').default;
 
     var defaultServerView = require('./views/biz-server-views').default;
+    // Thank You View
+    var bizThankYouView = require('./views/biz-thankyou-view');
 
     Calc.model = new Calculator({
       displayName: 'Business',
@@ -105,8 +107,9 @@ module.exports = App.module('business', function(Calc) {
           ]),
           completed: false
         })
-      ]),
-    });
+      ]), //end categories
+      thankYouView: new bizThankYouView()
+    }); //end Calc.model
     Calc.initCalcLayout = require('./init-calc-layout');
     Calc.initCalcLayout(Calc);
     Calc.initGlobalEvents = require('./init-global-calc-events');

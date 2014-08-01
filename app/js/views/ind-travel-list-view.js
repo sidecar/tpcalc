@@ -4,12 +4,13 @@ var $ = require('jquery')
 , Databinding = require('backbone.databinding')
 , App = require('../app');
 
-var defaultTemplate = require('../templates/ind-transit-default-template.hbs');
+var listTemplate = require('../templates/ind-travel-list-template.hbs');
 
-module.exports.default = Marionette.ItemView.extend({
-	template: defaultTemplate,
-	events: {
-	},
+module.exports = Marionette.ItemView.extend({
+  template: listTemplate,
+  events: {
+
+  },
   getNextInputView: function() {
     App.vent.trigger('goToNextCategory');
   }

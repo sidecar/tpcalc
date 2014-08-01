@@ -32,13 +32,12 @@ module.exports = App.module('individual', function(Calc) {
     // Public Transit Input Views
     var defaultTransitView = require('./views/ind-transit-default-view');
     // Air Travel Input Views
-    var defaultTravelView = require('./views/ind-travel-views').default
-    , addTravelView = require('./views/ind-travel-views').add
-    , averageTravelView = require('./views/ind-travel-views').average
-    , lengthTravelView = require('./views/ind-travel-views').length
-    , milesTravelView = require('./views/ind-travel-views').miles
-    , fuelTravelView = require('./views/ind-travel-views').fuel
-    , listTravelView = require('./views/ind-travel-views').list;
+    var defaultTravelView = require('./views/ind-travel-default-view')
+    , flightsTravelView = require('./views/ind-travel-flights-view')
+    , lengthTravelView = require('./views/ind-travel-length-view')
+    , milesTravelView = require('./views/ind-travel-miles-view')
+    , fuelTravelView = require('./views/ind-travel-fuel-view')
+    , listTravelView = require('./views/ind-travel-list-view');
     // Home Energy Input Views
     var defaultHomeView = require('./views/ind-home-default-view')
     , addHomeView = require('./views/ind-home-add-view');
@@ -95,14 +94,24 @@ module.exports = App.module('individual', function(Calc) {
           slug: 'travel',
           viewList: new ViewList([
             {name: 'default',  view: new defaultTravelView()}, 
-            {name: 'add',  view: new addTravelView()}, 
-            {name: 'average',  view: new averageTravelView()}, 
+            {name: 'flights',  view: new flightsTravelView()}, 
             {name: 'length',  view: new lengthTravelView()}, 
             {name: 'miles',  view: new milesTravelView()}, 
             {name: 'fuel',  view: new fuelTravelView()}, 
             {name: 'list',  view: new listTravelView()}
           ]),
-          completed: false
+          completed: false,
+          estimationMethod: "miles",
+          useRFI: false,
+
+          numShortFlights: 0,
+          numMedEconFlights: 0,
+          numMedFirstClassFlights: 0,
+          numLongEconFlights: 0,
+          numLongEconPlusFlights: 0,
+          numLongBizClassFlights: 0,
+          numLongFirstClassFlights: 0
+          
         }),
         ////////////////////////////////////////////////////////
         new Category({
