@@ -1,6 +1,9 @@
 {
   "name": "TerraPass_Carbon_Calculator",
   "version": "0.0.0",
+  "engines": {
+    "node": "0.10.x"
+  },
   "devDependencies": {
     "gulp": "~3.6.2",
     "run-sequence": "~0.3.6",
