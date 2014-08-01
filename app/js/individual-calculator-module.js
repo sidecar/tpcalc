@@ -110,8 +110,16 @@ module.exports = App.module('individual', function(Calc) {
           numLongEconFlights: 0,
           numLongEconPlusFlights: 0,
           numLongBizClassFlights: 0,
-          numLongFirstClassFlights: 0
-          
+          numLongFirstClassFlights: 0,
+
+          milesShortFlights: 0,
+          milesMedEconFlights: 0,
+          milesMedFirstClassFlights: 0,
+          milesLongEconFlights: 0,
+          milesLongEconPlusFlights: 0,
+          milesLongBizClassFlights: 0,
+          milesLongFirstClassFlights: 0
+
         }),
         ////////////////////////////////////////////////////////
         new Category({
