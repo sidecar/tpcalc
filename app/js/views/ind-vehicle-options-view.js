@@ -213,7 +213,7 @@ module.exports = Marionette.Layout.extend({
         if(jsonResponse['vehicle']) {
           mpg = jsonResponse['vehicle']['comb08'][0];
         } else {
-          alert('Shit!');
+          alert('There was a problem. Please try again.');
         }
         attrs.mpg = mpg;
         self.vehicle.set(attrs);

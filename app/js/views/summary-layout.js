@@ -10,6 +10,9 @@ module.exports = Marionette.Layout.extend({
   events: {
     "click #buyBtn": "buyBtnClicked",
   },
+  modelEvents: {
+    "change:currentCategory": "render"
+  },
   regions: {
     graphsRegion: '[data-region=graphs]',
     emissionsRegion: '[data-region=emissions]',
@@ -17,18 +20,18 @@ module.exports = Marionette.Layout.extend({
   buyBtnClicked: function(event) {
     event.preventDefault();
     App.vent.trigger('buy', event);
-  }//,
-  // serializeData: function(){
-  //   var calculatorDisplayName = this.model.get('displayName')
-  //   , calculatorSlug = this.model.get('slug')
-  //   , categoryModel = this.model.get('currentCategory')
-  //   , categoryDisplayName = categoryModel.get('displayName')
-  //   , categorySlug = categoryModel.get('slug');
-  //   return {
-  //     calculatorDisplayName: calculatorDisplayName,
-  //     calculatorSlug: calculatorSlug,
-  //     categoryDisplayName: categoryDisplayName,
-  //     categorySlug: categorySlug
-  //   }
-  // }
+  },
+  serializeData: function(){
+    var calculatorDisplayName = this.model.get('displayName')
+    , calculatorSlug = this.model.get('slug')
+    , categoryModel = this.model.get('currentCategory')
+    , categoryDisplayName = categoryModel.get('displayName')
+    , categorySlug = categoryModel.get('slug');
+    return {
+      calculatorDisplayName: calculatorDisplayName,
+      calculatorSlug: calculatorSlug,
+      categoryDisplayName: categoryDisplayName,
+      categorySlug: categorySlug
+    }
+  }
 });

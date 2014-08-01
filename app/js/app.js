@@ -17,10 +17,9 @@ function isMobile() {
 App.mobile = isMobile();
 
 App.addInitializer(function(options) {
-  //var calcModules = require('./calculator-modules');
-  var individualCalModule = require('./individual-calculator-module');
-  var businessCalModule = require('./business-calculator-module');
-  var eventsCalModule = require('./events-calculator-module');
+  var individualCalcModule = require('./individual-calculator-module');
+  var businessCalcModule = require('./business-calculator-module');
+  var eventsCalcModule = require('./events-calculator-module');
   var ModuleManager = require('./utils/module-manager');
   var modManager = new ModuleManager();
   App.commands.setHandler('appModule:start', modManager.startAppModule, modManager);
@@ -33,9 +32,8 @@ App.addInitializer(function(options) {
   App.router = new Router({controller: App.controller});
 
   App.vent.on('startCalculator', function(calcName) {
-    App.router.navigate('#/d/'+calcName , {trigger: true});
-  });
-  
+    App.router.navigate('#/'+calcName , {trigger: true});
+  });  
 });
 
 App.addRegions({
@@ -47,6 +45,6 @@ App.on('start', function(options) {
   if (Backbone.history) {
     Backbone.history.start();
   }
-})
+});
 
 module.exports = App;

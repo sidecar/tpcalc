@@ -10,8 +10,6 @@ var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 
 var getData = function(url, res) {
 	client.get(url, function(parsedResponseData, rawResponseData){
-		//console.log('parsedResponseData');
-		//console.log(parsedResponseData);
 		res.send(parsedResponseData);
 	});
 }
@@ -44,14 +42,8 @@ app.get('/vehicle/mpg/:id', function(req, res) {
 app.get('/airport/:key', function(req, res) {
 	var url = 'http://www.terrapass.com/wp-content/themes/terrapass/flight/airports/airport_names.php?key='+req.params.key;
 	client.get(url, function(parsedResponseData, rawResponseData){
-		// console.log('parsedResponseData');
-		// console.log(parsedResponseData);
 		var xml = parsedResponseData;
 		var json = xml2json.parser( xml );
-		// console.log( 'json.xml' );
-		// console.log( json.xml );
-		// console.log( 'json' );
-		// console.log( json );
 		res.send(json.xml);
 	});	
 });
@@ -59,14 +51,6 @@ app.get('/airport/:key', function(req, res) {
 app.listen(server_port, server_ip_address, function () {
   console.log( "Listening on " + server_ip_address + ", server_port " + server_port )
 });
-
-// app.get('/vehicle/options/:year/:make/:model', function(req, res) {
-// 	getData('http://www.terrapass.com//wp-content/themes/terrapass/js/year_make.js', res);
-// });
-
-// app.get('/vehicle/options/:year/:make/:model', function(req, res) {
-// 	getData('http://www.terrapass.com/wp-content/themes/terrapass/road/models/car-model.php?year=2013&make=toyota', res);
-// });
 
 // app.get('/hello', function(req, res) {
 // 	var url = 'http://www.terrapass.com/wp-content/themes/terrapass/home/models/home-model.php?zip=94607';

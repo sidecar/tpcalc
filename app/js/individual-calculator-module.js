@@ -11,6 +11,7 @@ module.exports = App.module('individual', function(Calc) {
   Calc.startWithParent = false; // Calculator must be manually started
   
   Calc.addInitializer(function(catCodes){
+
     Calc.baseRoute = '#/individual';
 
     // Common models and collections
