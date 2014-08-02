@@ -30,6 +30,6 @@ module.exports = Marionette.ItemView.extend({
     }
     this.category.set(attrs);
     console.log(this.category.attributes);
-    App.vent.trigger('showInputView', 'list');
+    App.vent.trigger('goToNextCategory');
   }
 });

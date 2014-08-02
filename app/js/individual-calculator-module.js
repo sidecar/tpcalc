@@ -49,6 +49,9 @@ module.exports = App.module('individual', function(Calc) {
     var Vehicles = require('./models/vehicle-related-models').vehicles;
     var vehicles = new Vehicles();
 
+    var Flights = require('./models/air-travel-models').flights;
+    var flights = new Flights();
+
     Calc.model = new Calculator({
       displayName: 'Individual',
       slug: 'individual',
@@ -119,7 +122,9 @@ module.exports = App.module('individual', function(Calc) {
           milesLongEconFlights: 0,
           milesLongEconPlusFlights: 0,
           milesLongBizClassFlights: 0,
-          milesLongFirstClassFlights: 0
+          milesLongFirstClassFlights: 0,
+
+          flights: flights
 
         }),
         ////////////////////////////////////////////////////////

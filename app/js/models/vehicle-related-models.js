@@ -1,7 +1,6 @@
 'use strict';
 var _ = require('underscore')
 , Backbone = require('backbone')
-, validator = require('backbone-validator')
 , Qty = require('js-quantities')
 , utils = require('../utils/utility')
 , LocalStorage = require('backbone.Localstorage');

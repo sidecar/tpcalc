@@ -1,19 +1,17 @@
 <div class="view-question">Add your annual air travel fuel usage</div>
-		
-		<form name="ind_travel_flights_fuel_view">
-		
+				
 			<div class="form-element-container">
-				<label for="year">How many gallons of fuel did you use in a year?</label>
+				<label for="fuel_gallons" data-error-msg="How many gallons of fuel do you use in a year?" data-default-label="How many gallons of fuel do you use in a year?">How many gallons of fuel did you use in a year?</label>
 				<div class="form-element">
-					<input type="text" name="travel_fuel_quantity" class="form-control" />
+					<input type="text" name="fuel_gallons" class="form-control" />
 				</div>
-				<label for="year">What type of fuel do you use?</label>
+			</div>
+			<div>
+				<label for="fuel_type">What type of fuel do you use?</label>
 				<div class="form-element">
-					<select name="travel_fuel_type" class="form-control">
+					<select name="fuel_type" class="form-control">
 						<option value="jet_fuel">Jet Fuel</option>
 						<option value="Aviation Gasoline">Aviation Gasoline</option>
 					</select>
 				</div>
 			</div>
-
-		</form>

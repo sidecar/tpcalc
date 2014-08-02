@@ -29,6 +29,6 @@ module.exports = Marionette.ItemView.extend({
       numLongFirstClassFlights: $('[name="long_first_class"]').val()
     }
     this.category.set(attrs);
-    App.vent.trigger('showInputView', 'list');
+    App.vent.trigger('goToNextCategory');
   }
 });
