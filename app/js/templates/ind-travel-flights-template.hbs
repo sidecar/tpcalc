@@ -9,24 +9,24 @@
 					</select>
 				</div-->
 				<div class="form-element half float-left margin-bottom-20">
-					<input type="radio" name="one_way_round_trip" value="one_way" />One Way Trip
+					<input type="radio" name="round_trip" value="false" />One Way Trip
 				</div>
 				<div class="form-element half float-left margin-bottom-20">
-					<input type="radio" name="one_way_round_trip" value="round_trip" checked="checked" />Round Trip
+					<input type="radio" name="round_trip" value="true" checked="checked" />Round Trip
 				</div>
 			</div>
 
 			<div class="clear"></div>
 
 			<div class="form-element-container float-left half">
-				<label for="from">From:</label>
+				<label for="from" data-error-msg="Enter the code for the airport from which the flight originated" data-default-label="From:">From:</label>
 				<div class="form-element">
 					<input type="text" name="from" class="form-control" />
 				</div>
 			</div>
 
 			<div class="form-element-container float-right half">
-				<label for="to">To:</label>
+				<label for="to" data-error-msg="Enter the code of the destination airport" data-default-label="To:">To:</label>
 				<div class="form-element">
 					<input type="text" name="to" class="form-control" />
 				</div>

@@ -60,7 +60,8 @@
     "barf": "~1.0.3",
     "browsernizr": "~1.0.2",
     "backbone-validator": "~0.1.0",
-    "backbone-validation": "~0.9.1"
+    "backbone-validation": "~0.9.1",
+    "typeahead": "~0.1.0"
   },
   "scripts": {
     "start": "node server.js"

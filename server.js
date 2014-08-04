@@ -39,14 +39,19 @@ app.get('/vehicle/mpg/:id', function(req, res) {
 	getData('http://www.fueleconomy.gov/ws/rest/vehicle/'+req.params.id, res);
 });
 
+// app.get('/airport/:key', function(req, res) {
+// 	var url = 'http://www.terrapass.com/wp-content/themes/terrapass/flight/airports/airport_names.php?key='+req.params.key;
+// 	client.get(url, function(parsedResponseData, rawResponseData){
+// 		var xml = parsedResponseData;
+// 		var json = xml2json.parser( xml );
+// 		res.send(json.xml);
+// 	});	
+// });
+
 app.get('/airport/:key', function(req, res) {
-	var url = 'http://www.terrapass.com/wp-content/themes/terrapass/flight/airports/airport_names.php?key='+req.params.key;
-	client.get(url, function(parsedResponseData, rawResponseData){
-		var xml = parsedResponseData;
-		var json = xml2json.parser( xml );
-		res.send(json.xml);
-	});	
+	getData('http://airportcode.riobard.com/search?q='+req.params.key+'&fmt=JSON', res);
 });
+
 
 app.listen(server_port, server_ip_address, function () {
   console.log( "Listening on " + server_ip_address + ", server_port " + server_port )

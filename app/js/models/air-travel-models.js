@@ -5,7 +5,7 @@ var _ = require('underscore')
 
 var Flight = Backbone.Model.extend({
   defaults: {
-    oneWay: false,
+    roundTrip: true,
   }
 });
 
@@ -15,4 +15,4 @@ var Flights = Backbone.Collection.extend({
   model: Flight,
   localStorage: new LocalStorage("FlightssCollection")
 });
-module.exports.vehicles = Flights;
+module.exports.flights = Flights;
