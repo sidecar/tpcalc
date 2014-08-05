@@ -30,8 +30,14 @@ var Flight = Backbone.Model.extend({
             );
             var distance = (me.get('roundTrip') === 'true') ? 2*between : between;
             me.set({distance: distance});
-            console.log('flight model after setting distance prop');
-            console.log(me);
+
+            console.log('The distance traveled on a ');
+            console.log((me.get('roundTrip') === 'true') ? 'round-trip':'one-way');
+            console.log('flight from ');
+            console.log(me.get('from'));
+            console.log('to ');
+            console.log(me.get('to'));
+            console.log('is: '+me.get('distance')+' meters');
           } // end if
         }); // end utils.getJSON
       } // end if 

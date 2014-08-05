@@ -19,9 +19,6 @@ module.exports = Marionette.ItemView.extend({
     from: '[name="from"]'
   },
   onShow: function() {
-
-    console.log(icao['KOAK']);
-
     var self = this;
     self.utils = utils;
 
@@ -127,8 +124,6 @@ module.exports = Marionette.ItemView.extend({
     }
     if(this.flight.validate(attrs)) {
       this.flight.set(attrs);
-      console.log('this.flight just got set:');
-      console.log(this.flight);
       App.vent.trigger('showInputView', 'list');
     }
   }

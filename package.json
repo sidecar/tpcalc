@@ -63,7 +63,8 @@
     "backbone-validation": "~0.9.1",
     "typeahead": "~0.1.0",
     "icao": "~1.0.1",
-    "geo-distance": "~0.1.2"
+    "geo-distance": "~0.1.2",
+    "geo-distance-js": "0.0.2"
   },
   "scripts": {
     "start": "node server.js"
