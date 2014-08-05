@@ -52,6 +52,10 @@ app.get('/airport/:key', function(req, res) {
 	getData('http://airportcode.riobard.com/search?q='+req.params.key+'&fmt=JSON', res);
 });
 
+app.get('/airport/icao/:iataCode', function(req, res) {
+	getData('http://services.faa.gov/airport/status/'+req.params.iataCode+'?format=application/json', res);
+});
+
 
 app.listen(server_port, server_ip_address, function () {
   console.log( "Listening on " + server_ip_address + ", server_port " + server_port )
