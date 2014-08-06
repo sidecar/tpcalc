@@ -1,5 +1,6 @@
-// http://blog.pamelafox.org/2013/06/exporting-google-spreadsheet-as-json.html
-// https://gist.githubusercontent.com/pamelafox/1878143/raw/b82431c5b49d6da9699441ce0039f8aae1bed6f6/exportjson.js
+// data comes from http://openflights.org/data.html
+// imported into google spreadsheet and exported as JSON via http://blog.pamelafox.org/2013/06/exporting-google-spreadsheet-as-json.html
+// who created this gist https://gist.githubusercontent.com/pamelafox/1878143/raw/b82431c5b49d6da9699441ce0039f8aae1bed6f6/exportjson.js
 
 module.exports = [
     {

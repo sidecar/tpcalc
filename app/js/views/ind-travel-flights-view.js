@@ -57,19 +57,16 @@ module.exports = Marionette.ItemView.extend({
       return true;
     }  
 
-    var fromInput = this.ui.from.get(0);
-
-    //var panther = require('panther');
     var airports = require('../utils/airports');
 
     //modified from NPM module panther
-    function panther(callback, searchTerm, inputArray) {
+    function searchJSON(callback, searchTerm, inputArray) {
       var arrayOfMatches = [];
       for (var e in inputArray) {
         (function(i) {
           for (var y in inputArray[i]) {
             if(typeof inputArray[e][y] === 'string'){
-              var t = inputArray[e][y].toLowerCase().indexOf(searchTerm.toLowerCase());
+              var t = inputArray[e][y].toLowerCase().replace(/\s+/g, '').indexOf(searchTerm.toLowerCase().replace(/\s+/g, ''));
               if (t !== -1) {
                 arrayOfMatches.push(inputArray[e]);
               } else {
@@ -86,41 +83,29 @@ module.exports = Marionette.ItemView.extend({
       } 
     }
 
+    function typeAheadCallback(query, result) {
+      var that = self;
+      searchJSON(function(err, items) {
+        if (err) {
+          //console.log(err);
+        } else {
+          var resultsArray = _.map(items, function(obj) {
+            return obj.iata +' | '+ obj.name;
+          });
+          result(resultsArray);
+        }
+      }, query, airports);
+    }
 
+
+    var fromInput = this.ui.from.get(0);
     var taFrom = Typeahead(fromInput , {
-      source: function(query, result) {
-        var that = self;
-        panther(function(err, items) {
-          if (err) {
-            console.log(err);
-          } else {
-            //console.log(items); //items is an array of matching JSON objects
-            var resultsArray = _.map(items, function(obj) {
-              return obj.iata +' | '+ obj.name;
-            });
-            result(resultsArray);
-          }
-        }, query, airports);
-      }
+      source: function(query, result) { typeAheadCallback(query, result); }
     });
 
     var toInput = this.ui.to.get(0);
-    
     var taTo = Typeahead(toInput , {
-      source: function(query, result) {
-        var that = self;
-        panther(function(err, items) {
-          if (err) {
-            console.log(err);
-          } else {
-            //console.log(items); //items is an array of matching JSON objects
-            var resultsArray = _.map(items, function(obj) {
-              return obj.iata +' | '+ obj.name;
-            });
-            result(resultsArray);
-          }
-        }, query, airports);
-      }
+      source: function(query, result) { typeAheadCallback(query, result); }
     });
 
   },
