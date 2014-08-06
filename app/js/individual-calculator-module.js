@@ -102,7 +102,7 @@ module.exports = App.module('individual', function(Calc) {
             {name: 'length',  view: new lengthTravelView()}, 
             {name: 'miles',  view: new milesTravelView()}, 
             {name: 'fuel',  view: new fuelTravelView()}, 
-            {name: 'list',  view: new listTravelView()}
+            {name: 'list',  view: new listTravelView({collection: flights})}
           ]),
           completed: false,
           estimationMethod: "miles",

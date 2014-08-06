@@ -1,15 +1,41 @@
 'use strict';
 var $ = require('jquery')
+, _ = require('underscore')
 , Marionette = require('backbone.marionette')
 , Databinding = require('backbone.databinding')
 , App = require('../app');
 
 var listTemplate = require('../templates/ind-travel-list-template.hbs');
 
-module.exports = Marionette.ItemView.extend({
-  template: listTemplate,
-  events: {
+var itemView = require('./flight-list-item-view');
 
+var utils = require('../utils/utility');
+
+module.exports = Marionette.CompositeView.extend({
+  template: listTemplate,
+  itemView: itemView,
+  itemViewContainer: 'ul.flight-list',
+  events: {
+    'click #add-flight': 'addFlightClicked',
+    'click .delete': 'deleteClicked'
+  },
+  onShow: function() {
+    var currentFlight = this.category.get('currentFlight');
+
+    this.collection.add(currentFlight);
+    // in order to get the newly added vehicle rendered call...
+    this.render();
+  },
+  deleteClicked: function(event) {
+    this.collection.remove( this.collection.get($(event.target).data('cid')) );
+    this.render();
+  },
+  addFlightClicked: function(event) {
+    event.preventDefault();
+    var Flight = require('../models/air-travel-models').flight;
+    this.category.set({currentFlight: new Flight()});
+    this.category.setCurrentInputView('default');
+    App.vent.trigger('showInputView', 'flights');
   },
   getNextInputView: function() {
     App.vent.trigger('goToNextCategory');

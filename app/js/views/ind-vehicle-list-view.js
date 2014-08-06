@@ -3,8 +3,7 @@ var $ = require('jquery')
 , _ = require('underscore')
 , Marionette = require('backbone.marionette')
 , Databinding = require('backbone.databinding')
-, App = require('../app')
-, emissions = require('../utils/ind-vehicle-emissions');
+, App = require('../app');
 
 var listTemplate = require('../templates/ind-vehicle-list-template.hbs');
 
@@ -47,7 +46,7 @@ module.exports = Marionette.CompositeView.extend({
   addVehicleClicked: function(event) {
     event.preventDefault();
     var whichView = this.ui.vehicleSelect.val();
-    var Vehicle = require('../models/vehicle-related-models').vehicle
+    var Vehicle = require('../models/vehicle-related-models').vehicle;
     this.category.set({currentVehicle: new Vehicle({vehicleType: whichView})});
     this.category.setCurrentInputView('default');
     App.vent.trigger('showInputView', whichView);

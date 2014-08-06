@@ -7,48 +7,87 @@ var Flight = Backbone.Model.extend({
   defaults: {
     roundTrip: true,
   },
-  initialize: function() {
-    this.on("change", this.calculateDistance, this)
-  },
   calculateDistance: function(event) {
-    var self = this;
-    var fromIata = this.get('from').slice(0,4);
-    var utils = require('../utils/utility');
-    utils.getJSON('/airport/icao/'+fromIata , function(response) {
-      if(typeof response !== 'string') {
-        var fromICAO = response.ICAO;
-        var me = self;
-        var toIata = self.get('to').slice(0,4);
-        utils.getJSON('/airport/icao/'+toIata , function(response) {
-          if(typeof response !== 'string') {
-            var toICAO =  response.ICAO;
-            var icao = require('icao')
-            var getGeoDistance = require('../utils/geodist');
-            var between = getGeoDistance(
-              {lon: icao[fromICAO][1], lat: icao[fromICAO][0]},
-              {lon: icao[toICAO][1], lat: icao[toICAO][0]}
-            );
-            var distance = (me.get('roundTrip') === 'true') ? 2*between : between;
-            me.set({distance: distance});
+    var fromIATA = this.get('from').slice(0,3);
+    var toIATA = this.get('to').slice(0,3);
+    var airports = require('../utils/airports');
+    var fromAirport = _.findWhere(airports, {iata: fromIATA});
+    var toAirport = _.findWhere(airports, {iata: toIATA});
+    var getGeoDistance = require('geodist');
+    var between = getGeoDistance(
+      {lon: fromAirport.longitude, lat: fromAirport.latitude},
+      {lon: toAirport.longitude, lat: toAirport.latitude},
+      {unit: 'mi'}
+    );
+    var multiplier = (this.get('roundTrip') === 'true') ? 2 : 1; 
+    var distance = between*multiplier;
 
-            console.log('The distance traveled on a ');
-            console.log((me.get('roundTrip') === 'true') ? 'round-trip':'one-way');
-            console.log('flight from ');
-            console.log(me.get('from'));
-            console.log('to ');
-            console.log(me.get('to'));
-            console.log('is: '+me.get('distance')+' meters');
-          } // end if
-        }); // end utils.getJSON
-      } // end if 
-    }); // end utils .getJSON
-  } // end caculateDistance
+    this.set({fromIATA: fromIATA});
+    this.set({toIATA: toIATA});
+    this.set({distance: distance});
+
+    console.log('The distance traveled on a ');
+    console.log((this.get('roundTrip') === 'true') ? 'round-trip':'one-way');
+    console.log('flight from ');
+    console.log(this.get('from'));
+    console.log('to ');
+    console.log(this.get('to'));
+    console.log('is: '+this.get('distance')+' miles');
+    console.log('');
+
+  }, // end caculateDistance
+  toJSON: function() {
+    var json = Backbone.Model.prototype.toJSON.apply(this, arguments);
+    json.cid = this.cid;
+    return json;
+  }
 }); // end Flight
 
 module.exports.flight = Flight;
 
 var Flights = Backbone.Collection.extend({
   model: Flight,
-  localStorage: new LocalStorage("FlightssCollection")
+  localStorage: new LocalStorage("FlightsCollection")
 });
 module.exports.flights = Flights;
+
+    // var utils = require('../utils/utility');
+    // console.log('fromIATA');
+    // console.log(fromIATA);
+    // utils.getJSON('/airport/icao/'+fromIATA , function(response) {
+    //   if(typeof response !== 'string') {
+    //     var fromICAO = response.ICAO;
+    //     console.log('fromICAO');
+    //     console.log(fromICAO);
+    //     var me = self;
+    //     var toIATA = self.get('to').slice(0,4);
+    //     console.log('toIATA');
+    //     console.log(toIATA);        
+    //     me.set({toIATA: toIATA});
+    //     utils.getJSON('/airport/icao/'+toIATA , function(response) {
+    //       if(typeof response !== 'string') {
+    //         var toICAO =  response.ICAO;
+    //         console.log('toICAO');
+    //         console.log(toICAO);
+    //         var icao = require('icao')
+    //         var getGeoDistance = require('geodist');
+    //         var between = getGeoDistance(
+    //           {lon: icao[fromICAO][1], lat: icao[fromICAO][0]},
+    //           {lon: icao[toICAO][1], lat: icao[toICAO][0]},
+    //           {unit: 'mi'}
+    //         );
+    //         var multiplier = (me.get('roundTrip') === 'true') ? 2 : 1; 
+    //         var distance = between*multiplier;
+    //         me.set({distance: distance});
+    //         console.log('The distance traveled on a ');
+    //         console.log((me.get('roundTrip') === 'true') ? 'round-trip':'one-way');
+    //         console.log('flight from ');
+    //         console.log(me.get('from'));
+    //         console.log('to ');
+    //         console.log(me.get('to'));
+    //         console.log('is: '+me.get('distance')+' miles');
+    //         console.log('');
+    //       } // end if
+    //     }); // end utils.getJSON
+    //   } // end if 
+    // }); // end utils .getJSON
