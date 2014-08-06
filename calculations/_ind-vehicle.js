@@ -429,7 +429,7 @@ var vehicle = {
 
 	},
 
-	totalEmissions : function(fuel) {
+	totalEmissions : function(fuel) { // test git
 		var CO2e;
 		var vehicleClass 	= ( !(this.vehicleClass != undefined  && this.vehicleClass != '' ) ) ? "car" : this.vehicleClass;
 		var fuel 			= ( typeof(fuel) != undefined ) ? fuel : '';
