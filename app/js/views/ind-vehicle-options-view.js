@@ -3,8 +3,7 @@ var $ = require('jquery')
 , _ = require('underscore')
 , Marionette = require('backbone.marionette')
 , Databinding = require('backbone.databinding')
-, App = require('../app')
-, emissions = require('../utils/ind-vehicle-emissions');
+, App = require('../app');
 
 var optionsTemplate = require('../templates/ind-vehicle-options-template.hbs');
 
@@ -35,7 +34,6 @@ module.exports = Marionette.Layout.extend({
     this.vehicle = this.category.get('currentVehicle');
 
     this.vehicle.validate = function(attrs, options) {
-      console.log(attrs);
       if(!attrs.description || attrs.description == '') {
         self.displayError(self.ui.descriptionSelect);
         return false;
@@ -213,7 +211,7 @@ module.exports = Marionette.Layout.extend({
         if(jsonResponse['vehicle']) {
           mpg = jsonResponse['vehicle']['comb08'][0];
         } else {
-          alert('There was a problem. Please try again.');
+          //alert('There was a problem. Please try again.');
         }
         attrs.mpg = mpg;
         self.vehicle.set(attrs);

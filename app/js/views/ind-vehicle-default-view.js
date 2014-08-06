@@ -15,7 +15,7 @@ module.exports = Marionette.ItemView.extend({
     this.vehicle = this.category.get('currentVehicle');
     var vehicleType = (this.vehicle) ? this.vehicle.get('vehicleType') : undefined;
     if(typeof(vehicleType) == 'undefined' || vehicleType == null || vehicleType == '') {
-      var Vehicle = require('../models/vehicle-related-models').vehicle
+      var Vehicle = require('../models/vehicle-models').vehicle
       this.category.set({currentVehicle: new Vehicle()});
       this.vehicle = this.category.get('currentVehicle');
     } else {

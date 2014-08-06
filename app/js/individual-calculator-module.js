@@ -46,7 +46,7 @@ module.exports = App.module('individual', function(Calc) {
     var indThankYouView = require('./views/ind-thankyou-view');
 
     // Specific models and collections
-    var Vehicles = require('./models/vehicle-related-models').vehicles;
+    var Vehicles = require('./models/vehicle-models').vehicles;
     var vehicles = new Vehicles();
 
     var Flights = require('./models/air-travel-models').flights;
@@ -89,7 +89,7 @@ module.exports = App.module('individual', function(Calc) {
           taxiMileage: 0,
           taxiInterval: 'week',
           ferryMileage: 0,
-          ferryInterval: 'week',
+          ferryInterval: 'week'
           // end of defaults
         }),
         ////////////////////////////////////////////////////////
@@ -107,7 +107,7 @@ module.exports = App.module('individual', function(Calc) {
           completed: false,
           estimationMethod: "miles",
           useRFI: false,
-
+          //
           numShortFlights: 0,
           numMedEconFlights: 0,
           numMedFirstClassFlights: 0,
@@ -115,7 +115,7 @@ module.exports = App.module('individual', function(Calc) {
           numLongEconPlusFlights: 0,
           numLongBizClassFlights: 0,
           numLongFirstClassFlights: 0,
-
+          //
           milesShortFlights: 0,
           milesMedEconFlights: 0,
           milesMedFirstClassFlights: 0,
@@ -123,9 +123,8 @@ module.exports = App.module('individual', function(Calc) {
           milesLongEconPlusFlights: 0,
           milesLongBizClassFlights: 0,
           milesLongFirstClassFlights: 0,
-
+          //
           flights: flights
-
         }),
         ////////////////////////////////////////////////////////
         new Category({
@@ -154,7 +153,7 @@ module.exports = App.module('individual', function(Calc) {
           gasolineInterval: 'month',
           dieselAmount: 0,
           dieselUnit: 'dollars',
-          dieselInterval: 'month',
+          dieselInterval: 'month'
           // end of defaults
         })
       ]), //end categories

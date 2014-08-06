@@ -171,7 +171,28 @@ module.exports = Marionette.Layout.extend({
       self.bindUIElements(); //re-implement the ui hash
     });
   },
+  displaySuccess: function($elem) {
+    $elem.parent()
+      .prev('label')
+      .html(function() {
+          return $(this).data('default-label');
+        })
+      .parent('div')
+      .addClass('has-success')
+      .removeClass('has-error');
+  },
+  displayError: function($elem) {
+    $elem.parent()
+      .prev('label')
+      .html(function() {
+          return $(this).data('error-msg');
+        })
+      .parent('div')
+      .addClass('has-error')
+      .removeClass('has-success');
+  },
   getNextInputView: function() {
+
     var year = this.vehicle.get('year')
     , make = this.vehicle.get('make')
     , modelOfCar = this.vehicle.get('model')

@@ -3,7 +3,6 @@
 var $ = require('jquery')
 , Backbone = require('backbone')
 , Marionette = require('backbone.marionette')
-, customMethods = require('./utils/custom-backbone-methods');
 // Have to assign the $ symbol in Marionette and Backbone to jquery
 Marionette.$ = Backbone.$ = $;
 

@@ -36,6 +36,7 @@ module.exports = Marionette.CompositeView.extend({
         break;
     }
     this.collection.add(currentVehicle);
+    this.category.set({totalEmissions: this.collection.getTotalEmissions()});
     // in order to get the newly added vehicle rendered call...
     this.render();
   },
@@ -46,7 +47,7 @@ module.exports = Marionette.CompositeView.extend({
   addVehicleClicked: function(event) {
     event.preventDefault();
     var whichView = this.ui.vehicleSelect.val();
-    var Vehicle = require('../models/vehicle-related-models').vehicle;
+    var Vehicle = require('../models/vehicle-models').vehicle;
     this.category.set({currentVehicle: new Vehicle({vehicleType: whichView})});
     this.category.setCurrentInputView('default');
     App.vent.trigger('showInputView', whichView);
