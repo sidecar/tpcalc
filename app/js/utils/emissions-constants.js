@@ -279,7 +279,7 @@ module.exports = {
 
 		ferry : {	// Large RoPax Ferry 				
 					// Units: kg/Passenger Kilometer
-					kgCO2perPassMi : 	0.11516/this.miletokm,
+					kgCO2perPassMi : 	0.11516/0.621371, // /miletokm
 					gCH4perPassMi : 	0,
 					gN2OperPassMi : 	0
 		},

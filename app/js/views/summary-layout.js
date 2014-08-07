@@ -30,7 +30,6 @@ module.exports = Marionette.Layout.extend({
 
     this.graphsRegion.show(graphView); 
     this.emissionsRegion.show(emissionsView); 
-
   },
   regions: {
     graphsRegion: '[data-region=graphs]',

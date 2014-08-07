@@ -38,7 +38,8 @@ module.exports = Marionette.CompositeView.extend({
     }
     this.collection.add(currentVehicle);
     var totalEmissions = this.collection.getTotalEmissions();
-    this.category.set({totalEmissions: numeral(totalEmissions).format('0,0')});
+    this.category.set({totalEmissions: totalEmissions});
+    // this.category.set({totalEmissions: numeral(totalEmissions).format('0,0')});
     // in order to get the newly added vehicle rendered call...
     this.render();
   },

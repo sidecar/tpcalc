@@ -30,25 +30,68 @@ module.exports= Marionette.ItemView.extend({
 		this.modelBinder.watch('value: dieselInterval', {selector: '[name="diesel_interval"]'});
   },
   getNextInputView: function() {
+    var home = require('../utils/ind-home-emissions'),
+    totalEmissions = 0,
+    electricityAmount = $('[name="electricity_amount"]').val(),
+    electricityUnit = $('[name="electricity_unit"]').val(),
+    electricityInterval = $('[name="electricity_interval"]').val(),
+    naturalGasAmount = $('[name="natural_gas_amount"]').val(),
+    naturalGasUnit = $('[name="natural_gas_unit"]').val(),
+    naturalGasInterval = $('[name="natural_gas_interval"]').val(),
+    heatingOilAmount = $('[name="heating_oil_amount"]').val(),
+    heatingOilUnit = $('[name="heating_oil_unit"]').val(),
+    heatingOilInterval = $('[name="heating_oil_interval"]').val(),
+    propaneAmount = $('[name="propane_amount"]').val(),
+    propaneUnit = $('[name="propane_unit"]').val(),
+    propaneInterval = $('[name="propane_interval"]').val(),
+    gasolineAmount = $('[name="gasoline_amount"]').val(),
+    gasolineUnit = $('[name="gasoline_unit"]').val(),
+    gasolineInterval = $('[name="gasoline_interval"]').val(),
+    dieselAmount = $('[name="diesel_amount"]').val(),
+    dieselUnit = $('[name="diesel_unit"]').val(),
+    dieselInterval = $('[name="diesel_interval"]').val();
+
+    home.zipCode = this.category.get('zip');
+    home.fuel.electricity.amount = electricityAmount;
+    home.fuel.electricity.method = electricityUnit;
+    home.fuel.electricity.interval = electricityInterval;
+    home.fuel.naturalGas.amount = naturalGasAmount;
+    home.fuel.naturalGas.method = naturalGasUnit;
+    home.fuel.naturalGas.interval = naturalGasInterval;
+    home.fuel.heatingOil.amount = heatingOilAmount;
+    home.fuel.heatingOil.method = heatingOilUnit;
+    home.fuel.heatingOil.interval = heatingOilInterval;
+    home.fuel.propane.amount = propaneAmount;
+    home.fuel.propane.method = propaneUnit;
+    home.fuel.propane.interval = propaneInterval;
+    home.fuel.gasoline.amount = gasolineAmount;
+    home.fuel.gasoline.method = gasolineUnit;
+    home.fuel.gasoline.interval = gasolineInterval;
+    home.fuel.diesel.amount = dieselAmount;
+    home.fuel.diesel.method = dieselUnit;
+    home.fuel.diesel.interval = dieselInterval;
+
+    console.log('home.totalEmissions',home.totalEmissions());
+
     var attrs = {
-      electricityAmount: $('[name="electricity_amount"]').val(),
-			electricityUnit: $('[name="electricity_unit"]').val(),
-			electricityInterval: $('[name="electricity_interval"]').val(),
-			naturalGasAmount: $('[name="natural_gas_amount"]').val(),
-			naturalGasUnit: $('[name="natural_gas_unit"]').val(),
-			naturalGasInterval: $('[name="natural_gas_interval"]').val(),
-			heatingOilAmount: $('[name="heating_oil_amount"]').val(),
-			heatingOilUnit: $('[name="heating_oil_unit"]').val(),
-			heatingOilInterval: $('[name="heating_oil_interval"]').val(),
-			propaneAmount: $('[name="propane_amount"]').val(),
-			propaneUnit: $('[name="propane_unit"]').val(),
-			propaneInterval: $('[name="propane_interval"]').val(),
-			gasolineAmount: $('[name="gasoline_amount"]').val(),
-			gasolineUnit: $('[name="gasoline_unit"]').val(),
-			gasolineInterval: $('[name="gasoline_interval"]').val(),
-			dieselAmount: $('[name="diesel_amount"]').val(),
-			dieselUnit: $('[name="diesel_unit"]').val(),
-			dieselInterval: $('[name="diesel_interval"]').val()
+      electricityAmount: electricityAmount,
+			electricityUnit: electricityUnit,
+			electricityInterval: electricityInterval,
+			naturalGasAmount: naturalGasAmount,
+			naturalGasUnit: naturalGasUnit,
+			naturalGasInterval: naturalGasInterval,
+			heatingOilAmount: heatingOilAmount,
+			heatingOilUnit: heatingOilUnit,
+			heatingOilInterval: heatingOilInterval,
+			propaneAmount: propaneAmount,
+			propaneUnit: propaneUnit,
+			propaneInterval: propaneInterval,
+			gasolineAmount: gasolineAmount,
+			gasolineUnit: gasolineUnit,
+			gasolineInterval: gasolineInterval,
+			dieselAmount: dieselAmount,
+			dieselUnit: dieselUnit,
+			dieselInterval: dieselInterval
     }
     this.category.set(attrs);
     App.vent.trigger('goToNextCategory');

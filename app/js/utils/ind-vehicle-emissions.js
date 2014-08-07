@@ -521,6 +521,8 @@ var vehicle = {
 
 };
 
+module.exports = vehicle;
+
 // console.log('\nVEHICLE');
 // console.log('\nCar');
 // console.log('vehicle.gasolineFactors.gCH4permile()',vehicle.gasolineFactors.gCH4permile());
@@ -560,5 +562,3 @@ var vehicle = {
 // vehicle.year = 1980;
 // console.log('\nOld Truck');
 // console.log('vehicle.totalEmissions(diesel)',vehicle.totalEmissions('diesel'));
-
-module.exports = vehicle;
