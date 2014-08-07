@@ -6,10 +6,9 @@ var _ = require('underscore')
 
 var Vehicle = Backbone.Model.extend({
 	defaults: {
-		totalEmissions: 100,
+		totalEmissions: 0,
 		mpg: 23.5,
-		fuelType: 'gasoline',
-		zip: '00000-0000'
+		fuelType: 'gasoline'
 	},
 	toJSON: function() {
 	  var json = Backbone.Model.prototype.toJSON.apply(this, arguments);
@@ -35,21 +34,18 @@ var Vehicle = Backbone.Model.extend({
 				vehicle.year = this.get('year');
 			break;
 			case 'ecar':
-				vehicle.ecar.zipCode = this.get('zip');
-				vehicle.ecar.annMiles = this.get('mileage');
+				if(this.get('zip')){
+					vehicle.ecar.zipCode = this.get('zip');
+					vehicle.ecar.annMiles = this.get('mileage');
+				}
 			break;
 			case 'boat':
 				vehicle.boat.annGallons = this.get('fuelQty');
 				vehicle.boat.fuel = this.get('fuelType');
 			break;
 		}
-		console.log('vehicleType', this.get('vehicleType'));
-		console.log('mpg', this.get('mpg'));
-		var total = vehicle.totalEmissions(this.get('fuelType'));
-		
-		this.set({totalEmissions: total});
-
-		console.log('> total emissions:', total)
+		var totalEmissions = vehicle.totalEmissions(this.get('fuelType'));
+		this.set({totalEmissions: totalEmissions});
 	},
 	getTotalEmissions: function() {
 		return this.get('totalEmissions');

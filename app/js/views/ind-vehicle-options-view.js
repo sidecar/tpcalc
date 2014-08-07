@@ -210,12 +210,12 @@ module.exports = Marionette.Layout.extend({
       utils.getJSON('/vehicle/mpg/'+this.ui.descriptionSelect.val(), function(jsonResponse) {
         if(jsonResponse['vehicle']) {
           mpg = jsonResponse['vehicle']['comb08'][0];
+          attrs.mpg = parseInt(mpg);
+          self.vehicle.set(attrs);
+          App.vent.trigger('showInputView', 'list');
         } else {
           //alert('There was a problem. Please try again.');
         }
-        attrs.mpg = mpg;
-        self.vehicle.set(attrs);
-        App.vent.trigger('showInputView', 'list');
       });
     }
 

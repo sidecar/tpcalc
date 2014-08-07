@@ -37,13 +37,10 @@ module.exports = Marionette.CompositeView.extend({
         break;
     }
     this.collection.add(currentVehicle);
-    this.category.set({totalEmissions: numeral(this.collection.getTotalEmissions()).format('0,0.00')});
+    var totalEmissions = this.collection.getTotalEmissions();
+    this.category.set({totalEmissions: numeral(totalEmissions).format('0,0.00')});
     // in order to get the newly added vehicle rendered call...
     this.render();
-    // console.log('does this thing have access to the calc');
-    // console.log(this);
-    // console.log('category changing | tirggering calc model change event');
-    // Calc.model.trigger('change');
   },
   deleteClicked: function(event) {
     this.collection.remove( this.collection.get($(event.target).data('cid')) );
