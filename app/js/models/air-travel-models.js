@@ -1,7 +1,6 @@
 'use strict';
 var _ = require('underscore')
-, Backbone = require('backbone')
-, LocalStorage = require('backbone.Localstorage')
+, Backbone = require('backbone');
 
 var Flight = Backbone.Model.extend({
   defaults: {
@@ -25,16 +24,14 @@ var Flight = Backbone.Model.extend({
     this.set({fromIATA: fromIATA});
     this.set({toIATA: toIATA});
     this.set({distance: distance});
-
-    console.log('The distance traveled on a ');
-    console.log((this.get('roundTrip') === 'true') ? 'round-trip':'one-way');
-    console.log('flight from ');
-    console.log(this.get('from'));
-    console.log('to ');
-    console.log(this.get('to'));
-    console.log('is: '+this.get('distance')+' miles');
-    console.log('');
-
+    // console.log('The distance traveled on a ');
+    // console.log((this.get('roundTrip') === 'true') ? 'round-trip':'one-way');
+    // console.log('flight from ');
+    // console.log(this.get('from'));
+    // console.log('to ');
+    // console.log(this.get('to'));
+    // console.log('is: '+this.get('distance')+' miles');
+    // console.log('');
   }, // end caculateDistance
   toJSON: function() {
     var json = Backbone.Model.prototype.toJSON.apply(this, arguments);
@@ -47,7 +44,21 @@ module.exports.flight = Flight;
 
 var Flights = Backbone.Collection.extend({
   model: Flight,
-  localStorage: new LocalStorage("FlightsCollection")
+  totalEmissions: 0,
+    initialize: function() {
+        this.bind('add', this.calculateTotalDistance, this);
+        this.bind('remove', this.calculateTotalDistance, this);
+    },
+    calculateTotalDistance: function() {
+        var distance = 0;
+        this.models.forEach(function(item){
+            distance += item.get('distance'); 
+        });
+        this.distance = distance;
+    },
+    getTotalDistance: function() {
+        return this.distance;
+    }
 });
 module.exports.flights = Flights;
 

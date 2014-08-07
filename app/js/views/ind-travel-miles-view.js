@@ -9,7 +9,6 @@ var milesTemplate = require('../templates/ind-travel-miles-template.hbs');
 module.exports = Marionette.ItemView.extend({
   template: milesTemplate,
   onShow: function() {
-
     this.modelBinder = new Databinding.ModelBinder(this, this.category);
     this.modelBinder.watch('value: milesShortFlights', {selector: '[name="short"]'});
     this.modelBinder.watch('value: milesMedEconFlights', {selector: '[name="med_econ"]'});
@@ -20,7 +19,6 @@ module.exports = Marionette.ItemView.extend({
     this.modelBinder.watch('value: milesLongFirstClassFlights', {selector: '[name="long_first_class"]'});
   },
   getNextInputView: function() {
-
     var air = require('../utils/ind-air-emissions'),
     totalEmissions = 0,
     milesShortFlights = $('[name="short"]').val(),

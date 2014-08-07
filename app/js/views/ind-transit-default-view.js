@@ -21,7 +21,6 @@ module.exports = Marionette.ItemView.extend({
     this.modelBinder.watch('value: ferryInterval', {selector: '[name="ferry_interval"]'});
   },
   getNextInputView: function() {
-
     var transit = require('../utils/ind-transit-emissions'),
     totalEmissions = 0,
     trainMileage = parseInt($('[name="train_mileage"]').val()),
@@ -45,7 +44,7 @@ module.exports = Marionette.ItemView.extend({
     totalEmissions += transit.totalEmissions('bus');
     totalEmissions += transit.totalEmissions('taxi');
     totalEmissions += transit.totalEmissions('ferry');
-    //totalEmissions = numeral(totalEmissions).format('0,0');
+
     var attrs = {
       trainMileage: trainMileage,
       trainInterval: trainInterval,

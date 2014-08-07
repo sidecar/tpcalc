@@ -54,9 +54,21 @@ module.exports = Marionette.ItemView.extend({
       .removeClass('has-success');
   },
   getNextInputView: function() {
+    var air = require('../utils/ind-air-emissions'),
+    totalEmissions = 0,
+    fuelType = this.ui.fuelTypeSelect.val(),
+    fuelGallons = this.ui.fuelGallonsInput.val();
+
+    air.setCalculateBy('fuel');
+    air.fuel[fuelType] = fuelGallons;
+
+    totalEmissions += air.totalEmissions('jetFuel');
+    totalEmissions += air.totalEmissions('aviationGas');
+
     var attrs = {
-      fuelGallons: this.ui.fuelGallonsInput.val(),
-      fuelType: this.ui.fuelTypeSelect.val()
+      fuelGallons: fuelGallons,
+      fuelType: fuelType,
+      totalEmissions: totalEmissions
     }
     this.category.validate(attrs);
     if(this.category.validate(attrs)) {

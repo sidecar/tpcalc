@@ -20,11 +20,14 @@ module.exports = Marionette.CompositeView.extend({
     'click .delete': 'deleteClicked'
   },
   onShow: function() {
-    console.log('ind-travel-list-view');
-    console.log(this);
     var currentFlight = this.category.get('currentFlight');
-
     this.collection.add(currentFlight);
+    var totalDistance = this.collection.getTotalDistance();
+    var air = require('../utils/ind-air-emissions');
+    air.setCalculateBy('itinerary');
+    air.itinerary.annMiles = totalDistance;
+    var totalEmissions = air.totalEmissions('itinerary');
+    this.category.set({totalEmissions: totalEmissions});
     // in order to get the newly added vehicle rendered call...
     this.render();
   },
