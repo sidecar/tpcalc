@@ -45,12 +45,14 @@ module.exports = Marionette.Layout.extend({
     , calculatorSlug = this.model.get('slug')
     , categoryModel = this.model.get('currentCategory')
     , categoryDisplayName = categoryModel.get('displayName')
-    , categorySlug = categoryModel.get('slug');
+    , categorySlug = categoryModel.get('slug')
+    , totalEmissions = this.model.get('totalEmissions');
     return {
       calculatorDisplayName: calculatorDisplayName,
       calculatorSlug: calculatorSlug,
       categoryDisplayName: categoryDisplayName,
-      categorySlug: categorySlug
+      categorySlug: categorySlug,
+      totalEmissions: totalEmissions
     }
   }
 });

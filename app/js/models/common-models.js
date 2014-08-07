@@ -75,7 +75,7 @@ var Calculator = Backbone.Model.extend({
     categories.forEach(function(item){
       totalEmissions += item.getTotalEmissions(); 
     });
-    this.set({totalEmissions: numeral(totalEmissions).format('0,0.00')});
+    this.set({totalEmissions: numeral(totalEmissions).format('0,0')});
   },
   getTotalEmissions: function() {
     return this.totalEmissions;
