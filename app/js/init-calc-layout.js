@@ -36,20 +36,20 @@ module.exports = function(Calc) {
 
   // Set up the summary layout
   var summaryLayout = Calc.summaryLayout = new SummaryLayout({model: calcModel});
-
-  var graphView = Calc.graphView = new GraphView({
-    model: calcModel,
-    collection: Calc.categories 
-  });
-
-  var emissionsView = Calc.emissionsView = new EmissionsView({
-    model: calcModel,
-    collection: Calc.categories 
-  });
-
   mainLayout.summaryRegion.show(summaryLayout);
-  summaryLayout.graphsRegion.show(graphView); 
-  summaryLayout.emissionsRegion.show(emissionsView); 
+
+  // var graphView = Calc.graphView = new GraphView({
+  //   model: calcModel,
+  //   collection: calcModel.get('categories')
+  // });
+
+  // var emissionsView = Calc.emissionsView = new EmissionsView({
+  //   model: calcModel,
+  //   collection: calcModel.get('categories') 
+  // });
+
+  // summaryLayout.graphsRegion.show(graphView); 
+  // summaryLayout.emissionsRegion.show(emissionsView); 
 
 };
 

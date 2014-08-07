@@ -6,7 +6,10 @@ var _ = require('underscore')
 
 var Vehicle = Backbone.Model.extend({
 	defaults: {
-		totalEmissions: 100
+		totalEmissions: 100,
+		mpg: 23.5,
+		fuelType: 'gasoline',
+		zip: '00000-0000'
 	},
 	toJSON: function() {
 	  var json = Backbone.Model.prototype.toJSON.apply(this, arguments);
@@ -40,10 +43,12 @@ var Vehicle = Backbone.Model.extend({
 				vehicle.boat.fuel = this.get('fuelType');
 			break;
 		}
-
+		console.log('vehicleType', this.get('vehicleType'));
+		console.log('mpg', this.get('mpg'));
 		var total = vehicle.totalEmissions(this.get('fuelType'));
-		this.set({totalEmissions: total});
 		
+		this.set({totalEmissions: total});
+
 		console.log('> total emissions:', total)
 	},
 	getTotalEmissions: function() {

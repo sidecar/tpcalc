@@ -20,6 +20,8 @@ module.exports = Marionette.CompositeView.extend({
     'click .delete': 'deleteClicked'
   },
   onShow: function() {
+    console.log('ind-travel-list-view');
+    console.log(this);
     var currentFlight = this.category.get('currentFlight');
 
     this.collection.add(currentFlight);

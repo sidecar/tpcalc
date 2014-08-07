@@ -1,7 +1,8 @@
 'use strict';
 var _ = require('underscore')
 , Backbone = require('backbone')
-, LocalStorage = require("backbone.localstorage");
+, LocalStorage = require("backbone.localstorage")
+, numeral = require('numeral');
 
 var Calculator = Backbone.Model.extend({ 
   fetch: function() {
@@ -18,6 +19,9 @@ var Calculator = Backbone.Model.extend({
       LocalStorage.removeItem(this.id);
   }, 
   initialize: function() {
+
+    this.on('change', this.calculateEmissions, this);
+
     //this.set({categories: new Categories([vehicleCategory,transitCategory,travelCategory,homeCategory])});
     this.set({currentCategory: this.get('categories').first()});
     var catCodes = this.get('catCodes');
@@ -60,13 +64,34 @@ var Calculator = Backbone.Model.extend({
     , views = currentCategory.get('viewList')
     , view = views.findWhere({name: slug});
     return view;
+  },
+
+  defaults: {
+    totalEmissions: 0
+  },
+  calculateEmissions: function() {
+    var categories = this.get('categories');
+    var total = 0;
+    categories.forEach(function(item){
+      total += item.getTotalEmissions(); 
+    });
+    
+    this.set({totalEmissions: numeral(total).format('0,0.00')});
+  },
+  getTotalEmissions: function() {
+    return this.totalEmissions;
   }
+
 });
 module.exports.calculator = Calculator;  
 
 var Category = Backbone.Model.extend({
+  defaults: {
+    totalEmissions: 0
+  },
   initialize: function() {
     this.set({currentInputView: this.get('viewList').first()});
+    this.bind('change', function(){this.get('calculator').trigger('change')})
   },      
   getCurrentInputView: function() {
     var views = this.get('viewList');
@@ -80,13 +105,15 @@ var Category = Backbone.Model.extend({
     var views = this.get('viewList')
     , view =views.findWhere({name: slug});
     this.set({'currentInputView': view});
+  },
+  getTotalEmissions: function() {
+    return this.get('totalEmissions');
   }
 });
 module.exports.category = Category;
 
 var Categories = Backbone.Collection.extend({      
-  model: Category,
-  localStorage: new LocalStorage("CategoriesCollection")
+  model: Category
 });
 module.exports.categories = Categories;      
 
@@ -94,8 +121,7 @@ var ViewModel = Backbone.Model;
 module.exports.viewModel = ViewModel;
 
 var ViewList = Backbone.Collection.extend({
-  model: ViewModel,
-  localStorage: new LocalStorage("ViewListCollection")
+  model: ViewModel
 });
 module.exports.viewList = ViewList;
 

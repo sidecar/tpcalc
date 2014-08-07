@@ -11,7 +11,26 @@ module.exports = Marionette.Layout.extend({
     "click #buyBtn": "buyBtnClicked",
   },
   modelEvents: {
-    "change:currentCategory": "render"
+    "change:currentCategory": "render",
+    "change:totalEmissions": "render"
+  },
+  onRender: function() {
+    var calcModel = this.model;
+    var GraphView = require('../views/graph-view')
+    var EmissionsView = require('../views/emissions-view');
+    var graphView = new GraphView({
+      model: calcModel,
+      collection: calcModel.get('categories')
+    });
+
+    var emissionsView = new EmissionsView({
+      model: calcModel,
+      collection: calcModel.get('categories') 
+    });
+
+    this.graphsRegion.show(graphView); 
+    this.emissionsRegion.show(emissionsView); 
+
   },
   regions: {
     graphsRegion: '[data-region=graphs]',

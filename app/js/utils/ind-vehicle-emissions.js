@@ -241,13 +241,9 @@ var vehicle = {
 
       vehicleClass = ( vehicleClass == undefined ) ? 'car' : vehicleClass;
 
-      if ( year * 1 < 1983 ) {
-        year = 'early';
-      } else if ( year * 1 >= 1983 && year * 1 > 1996  ) {
-        year = 'middle';
-      } else if ( year >= 1996 ) {
-        year = 'recent';
-      }
+      if ( year * 1 < 1983 ) { year = 'early'; }
+      if ( year * 1 >= 1983 && year * 1 < 1996  ) { year = 'middle'; }
+      if ( year * 1 >= 1996 ) { year = 'recent'; }
 
       switch(vehicleClass.toLowerCase()) {
 
@@ -269,6 +265,7 @@ var vehicle = {
             middle : .0009,
             recent : .001,
           }
+          
           return CH4[year];
           break;
 
@@ -282,13 +279,9 @@ var vehicle = {
 
       vehicleClass = ( vehicleClass == undefined ) ? 'car' : vehicleClass;
 
-      if ( year * 1 < 1983 ) {
-        year = 'early';
-      } else if ( year * 1 >= 1983 && year * 1 > 1996  ) {
-        year = 'middle';
-      } else if ( year >= 1996 ) {
-        year = 'recent';
-      }
+      if ( year * 1 < 1983 ) { year = 'early'; }
+      if ( year * 1 >= 1983 && year * 1 < 1996  ) { year = 'middle'; }
+      if ( year * 1 >= 1996 ) { year = 'recent'; }
 
       switch(vehicleClass.toLowerCase()) {
 
@@ -440,7 +433,7 @@ var vehicle = {
 
   },
 
-  totalEmissions : function(fuel) {
+  totalEmissions : function(fuel) { // test git
     var CO2e;
     var vehicleClass  = ( !(this.vehicleClass != undefined  && this.vehicleClass != '' ) ) ? "car" : this.vehicleClass;
     var fuel      = ( typeof(fuel) != undefined ) ? fuel : '';
@@ -448,13 +441,11 @@ var vehicle = {
     switch ( vehicleClass.toLowerCase() ) {
 
       case 'car':
-        CO2e = this.totalCarEmissions(fuel);
-        break;
-
+      case 'motorcycle':
       case 'truck':
       case 'suv':
       case 'van':
-        CO2e = this.totalTruckEmissions(fuel,vehicleClass);
+        CO2e = this.totalCarEmissions(fuel);
         break;
 
       case 'boat':
@@ -463,10 +454,6 @@ var vehicle = {
 
       case 'ecar':
         CO2e = this.totalEcarEmissions(fuel);
-        break;
-
-      case 'motorcycle':
-        CO2e = this.totalMotorcycleEmissions(fuel);
         break;
 
       default:
@@ -490,7 +477,6 @@ var vehicle = {
       cng :         mtCO2.cng + ( gCH4.cng*this.c.mtCH4toCO2e + gN2O.cng*this.c.mtN2OtoCO2e )/1000,
       e85 :         mtCO2.e85 + ( gCH4.e85*this.c.mtCH4toCO2e + gN2O.e85*this.c.mtN2OtoCO2e )/1000,
     }
-    console.log('totalCarEmissions CO2e',CO2e);
 
     return ( typeof(fuel) != 'undefined' && fuel != '' ) ? CO2e[fuel.toLowerCase()] : CO2e;
 
@@ -523,33 +509,56 @@ var vehicle = {
     var mpge = this.ecar.mpge;
     var zipCode = this.ecar.zipCode;
     var total = (annMiles/mpge) * this.c.gasGallonEquiv * this.c.egridSubregionGas[zipSubregion[zipCode].egridSubregion].CO2e/1000;
-  console.log('totalEcarEmissions annMiles',annMiles);
-  console.log('totalEcarEmissions mpge',mpge);
-  console.log('totalEcarEmissions this.c.gasGallonEquiv',this.c.gasGallonEquiv);
-  console.log('totalEcarEmissions this.c.egridSubregionGas',this.c.egridSubregionGas);
-  console.log('totalEcarEmissions zipSubregion[zipCode].egridSubregion',zipSubregion[zipCode].egridSubregion);
-  console.log('totalEcarEmissions this.c.egridSubregionGas[CAMX]',this.c.egridSubregionGas['CAMX']);
+  // console.log('totalEcarEmissions annMiles',annMiles);
+  // console.log('totalEcarEmissions mpge',mpge);
+  // console.log('totalEcarEmissions this.c.gasGallonEquiv',this.c.gasGallonEquiv);
+  // console.log('totalEcarEmissions this.c.egridSubregionGas',this.c.egridSubregionGas);
+  // console.log('totalEcarEmissions zipSubregion[zipCode].egridSubregion',zipSubregion[zipCode].egridSubregion);
+  // console.log('totalEcarEmissions this.c.egridSubregionGas[CAMX]',this.c.egridSubregionGas['CAMX']);
     return total;
 
   }
 
 };
 
-console.log('\nVEHICLE');
-console.log('vehicle.car.annMiles',vehicle.car.annMiles);
-console.log('vehicle.car.annMiles.gasoline',vehicle.car.annMiles.gasoline);
-console.log('vehicle.carGallonsUsed()',vehicle.carGallonsUsed());
-console.log('vehicle.totalEmissions()',vehicle.totalEmissions());
-console.log('vehicle.totalEmissions(gasoline)',vehicle.totalEmissions('gasoline'))
+// console.log('\nVEHICLE');
+// console.log('\nCar');
+// console.log('vehicle.gasolineFactors.gCH4permile()',vehicle.gasolineFactors.gCH4permile());
+// console.log('vehicle.gasolineFactors.gCH4permile(1982,car)',vehicle.gasolineFactors.gCH4permile('1982','car'));
+// // console.log('vehicle.car.annMiles',vehicle.car.annMiles);
+// // console.log('vehicle.car.annMiles.gasoline',vehicle.car.annMiles.gasoline);
+// console.log('vehicle.carGallonsUsed()',vehicle.carGallonsUsed());
+// console.log('Math.round(vehicle.carGallonsUsed().gasoline * 100) / 100',Math.round(vehicle.carGallonsUsed().gasoline * 100) / 100);
+// console.log('vehicle.totalEmissions()',vehicle.totalEmissions());
+// console.log('vehicle.totalEmissions(gasoline)',vehicle.totalEmissions('gasoline'))
 
 
-vehicle.vehicleClass = "boat";
-console.log('vehicle.totalEmissions()',vehicle.totalEmissions());
-console.log('vehicle.totalEmissions(gasoline)',vehicle.totalEmissions('gasoline'));
+// vehicle.vehicleClass = "boat";
+// console.log('\nBoat');
+// console.log('vehicle.totalEmissions()',vehicle.totalEmissions());
+// console.log('vehicle.totalEmissions(gasoline)',vehicle.totalEmissions('gasoline'));
+// console.log('vehicle.totalEmissions(diesel)',vehicle.totalEmissions('diesel'));
 
-vehicle.vehicleClass = "ecar";
-vehicle.ecar.annMiles = 5000;
-vehicle.ecar.zipCode = 94710;
-console.log('vehicle.totalEmissions()',vehicle.totalEmissions());
+// // vehicle.vehicleClass = "ecar";
+// // vehicle.ecar.annMiles = 5000;
+// // vehicle.ecar.zipCode = 94710;
+// // console.log('vehicle.totalEmissions()',vehicle.totalEmissions());
+
+// vehicle.vehicleClass = "motorcycle";
+// vehicle.car.fuelEconomy.gasoline = 30;
+// console.log('\nMotorcycle');
+// console.log('vehicle',vehicle);
+// console.log('vehicle.totalEmissions(gasoline)',vehicle.totalEmissions('gasoline'));
+
+// vehicle.vehicleClass = "truck";
+// vehicle.car.fuelEconomy.gasoline = 25;
+// vehicle.car.annMiles.diesel = 10000;
+// vehicle.year = 2000;
+// console.log('\nTruck');
+// console.log('vehicle.totalEmissions(diesel)',vehicle.totalEmissions('diesel'));
+
+// vehicle.year = 1980;
+// console.log('\nOld Truck');
+// console.log('vehicle.totalEmissions(diesel)',vehicle.totalEmissions('diesel'));
 
 module.exports = vehicle;
