@@ -16,7 +16,6 @@ module.exports = Marionette.CompositeView.extend({
     , youGraphWidth = numeral(this.model.get('totalEmissions') / this.model.get('usAverageEmissions') * 320).format('0');
 
     return {
-      multiplier: multiplier,
       unitSymbol: unitSymbol,
       totalEmissions: totalEmissions,
       youGraphWidth: youGraphWidth
