@@ -56,6 +56,7 @@ module.exports = App.module('individual', function(Calc) {
       displayName: 'Individual',
       slug: 'individual',
       catCodes: catCodes,
+      usAverageEmissions: 48,
       categories: new Categories([
         new Category({
           displayName: 'Vehicle',

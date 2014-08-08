@@ -7,11 +7,10 @@ var _ = require('underscore')
 var Calculator = Backbone.Model.extend({ 
   defaults: {
     totalEmissions: 0,
-    emissionsUnit: 'pounds'
+    emissionsUnit: 'pounds',
   },
   initialize: function() {
     this.on('change', this.calculateEmissions, this);
-    //this.set({categories: new Categories([vehicleCategory,transitCategory,travelCategory,homeCategory])});
     this.set({currentCategory: this.get('categories').first()});
     var catCodes = this.get('catCodes');
     if (catCodes) this.showSelectCategories(catCodes);
