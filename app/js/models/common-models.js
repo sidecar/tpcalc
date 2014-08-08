@@ -5,23 +5,12 @@ var _ = require('underscore')
 , numeral = require('numeral');
 
 var Calculator = Backbone.Model.extend({ 
-  fetch: function() {
-      console.log("===== FETCH FIRED LOADING LOCAL STORAGE ====");
-      this.set(JSON.parse(LocalStorage.getItem(this.id)));
+  defaults: {
+    totalEmissions: 0,
+    emissionsUnit: 'pounds'
   },
-
-  save: function(attributes) {
-      console.log("===== CHANGE FIRED SAVING LOCAL STORAGE ====");
-      LocalStorage.setItem(this.id, JSON.stringify(this.toJSON()));
-  },
-
-  destroy: function(options) {
-      LocalStorage.removeItem(this.id);
-  }, 
   initialize: function() {
-
     this.on('change', this.calculateEmissions, this);
-
     //this.set({categories: new Categories([vehicleCategory,transitCategory,travelCategory,homeCategory])});
     this.set({currentCategory: this.get('categories').first()});
     var catCodes = this.get('catCodes');
@@ -40,6 +29,10 @@ var Calculator = Backbone.Model.extend({
       });
     });
 
+  },
+  toggleEmissionsUnit: function() {
+    var unit = (this.get('emissionsUnit') === 'pounds') ? 'tonnes' : 'pounds';
+    this.set({emissionsUnit: unit});
   },
   showSelectCategories: function(catCodes) {
     var categories = this.get('categories');
@@ -65,22 +58,17 @@ var Calculator = Backbone.Model.extend({
     , view = views.findWhere({name: slug});
     return view;
   },
-
-  defaults: {
-    totalEmissions: 0
-  },
   calculateEmissions: function() {
     var categories = this.get('categories');
     var totalEmissions = 0;
     categories.forEach(function(item){
       totalEmissions += item.getTotalEmissions(); 
     });
-    this.set({totalEmissions: numeral(totalEmissions).format('0,0')});
+    this.set({totalEmissions: totalEmissions});
   },
   getTotalEmissions: function() {
     return this.totalEmissions;
   }
-
 });
 module.exports.calculator = Calculator;  
 

@@ -69,6 +69,9 @@ module.exports = function(Calc) {
   App.vent.on('errorAlert', function(msg) { 
     window.alert(msg);
     return;
-  });  
+  });
 
+  App.vent.on('toggleEmissionsUnit', function() {
+    Calc.model.toggleEmissionsUnit();
+  });  
 };

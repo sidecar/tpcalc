@@ -1,6 +1,6 @@
 <h1><div class="header-first-line">Your Carbon</div> <span class="dark-gray">Dashboard</span></h1>
 
-<h2>U.S. Average<!--a href="#help" class="help-info"><span class="info help"></span></a--> <span class="summary-total">15,001 lbs of CO2e/yr</span></h2>
+<h2>U.S. Average<!--a href="#help" class="help-info"><span class="info help"></span></a--> <span class="summary-total">{{usAverage}} {{unitSymbol}} of CO2e/yr</span></h2>
 <div class="us-table">
 	<table cellspacing="0" cellpadding="0" width="280" border="0">
 		<tr>
@@ -18,7 +18,7 @@
 
 <div class="total">
 	<h2 id="total-title" class="bold">Total</h2>
-	<div>Your carbon footprint is <span class="bold">{{totalEmissions}} lbs of CO2e</span>. That's equivalent to 1.75 hot air balloons. Offset @ $5.95 per 1,000l/yr.</div>
+	<div>Your carbon footprint is <span class="bold">{{totalEmissions}} {{unitSymbol}} of CO2e/yr</span>. That's equivalent to {{trees}} urban trees planted. Offset @ $5.95 per 1,000 lbs/yr.</div>
 	<form name="ind_summary_view">
 		<div class="form-element">
 			<select class="form-control">

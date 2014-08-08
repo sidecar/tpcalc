@@ -1,6 +1,7 @@
 var Marionette = require('backbone.marionette')
 , App = require('../app')
-, template = require('../templates/summary-layout-template.hbs');
+, template = require('../templates/summary-layout-template.hbs')
+, numeral = require('numeral');
 
 module.exports = Marionette.Layout.extend({
 	template: template,
@@ -12,7 +13,8 @@ module.exports = Marionette.Layout.extend({
   },
   modelEvents: {
     "change:currentCategory": "render",
-    "change:totalEmissions": "render"
+    "change:totalEmissions": "render",
+    "change:emissionsUnit": "render"
   },
   onRender: function() {
     var calcModel = this.model;
@@ -40,18 +42,26 @@ module.exports = Marionette.Layout.extend({
     App.vent.trigger('buy', event);
   },
   serializeData: function(){
-    var calculatorDisplayName = this.model.get('displayName')
+    var multiplier = (this.model.get('emissionsUnit') === 'pounds') ? 2204.622622 : 1
+    , unitSymbol = (this.model.get('emissionsUnit') === 'pounds') ? 'lbs' : 'mT'
+    , calculatorDisplayName = this.model.get('displayName')
     , calculatorSlug = this.model.get('slug')
     , categoryModel = this.model.get('currentCategory')
     , categoryDisplayName = categoryModel.get('displayName')
     , categorySlug = categoryModel.get('slug')
-    , totalEmissions = this.model.get('totalEmissions');
+    , totalEmissions = numeral(this.model.get('totalEmissions')*multiplier).format('0,0')
+    , trees = numeral(this.model.get('totalEmissions')/0.039).format('0,0')
+    , usAverage = numeral(6.80433914190326 * multiplier).format('0,0');
+ 
     return {
       calculatorDisplayName: calculatorDisplayName,
       calculatorSlug: calculatorSlug,
       categoryDisplayName: categoryDisplayName,
       categorySlug: categorySlug,
-      totalEmissions: totalEmissions
+      totalEmissions: totalEmissions,
+      trees: trees,
+      unitSymbol: unitSymbol,
+      usAverage: usAverage
     }
   }
 });
