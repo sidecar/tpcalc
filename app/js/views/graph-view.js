@@ -12,8 +12,13 @@ module.exports = Marionette.CompositeView.extend({
     var calculator = this.model
     , multiplier = (calculator.get('emissionsUnit') === 'pounds') ? 2204.622622 : 1
     , unitSymbol = (calculator.get('emissionsUnit') === 'pounds') ? 'lbs' : 'mT'
-    , totalEmissions = numeral(calculator.get('totalEmissions')*multiplier).format('0,0')
-    , youGraphWidth = numeral(this.model.get('totalEmissions') / this.model.get('usAverageEmissions') * 320).format('0');
+    , totalEmissions = numeral(calculator.get('totalEmissions')*multiplier).format('0,0');
+
+    if (this.model.get('totalEmissions') < this.model.get('usAverageEmissions')) {
+      var youGraphWidth = numeral(this.model.get('totalEmissions') / this.model.get('usAverageEmissions') * 320).format('0');
+    } else {
+      var youGraphWidth = 320;
+    }
 
     return {
       unitSymbol: unitSymbol,

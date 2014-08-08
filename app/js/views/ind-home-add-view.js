@@ -71,7 +71,12 @@ module.exports= Marionette.ItemView.extend({
     home.fuel.diesel.method = dieselUnit;
     home.fuel.diesel.interval = dieselInterval;
 
-    console.log('home.totalEmissions',home.totalEmissions());
+    console.log(home.totalEmissions() );
+    // totalEmissions += home.totalEmissions('electricity');
+    // totalEmissions += home.totalEmissions('naturalGas');
+    // totalEmissions += home.totalEmissions('heatingOil');
+    // totalEmissions += home.totalEmissions('propane');
+    // totalEmissions += home.totalEmissions('gasoline');
 
     var attrs = {
       electricityAmount: electricityAmount,
@@ -91,7 +96,8 @@ module.exports= Marionette.ItemView.extend({
 			gasolineInterval: gasolineInterval,
 			dieselAmount: dieselAmount,
 			dieselUnit: dieselUnit,
-			dieselInterval: dieselInterval
+			dieselInterval: dieselInterval,
+            totalEmissions: totalEmissions
     }
     this.category.set(attrs);
     App.vent.trigger('goToNextCategory');

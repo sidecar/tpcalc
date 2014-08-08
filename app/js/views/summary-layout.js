@@ -52,6 +52,12 @@ module.exports = Marionette.Layout.extend({
     , totalEmissions = numeral(this.model.get('totalEmissions')*multiplier).format('0,0')
     , trees = numeral(this.model.get('totalEmissions')/0.039).format('0,0')
     , usAverage = numeral(6.80433914190326 * multiplier).format('0,0');
+
+    if (this.model.get('totalEmissions') < this.model.get('usAverageEmissions')) {
+      var usAvgGraphWidth = 320;
+    } else {
+      var usAvgGraphWidth = numeral(this.model.get('usAverageEmissions') / this.model.get('totalEmissions') * 320).format('0');
+    }
  
     return {
       calculatorDisplayName: calculatorDisplayName,
@@ -61,7 +67,8 @@ module.exports = Marionette.Layout.extend({
       totalEmissions: totalEmissions,
       trees: trees,
       unitSymbol: unitSymbol,
-      usAverage: usAverage
+      usAverage: usAverage,
+      usAvgGraphWidth: usAvgGraphWidth
     }
   }
 });
