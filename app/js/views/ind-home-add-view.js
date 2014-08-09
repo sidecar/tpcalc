@@ -53,51 +53,50 @@ module.exports= Marionette.ItemView.extend({
 
     home.zipCode = this.category.get('zip');
     home.fuel.electricity.amount = electricityAmount;
-    home.fuel.electricity.method = electricityUnit;
+    home.fuel.electricity.method = (electricityUnit === 'dollars') ? 'dollars' : 'energy' ;
     home.fuel.electricity.interval = electricityInterval;
     home.fuel.naturalGas.amount = naturalGasAmount;
-    home.fuel.naturalGas.method = naturalGasUnit;
+    home.fuel.naturalGas.method = (naturalGasUnit === 'dollars') ? 'dollars' : 'energy' ;
     home.fuel.naturalGas.interval = naturalGasInterval;
     home.fuel.heatingOil.amount = heatingOilAmount;
-    home.fuel.heatingOil.method = heatingOilUnit;
+    home.fuel.heatingOil.method = (heatingOilUnit === 'dollars') ? 'dollars' : 'energy' ;
     home.fuel.heatingOil.interval = heatingOilInterval;
     home.fuel.propane.amount = propaneAmount;
-    home.fuel.propane.method = propaneUnit;
+    home.fuel.propane.method = (propaneUnit === 'dollars') ? 'dollars' : 'energy' ;
     home.fuel.propane.interval = propaneInterval;
     home.fuel.gasoline.amount = gasolineAmount;
-    home.fuel.gasoline.method = gasolineUnit;
+    home.fuel.gasoline.method = (gasolineUnit === 'dollars') ? 'dollars' : 'energy' ;
     home.fuel.gasoline.interval = gasolineInterval;
     home.fuel.diesel.amount = dieselAmount;
-    home.fuel.diesel.method = dieselUnit;
+    home.fuel.diesel.method = (dieselUnit === 'dollars') ? 'dollars' : 'energy' ;
     home.fuel.diesel.interval = dieselInterval;
 
-    console.log(home.totalEmissions() );
-    // totalEmissions += home.totalEmissions('electricity');
-    // totalEmissions += home.totalEmissions('naturalGas');
-    // totalEmissions += home.totalEmissions('heatingOil');
-    // totalEmissions += home.totalEmissions('propane');
-    // totalEmissions += home.totalEmissions('gasoline');
+    totalEmissions += home.totalEmissions('electricity');
+    totalEmissions += home.totalEmissions('naturalGas');
+    totalEmissions += home.totalEmissions('heatingOil');
+    totalEmissions += home.totalEmissions('propane');
+    totalEmissions += home.totalEmissions('gasoline');
 
     var attrs = {
       electricityAmount: electricityAmount,
-			electricityUnit: electricityUnit,
-			electricityInterval: electricityInterval,
-			naturalGasAmount: naturalGasAmount,
-			naturalGasUnit: naturalGasUnit,
-			naturalGasInterval: naturalGasInterval,
-			heatingOilAmount: heatingOilAmount,
-			heatingOilUnit: heatingOilUnit,
-			heatingOilInterval: heatingOilInterval,
-			propaneAmount: propaneAmount,
-			propaneUnit: propaneUnit,
-			propaneInterval: propaneInterval,
-			gasolineAmount: gasolineAmount,
-			gasolineUnit: gasolineUnit,
-			gasolineInterval: gasolineInterval,
-			dieselAmount: dieselAmount,
-			dieselUnit: dieselUnit,
-			dieselInterval: dieselInterval,
-            totalEmissions: totalEmissions
+    	electricityUnit: electricityUnit,
+    	electricityInterval: electricityInterval,
+    	naturalGasAmount: naturalGasAmount,
+    	naturalGasUnit: naturalGasUnit,
+    	naturalGasInterval: naturalGasInterval,
+    	heatingOilAmount: heatingOilAmount,
+    	heatingOilUnit: heatingOilUnit,
+    	heatingOilInterval: heatingOilInterval,
+    	propaneAmount: propaneAmount,
+    	propaneUnit: propaneUnit,
+    	propaneInterval: propaneInterval,
+    	gasolineAmount: gasolineAmount,
+    	gasolineUnit: gasolineUnit,
+    	gasolineInterval: gasolineInterval,
+    	dieselAmount: dieselAmount,
+    	dieselUnit: dieselUnit,
+    	dieselInterval: dieselInterval,
+      totalEmissions: totalEmissions
     }
     this.category.set(attrs);
     App.vent.trigger('goToNextCategory');

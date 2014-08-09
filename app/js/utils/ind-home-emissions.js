@@ -10,21 +10,25 @@
 
 var constants = require('./emissions-constants');
 var zipSubregion = require('./zip-subregions');
-var homeEnergyPrices = require('./home-energy-prices')
+var homeEnergyPrices = require('./home-energy-prices');
 
 var home = {
 	
 	c : constants,
 	zipCode : '93551',
+	defaultZip: '93551',
 
 	egridSubregion : function(zip) {
-		zip = ( zip == undefined ) ? this.zipCode : zip;
-	
+
+		zip = ( zip === 'undefined' || zip === undefined ) ? this.defaultZip : zip;
+		zip = ( zipSubregion[zip] === 'undefined' || zipSubregion[zip] === undefined ) ? this.defaultZip : zip;
+
 		return zipSubregion[zip]['egridSubregion'];
 	},
 
 	state : function(zip) {
-		zip = ( zip == undefined ) ? this.zipCode : zip;
+		zip = ( zip === 'undefined' || zip === undefined ) ? this.defaultZip : zip;
+		zip = ( zipSubregion[zip] === 'undefined' || zipSubregion[zip] === undefined ) ? this.defaultZip : zip;
 		return zipSubregion[zip]['state'];
 	},
 
@@ -326,8 +330,6 @@ var home = {
 		}
 
 	
-	
-	
 		return ( fuelType == undefined ) ? emissionsByGas : emissionsByGas[fuelType];
 
 	},
@@ -337,7 +339,7 @@ var home = {
 		var oFuelType;
 		var CO2e;
 	
-		var homeEmissions = 	this.homeEmissionsByGas(fuelType);
+		var homeEmissions = 	this.homeEmissionsByGas();
 	
 		var eElectricity = 		homeEmissions.electricity;
 		var eNaturalGas = 		homeEmissions.naturalGas;
@@ -349,7 +351,7 @@ var home = {
 		if ( fuelType != undefined ) {
 
 			if ( !this.isValidFuelType(fuelType) ) { return false; }
-			oFuelType = this[fuelType];
+			oFuelType = this.fuel[fuelType];
 
 		} else {
 		
