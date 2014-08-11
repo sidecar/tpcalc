@@ -90,9 +90,11 @@ module.exports = Marionette.Layout.extend({
 
   },
   biodieselBlendChanged: function() {
+    this.displaySuccess(this.ui.biodieselBlendSelect);
     this.vehicle.set({fuelType: this.ui.biodieselBlendSelect.val()});
   },
   usesBiodieselChanged: function() {
+    this.displaySuccess(this.ui.usesBiodiesel);
     if($("input[name=usesBiodiesel]:checked").val() === 'yes') {
       if (_.isUndefined(this.biodieselBlendRegion.currentView)) this.loadBiodieselBlendSelect();
       this.biodieselBlendRegion.$el.show();
@@ -113,6 +115,7 @@ module.exports = Marionette.Layout.extend({
     }
   },
   descriptionSelectChanged: function(event) {
+    this.displaySuccess(this.ui.descriptionSelect);
     var target = event.target;
     this.vehicle.set({description: $(event.target).val()});
     if(this.isDiesel(target.options[target.selectedIndex].text)) {

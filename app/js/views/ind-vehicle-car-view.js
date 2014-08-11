@@ -27,7 +27,8 @@ module.exports = Marionette.Layout.extend({
   events: {
     'change select[name="car_year"]': 'yearSelected',
     'change select[name="car_make"]': 'makeSelected',
-    'change select[name="car_model"]': 'modelSelected'
+    'change select[name="car_model"]': 'modelSelected',
+    'change select[name="car_mileage"]': 'mileageSelected',
   },
   onShow: function() {
     $('.mileage-select-container').hide();
@@ -35,7 +36,6 @@ module.exports = Marionette.Layout.extend({
     this.vehicle = this.category.get('currentVehicle');
 
     this.vehicle.validate = function(attrs, options) {
-
       if(!attrs.year || attrs.year == '') {
         self.displayError(self.ui.yearSelect);
         return false;
@@ -87,6 +87,7 @@ module.exports = Marionette.Layout.extend({
     this.modelBinder.watch('value: mileage', {selector: '[name="car_mileage"]'});
   },
   yearSelected: function(event) {
+    this.displaySuccess(this.ui.yearSelect);
     var year = $(event.target).val();
     if(year !== this.vehicle.get('year')){
       this.vehicle.set({year: year});
@@ -95,6 +96,7 @@ module.exports = Marionette.Layout.extend({
     }
   },
   makeSelected: function(event) {
+    this.displaySuccess(this.ui.makeSelect);
     var year = this.vehicle.get('year');
     var make = $(event.target).val();
     if(make == 'unknown') {
@@ -106,6 +108,7 @@ module.exports = Marionette.Layout.extend({
     this.vehicle.set({make: make});
   },
   modelSelected: function(event) {
+    this.displaySuccess(this.ui.modelSelect);
     var model = $(event.target).val();
     if(model == 'unknown') {
       $('.mileage-select-container').hide();
@@ -113,6 +116,9 @@ module.exports = Marionette.Layout.extend({
       $('.mileage-select-container').show();
     }
     this.vehicle.set({model: model});
+  },
+  mileageSelected: function() {
+    this.displaySuccess(this.ui.mileageSelect);
   },
   loadYearSelect: function() {
     var self = this;
@@ -122,7 +128,7 @@ module.exports = Marionette.Layout.extend({
       data.items = jsonResponse.menuItems.menuItem;
       data.selectName = 'car_year';
       data.defaultLabel = 'Year';
-      data.defaultLabel = 'Choose the year of your vehicle';
+      data.errorMsg = 'Choose the year of your vehicle';
       data.selectedOptionText = 'Choose the vehicle\'s year';
       data.selectedOptionVal = '';
       self.yearRegion.show( new SelectView({json: data}) );
@@ -141,7 +147,7 @@ module.exports = Marionette.Layout.extend({
       data.items = jsonResponse.menuItems.menuItem;
       data.selectName = 'car_make';
       data.defaultLabel = 'Make';
-      data.defaultLabel = 'Choose the make of your vehicle';
+      data.errorMsg = 'Choose the make of your vehicle';
       data.selectedOptionText = 'Choose the vehicle\'s make';
       data.selectedOptionVal = '';
       self.makeRegion.show( new SelectView({json: data}) );
@@ -162,7 +168,7 @@ module.exports = Marionette.Layout.extend({
       data.items = jsonResponse.menuItems.menuItem;
       data.selectName = 'car_model';
       data.defaultLabel = 'Model';
-      data.defaultLabel = 'Choose the model of your vehicle';
+      data.errorMsg = 'Choose the model of your vehicle';
       data.selectedOptionText = 'Choose the vehicle\'s model';
       data.selectedOptionVal = '';
       self.modelRegion.show( new SelectView({json: data}) );

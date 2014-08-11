@@ -40,6 +40,13 @@ module.exports = Marionette.ItemView.extend({
     if(fuelQty) this.modelBinder.watch('value: fuelQty', {selector: '[name="boat_fuel_qty"]'});
     if(fuelType) this.modelBinder.watch('value: fuelType', {selector: '[name="boat_fuel_type"]'});
   },
+  validate: function() {
+    var attrs = {
+      fuelQty: this.ui.fuelQtyInput.val(),
+      fuelType: this.ui.fuelTypeSelect.val()
+    }
+    this.vehicle.validate(attrs);
+  },
   displaySuccess: function($elem) {
     $elem.parent()
       .prev('label')

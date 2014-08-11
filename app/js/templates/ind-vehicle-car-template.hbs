@@ -1,12 +1,9 @@
 <div class="view-question">What kind of car do you drive?</div>
-{{!-- <form name="ind_vehicle_view"> --}}
   <div data-region="year"></div>
   <div data-region="make"></div>
   <div data-region="model"></div>
-
-
 	<div class="form-element-container mileage-select-container">
-		<label for="car_mileage">Annual Mileage</label>
+		<label for="car_mileage" data-error-msg="Select the annual mileage" data-default-label="Annual Mileage">Annual Mileage</label>
 		<div class="form-element">
 			<select id="mileage" name="car_mileage" class="form-control">
 				<option value="">Select Annual Mileage</option>	
@@ -31,5 +28,3 @@
 			</select>
 		</div>
 	</div>
- 
-{{!-- </form> --}}

@@ -15,9 +15,15 @@ module.exports = Marionette.ItemView.extend({
     mileageSelect: 'select[name="ecar_mileage"]' 
   },
   events: {
-    'blur input[name="ecar_zip"]': 'validate'//,
-    //'change select[name="ecar_year"]': 'validate',
-    //'change select[name="ecar_mileage"]': 'validate'
+    'blur input[name="ecar_zip"]': 'validate',
+    'change select[name="ecar_year"]': 'yearSelectChanged',
+    'change select[name="ecar_mileage"]': 'mileageSelectChanged'
+  },
+  yearSelectChanged: function() {
+    this.displaySuccess(this.ui.yearSelect);
+  },
+  mileageSelectChanged: function() {
+    this.displaySuccess(this.ui.mileageSelect);
   },
   onShow: function() {
     var self = this;
