@@ -4,7 +4,7 @@ var _ = require('underscore')
 , Marionette = require('backbone.marionette')
 , RouteFilter = require('barf')
 , App = require('./app')
-, WelcomeView = require('./views/welcome-view');
+, WelcomeView = require('./views/shared/welcome-view');
 
 module.exports.router = Marionette.AppRouter.extend({
   appRoutes: {

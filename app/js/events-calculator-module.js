@@ -18,19 +18,19 @@ module.exports = App.module('events', function(Calc) {
     , Vehicle = require('./models/common-models').vehicle
     , Vehicles = require('./models/common-models').vehicles;
 
-    var defaultTravelView = require('./views/evt-travel-views').default
-    , flightAverageTravelView = require('./views/evt-travel-views').flightAverage
-    , flightLengthTravelView = require('./views/evt-travel-views').flightLength
-    , groundTravelView = require('./views/evt-travel-views').ground
-    , hotelTravelView = require('./views/evt-travel-views').hotel;
+    var defaultTravelView = require('./views/events/evt-travel-views').default
+    , flightAverageTravelView = require('./views/events/evt-travel-views').flightAverage
+    , flightLengthTravelView = require('./views/events/evt-travel-views').flightLength
+    , groundTravelView = require('./views/events/evt-travel-views').ground
+    , hotelTravelView = require('./views/events/evt-travel-views').hotel;
 
-    var defaultVenueView = require('./views/evt-venue-views').default;
+    var defaultVenueView = require('./views/events/evt-venue-views').default;
 
-    var defaultWaterView = require('./views/evt-water-views').default;
+    var defaultWaterView = require('./views/events/evt-water-views').default;
 
-    var defaultMealsView = require('./views/evt-meals-views').default;
+    var defaultMealsView = require('./views/events/evt-meals-views').default;
     // Thank You View
-    var evtThankYouView = require('./views/evt-thankyou-view');
+    var evtThankYouView = require('./views/events/evt-thankyou-view');
 
     Calc.model = new Calculator({
       displayName: 'Business',

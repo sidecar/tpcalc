@@ -7,11 +7,8 @@ var _ = require('underscore')
 
 module.exports = App.module('individual', function(Calc) {
   var app = App;
-  
   Calc.startWithParent = false; // Calculator must be manually started
-  
   Calc.addInitializer(function(catCodes){
-
     Calc.baseRoute = '#/individual';
 
     // Common models and collections
@@ -22,28 +19,28 @@ module.exports = App.module('individual', function(Calc) {
     , ViewList = require('./models/common-models').viewList;
     
     // Vehicle Input views
-    var defaultVehicleView = require('./views/ind-vehicle-default-view')
-    , carVehicleView = require('./views/ind-vehicle-car-view')
-    , ecarVehicleView = require('./views/ind-vehicle-ecar-view')
-    , boatVehicleView = require('./views/ind-vehicle-boat-view')
-    , motorcycleVehicleView = require('./views/ind-vehicle-motorcycle-view')
-    , classVehicleView = require('./views/ind-vehicle-class-view')
-    , optionsVehicleView = require('./views/ind-vehicle-options-view')
-    , listVehicleView = require('./views/ind-vehicle-list-view');
+    var defaultVehicleView = require('./views/individual/ind-vehicle-default-view')
+    , carVehicleView = require('./views/individual/ind-vehicle-car-view')
+    , ecarVehicleView = require('./views/individual/ind-vehicle-ecar-view')
+    , boatVehicleView = require('./views/individual/ind-vehicle-boat-view')
+    , motorcycleVehicleView = require('./views/individual/ind-vehicle-motorcycle-view')
+    , classVehicleView = require('./views/individual/ind-vehicle-class-view')
+    , optionsVehicleView = require('./views/individual/ind-vehicle-options-view')
+    , listVehicleView = require('./views/individual/ind-vehicle-list-view');
     // Public Transit Input Views
-    var defaultTransitView = require('./views/ind-transit-default-view');
+    var defaultTransitView = require('./views/individual/ind-transit-default-view');
     // Air Travel Input Views
-    var defaultTravelView = require('./views/ind-travel-default-view')
-    , flightsTravelView = require('./views/ind-travel-flights-view')
-    , lengthTravelView = require('./views/ind-travel-length-view')
-    , milesTravelView = require('./views/ind-travel-miles-view')
-    , fuelTravelView = require('./views/ind-travel-fuel-view')
-    , listTravelView = require('./views/ind-travel-list-view');
+    var defaultTravelView = require('./views/individual/ind-travel-default-view')
+    , flightsTravelView = require('./views/individual/ind-travel-flights-view')
+    , lengthTravelView = require('./views/individual/ind-travel-length-view')
+    , milesTravelView = require('./views/individual/ind-travel-miles-view')
+    , fuelTravelView = require('./views/individual/ind-travel-fuel-view')
+    , listTravelView = require('./views/individual/ind-travel-list-view');
     // Home Energy Input Views
-    var defaultHomeView = require('./views/ind-home-default-view')
-    , addHomeView = require('./views/ind-home-add-view');
+    var defaultHomeView = require('./views/individual/ind-home-default-view')
+    , addHomeView = require('./views/individual/ind-home-add-view');
     // Thank You View
-    var indThankYouView = require('./views/ind-thankyou-view');
+    var indThankYouView = require('./views/individual/ind-thankyou-view');
 
     // Specific models and collections
     var Vehicles = require('./models/vehicle-models').vehicles;

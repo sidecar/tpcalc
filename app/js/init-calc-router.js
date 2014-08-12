@@ -8,20 +8,17 @@ module.exports = function(Calc) {
   
   var Router = Marionette.AppRouter.extend({
     appRoutes: {
-      // ':categoriesCodes/:calculator/:category/:inputView': 'showInputView'
       ':calculator/complete/thankyou': 'showThankYouView',
       ':calculator/:category/:inputView': 'showInputView'
     },
     before: {
       ':calculator/:category/:inputView': function(fragment, args, next) {
-        //console.log('init-calc-router before');
         next();
       }
     }
   }); 
 
   var Controller  = Marionette.Controller.extend({
-    // showInputView: function(catCodes, calculator, category, inputView) {
     showInputView: function(calculator, categorySlug, inputViewSlug) {
       var categoryModel = Calc.model.getCategoryBySlug(categorySlug);
       Calc.model.set({currentCategory: categoryModel});

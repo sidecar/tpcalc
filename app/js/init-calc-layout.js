@@ -1,15 +1,15 @@
 'use strict';
 var App = require('./app');
 
-var MainLayout = require('./views/main-layout')
-  , HeaderView = require('./views/header-view')
-  , FooterView = require('./views/footer-view')
-  , CategoriesMenuView = require('./views/categories-menu-view')
-  , CategoryIconView = require('./views/category-icon-view')
-  , SummaryLayout = require('./views/summary-layout')
-  , HelpView = require('./views/help-view')
-  , GraphView = require('./views/graph-view')
-  , EmissionsView = require('./views/emissions-view');
+var MainLayout = require('./views/shared/main-layout')
+  , HeaderView = require('./views/shared/header-view')
+  , FooterView = require('./views/shared/footer-view')
+  , CategoriesMenuView = require('./views/shared/categories-menu-view')
+  , CategoryIconView = require('./views/shared/category-icon-view')
+  , SummaryLayout = require('./views/summary/summary-layout')
+  , HelpView = require('./views/shared/help-view')
+  , GraphView = require('./views/summary/graph-view')
+  , EmissionsView = require('./views/summary/emissions-view');
 
 module.exports = function(Calc) {
   var calcModel = Calc.model
