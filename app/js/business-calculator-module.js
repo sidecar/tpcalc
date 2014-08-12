@@ -53,7 +53,27 @@ module.exports = App.module('business', function(Calc) {
             {name: 'default',  view: new siteDefaultView()},
             {name: 'add',  view: new siteAddView()}
           ]),
-          completed: false
+          completed: false,
+          // defaults that show up in the view
+          electricityAmount: 0,
+          electricityUnit: 'dollars',
+          electricityInterval: 'month',
+          naturalGasAmount: 0,
+          naturalGasUnit: 'dollars',
+          naturalGasInterval: 'month',
+          heatingOilAmount: 0,
+          heatingOilUnit: 'dollars',
+          heatingOilInterval: 'month',
+          propaneAmount: 0,
+          propaneUnit: 'dollars',
+          propaneInterval: 'month',
+          gasolineAmount: 0,
+          gasolineUnit: 'dollars',
+          gasolineInterval: 'month',
+          dieselAmount: 0,
+          dieselUnit: 'dollars',
+          dieselInterval: 'month'
+          // end of defaults
         }),
         ////////////////////////////////////////////////////////
         new Category({
