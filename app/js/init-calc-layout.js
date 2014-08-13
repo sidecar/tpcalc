@@ -8,7 +8,6 @@ var MainLayout = require('./views/shared/main-layout')
   , CategoryIconView = require('./views/shared/category-icon-view')
   , SummaryLayout = require('./views/summary/summary-layout')
   , HelpView = require('./views/shared/help-view')
-  , GraphView = require('./views/summary/graph-view')
   , EmissionsView = require('./views/summary/emissions-view');
 
 module.exports = function(Calc) {

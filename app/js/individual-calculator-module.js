@@ -53,7 +53,7 @@ module.exports = App.module('individual', function(Calc) {
       displayName: 'Individual',
       slug: 'individual',
       catCodes: catCodes,
-      usAverageEmissions: 48,
+      usAvgEmissionsMetricTons: 6.80433914190326,
       categories: new Categories([
         new Category({
           displayName: 'Vehicle',
