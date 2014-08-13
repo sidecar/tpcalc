@@ -1,0 +1,23 @@
+<div class="view-question">Please describe employee travel by providing the total miles flown along with the percentage of flight length</div>
+
+<form name="biz_travel_miles_view" id="biz_travel_miles">
+
+	<div class="form-element-container padding-top-10">
+		<label for="biz_travel_miles_quantity">Total annual miles</label>
+		<div class="form-element">
+			<input type="text" name="biz_travel_miles_quantity" value="0" class="form-control" maxlength="12" />
+		</div>
+	</div>
+
+	<div class="form-element-container padding-top-10">
+		<label for="year">Percentage of flights at each flight length</label>
+		<div class="form-element">
+			0% <input id="biz_travel_miles_percent" type="text" class="span2" name="biz_travel_miles_percent" value="" data-slider-min="0" data-slider-max="100" data-slider-step="5" data-slider-value="[33,67]" data-slider-tooltip="hide"/> 100% &nbsp;
+			<div id="biz_travel_miles_percent_short" class="padding-top-20">33% <span class="bold">short haul</span> flights</div>
+			<div id="biz_travel_miles_percent_medium">34% <span class="bold">medium haul</span> flights</div>
+			<div id="biz_travel_miles_percent_long">33% <span class="bold">long haul</span> flights</div>
+		</div>
+	</div>
+
+</form>
+

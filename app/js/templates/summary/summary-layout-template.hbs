@@ -1,0 +1,72 @@
+<h1><div class="header-first-line">Your Carbon</div> <span class="dark-gray">Dashboard</span></h1>
+
+<div id="us-avg-graph">
+	<h2 id="us-avg-total-graph-header" class="us-avg-graph-header graph-header">U.S. Average<!--a href="#help" class="help-info"><span class="info help"></span></a--> 
+		<span class="summary-total">{{usAverage}} {{unitSymbol}} of CO2e/yr</span>
+	</h2>
+
+	<h2 id="us-avg-vehicle-graph-header" class="us-avg-graph-header graph-header">Vehicle Avg<!--a href="#help" class="help-info"><span class="info help"></span></a--> 
+		<span class="summary-total">{{usAvgVehicle}} {{unitSymbol}} of CO2e/yr</span>
+	</h2>
+
+	<h2 id="us-avg-transit-graph-header" class="us-avg-graph-header graph-header">Public Transit Avg<!--a href="#help" class="help-info"><span class="info help"></span></a--> 
+		<span class="summary-total">{{usAvgTransit}} {{unitSymbol}} of CO2e/yr</span>
+	</h2>
+
+	<h2 id="us-avg-travel-graph-header" class="us-avg-graph-header graph-header">Air Travel Avg<!--a href="#help" class="help-info"><span class="info help"></span></a--> 
+		<span class="summary-total">{{usAvgTravel}} {{unitSymbol}} of CO2e/yr</span>
+	</h2>
+
+	<h2 id="us-avg-home-graph-header" class="us-avg-graph-header graph-header">Home Avg<!--a href="#help" class="help-info"><span class="info help"></span></a--> 
+		<span class="summary-total">{{usAvgHome}} {{unitSymbol}} of CO2e/yr</span>
+	</h2>
+
+	<div style="width: {{usAvgGraphWidth}}px" class="us-table">
+		<table cellspacing="0" cellpadding="0" width="100%" border="0">
+			<tr>
+				<td width="45%" data-reveal="us-avg-vehicle-graph-header" class="us-avg-graph-category graph-category bg-peach"></td>
+				<td width="4%" data-reveal="us-avg-transit-graph-header" class="us-avg-graph-category graph-category bg-green"></td>
+				<td width="7%" data-reveal="us-avg-travel-graph-header" class="us-avg-graph-category graph-category bg-dark-blue"></td>
+				<td width="44%" data-reveal="us-avg-home-graph-header" class="us-avg-graph-category graph-category bg-light-blue"></td>
+			</tr>
+		</table>
+	</div>
+</div>
+
+<div data-region="you-graph-header"></div>
+
+<div data-region="you-graph"></div>
+
+<div data-region="emissions"></div>
+
+<div class="total">
+	<h2 id="total-title" class="bold">Total</h2>
+	<div>Your carbon footprint is <span class="bold">{{totalEmissions}} {{unitSymbol}} of CO2e/yr</span>. That's equivalent to {{trees}} urban trees planted. Offset @ $5.95 per 1,000 lbs/yr.</div>
+	<form name="ind_summary_view">
+		<div class="form-element">
+			<select class="form-control">
+				<optgroup label="Annual Offsets">
+					<option value="">Offset All for $9.08/yr</option>
+					<option value="">Offset Vehicle for $10.49/yr</option>
+					<option value="">Offset Public Transit for $10.49/yr</option>
+					<option value="">Offset Travel for $10.49/yr</option>
+					<option value="">Offset Home Energy for $10.49/yr</option>
+				</optgroup>
+				<optgroup></optgroup>
+				<optgroup label="Monthly Offsets">
+					<option selected="selected" value="">Offset All for $9.08/mo</option>
+					<option value="">Offset Vehicle for $10.49/mo</option>
+					<option value="">Offset Public Transit for $10.49/mo</option>
+					<option value="">Offset Travel for $10.49/mo</option>
+					<option value="">Offset Home Energy for $10.49/mo</option>
+				</optgroup>
+				<optgroup></optgroup>
+				<optgroup label="Offset Products for Individuals">
+					<option selected="selected" value="">Offset 1000lbs for $9.08</option>
+					<option value="">Offset Monthly for $10.49/mo</option>
+				</optgroup>
+			</select>
+		</div>
+		<div class="form-element"><button type="button" id="buyBtn" class="btn btn-lg  {{calculatorSlug}}-{{categorySlug}}-bg">Buy Offsets</button></div>
+	</form>
+</div>

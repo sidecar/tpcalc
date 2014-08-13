@@ -1,0 +1,52 @@
+<div class="view-question">Tell us about your vehicle fleet</div>
+
+	<div class="form-element-container">
+		<label for="year">Fuel type</label>
+		<div class="form-element">
+			<select name="fuel_type" class="form-control">
+				<option value="gasoline">Gasoline</option>
+				<option value="diesel">Diesel</option>
+				<option value="biodiesel_b20">Biodiesel (B20)</option>
+				<option value="biodiesel_b100">Biodiesel (B100)</option>
+				<option value="cng">Compressed Natural Gas</option>
+				<option value="e85_ethanol">E85 Ethanol</option>
+			</select>
+		</div>
+	</div>
+	
+	<div class="form-element-container">
+		<label for="mileage" data-error-msg="Enter the annual mileage per vehicle" data-default-label="Annual Mileage Per Vehicle">Annual Mileage Per Vehicle</label>
+		<div class="form-element">
+			<select name="mileage" class="form-control">
+				<option value="" selected="selected">Select Annual Mileage</option>	
+				<option value="2000">2,000</option>
+				<option value="3000">3,000</option>
+				<option value="4000">4,000</option>
+				<option value="5000">5,000</option>
+				<option value="7000">7,000</option>
+				<option value="10000">10,000</option>
+				<option value="12000">12,000</option>
+				<option value="15000">15,000</option>
+				<option value="20000">20,000</option>
+				<option value="25000">25,000</option>
+				<option value="30000">30,000</option>
+				<option value="40000">40,000</option>
+				<option value="50000">50,000</option>
+				<option value="60000">60,000</option>
+				<option value="70000">70,000</option>
+				<option value="80000">80,000</option>
+				<option value="90000">90,000</option>
+				<option value="100000">100,000</option>
+			</select>
+		</div>
+	</div>
+	
+	<div class="form-element-container">
+		<label for="num_vehicles"  data-error-msg="Enter the number of vehicles" data-default-label="Number of Vehicles">Number of vehicles</label>
+		<div class="form-element">
+			<input name="num_vehicles" value="0" class="form-control" maxlength="6" />
+		</div>
+	</div>
+
+</div>
+
