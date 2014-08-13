@@ -20,13 +20,22 @@ var FleetVehicle = Backbone.Model.extend({
     this.on('change', this.calculateEmissions, this);
   },
   calculateEmissions: function() {
+
+    var vehicleType = this.get('vehicleType')
+    , vehicleCount = this.get('vehicleCount')
+    , annMiles = this.get('annMiles')
+    , fuel = this.get('fuelType')
+    , boatGallons = this.get('fuelQty') // only set for boats
+    , zipCode = this.get('zip') // only set for ecars
+ 
+    if(vehicleType === 'ecar') {if(!zipCode) return;}
     var fleet = require('../utils/biz-fleet-emissions');
-    fleet.vehicleType = this.get('vehicleType');
-    fleet.vehicleCount = this.get('vehicleCount');
-    fleet.annMiles = this.get('annMiles');
-    fleet.fuel = this.get('fuelType');
-    fleet.boatGallons = this.get('fuelQty'); // only set for boats
-    fleet.zipCode = this.get('zip'); // only set for ecars
+    fleet.vehicleType = vehicleType;
+    fleet.vehicleCount = vehicleCount;
+    fleet.annMiles = annMiles;
+    fleet.fuel = fuel;
+    fleet.boatGallons = boatGallons;
+    fleet.zipCode = zipCode;
     var totalEmissions = fleet.totalEmissions(this.get('vehicleType'));
     this.set({totalEmissions: totalEmissions});
   },

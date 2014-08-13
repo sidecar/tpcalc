@@ -33,23 +33,20 @@ module.exports = Marionette.ItemView.extend({
 
     this.vehicle.validate = function(attrs, options) {
       if(!attrs.fuelType || attrs.fuelType == '') {
-        console.log("!attrs.fuelType || attrs.fuelType == ''");
         self.displayError(self.ui.fuelTypeSelect);
         return false;
       } else {
         self.displaySuccess(self.ui.fuelTypeSelect);
       }
       
-      if(!attrs.mileage || attrs.mileage == '') {
-        console.log("!attrs.fuelType || attrs.fuelType == ''");
+      if(!attrs.mileage || attrs.mileage == '') {       
         self.displayError(self.ui.mileageSelect);
         return false;
       } else {
         self.displaySuccess(self.ui.mileageSelect);
       }
 
-      if(!attrs.numVehicles || attrs.numVehicles == '' || attrs.numVehicles.match(/^(0|[1-9][0-9]*)$/) == null) {
-        console.log("!attrs.numVehicles || attrs.numVehicles == '' || attrs.numVehicles.match(/^(0|[1-9][0-9]*)$/) == null");
+      if(!attrs.numVehicles || attrs.numVehicles == '' || attrs.numVehicles.match(/^(0|[1-9][0-9]*)$/) == null) {       
         self.displayError(self.ui.numVehiclesInput);
         return false;
       } else {
@@ -97,16 +94,14 @@ module.exports = Marionette.ItemView.extend({
       .addClass('has-error')
       .removeClass('has-success');
   },
-  getNextInputView: function() {
-    console.log('this.ui.fuelTypeSelect.val()', this.ui.fuelTypeSelect.val());
+  getNextInputView: function() {   
     var attrs = {
       fuelType: this.ui.fuelTypeSelect.val(),
       mileage: this.ui.mileageSelect.val(),
       numVehicles: this.ui.numVehiclesInput.val()
     }
     if(this.vehicle.validate(attrs)) {
-      this.vehicle.set(attrs);
-      console.log('this.vehicle', this.vehicle);
+      this.vehicle.set(attrs);     
       App.vent.trigger('showInputView', 'list');
     }
   }
