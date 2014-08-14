@@ -7,9 +7,10 @@ var _ = require('underscore')
 var FleetVehicle = Backbone.Model.extend({
   defaults: {
     totalEmissions: 0,
-    fuelType: 'gasoline',
+    fuelType: '', //this has to be empty bc different options avail on different views
     annMiles: 0,
     numVehicles: 0,
+    useRFI: 'false'
   },
   toJSON: function() {
     var json = Backbone.Model.prototype.toJSON.apply(this, arguments);

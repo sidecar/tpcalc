@@ -1,14 +1,20 @@
 <div class="view-question">Tell us about the boats in your fleet</div>
-	<div class="form-element-container">
-		<label for="fuel_type">Fuel type</label>
-		<div class="form-element">
-			<select name="fuel_type" class="form-control">
-				<option value="diesel">Diesel</option>
-				<option value="residual_fuel_oil">Residual Fuel Oil</option>
-			</select>
-		</div>
-		<label for="fuel_qty">Annual Gallons of Fuel</label>
-		<div class="form-element">
-			<input name="fuel_qty" class="form-control" value="0" maxlength="12" />
-		</div>
+	
+<div class="form-element-container">
+	<label for="fuel_type" data-error-msg="Enter the type of fuel these boats use" data-default-label="Fuel type">Fuel type</label>
+	<div class="form-element">
+		<select name="fuel_type" class="form-control">
+			<option value="" selected="selected">Select Fuel Type</option>
+			<option value="diesel">Diesel</option>
+			<option value="residual_fuel_oil">Residual Fuel Oil</option>
+		</select>
 	</div>
+</div>
+
+<div class="form-element-container">
+	<label for="fuel_qty" data-error-msg="How many gallons of fuel do these boats use annually" data-default-label="Annual Gallons of Fuel">Annual Gallons of Fuel</label>
+	<div class="form-element">
+		<input name="fuel_qty" class="form-control" value="0" maxlength="12" />
+	</div>
+</div>
+

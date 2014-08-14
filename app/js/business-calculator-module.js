@@ -40,6 +40,10 @@ module.exports = App.module('business', function(Calc) {
     // Thank You View
     var bizThankYouView = require('./views/business/biz-thankyou-view');
 
+    //
+    var FleetVehicles = require('./models/fleet-models').fleetVehicles;
+    var fleetVehicles = new FleetVehicles();
+
     Calc.model = new Calculator({
       displayName: 'Business',
       slug: 'business',
@@ -85,7 +89,7 @@ module.exports = App.module('business', function(Calc) {
             {name: 'ecar',  view: new ecarFleetView()},
             {name: 'boat',  view: new boatFleetView()},
             {name: 'plane',  view: new planeFleetView()},
-            {name: 'list',  view: new listFleetView()}
+            {name: 'list',  view: new listFleetView({collection: fleetVehicles})}
           ]),
           completed: false
         }),

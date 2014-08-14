@@ -63,7 +63,6 @@ module.exports = Marionette.ItemView.extend({
       model: model,
       mileage: mileage,
       vehicleClass: vehicleClass,
-      isBoat: isBoat,
       fuelType: fuelType,
       fuelQty: fuelQty
     }

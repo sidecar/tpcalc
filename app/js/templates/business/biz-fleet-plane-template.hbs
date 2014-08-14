@@ -1,21 +1,23 @@
 <div class="view-question">Tell us about the boats in your fleet</div>
-	<div class="form-element-container">
-		<label for="fuel_qty">Annual Gallons of Fuel</label>
-		<div class="form-element">
-			<input name="fuel_qty" class="form-control" value="0" maxlength="12" />
-		</div>
+	
+<div class="form-element-container">
+	<label for="num_vehicles">Number of Planes in fleet</label>
+	<div class="form-element">
+		<input name="num_vehicles" class="form-control" value="0" maxlenght="6" />
 	</div>
+</div>
 
-	<div class="form-element-container">
-		<label for="use_rfi">Use RFI:</label>
-		<div class="form-element margin-bottom-20">
-			<input type="checkbox" name="use_rfi" value="one_way" />Yes
-		</div>
+<div class="form-element-container padding-top-10">
+	<label>Would you like to use the Refractive Forcing Index?</label>
+	<div class="form-element">
+		<input type="radio" name="use_rfi" value="true" /><span class=""> Yes</span><br />
+		<input type="radio" name="use_rfi" value="false" class=""/><span class=""> No</span>
 	</div>
+</div>
 
-	<div class="form-element-container">
-		<label for="num_vehicles">Number of Planes in fleet</label>
-		<div class="form-element">
-			<input name="num_vehicles" class="form-control" value="0" maxlenght="6" />
-		</div>
+<div class="form-element-container">
+	<label for="fuel_qty" data-error-msg="How many gallons of fuel do these planes use annually" data-default-label="Annual Gallons of Fuel">Annual Gallons of Fuel</label>
+	<div class="form-element">
+		<input name="fuel_qty" class="form-control" value="0" maxlength="12" />
 	</div>
+</div>

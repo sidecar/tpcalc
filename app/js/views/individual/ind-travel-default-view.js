@@ -13,6 +13,7 @@ module.exports = Marionette.ItemView.extend({
     useRfi: 'input[name="use_rfi"]'
   },
   onShow: function() {
+    console.log('ind travel default onShow this.category', this.category);
     this.modelBinder = new Databinding.ModelBinder(this, this.category);
     this.modelBinder.watch('checked: estimationMethod', {selector: '[name="method"]'});
     this.modelBinder.watch('checked: useRFI', {selector: '[name="use_rfi"]'});
@@ -24,6 +25,7 @@ module.exports = Marionette.ItemView.extend({
       estimationMethod: estimationMethod,
       useRFI: useRFI
     });
+    console.log('ind travel default getNextInputView this.category', this.category);
     App.vent.trigger('showInputView', estimationMethod);
   }
 });
