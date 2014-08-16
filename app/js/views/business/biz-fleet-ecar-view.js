@@ -10,17 +10,22 @@ module.exports = Marionette.ItemView.extend({
   template: ecarTemplate,
   ui: {
     numVehiclesInput: 'input[name="num_vehicles"]', 
-    zipInput: 'input[name="zip"]'
+    zipInput: 'input[name="zip"]',
+    mileageSelect: 'select[name="mileage"]'
   },
   events: {
-    'blur input[name="num_vehicles"]': 'validate',
-    'blur input[name="zip"]': 'validate'
+    'blur input[name="num_vehicles"]': 'numVehiclesInputChanged',
+    'blur input[name="zip"]': 'zipInputChanged',
+    'change select[name="mileage"]': 'mileageSelectChanged'
   },
   numVehiclesInputChanged: function() {
     this.displaySuccess(this.ui.numVehiclesInput);
   },
   zipInputChanged: function() {
-    this.displaySuccess(this.ui.numVehiclesInput);
+    this.displaySuccess(this.ui.zipInput);
+  },
+  mileageSelectChanged: function() {
+    this.displaySuccess(this.ui.mileageSelect);
   },
   onShow: function() {
     var self = this;
@@ -42,21 +47,31 @@ module.exports = Marionette.ItemView.extend({
         self.displaySuccess(self.ui.zipInput);
       }
 
+      if(!attrs.mileage || attrs.mileage == '') {       
+        self.displayError(self.ui.mileageSelect);
+        return false;
+      } else {
+        self.displaySuccess(self.ui.mileageSelect);
+      }
+
       return true;
     }
 
     this.modelBinder = new Databinding.ModelBinder(this, this.vehicle);
 
     var numVehicles = this.vehicle.get('numVehicles') || undefined
-    , zip = this.vehicle.get('zip') || undefined;
+    , zip = this.vehicle.get('zip') || undefined
+    , mileage = this.vehicle.get('mileage') || undefined;
     
     if(numVehicles) this.modelBinder.watch('value: numVehicles', {selector: '[name="num_vehicles"]'});
     if(zip) this.modelBinder.watch('value: zip', {selector: '[name="zip"]'});
+    if(mileage) this.modelBinder.watch('value: mileage', {selector: '[name="mileage"]'});
   },
   validate: function() {
     var attrs = {
       numVehicles: this.ui.numVehiclesInput.val(),
-      zip: this.ui.zipInput.val()
+      zip: this.ui.zipInput.val(),
+      mileage: this.ui.mileageSelect.val()
     }
     this.vehicle.validate(attrs);
   },
@@ -83,7 +98,8 @@ module.exports = Marionette.ItemView.extend({
   getNextInputView: function() {   
     var attrs = {
       numVehicles: this.ui.numVehiclesInput.val(),
-      zip: this.ui.zipInput.val()
+      zip: this.ui.zipInput.val(),
+      mileage: this.ui.mileageSelect.val()
     }
     if(this.vehicle.validate(attrs)) {
       this.vehicle.set(attrs);     

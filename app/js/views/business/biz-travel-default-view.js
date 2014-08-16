@@ -7,12 +7,25 @@ var $ = require('jquery')
 var defaultTemplate = require('../../templates/business/biz-travel-default-template.hbs');
 
 module.exports = Marionette.ItemView.extend({
-	template: defaultTemplate,
-	events: {
-	},
-	getNextInputView: function() {
-		App.vent.trigger('showInputView', 'employee');
-	}
+  template: defaultTemplate,
+  ui: {
+    methodRadio: 'radio[name="method"]',
+    useRfi: 'input[name="use_rfi"]'
+  },
+  onShow: function() {
+    this.modelBinder = new Databinding.ModelBinder(this, this.category);
+    this.modelBinder.watch('checked: method', {selector: '[name="method"]'});
+    this.modelBinder.watch('checked: useRFI', {selector: '[name="use_rfi"]'});
+  },
+  getNextInputView: function() {
+    var method = $('[name="method"]:checked').val();
+    var useRFI = ($('[name="use_rfi"]:checked').val() == 'true') ? true : false ;
+    this.category.set({
+      method: method,
+      useRFI: useRFI
+    });
+    App.vent.trigger('showInputView', method);
+  }
 });
 
 	/* ------------------------------------------

@@ -8,7 +8,7 @@ var FleetVehicle = Backbone.Model.extend({
   defaults: {
     totalEmissions: 0,
     fuelType: '', //this has to be empty bc different options avail on different views
-    annMiles: 0,
+    mileage: 0,
     numVehicles: 0,
     useRFI: 'false'
   },
@@ -23,20 +23,20 @@ var FleetVehicle = Backbone.Model.extend({
   calculateEmissions: function() {
 
     var vehicleType = this.get('vehicleType')
-    , vehicleCount = this.get('vehicleCount')
-    , annMiles = this.get('annMiles')
-    , fuel = this.get('fuelType')
-    , boatGallons = this.get('fuelQty') // only set for boats
-    , zipCode = this.get('zip') // only set for ecars
- 
-    if(vehicleType === 'ecar') {if(!zipCode) return;}
+    , numVehicles = this.get('numVehicles')
+    , mileage = this.get('mileage')
+    , fuelType = this.get('fuelType')
+    , fuelQty = this.get('fuelQty') // only set for boats
+    , zip = this.get('zip') // only set for ecars
+
+    if(vehicleType === 'ecar') {if(!zip) return;}
     var fleet = require('../utils/biz-fleet-emissions');
     fleet.vehicleType = vehicleType;
-    fleet.vehicleCount = vehicleCount;
-    fleet.annMiles = annMiles;
-    fleet.fuel = fuel;
-    fleet.boatGallons = boatGallons;
-    fleet.zipCode = zipCode;
+    fleet.vehicleCount = numVehicles;
+    fleet.annMiles = mileage;
+    fleet.fuel = 'diesel';
+    fleet.boatGallons = 2000;
+    fleet.zipCode = zip;
     var totalEmissions = fleet.totalEmissions(this.get('vehicleType'));
     this.set({totalEmissions: totalEmissions});
   },

@@ -14,7 +14,7 @@ module.exports = Marionette.ItemView.extend({
   },
   events: {
     'change select[name="fuel_type"]': 'fuelTypeSelectChanged',
-    'blur input[name="fuel_qty"]': 'validate'
+    'blur input[name="fuel_qty"]': 'fuelQtyInputChanged'
   },
   fuelTypeSelectChanged: function() {
     this.displaySuccess(this.ui.fuelTypeSelect);

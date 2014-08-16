@@ -25,13 +25,24 @@ module.exports = Marionette.CompositeView.extend({
   },
   onShow: function() {
     var currentVehicle = this.category.get('currentFleetVehicle');
+
+    if(currentVehicle.get('vehicleType') !== 'boat' && currentVehicle.get('numVehicles') < 1) {
+      $('.view-question').html('No vehicles were added to this fleet.');
+      return;
+    }
+
+    if(currentVehicle.get('vehicleType') === 'boat' && currentVehicle.get('fuelQty') <= 0) {
+      $('.view-question').html('No fuel was used by boats in this fleet.');
+      return;
+    }
+
     var vehicleType = currentVehicle.get('vehicleType');
     switch(vehicleType) {
       case 'car': currentVehicle.set({isCar: true})
         break;
       case 'truck': currentVehicle.set({isTruck: true})
         break;
-      case 'deliverytruck': currentVehicle.set({isDeliveryTruck: true})
+      case 'deliveryTruck': currentVehicle.set({isDeliveryTruck: true})
         break;
       case 'semi': currentVehicle.set({isSemi: true})
         break;
@@ -50,6 +61,8 @@ module.exports = Marionette.CompositeView.extend({
     this.category.set({totalEmissions: totalEmissions});
     // in order to get the newly added vehicle rendered call...
     this.render();
+    console.log('this.collection');
+    console.log(this.collection);
   },
   deleteClicked: function(event) {
     this.collection.remove( this.collection.get($(event.target).data('cid')) );
@@ -64,7 +77,7 @@ module.exports = Marionette.CompositeView.extend({
     var vehicleTypes = {
       'car': 'car',
       'truck': 'car',
-      'deliverytruck': 'car',
+      'deliveryTruck': 'car',
       'semi': 'car',
       'ecar': 'ecar',
       'plane': 'plane',

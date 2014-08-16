@@ -29,16 +29,16 @@ module.exports = Marionette.ItemView.extend({
     if(oldVehicleType !== newVehicleType) {
       this.vehicle.set({vehicleType: newVehicleType});
     }
-    var vehicleTypes = {
+    var viewSlugs = {
       'car': 'car',
       'truck': 'car',
-      'deliverytruck': 'car',
+      'deliveryTruck': 'car',
       'semi': 'car',
       'ecar': 'ecar',
-      'plane': 'plane',
       'boat': 'boat'
+      // 'plane': 'plane',
     }
-    App.vent.trigger('showInputView', vehicleTypes[newVehicleType]);
+    App.vent.trigger('showInputView', viewSlugs[newVehicleType]);
     return;
   }
 });

@@ -102,7 +102,17 @@ module.exports = App.module('business', function(Calc) {
             {name: 'employee',  view: new employeeTravelView()}, 
             {name: 'miles',  view: new milesTravelView()}
           ]),
-          completed: false
+          completed: false,
+          method: "employee",
+          useRFI: false,
+          numEmployeesTraveling: 0,
+          shortHaulPerEmp: 0,
+          medHaulPerEmp: 0,
+          longHaulPerEmp: 0,
+          totalAnnMiles: 0,
+          percentShortHaulMiles: 0,
+          percentMedHaulMiles: 0,
+          percentLongHaulMiles: 0
         }),
         ////////////////////////////////////////////////////////
         new Category({

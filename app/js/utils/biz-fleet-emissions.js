@@ -256,12 +256,12 @@ var fleet = {
 		var mtCO2 		= this.boatEmissionsByGas()['mtCO2'];
 		var gCH4 		= this.boatEmissionsByGas()['gCH4'];
 		var gN2O 		= this.boatEmissionsByGas()['gN2O'];
-		var vehicles 	= this.vehicleCount;
+		//var vehicles 	= this.vehicleCount;
 
 		var CO2e = {
-			gasoline : 			vehicles * (mtCO2.gasoline + ( gCH4.gasoline*this.c.mtCH4toCO2e + gN2O.gasoline*this.c.mtN2OtoCO2e )/1000/1000),
-			diesel : 			vehicles * (mtCO2.diesel + ( gCH4.diesel*this.c.mtCH4toCO2e + gN2O.diesel*this.c.mtN2OtoCO2e )/1000/1000),
-			residualFuelOil : 	vehicles * (mtCO2.residualFuelOil + ( gCH4.residualFuelOil*this.c.mtCH4toCO2e + gN2O.residualFuelOil*this.c.mtN2OtoCO2e )/1000/1000)
+			gasoline : 			(mtCO2.gasoline + ( gCH4.gasoline*this.c.mtCH4toCO2e + gN2O.gasoline*this.c.mtN2OtoCO2e )/1000/1000),
+			diesel : 			(mtCO2.diesel + ( gCH4.diesel*this.c.mtCH4toCO2e + gN2O.diesel*this.c.mtN2OtoCO2e )/1000/1000),
+			residualFuelOil : 	(mtCO2.residualFuelOil + ( gCH4.residualFuelOil*this.c.mtCH4toCO2e + gN2O.residualFuelOil*this.c.mtN2OtoCO2e )/1000/1000)
 		}
 
 		return CO2e;
@@ -274,7 +274,7 @@ var fleet = {
 		var mpge = 		this.vehicle().fuelEconomy['ecar'];
 		var zipCode = 	this.zipCode;
 		var vehicles = 	this.vehicleCount;
-		var total = 	vehicles * ((annMiles/mpge) * this.c.gasGallonEquiv * this.c.egridSubregionGas[zipSubregion[zipCode].egridSubregion]/1000);
+		var total = 	vehicles * ((annMiles/mpge) * this.c.gasGallonEquiv * this.c.egridSubregionGas[zipSubregion[zipCode].egridSubregion].CO2e/1000);
 	
 		return total;
 
@@ -316,7 +316,6 @@ var fleet = {
 
 module.exports = fleet;
 
-
 // console.log('\nFLEET');
 // console.log('fleet.vehicle()',fleet.vehicle());
 // console.log('fleet.c.fleetFactors',fleet.c.fleetFactors);
@@ -335,11 +334,10 @@ module.exports = fleet;
 // console.log('fleet.totalEmissions(truck)',fleet.totalEmissions('truck'));
 // console.log('fleet.CO2e',fleet.CO2e);
 
-// fleet.vehicleCount = 2;
 // fleet.vehicleType = 'boat';
-// fleet.boatGallons = 2;
+// fleet.boatGallons = 2000;
 // console.log('fleet.boatGallons',fleet.boatGallons);
-// fleet.fuel = 'residualFuelOil';
+// fleet.fuel = 'diesel';
 // console.log('fleet.fuel',fleet.fuel);
 // console.log('fleet.totalEmissions(boat)',fleet.totalEmissions('boat'));
 // console.log('fleet.CO2e',fleet.CO2e);
@@ -351,12 +349,12 @@ module.exports = fleet;
 // fleet.zipCode = 94111;
 // console.log('fleet.totalEmissions(ecar)',fleet.totalEmissions('ecar'));
 // console.log('fleet.CO2e',fleet.CO2e);
-// // fleet.vehicleCount = 1;
-// // fleet.vehicleType = 'boat';
-// // fleet.boatGallons = 1;
-// // fleet.fuel = 'residualFuelOil';
-// // console.log('fleet.totalEmissions(boat)',fleet.totalEmissions('boat'));
-// // console.log('fleet.CO2e',fleet.CO2e);
+// fleet.vehicleCount = 1;
+// fleet.vehicleType = 'boat';
+// fleet.boatGallons = 1;
+// fleet.fuel = 'residualFuelOil';
+// console.log('fleet.totalEmissions(boat)',fleet.totalEmissions('boat'));
+// console.log('fleet.CO2e',fleet.CO2e);
 
 
 

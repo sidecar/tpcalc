@@ -214,6 +214,8 @@ var travel = {
 
 }
 
+module.exports = travel;
+
 console.log('\nTRAVEL');
 console.log('travel.calculateBy',travel.calculateBy);
 console.log('travel.flight.shortHaul',travel.flight.shortHaul);
