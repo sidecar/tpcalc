@@ -7,8 +7,9 @@
  *
  * ========================================== */
 
-// Bootstrap striped of gradients and dropshadows
-// @import "./flatstrap/bootstrap";
+@import "./jquery-ui/jquery-ui.min.css";
+@import "./jquery-ui/jquery-ui.structure.min.css";
+@import "./jquery-ui/jquery-ui.theme.min.css";
 @import "./bootstrap-sass/stylesheets/bootstrap";
 
 /* ------------------------------------------
@@ -1050,4 +1051,8 @@ ul {
 
 .has-error label {
 	color: #a94442;
+}
+
+.percent-flights-by-length {
+	border:0; color:#000; font-weight:bold; width: 3em;
 }

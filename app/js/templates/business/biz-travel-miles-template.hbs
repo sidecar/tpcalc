@@ -1,20 +1,27 @@
 <div class="view-question">Please describe employee travel by providing the total miles flown along with the percentage of flight length</div>
 	
-	<div class="form-element-container padding-top-10">
-		<label for="mileage" data-error-msg="Enter total annual miles" data-default-label="Total annual miles">Total annual miles</label>
-		<div class="form-element">
-			<input type="text" name="mileage" value="0" class="form-control" maxlength="12" />
-		</div>
+<div class="form-element-container padding-top-10">
+	<label for="mileage" data-error-msg="Enter total annual miles" data-default-label="Total annual miles">Total annual miles</label>
+	<div class="form-element">
+		<input type="text" name="mileage" value="0" class="form-control" maxlength="12" />
 	</div>
+</div>
 
-	<div class="form-element-container padding-top-10">
-		<label for="year" data-error-msg="Percentage of flights at each flight length" data-default-label="Percentage of flights at each flight length">Percentage of flights at each flight length</label>
-		<div class="form-element">
-			0% <input id="miles_percent" type="text" class="span2" name="miles_percent" value="" data-slider-min="0" data-slider-max="100" data-slider-step="5" data-slider-value="[33,67]" data-slider-tooltip="hide"/> 100% &nbsp;
-			<div id="percent_short" class="padding-top-20">33% <span class="bold">short haul</span> flights</div>
-			<div id="percent_medium">34% <span class="bold">medium haul</span> flights</div>
-			<div id="percent_long">33% <span class="bold">long haul</span> flights</div>
-		</div>
+<div class="form-element-container padding-top-10">
+	<label for="year" data-error-msg="Percentage of flights at each flight length" data-default-label="Percentage of flights at each flight length">Percentage of flights at each flight length</label>
+	<div class="form-element">
+		<p>
+			<div id="range-slider"></div>
+		</p>
+		<p>
+		  <input type="text" id="percent-short" class="percent-flights-by-length" readonly \><span class="bold">short haul</span> flights
+		</p>
+		<p>
+		  <input type="text" id="percent-med" class="percent-flights-by-length" readonly \><span class="bold">medium haul</span> flights
+		</p>  
+		<p>
+			<input type="text" id="percent-long" class="percent-flights-by-length" readonly \><span class="bold">long haul</span> flights
+		</p> 
+
 	</div>
-
-
+</div>
