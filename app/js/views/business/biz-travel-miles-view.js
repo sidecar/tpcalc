@@ -10,75 +10,105 @@ var milesTemplate = require('../../templates/business/biz-travel-miles-template.
 module.exports = Marionette.ItemView.extend({
 	template: milesTemplate,
   ui: {
-    mileage: 'input[name="mileage"]',
-    percentShort: 'input#percent-short',
-    percentMed: 'input#percent-med',
-    percentLong: 'input#percent-long'
+    mileageInput: 'input[name="mileage"]',
+    percentShortInput: 'input#percent-short',
+    percentMedInput: 'input#percent-med',
+    percentLongInput: 'input#percent-long'
   },
   onShow: function() {
     var self = this;
-
-    this.vehicle.validate = function(attrs, options) {
-      if(!attrs.mileage || attrs.mileage == '' || attrs.mileage.match(/^(0|[1-9][0-9]*)$/) == null) {       
-        self.displayError(self.ui.numVehiclesInput);
+    this.category.validate = function(attrs, options) {
+      if(!attrs.mileage || attrs.mileage == '' || attrs.mileage.match(/^\d*$/) == null) {       
+        self.displayError(self.ui.mileageInput);
         return false;
       } else {
-        self.displaySuccess(self.ui.numVehiclesInput);
+        self.displaySuccess(self.ui.mileageInput);
       }
       return true;
     }
 
-    this.modelBinder = new Databinding.ModelBinder(this, this.vehicle);
+    var mileage = this.category.get('mileage') || 0
+    , percentShort = this.category.get('percentShort') || 33
+    , percentMed = this.category.get('percentMed') || 33
+    , percentLong = this.category.get('percentLong') || 33;
 
-    var mileage = this.vehicle.get('mileage') || undefined
-    , percentShort = this.vehicle.get('percentShort') || undefined
-    , percentMed = this.vehicle.get('percentMed') || undefined
-    , percentLong = this.vehicle.get('percentLong') || undefined;
-    
-    if(mileage) this.modelBinder.watch('value: mileage', {selector: '[name="num_vehicles"]'});
-    if(percentShort) this.modelBinder.watch('value: percentShort', {selector: 'input#percent-short'});
-    if(percentMed) this.modelBinder.watch('value: percentMed', {selector: 'input#percent-med'});
-    if(percentLong) this.modelBinder.watch('value: percentLong', {selector: 'input#percent-long'});
+    this.ui.mileageInput.val(mileage);
+    this.ui.percentShortInput.val( percentShort + '%');
+    this.ui.percentMedInput.val( percentMed + '%');
+    this.ui.percentLongInput.val( percentLong + '%');
 
-    var sliderMin = 0
-    , sliderMax = 100
-    , sliderPos1 = 33
-    , sliderPos2 = 75;
+    var sliderPos1 = percentShort
+    , sliderPos2 = percentShort + percentMed;
 
     $( "#range-slider" ).slider({
       range: true,
-      min: sliderMin,
-      max: sliderMax,
+      min: 0,
+      max: 100,
       values: [ sliderPos1, sliderPos2 ],
       slide: function( event, ui ) {
         var percentShort = ui.values[0]
         , percentMed = ui.values[1] - ui.values[0]
         , percentLong = 100 - ui.values[1];
+        
+        self.category.set({
+          percentShort: percentShort,
+          percentMed: percentMed,
+          percentLong: percentLong
+        });
 
-        self.ui.percentShort.val( percentShort + '%');
-        self.ui.percentMed.val( percentMed + '%');
-        self.ui.percentLong.val( percentLong + '%');
+        self.ui.percentShortInput.val( percentShort + '%');
+        self.ui.percentMedInput.val( percentMed + '%');
+        self.ui.percentLongInput.val( percentLong + '%');
       }
     });
 
-    var percentShort = sliderPos1
-    , percentMed = sliderPos2 - sliderPos1
-    , percentLong = 100 - sliderPos2;
-
-    this.ui.percentShort.val( percentShort + '%');
-    this.ui.percentMed.val( percentMed + '%');
-    this.ui.percentLong.val( percentLong + '%');
-
+  },
+  validate: function() {
+    var attrs = {
+      mileage: this.ui.mileageInput.val(),
+    }
+    this.category.validate(attrs);
+  },
+  displaySuccess: function($elem) {
+    $elem.parent()
+      .prev('label')
+      .html(function() {
+          return $(this).data('default-label');
+        })
+      .parent('div')
+      .addClass('has-success')
+      .removeClass('has-error');
+  },
+  displayError: function($elem) {
+    $elem.parent()
+      .prev('label')
+      .html(function() {
+          return $(this).data('error-msg');
+        })
+      .parent('div')
+      .addClass('has-error')
+      .removeClass('has-success');
   },
   getNextInputView: function() {
-    var travel = require('../../utils/biz-travel-emissions');
-    travel.annMiles = this.ui.mileage.val();
-    travel.flight.shortHaul.percent = parseInt(this.ui.percentShort.val());
-    travel.flight.medHaul.percent = parseInt(this.ui.percentMed.val());
-    travel.flight.longHaul.percent = parseInt(this.ui.percentLong.val());
-    travel.setCalculateBy('flightPercent');
-    this.category.set({totalEmissions: travel.totalEmissions().shortHaul + travel.totalEmissions().medHaul + travel.totalEmissions().longHaul})
-    console.log('this.category',this.category);
-    App.vent.trigger('goToNextCategory');
+    var attrs = {
+      mileage: this.ui.mileageInput.val()
+    }
+    if(this.category.validate(attrs)) {
+      var travel = require('../../utils/biz-travel-emissions');
+      var totalEmissions = 0;
+      travel.annMiles = this.ui.mileageInput.val();
+      travel.flight.shortHaul.percent = parseInt(this.ui.percentShortInput.val());
+      travel.flight.medHaul.percent = parseInt(this.ui.percentMedInput.val());
+      travel.flight.longHaul.percent = parseInt(this.ui.percentLongInput.val());
+      travel.setCalculateBy('flightPercent');
+      totalEmissions += travel.totalEmissions().shortHaul; 
+      totalEmissions += travel.totalEmissions().medHaul;
+      totalEmissions += travel.totalEmissions().longHaul;
+      this.category.set({
+        mileage: this.ui.mileageInput.val(),
+        totalEmissions: totalEmissions
+      });
+      App.vent.trigger('goToNextCategory');
+    }
   }
 });

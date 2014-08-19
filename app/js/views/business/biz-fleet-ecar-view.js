@@ -33,7 +33,7 @@ module.exports = Marionette.ItemView.extend({
 
     this.vehicle.validate = function(attrs, options) {
 
-      if(!attrs.numVehicles || attrs.numVehicles == '' || attrs.numVehicles.match(/^(0|[1-9][0-9]*)$/) == null) {       
+      if(!attrs.numVehicles || attrs.numVehicles == '' || attrs.numVehicles.match(/^\d*$/) == null) {       
         self.displayError(self.ui.numVehiclesInput);
         return false;
       } else {

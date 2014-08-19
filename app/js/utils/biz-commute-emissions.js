@@ -188,27 +188,27 @@ var commute = {
 
 module.exports = commute;
 
-console.log('\nCOMMUTE');
-console.log('commute.methods',commute.methods);
+// console.log('\nCOMMUTE');
+// console.log('commute.methods',commute.methods);
 
-commute.car.employees = 5;
-console.log('commute.car',commute.car);
+// commute.car.employees = 5;
+// console.log('commute.car',commute.car);
 
-commute.train.employees = 5;
-console.log('commute.train',commute.train);
+// commute.train.employees = 5;
+// console.log('commute.train',commute.train);
 
-commute.bus.employees = 9;
-console.log('commute.bus',commute.bus);
+// commute.bus.employees = 9;
+// console.log('commute.bus',commute.bus);
 
-commute.taxi.employees = 9;
-console.log('commute.bus',commute.bus);
+// commute.taxi.employees = 9;
+// console.log('commute.bus',commute.bus);
 
-commute.ferry.employees = 5;
-console.log('commute.ferry',commute.ferry);
+// commute.ferry.employees = 5;
+// console.log('commute.ferry',commute.ferry);
 
 
-console.log('commute.totalEmissions(train)',commute.totalEmissions('train'));
-console.log('commute.totalEmissions(bus)',commute.totalEmissions('bus'));
-console.log('commute.totalEmissions(taxi)',commute.totalEmissions('taxi'));
-console.log('commute.totalEmissions(ferry)',commute.totalEmissions('ferry'));
-console.log('commute.totalEmissions()',commute.totalEmissions());
+// console.log('commute.totalEmissions(train)',commute.totalEmissions('train'));
+// console.log('commute.totalEmissions(bus)',commute.totalEmissions('bus'));
+// console.log('commute.totalEmissions(taxi)',commute.totalEmissions('taxi'));
+// console.log('commute.totalEmissions(ferry)',commute.totalEmissions('ferry'));
+// console.log('commute.totalEmissions()',commute.totalEmissions());
