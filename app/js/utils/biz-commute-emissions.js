@@ -2,8 +2,6 @@
  * BUSINESS CALCULATOR - Spreadsheet Calculation Conversions
  * ==================================================== */
 
-
-
 /* -------------------------------------
  * Business Commute
  * ------------------------------------- */
@@ -187,6 +185,8 @@ var commute = {
 	}
 
 }
+
+module.exports = commute;
 
 console.log('\nCOMMUTE');
 console.log('commute.methods',commute.methods);

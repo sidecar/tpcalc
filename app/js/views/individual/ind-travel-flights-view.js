@@ -62,6 +62,7 @@ module.exports = Marionette.ItemView.extend({
     //modified from NPM module panther
     function searchJSON(callback, searchTerm, inputArray) {
       var arrayOfMatches = [];
+      console.log('searchJSON inputArray = ', inputArray);
       for (var e in inputArray) {
         (function(i) {
           for (var y in inputArray[i]) {

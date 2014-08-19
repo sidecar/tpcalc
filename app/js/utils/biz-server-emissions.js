@@ -2,18 +2,20 @@
  * BUSINESS CALCULATOR - Spreadsheet Calculation Conversions
  * ==================================================== */
 
-
-
 /* -------------------------------------
  * Server
  * ------------------------------------- */
 
+var constants = require('./emissions-constants');
+var zipSubregion = require('./zip-subregions');
+
 var server = {
 
-	c : 			tpConstants,
+	c : 			constants,
 	factor : 		0.278,
 	servers : 		0,
 	avgServerLoad : 300,
+	zipCode: '94607',
 
 	annUsage : function() {
 
@@ -23,14 +25,18 @@ var server = {
 
 	totalEmissions : function() {
 
-		return this.annUsage() * this.factor * .001
+		// return this.annUsage() * this.factor * .001
+		return this.annUsage() * this.c.egridSubregionGas[zipSubregion[this.zipCode].egridSubregion].CO2e * .001
 
 	}
 
 }
 
-console.log('\nSERVER');
-console.log('1.server',server);
-server.servers = 1;
-console.log('2.server',server);
-console.log('server.totalEmissions()',server.totalEmissions());
+module.exports = server;
+
+// console.log('\nSERVER');
+// console.log('1.server',server);
+// server.zipCode = '94111';
+// server.servers = 1;
+// console.log('2.server',server);
+// console.log('server.totalEmissions()',server.totalEmissions());

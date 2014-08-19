@@ -39,8 +39,6 @@ module.exports = Marionette.ItemView.extend({
     air.flight.longBusiness.annFlights = numLongBizClassFlights;
     air.flight.longFirst.annFlights = numLongFirstClassFlights;
     
-    console.log('ind-travel-length-view air.totalEmissions() = ', air.totalEmissions());
-
     totalEmissions += air.totalEmissions('shortHaul');
     totalEmissions += air.totalEmissions('medEcon');
     totalEmissions += air.totalEmissions('medFirst');    

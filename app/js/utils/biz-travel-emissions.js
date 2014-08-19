@@ -216,40 +216,40 @@ var travel = {
 
 module.exports = travel;
 
-console.log('\nTRAVEL');
-console.log('travel.calculateBy',travel.calculateBy);
-console.log('travel.flight.shortHaul',travel.flight.shortHaul);
+// console.log('\nTRAVEL');
+// console.log('travel.calculateBy',travel.calculateBy);
+// console.log('travel.flight.shortHaul',travel.flight.shortHaul);
 
-console.log('\nflightMiles - shortHaul');
-travel.employees = 2;
-travel.flight.shortHaul.annMiles = 5000;
-travel.setCalculateBy('flightMiles');
-console.log('travel.flight',travel.flight);
-console.log('travel.totalEmissions(shortHaul)',travel.totalEmissions('shortHaul'));
+// console.log('\nflightMiles - shortHaul');
+// travel.employees = 2;
+// travel.flight.shortHaul.annMiles = 5000;
+// travel.setCalculateBy('flightMiles');
+// console.log('travel.flight',travel.flight);
+// console.log('travel.totalEmissions(shortHaul)',travel.totalEmissions('shortHaul'));
 
-console.log('\nfuel - jetFuel');
-travel.fuelType = 'jetFuel';
-travel.setCalculateBy('fuel');
-travel.fuel.jetFuel = 100; // Set the number of gallons of jet fuel
-console.log('travel.calculateBy',travel.calculateBy);
-travel.flight.shortHaul.annMiles = 5000;
-console.log('travel.flight',travel.flight);
-console.log('travel.totalEmissions(fuel)',travel.totalEmissions('fuel'));
+// console.log('\nfuel - jetFuel');
+// travel.fuelType = 'jetFuel';
+// travel.setCalculateBy('fuel');
+// travel.fuel.jetFuel = 100; // Set the number of gallons of jet fuel
+// console.log('travel.calculateBy',travel.calculateBy);
+// travel.flight.shortHaul.annMiles = 5000;
+// console.log('travel.flight',travel.flight);
+// console.log('travel.totalEmissions(fuel)',travel.totalEmissions('fuel'));
 
-console.log('\nfuel - aviationGas');
-travel.fuelType = 'aviationGas';
-travel.setCalculateBy('fuel');
-travel.fuel.aviationGas = 200; // Set the number of gallons of jet fuel
-console.log('travel.calculateBy',travel.calculateBy);
-travel.flight.shortHaul.annMiles = 5000;
-console.log('travel.flight',travel.flight);
-console.log('travel.totalEmissions(fuel)',travel.totalEmissions('fuel'));
+// console.log('\nfuel - aviationGas');
+// travel.fuelType = 'aviationGas';
+// travel.setCalculateBy('fuel');
+// travel.fuel.aviationGas = 200; // Set the number of gallons of jet fuel
+// console.log('travel.calculateBy',travel.calculateBy);
+// travel.flight.shortHaul.annMiles = 5000;
+// console.log('travel.flight',travel.flight);
+// console.log('travel.totalEmissions(fuel)',travel.totalEmissions('fuel'));
 
-console.log('\nflightPercent');
-travel.annMiles = 10000;
-travel.flight.shortHaul.percent = 35;
-travel.flight.medHaul.percent = 35;
-travel.flight.longHaul.percent = 30;
-travel.setCalculateBy('flightPercent');
-console.log('travel.calculateBy',travel.calculateBy);
-console.log('travel.totalEmissions()',travel.totalEmissions());
+// console.log('\nflightPercent');
+// travel.annMiles = 10000;
+// travel.flight.shortHaul.percent = 35;
+// travel.flight.medHaul.percent = 35;
+// travel.flight.longHaul.percent = 30;
+// travel.setCalculateBy('flightPercent');
+// console.log('travel.calculateBy',travel.calculateBy);
+// console.log('travel.totalEmissions()',travel.totalEmissions());

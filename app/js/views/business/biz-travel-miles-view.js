@@ -17,6 +17,29 @@ module.exports = Marionette.ItemView.extend({
   },
   onShow: function() {
     var self = this;
+
+    this.vehicle.validate = function(attrs, options) {
+      if(!attrs.mileage || attrs.mileage == '' || attrs.mileage.match(/^(0|[1-9][0-9]*)$/) == null) {       
+        self.displayError(self.ui.numVehiclesInput);
+        return false;
+      } else {
+        self.displaySuccess(self.ui.numVehiclesInput);
+      }
+      return true;
+    }
+
+    this.modelBinder = new Databinding.ModelBinder(this, this.vehicle);
+
+    var mileage = this.vehicle.get('mileage') || undefined
+    , percentShort = this.vehicle.get('percentShort') || undefined
+    , percentMed = this.vehicle.get('percentMed') || undefined
+    , percentLong = this.vehicle.get('percentLong') || undefined;
+    
+    if(mileage) this.modelBinder.watch('value: mileage', {selector: '[name="num_vehicles"]'});
+    if(percentShort) this.modelBinder.watch('value: percentShort', {selector: 'input#percent-short'});
+    if(percentMed) this.modelBinder.watch('value: percentMed', {selector: 'input#percent-med'});
+    if(percentLong) this.modelBinder.watch('value: percentLong', {selector: 'input#percent-long'});
+
     var sliderMin = 0
     , sliderMax = 100
     , sliderPos1 = 33
@@ -54,49 +77,8 @@ module.exports = Marionette.ItemView.extend({
     travel.flight.medHaul.percent = parseInt(this.ui.percentMed.val());
     travel.flight.longHaul.percent = parseInt(this.ui.percentLong.val());
     travel.setCalculateBy('flightPercent');
-    this.category.set({totalEmissions: travel.totalEmissions()})
+    this.category.set({totalEmissions: travel.totalEmissions().shortHaul + travel.totalEmissions().medHaul + travel.totalEmissions().longHaul})
     console.log('this.category',this.category);
     App.vent.trigger('goToNextCategory');
   }
 });
-
-
-    // // the code belows assume the colors array is exactly one element bigger than the handlers array.
-    // var handlers = [33, 75];
-    // var colors = ["#ff0000", "#00ff00", "#0000ff"];
-    // //updateColors(handlers);
-    
-    // $('#perecent-short').val('test');
-    // $('#perecent-med').val('test');
-    // $('#perecent-long').val('test');
-    
-    // $("#slider").slider({
-    //   range: true,
-    //   min: 0,
-    //   max: 100,
-    //   values: handlers,
-    //   slide: function (evt, ui) {
-    //     var percentShort = ui.values[0]
-    //     , percentMed = ui.values[1]
-    //     , percentLong = 100 - (percentShort + percentMed);
-
-
-    //     $('#perecent-short').val(percentShort + "%");
-    //     $('#perecent-med').val(percentMed + "%");
-    //     $('#perecent-long').val(percentLong + "%");
-    //   }
-    // });
-
-    // function updateColors(values) {
-    //   var colorstops = colors[0] + ", "; // start left with the first color
-    //     for (var i=0; i< values.length; i++) {
-    //       colorstops += colors[i] + " " + values[i] + "%,";
-    //       colorstops += colors[i+1] + " " + values[i] + "%,";
-    //     }
-    //     // end with the last color to the right
-    //     colorstops += colors[colors.length-1];
-        
-    //     /* Safari 5.1, Chrome 10+ */
-    //     var css = '-webkit-linear-gradient(left,' + colorstops + ')';
-    //     $('#slider').css('background-image', css);
-    // }
