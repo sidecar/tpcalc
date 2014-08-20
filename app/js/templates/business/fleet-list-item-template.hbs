@@ -1,0 +1,26 @@
+<li>
+  {{#if isEcar}}
+    {{#if numVehicles}}{{numVehicles}}{{/if}} Electric Car{{#if displayPlural}}s{{/if}}, {{#if mileage}}{{mileage}} mi/yr{{/if}}
+  {{/if}}
+  {{#if isBoat}}
+    Boats: {{fuelQty}} gallons of {{fuelType}}
+  {{/if}}
+  {{#if isPlane}}
+    {{#if numVehicles}}{{numVehicles}}{{/if}} Plane{{#if displayPlural}}s{{/if}}, {{fuelQty}} gallons of fuel
+  {{/if}}
+  {{#if isCar}}
+    {{#if numVehicles}}{{numVehicles}}{{/if}} {{vehicleType}}{{#if displayPlural}}s{{/if}}, {{#if fuelType}}{{fuelType}},{{/if}} {{#if mileage}}{{mileage}} mi/yr{{/if}}
+  {{/if}}
+  {{#if isTruck}}
+    {{#if numVehicles}}{{numVehicles}}{{/if}} {{vehicleType}}{{#if displayPlural}}s{{/if}}, {{#if fuelType}}{{fuelType}},{{/if}} {{#if mileage}}{{mileage}} mi/yr{{/if}}
+  {{/if}}
+  {{#if isDeliveryTruck}}
+    {{#if numVehicles}}{{numVehicles}}{{/if}} {{vehicleType}}{{#if displayPlural}}s{{/if}}, {{#if fuelType}}{{fuelType}},{{/if}} {{#if mileage}}{{mileage}} mi/yr{{/if}}
+  {{/if}}
+  {{#if isSemi}}
+    {{#if numVehicles}}{{numVehicles}}{{/if}} {{vehicleType}}{{#if displayPlural}}s{{/if}}, {{#if fuelType}}{{fuelType}},{{/if}} {{#if mileage}}{{mileage}} mi/yr{{/if}}
+  {{/if}}
+  <span class="float-right">
+    <button class="btn btn-xs bg-dark-gray white delete" data-cid="{{cid}}"> &nbsp;Delete</button>
+  <span>
+</li>
