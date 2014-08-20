@@ -1072,6 +1072,9 @@ ul {
 		border-right: solid 1px #ddd; 
 		border-left: solid 1px #ddd;
 		width: 20%;
+		input {
+			width: 100%;
+		}
 }
 .biz-shipping-input-table>tbody>tr>td.first-cell, 
 .biz-shipping-input-table>tbody>tr>th.first-cell, 

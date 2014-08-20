@@ -9,69 +9,58 @@ var defaultTemplate = require('../../templates/business/biz-shipping-default-tem
 module.exports = Marionette.ItemView.extend({
 	template: defaultTemplate,
   ui: {
-    shipmentsInput: 'input[name="shipments"]',
-    distanceInput: 'input[name="distance"]',
-    weightInput: 'input[name="weight"]' 
+    airShipmentsInput: 'input[name="air_shipments"]',
+    airDistanceInput: 'input[name="air_distance"]',
+    airWeightInput: 'input[name="air_weight"]', 
+    truckShipmentsInput: 'input[name="truck_shipments"]',
+    truckDistanceInput: 'input[name="truck_distance"]',
+    truckWeightInput: 'input[name="truck_weight"]', 
+    trainShipmentsInput: 'input[name="train_shipments"]',
+    trainDistanceInput: 'input[name="train_distance"]',
+    trainWeightInput: 'input[name="train_weight"]' 
   },
   events: {
-    'blur input[name="shipments"]': 'shipmentsInputChanged',
-    'blur input[name="distance"]': 'distanceInputChanged',
-    'blur input[name="weight"]': 'weightInputChanged'
-  },
-  shipmentsInputChanged: function() {
-    this.displaySuccess(this.ui.shipmentsInput);
-  },
-  distanceInputChanged: function() {
-    this.displaySuccess(this.ui.distanceInput);
-  },
-  weightInputChanged: function() {
-    this.displaySuccess(this.ui.weightInput);
+    'blur input[name="air_shipments"]': 'validateField',
+    'blur input[name="air_distance"]': 'validateField',
+    'blur input[name="air_weight"]': 'validateField',
+    'blur input[name="truck_shipments"]': 'validateField',
+    'blur input[name="truck_distance"]': 'validateField',
+    'blur input[name="truck_weight"]': 'validateField',
+    'blur input[name="train_shipments"]': 'validateField',
+    'blur input[name="train_distance"]': 'validateField',
+    'blur input[name="train_weight"]': 'validateField'
   },
   onShow: function() {
-    var self = this;
-    this.category.validate = function(attrs, options) {
+    var airShipments = this.category.get('airShipments') || 0
+    , airDistance = this.category.get('airDistance') || 0
+    , airWeight = this.category.get('airWeight') || 0
+    , truckShipments = this.category.get('truckShipments') || 0
+    , truckDistance = this.category.get('truckDistance') || 0
+    , truckWeight = this.category.get('truckWeight') || 0
+    , trainShipments = this.category.get('trainShipments') || 0
+    , trainDistance = this.category.get('trainDistance') || 0
+    , trainWeight = this.category.get('trainWeight') || 0;
 
-      if(!attrs.shipments || attrs.shipments == '' || attrs.shipments.match(/^\d*$/) == null) {       
-        self.displayError(self.ui.shipmentsInput);
-        return false;
-      } else {
-        self.displaySuccess(self.ui.shipmentsInput);
-      }
-
-      if(!attrs.distance || attrs.distance == '' || attrs.distance.match(/^\d*$/) == null) {       
-        self.displayError(self.ui.distanceInput);
-        return false;
-      } else {
-        self.displaySuccess(self.ui.distanceInput);
-      }
-
-      if(!attrs.weight || attrs.weight === '' || attrs.weight.match(/^\d*$/) === null) {       
-        self.displayError(self.ui.weightInput);
-        return false;
-      } else {
-        self.displaySuccess(self.ui.weightInput);
-      }
-
-      return true;
-    }
-
-    this.modelBinder = new Databinding.ModelBinder(this, this.category);
-
-    var shipments = this.category.get('shipments') || undefined
-    , distance = this.category.get('distance') || false
-    , weight = this.category.get('weight') || undefined;
+    if(airShipments) this.ui.airShipmentsInput.val(airShipments);
+    if(airDistance) this.ui.airDistanceInput.val(airDistance);
+    if(airWeight) this.ui.airWeightInput.val(airWeight);
+    if(truckShipments) this.ui.truckShipmentsInput.val(truckShipments);
+    if(truckDistance) this.ui.truckDistanceInput.val(truckDistance);
+    if(truckWeight) this.ui.truckWeightInput.val(truckWeight);
+    if(trainShipments) this.ui.trainShipmentsInput.val(trainShipments);
+    if(trainDistance) this.ui.trainDistanceInput.val(trainDistance);
+    if(trainWeight) this.ui.trainWeightInput.val(trainWeight);
     
-    if(shipments) this.modelBinder.watch('value: shipments', {selector: '[name="shipments"]'});
-    if(distance) this.modelBinder.watch('checked: distance', {selector: '[name="distance"]'});
-    if(weight) this.modelBinder.watch('value: weight', {selector: '[name="weight"]'});
   },
-  validate: function() {
-    var attrs = {
-      shipments: this.ui.shipmentsInput.val(),
-      distance: this.ui.distanceInput.val(),
-      weight: this.ui.weightInput.val()
+  validateField: function(event) {
+    var $target = $(event.target);
+    var val = $target.val();
+    if(!val || val === '' || val.match(/^\d*$/) === null) {       
+      this.displayError($target);
+      return false;
+    } else {
+      this.displaySuccess($target);
     }
-    this.category.validate(attrs);
   },
   displaySuccess: function($elem) {
     $elem.parent()
@@ -93,17 +82,53 @@ module.exports = Marionette.ItemView.extend({
       .addClass('has-error')
       .removeClass('has-success');
   },
-  getNextInputView: function() {   
-    var attrs = {
-      shipments: this.ui.shipmentsInput.val(),
-      distance: this.ui.distanceInput.val(),
-      weight: this.ui.weightInput.val()
-    }
-    if(this.category.validate(attrs)) {
-      //var shipping = require('../../utils/biz-shipping-emissions')
-      this.category.set(attrs); 
-      App.vent.trigger('goToNextCategory');
-    }
+  getNextInputView: function() { 
+
+    var totalEmissions = 0
+    , airShipments = parseInt(this.ui.airShipmentsInput.val())
+    , airDistance = parseInt(this.ui.airDistanceInput.val())
+    , airWeight = parseInt(this.ui.airWeightInput.val())
+    , truckShipments = parseInt(this.ui.truckShipmentsInput.val())
+    , truckDistance = parseInt(this.ui.truckDistanceInput.val())
+    , truckWeight = parseInt(this.ui.truckWeightInput.val())
+    , trainShipments = parseInt(this.ui.trainShipmentsInput.val())
+    , trainDistance = parseInt(this.ui.trainDistanceInput.val())
+    , trainWeight = parseInt(this.ui.trainWeightInput.val());
+
+    var shipping = require('../../utils/biz-shipping-emissions')
+
+    shipping.air.shipments = airShipments;
+    shipping.air.miles = airDistance;
+    shipping.air.pounds = airWeight;
+
+    shipping.truck.shipments = truckShipments;
+    shipping.truck.miles = truckDistance;
+    shipping.truck.pounds = truckWeight;
+
+    shipping.train.shipments = trainShipments;
+    shipping.train.miles = trainDistance;
+    shipping.train.pounds = trainWeight;
+
+    totalEmissions += shipping.totalEmissions().air;
+    totalEmissions += shipping.totalEmissions().truck;
+    totalEmissions += shipping.totalEmissions().train;
+
+    this.category.set({
+      airShipments: airShipments,
+      airDistance: airDistance,
+      airWeight: airWeight,
+      truckShipments: truckShipments,
+      truckDistance: truckDistance,
+      truckWeight: truckWeight,
+      trainShipments: trainShipments,
+      trainDistance: trainDistance,
+      trainWeight: trainWeight,
+      totalEmissions: totalEmissions
+    }); 
+
+    console.log('this.category', this.category);
+
+    App.vent.trigger('goToNextCategory');
   }
 });
 
