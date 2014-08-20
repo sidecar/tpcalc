@@ -1056,32 +1056,36 @@ ul {
 .percent-flights-by-length {
 	border:0; color:#000; font-weight:bold; width: 3em;
 }
-.biz-shipping-input-table {
-	padding: 20px 40px 20px 0;
+
+.biz-shipping-table-container {
+	padding: 20px;
+}
+
+.biz-shipping-table {
 	border-collapse:collapse;
 	tr {border: none;}
 }
 
-.biz-shipping-input-table>tbody>tr>td, 
-.biz-shipping-input-table>tbody>tr>th, 
-.biz-shipping-input-table>tfoot>tr>td, 
-.biz-shipping-input-table>tfoot>tr>th, 
-.biz-shipping-input-table>thead>tr>td, 
-.biz-shipping-input-table>thead>tr>th {
+.biz-shipping-table>tbody>tr>td, 
+.biz-shipping-table>tbody>tr>th, 
+.biz-shipping-table>tfoot>tr>td, 
+.biz-shipping-table>tfoot>tr>th, 
+.biz-shipping-table>thead>tr>td, 
+.biz-shipping-table>thead>tr>th {
 		border-top: none;
-		border-right: solid 1px #ddd; 
 		border-left: solid 1px #ddd;
 		width: 20%;
 		input {
 			width: 100%;
 		}
 }
-.biz-shipping-input-table>tbody>tr>td.first-cell, 
-.biz-shipping-input-table>tbody>tr>th.first-cell, 
-.biz-shipping-input-table>tfoot>tr>td.first-cell, 
-.biz-shipping-input-table>tfoot>tr>th.first-cell, 
-.biz-shipping-input-table>thead>tr>td.first-cell, 
-.biz-shipping-input-table>thead>tr>th.first-cell {
+
+.biz-shipping-table>tbody>tr>td.first-cell, 
+.biz-shipping-table>tbody>tr>th.first-cell, 
+.biz-shipping-table>tfoot>tr>td.first-cell, 
+.biz-shipping-table>tfoot>tr>th.first-cell, 
+.biz-shipping-table>thead>tr>td.first-cell, 
+.biz-shipping-table>thead>tr>th.first-cell {
 		border-left: none;
 		text-align: right;
 		width: 40%;

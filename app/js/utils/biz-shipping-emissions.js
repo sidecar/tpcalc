@@ -59,18 +59,18 @@
 
 module.exports = shipping;
 
-console.log('\nSHIPPING');
-console.log('shipping',shipping);
-shipping.air.shipments = 92;
-shipping.air.miles = 722;
-shipping.air.pounds = 10000;
-console.log('shipping.totalEmissions()',shipping.totalEmissions());
-console.log('shipping.totalEmissions(air)',shipping.totalEmissions('air'));
-shipping.truck.shipments = 4;
-shipping.truck.miles = 50;
-shipping.truck.pounds = 3000;
-console.log('shipping.totalEmissions(truck)',shipping.totalEmissions('truck'));
-shipping.train.shipments = 6;
-shipping.train.miles = 30;
-shipping.train.pounds = 3000;
-console.log('shipping.totalEmissions(train)',shipping.totalEmissions('train'));
+// console.log('\nSHIPPING');
+// console.log('shipping',shipping);
+// shipping.air.shipments = 92;
+// shipping.air.miles = 722;
+// shipping.air.pounds = 10000;
+// console.log('shipping.totalEmissions()',shipping.totalEmissions());
+// console.log('shipping.totalEmissions(air)',shipping.totalEmissions('air'));
+// shipping.truck.shipments = 4;
+// shipping.truck.miles = 50;
+// shipping.truck.pounds = 3000;
+// console.log('shipping.totalEmissions(truck)',shipping.totalEmissions('truck'));
+// shipping.train.shipments = 6;
+// shipping.train.miles = 30;
+// shipping.train.pounds = 3000;
+// console.log('shipping.totalEmissions(train)',shipping.totalEmissions('train'));

@@ -33,7 +33,7 @@ module.exports = Marionette.ItemView.extend({
     , percentMed = this.category.get('percentMedHaulMiles') || 33
     , percentLong = this.category.get('percentLongHaulMiles') || 33;
 
-    this.ui.mileageInput.val(numer(mileage).format('0,0'));
+    this.ui.mileageInput.val(numeral(mileage).format('0,0'));
     this.ui.percentShortInput.val( percentShort + '%');
     this.ui.percentMedInput.val( percentMed + '%');
     this.ui.percentLongInput.val( percentLong + '%');
