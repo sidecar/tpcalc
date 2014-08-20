@@ -3,6 +3,7 @@ var $ = require('jquery')
 , Marionette = require('backbone.marionette')
 , Databinding = require('backbone.databinding')
 , App = require('../../app')
+, numeral = require('numeral')
 , jquiSlider = require('jquery-ui/slider');
 
 var milesTemplate = require('../../templates/business/biz-travel-miles-template.hbs');
@@ -28,11 +29,11 @@ module.exports = Marionette.ItemView.extend({
     }
 
     var mileage = this.category.get('mileage') || 0
-    , percentShort = this.category.get('percentShort') || 33
-    , percentMed = this.category.get('percentMed') || 33
-    , percentLong = this.category.get('percentLong') || 33;
+    , percentShort = this.category.get('percentShortHaulMiles') || 33
+    , percentMed = this.category.get('percentMedHaulMiles') || 33
+    , percentLong = this.category.get('percentLongHaulMiles') || 33;
 
-    this.ui.mileageInput.val(mileage);
+    this.ui.mileageInput.val(numer(mileage).format('0,0'));
     this.ui.percentShortInput.val( percentShort + '%');
     this.ui.percentMedInput.val( percentMed + '%');
     this.ui.percentLongInput.val( percentLong + '%');
@@ -51,9 +52,9 @@ module.exports = Marionette.ItemView.extend({
         , percentLong = 100 - ui.values[1];
         
         self.category.set({
-          percentShort: percentShort,
-          percentMed: percentMed,
-          percentLong: percentLong
+          percentShortHaulMiles: percentShort,
+          percentMedHaulMiles: percentMed,
+          percentLongHaulMiles: percentLong
         });
 
         self.ui.percentShortInput.val( percentShort + '%');
