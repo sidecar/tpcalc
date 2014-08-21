@@ -1049,7 +1049,8 @@ ul {
     display: none;
 }
 
-.has-error label {
+// .has-error label {
+.has-error {
 	color: #a94442;
 }
 
@@ -1087,18 +1088,6 @@ ul {
 .ind-transit-table>thead>tr>td.first-cell, 
 .ind-transit-table>thead>tr>th.first-cell {
 		width: 20%;
-}
-
-.home-energy-label-container {
-	margin-top: -5px;
-	span {
-		display: inline;
-	}
-}
-
-.display-error {
-	color: #dd0000;
-	font-size: 12px;
 }
 
 .biz-shipping-table-container {

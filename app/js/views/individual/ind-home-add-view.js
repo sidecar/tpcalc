@@ -1,11 +1,12 @@
 'use strict';
 var $ = require('jquery')
 , Marionette = require('backbone.marionette')
-, App = require('../../app');
+, App = require('../../app')
+, validation = require('../../utils/validation');
 
 var addTemplate = require('../../templates/individual/ind-home-add-template.hbs');
 
-module.exports= Marionette.ItemView.extend({
+module.exports = Marionette.ItemView.extend({
 	template: addTemplate,
   ui: {
     electricityAmountInput: '[name="electricity_amount"]',
@@ -56,15 +57,17 @@ module.exports= Marionette.ItemView.extend({
     this.ui.dieselIntervalSelect.val(this.category.get('dieselInterval') || 0);
   },
   validateForm: function(){
+    var validation = require('../../utils/validation');
     var view = this;
+
     function isDigit($input) {
       var val = $input.val();
-      if(!val || val === '' || val === undefined || val.match(/^\d+$/) === null) {
-        view.displayError($input);
-        return false;
-      } else {
+      if(validation.isDigit(val)) {
         view.displaySuccess($input);
         return true;
+      } else {
+        view.displayError($input);
+        return false;
       }
     }
 
@@ -79,24 +82,33 @@ module.exports= Marionette.ItemView.extend({
   validateField: function(event) {
     var $target = $(event.target);
     var val = $target.val();
-    if(!val || val === '' || val.match(/^\d*$/) === null) {       
-      this.displayError($target);
-      return false;
-    } else {
+    if(validation.isDigit(val)) {       
       this.displaySuccess($target);
+    } else {
+      this.displayError($target);
     }
   },
   displaySuccess: function($elem) {
-    $elem.parent().parent('div')
-      .addClass('has-success')
+    $elem.parent()
+      .parent('div')
       .removeClass('has-error')
-      .prev('.home-energy-label-container').find('.display-error').html('');
+      .addClass('has-success')
+      .prev('.big-label')
+      .removeClass('has-error')
+      .addClass('has-success')
+      .find('.display-error')
+      .html(':');
   },
   displayError: function($elem) {
-    $elem.parent().parent('div')
-      .addClass('has-error')
+    $elem.parent()
+      .parent('div')
       .removeClass('has-success')
-      .prev('.home-energy-label-container').find('.display-error').html('     This field must contain a number');
+      .addClass('has-error')
+      .prev('.big-label')
+      .removeClass('has-success')
+      .addClass('has-error')
+      .find('.display-error')
+      .html(' must contain a number');
   },
   getNextInputView: function() {
     var view = this;  

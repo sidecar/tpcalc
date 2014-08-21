@@ -1,56 +1,139 @@
 'use strict';
 var $ = require('jquery')
 , Marionette = require('backbone.marionette')
-, Databinding = require('backbone.databinding')
-, App = require('../../app');
+, App = require('../../app')
+, validation = require('../../utils/validation');
 
 var addTemplate = require('../../templates/business/biz-site-add-template.hbs');
 
-module.exports= Marionette.ItemView.extend({
+module.exports = Marionette.ItemView.extend({
   template: addTemplate,
+  ui: {
+    electricityAmountInput: '[name="electricity_amount"]',
+    electricityUnitSelect: '[name="electricity_unit"]',
+    electricityIntervalSelect: '[name="electricity_interval"]',
+    naturalGasAmountInput: '[name="natural_gas_amount"]',
+    naturalGasUnitSelect: '[name="natural_gas_unit"]',
+    naturalGasIntervalSelect: '[name="natural_gas_interval"]',
+    heatingOilAmountInput: '[name="heating_oil_amount"]',
+    heatingOilUnitSelect: '[name="heating_oil_unit"]',
+    heatingOilIntervalSelect: '[name="heating_oil_interval"]',
+    propaneAmountInput: '[name="propane_amount"]',
+    propaneUnitSelect: '[name="propane_unit"]',
+    propaneIntervalSelect: '[name="propane_interval"]',
+    gasolineAmountInput: '[name="gasoline_amount"]',
+    gasolineUnitSelect: '[name="gasoline_unit"]',
+    gasolineIntervalSelect: '[name="gasoline_interval"]',
+    dieselAmountInput: '[name="diesel_amount"]',
+    dieselUnitSelect: '[name="diesel_unit"]',
+    dieselIntervalSelect: '[name="diesel_interval"]'
+  },
+  events: {
+    'blur [name="electricity_amount"]': 'validateField',
+    'blur [name="natural_gas_amount"]': 'validateField',
+    'blur [name="heating_oil_amount"]': 'validateField',
+    'blur [name="propane_amount"]': 'validateField',
+    'blur [name="gasoline_amount"]': 'validateField',
+    'blur [name="diesel_amount"]': 'validateField'
+  },
   onShow: function() {
-    this.modelBinder = new Databinding.ModelBinder(this, this.category);
-    this.modelBinder.watch('value: electricityAmount', {selector: '[name="electricity"]'});
-    this.modelBinder.watch('value: electricityUnit', {selector: '[name="electricity_unit"]'});
-    this.modelBinder.watch('value: electricityInterval', {selector: '[name="electricity_interval"]'});
-    this.modelBinder.watch('value: naturalGasAmount', {selector: '[name="natural_gas_amount"]'});
-    this.modelBinder.watch('value: naturalGasUnit', {selector: '[name="natural_gas_unit"]'});
-    this.modelBinder.watch('value: naturalGasInterval', {selector: '[name="natural_gas_interval"]'});
-    this.modelBinder.watch('value: heatingOilAmount', {selector: '[name="heating_oil_amount"]'});
-    this.modelBinder.watch('value: heatingOilUnit', {selector: '[name="heating_oil_unit"]'});
-    this.modelBinder.watch('value: heatingOilInterval', {selector: '[name="heating_oil_interval"]'});
-    this.modelBinder.watch('value: propaneAmount', {selector: '[name="propane_amount"]'});
-    this.modelBinder.watch('value: propaneUnit', {selector: '[name="propane_unit"]'});
-    this.modelBinder.watch('value: propaneInterval', {selector: '[name="propane_interval"]'});
-    this.modelBinder.watch('value: gasolineAmount', {selector: '[name="gasoline_amount"]'});
-    this.modelBinder.watch('value: gasolineUnit', {selector: '[name="gasoline_unit"]'});
-    this.modelBinder.watch('value: gasolineInterval', {selector: '[name="gasoline_interval"]'});
-    this.modelBinder.watch('value: dieselAmount', {selector: '[name="diesel_amount"]'});
-    this.modelBinder.watch('value: dieselUnit', {selector: '[name="diesel_unit"]'});
-    this.modelBinder.watch('value: dieselInterval', {selector: '[name="diesel_interval"]'});
+    this.ui.electricityAmountInput.val(this.category.get('electricityAmount') || 0);
+    this.ui.electricityUnitSelect.val(this.category.get('electricityUnit') || 0);
+    this.ui.electricityIntervalSelect.val(this.category.get('electricityInterval') || 0);
+    this.ui.naturalGasAmountInput.val(this.category.get('naturalGasAmount') || 0);
+    this.ui.naturalGasUnitSelect.val(this.category.get('naturalGasUnit') || 0);
+    this.ui.naturalGasIntervalSelect.val(this.category.get('naturalGasInterval') || 0);
+    this.ui.heatingOilAmountInput.val(this.category.get('heatingOilAmount') || 0);
+    this.ui.heatingOilUnitSelect.val(this.category.get('heatingOilUnit') || 0);
+    this.ui.heatingOilIntervalSelect.val(this.category.get('heatingOilInterval') || 0);
+    this.ui.propaneAmountInput.val(this.category.get('propaneAmount') || 0);
+    this.ui.propaneUnitSelect.val(this.category.get('propaneUnit') || 0);
+    this.ui.propaneIntervalSelect.val(this.category.get('propaneInterval') || 0);
+    this.ui.gasolineAmountInput.val(this.category.get('gasolineAmount') || 0);
+    this.ui.gasolineUnitSelect.val(this.category.get('gasolineUnit') || 0);
+    this.ui.gasolineIntervalSelect.val(this.category.get('gasolineInterval') || 0);
+    this.ui.dieselAmountInput.val(this.category.get('dieselAmount') || 0);
+    this.ui.dieselUnitSelect.val(this.category.get('dieselUnit') || 0);
+    this.ui.dieselIntervalSelect.val(this.category.get('dieselInterval') || 0);
+  },
+  validateForm: function(){
+    var validation = require('../../utils/validation');
+    var view = this;
+
+    function isDigit($input) {
+      var val = $input.val();
+      if(validation.isDigit(val)) {
+        view.displaySuccess($input);
+        return true;
+      } else {
+        view.displayError($input);
+        return false;
+      }
+    }
+
+    if(!isDigit(view.ui.electricityAmountInput)) return false;
+    if(!isDigit(view.ui.naturalGasAmountInput)) return false;
+    if(!isDigit(view.ui.heatingOilAmountInput)) return false;
+    if(!isDigit(view.ui.propaneAmountInput)) return false;
+    if(!isDigit(view.ui.gasolineAmountInput)) return false;
+    if(!isDigit(view.ui.dieselAmountInput)) return false;
+    return true;
+  },
+  validateField: function(event) {
+    var $target = $(event.target);
+    var val = $target.val();
+    if(validation.isDigit(val)) {       
+      this.displaySuccess($target);
+    } else {
+      this.displayError($target);
+    }
+  },
+  displaySuccess: function($elem) {
+    $elem.parent()
+      .parent('div')
+      .removeClass('has-error')
+      .addClass('has-success')
+      .prev('.big-label')
+      .removeClass('has-error')
+      .addClass('has-success')
+      .find('.display-error')
+      .html(':');
+  },
+  displayError: function($elem) {
+    $elem.parent()
+      .parent('div')
+      .removeClass('has-success')
+      .addClass('has-error')
+      .prev('.big-label')
+      .removeClass('has-success')
+      .addClass('has-error')
+      .find('.display-error')
+      .html(' must contain a number');
   },
   getNextInputView: function() {
-    var home = require('../../utils/ind-home-emissions'),
-    totalEmissions = 0,
-    electricityAmount = $('[name="electricity_amount"]').val(),
-    electricityUnit = $('[name="electricity_unit"]').val(),
-    electricityInterval = $('[name="electricity_interval"]').val(),
-    naturalGasAmount = $('[name="natural_gas_amount"]').val(),
-    naturalGasUnit = $('[name="natural_gas_unit"]').val(),
-    naturalGasInterval = $('[name="natural_gas_interval"]').val(),
-    heatingOilAmount = $('[name="heating_oil_amount"]').val(),
-    heatingOilUnit = $('[name="heating_oil_unit"]').val(),
-    heatingOilInterval = $('[name="heating_oil_interval"]').val(),
-    propaneAmount = $('[name="propane_amount"]').val(),
-    propaneUnit = $('[name="propane_unit"]').val(),
-    propaneInterval = $('[name="propane_interval"]').val(),
-    gasolineAmount = $('[name="gasoline_amount"]').val(),
-    gasolineUnit = $('[name="gasoline_unit"]').val(),
-    gasolineInterval = $('[name="gasoline_interval"]').val(),
-    dieselAmount = $('[name="diesel_amount"]').val(),
-    dieselUnit = $('[name="diesel_unit"]').val(),
-    dieselInterval = $('[name="diesel_interval"]').val();
+    var view = this;  
+    if(!view.validateForm()) return; 
 
+    var electricityAmount = view.ui.electricityAmountInput.val()
+    , electricityUnit = view.ui.electricityUnitSelect.val()
+    , electricityInterval = view.ui.electricityIntervalSelect.val()
+    , naturalGasAmount = view.ui.naturalGasAmountInput.val()
+    , naturalGasUnit = view.ui.naturalGasUnitSelect.val()
+    , naturalGasInterval = view.ui.naturalGasIntervalSelect.val()
+    , heatingOilAmount = view.ui.heatingOilAmountInput.val()
+    , heatingOilUnit = view.ui.heatingOilUnitSelect.val()
+    , heatingOilInterval = view.ui.heatingOilIntervalSelect.val()
+    , propaneAmount = view.ui.propaneAmountInput.val()
+    , propaneUnit = view.ui.propaneUnitSelect.val()
+    , propaneInterval = view.ui.propaneIntervalSelect.val()
+    , gasolineAmount = view.ui.gasolineAmountInput.val()
+    , gasolineUnit = view.ui.gasolineUnitSelect.val()
+    , gasolineInterval = view.ui.gasolineIntervalSelect.val()
+    , dieselAmount = view.ui.dieselAmountInput.val()
+    , dieselUnit = view.ui.dieselUnitSelect.val()
+    , dieselInterval = view.ui.dieselIntervalSelect.val();
+
+    var home = require('../../utils/ind-home-emissions')
     home.zipCode = this.category.get('zip');
     home.fuel.electricity.amount = electricityAmount;
     home.fuel.electricity.method = (electricityUnit === 'dollars') ? 'dollars' : 'energy' ;
@@ -71,13 +154,14 @@ module.exports= Marionette.ItemView.extend({
     home.fuel.diesel.method = (dieselUnit === 'dollars') ? 'dollars' : 'energy' ;
     home.fuel.diesel.interval = dieselInterval;
 
+    var totalEmissions = 0;
     totalEmissions += home.totalEmissions('electricity');
     totalEmissions += home.totalEmissions('naturalGas');
     totalEmissions += home.totalEmissions('heatingOil');
     totalEmissions += home.totalEmissions('propane');
     totalEmissions += home.totalEmissions('gasoline');
 
-    var attrs = {
+    this.category.set({
       electricityAmount: electricityAmount,
       electricityUnit: electricityUnit,
       electricityInterval: electricityInterval,
@@ -97,8 +181,7 @@ module.exports= Marionette.ItemView.extend({
       dieselUnit: dieselUnit,
       dieselInterval: dieselInterval,
       totalEmissions: totalEmissions
-    }
-    this.category.set(attrs);
+    });
     App.vent.trigger('goToNextCategory');
   }
 });

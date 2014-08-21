@@ -2,8 +2,8 @@
 var $ = require('jquery')
 , _ = require('underscore')
 , Marionette = require('backbone.marionette')
-, Databinding = require('backbone.databinding')
-, App = require('../../app');
+, App = require('../../app')
+, validation = require('../../utils/validation');
 
 var ecarTemplate = require('../../templates/individual/ind-vehicle-ecar-template.hbs');
 
@@ -15,62 +15,59 @@ module.exports = Marionette.ItemView.extend({
     mileageSelect: 'select[name="ecar_mileage"]' 
   },
   events: {
-    'blur input[name="ecar_zip"]': 'validate',
-    'change select[name="ecar_year"]': 'yearSelectChanged',
-    'change select[name="ecar_mileage"]': 'mileageSelectChanged'
-  },
-  yearSelectChanged: function() {
-    this.displaySuccess(this.ui.yearSelect);
-  },
-  mileageSelectChanged: function() {
-    this.displaySuccess(this.ui.mileageSelect);
+    'blur input[name="ecar_zip"]': 'validateZip',
+    'change select[name="ecar_year"]': 'validateFieldHasValue',
+    'change select[name="ecar_mileage"]': 'validateFieldHasValue'
   },
   onShow: function() {
-    var self = this;
-    this.vehicle = this.category.get('currentVehicle');
-
-    this.vehicle.validate = function(attrs, options) {
-      if(!attrs.zip || attrs.zip == '' || attrs.zip.match(/^\d{5}(-\d{4})?$/) == null) {
-        self.displayError(self.ui.zipInput);
-        return false;
-      } else {
-        self.displaySuccess(self.ui.zipInput);
-      }
-
-      if(!attrs.year || attrs.year == '') {
-        self.displayError(self.ui.yearSelect);
-        return false;
-      } else {
-        self.displaySuccess(self.ui.yearSelect);
-      }
-      
-      if(!attrs.mileage || attrs.mileage == '') {
-        self.displayError(self.ui.mileageSelect);
-        return false;
-      } else {
-        self.displaySuccess(self.ui.mileageSelect);
-      }
-
-      return true;
-    }
-
-    this.modelBinder = new Databinding.ModelBinder(this, this.vehicle);
-
-    var year = this.vehicle.get('year') || undefined
-    , zip = this.vehicle.get('zip') || undefined
-    , mileage = this.vehicle.get('mileage') || undefined;
-    
-    if(zip) this.modelBinder.watch('value: zip', {selector: '[name="ecar_zip"]'});
-    if(year) this.modelBinder.watch('value: year', {selector: '[name="ecar_year"]'});
-    if(mileage) this.modelBinder.watch('value: mileage', {selector: '[name="ecar_mileage"]'});
+    var view = this;
+    view.vehicle = view.category.get('currentVehicle');
+    view.ui.zipInput.val(view.vehicle.get('zip') || '')
+    view.ui.yearSelect.val(view.vehicle.get('year') || '')
+    view.ui.mileageSelect.val(view.vehicle.get('mileage') || '')
   },
-  validate: function() {
-    var attrs = {
-      zip: this.ui.zipInput.val(),
-      year: this.ui.yearSelect.val(),
-      mileage: this.ui.mileageSelect.val()
+  validateForm: function() {
+    var view = this;
+    if(validation.zip(view.ui.zipInput.val())) {
+      view.displaySuccess(view.ui.zipInput);
+    } else {
+      view.displayError(view.ui.zipInput);
+      return false;
     }
-    this.vehicle.validate(attrs);
+
+    if(validation.hasValue(view.ui.yearSelect.val())) {
+      view.displaySuccess(view.ui.yearSelect);
+    } else {
+      view.displayError(view.ui.yearSelect);
+      return false;
+    }
+    
+    if(validation.hasValue(view.ui.mileageSelect.val())) {
+      view.displaySuccess(view.ui.mileageSelect);
+    } else {
+      view.displayError(view.ui.mileageSelect);
+      return false;
+    }
+
+    return true;
+  },
+  validateZip: function(event) {
+    var $target = $(event.target);
+    var val = $target.val();
+    if(validation.zip(val)) {
+      this.displaySuccess($target);
+    } else {
+      this.displayError($target);
+    }
+  },
+  validateFieldHasValue: function(event) {
+    var $target = $(event.target);
+    var val = $target.val();
+    if(validation.hasValue(val)) {
+      this.displaySuccess($target);
+    } else {
+      this.displayError($target);
+    }
   },
   displaySuccess: function($elem) {
     $elem.parent()
@@ -93,14 +90,13 @@ module.exports = Marionette.ItemView.extend({
       .removeClass('has-success');
   },
   getNextInputView: function() {
-    var attrs = {
-      zip: this.ui.zipInput.val(),
-      year: this.ui.yearSelect.val(),
-      mileage: this.ui.mileageSelect.val()
-    }
-    if(this.vehicle.validate(attrs)) {
-      this.vehicle.set(attrs);
-      App.vent.trigger('showInputView', 'list');
-    }
+    var view = this;  
+    if(!view.validateForm()) return; 
+    view.vehicle.set({
+      zip: view.ui.zipInput.val(),
+      year: view.ui.yearSelect.val(),
+      mileage: view.ui.mileageSelect.val()
+    });
+    App.vent.trigger('showInputView', 'list');
   }
 });
