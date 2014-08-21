@@ -1,59 +1,60 @@
 <div class="view-question">How far and how often you ride public transit?</div>
 		
-		<form name="ind_transit_view" id="ind-transit">
-		
-			<label>I travel &#8230;</label>
-			<div class="form-element-container padding-top-10">
-				<div class="form-element">
-					<input type="text" name="train_mileage" value="0" size="4" max="6" class="inline-block long-numeric text-right form-control" />&nbsp;
-					miles by <span class="bold">train</span>&nbsp;
-
-					<select class="form-control inline-block width-auto" name="train_interval">
-						<option value="week" checked="checked">per Week</option>
-						<option value="month">per Month</option>
-						<option value="year">per Year</option>
-					</select>
-				</div>
-			</div>
-		
-			<div class="form-element-container">
-				<div class="form-element">
-					<input type="text" name="bus_mileage" value="0" size="4" max="6" class="inline-block long-numeric text-right form-control" />&nbsp;
-					miles by <span class="bold">bus</span>&nbsp;
-
-					<select class="form-control inline-block width-auto" name="bus_interval">
-						<option value="week" checked="checked">per Week</option>
-						<option value="month">per Month</option>
-						<option value="year">per Year</option>
-					</select>
-				</div>
-			</div>
-		
-			<div class="form-element-container">
-				<div class="form-element">
-					<input type="text" name="taxi_mileage" value="0" size="4" max="6" class="inline-block long-numeric text-right form-control" />&nbsp;
-					miles by <span class="bold">taxi</span>&nbsp;
-
-					<select class="form-control inline-block width-auto" name="taxi_interval">
-						<option value="week" checked="checked">per Week</option>
-						<option value="month">per Month</option>
-						<option value="year">per Year</option>
-					</select>
-				</div>
-			</div>
-		
-			<div class="form-element-container">
-				<div class="form-element">
-					<input type="text" name="ferry_mileage" value="0" size="4" max="6" class="inline-block long-numeric text-right form-control" />&nbsp;
-					miles by <span class="bold">ferry</span>&nbsp;
-
-					<select class="form-control inline-block width-auto" name="ferry_interval">
-						<option value="week" checked="checked">per Week</option>
-						<option value="month">per Month</option>
-						<option value="year">per Year</option>
-					</select>
-				</div>
-			</div>
-
-
-		</form>
+<label>I travel &#8230;</label>
+<div class="ind-transit-table-container">
+<table class="table ind-transit-table">
+   <tr>
+   	<td class="first-cell">
+   		<input type="text" name="train_mileage" value="0" size="4" max="6" class="inline-block numeric text-right form-control" />
+		</td>
+   	<td>miles by <span class="bold">train</span></td>
+   	<td>
+			<select class="form-control inline-block width-auto" name="train_interval">
+				<option value="week" checked="checked">per Week</option>
+				<option value="month">per Month</option>
+				<option value="year">per Year</option>
+			</select>   		
+   	</td>
+   </tr>
+   <tr>
+   	<td class="first-cell">
+   		<input type="text" name="bus_mileage" value="0" size="4" max="6" class="inline-block numeric text-right form-control" />
+		</td>
+   	<td>miles by <span class="bold">bus</span></td>
+   	<td>
+			<select class="form-control inline-block width-auto" name="bus_interval">
+				<option value="week" checked="checked">per Week</option>
+				<option value="month">per Month</option>
+				<option value="year">per Year</option>
+			</select>
+   	</td>
+   </tr>
+   <tr>
+   	<td class="first-cell">
+   		<input type="text" name="taxi_mileage" value="0" size="4" max="6" class="inline-block numeric text-right form-control" />
+   	</td>
+   	<td>miles by <span class="bold">taxi</span></td>
+   	<td>
+			<select class="form-control inline-block width-auto" name="taxi_interval">
+				<option value="week" checked="checked">per Week</option>
+				<option value="month">per Month</option>
+				<option value="year">per Year</option>
+			</select>
+   	</td>
+   </tr>
+   <tr>
+   	<td class="first-cell">
+   		<input type="text" name="ferry_mileage" value="0" size="4" max="6" class="inline-block numeric text-right form-control" />
+   	</td>
+   	<td>miles by <span class="bold">ferry</span></td>
+   	<td>
+   		<select class="form-control inline-block width-auto" name="ferry_interval">
+				<option value="week" checked="checked">per Week</option>
+				<option value="month">per Month</option>
+				<option value="year">per Year</option>
+			</select>
+   	</td>
+   </tr>
+</table>
+</div>
+<p class="display-error"></p>

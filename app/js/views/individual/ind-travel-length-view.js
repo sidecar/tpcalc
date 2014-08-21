@@ -1,34 +1,99 @@
 'use strict';
 var $ = require('jquery')
 , Marionette = require('backbone.marionette')
-, Databinding = require('backbone.databinding')
 , App = require('../../app');
 
 var lengthTemplate = require('../../templates/individual/ind-travel-length-template.hbs')
 
 module.exports = Marionette.ItemView.extend({
   template: lengthTemplate,
+  ui: {
+    shortInput: '[name="short"]',
+    medEconInput: '[name="med_econ"]',
+    medFirstClassInput: '[name="med_first_class"]',
+    longEconInput: '[name="long_econ"]',
+    longEconPlusInput: '[name="long_econ_plus"]',
+    longBizClassInput: '[name="long_biz_class"]',
+    longFirstClassInput: '[name="long_first_class"]'
+  },
+  events: {
+    'blur [name="short"]': 'validateField',
+    'blur [name="med_econ"]': 'validateField',
+    'blur [name="med_first_class"]': 'validateField',
+    'blur [name="long_econ"]': 'validateField',
+    'blur [name="long_econ_plus"]': 'validateField',
+    'blur [name="long_biz_class"]': 'validateField',
+    'blur [name="long_first_class"]': 'validateField'
+  },
   onShow: function() {
-    this.modelBinder = new Databinding.ModelBinder(this, this.category);
-    this.modelBinder.watch('value: numShortFlights', {selector: '[name="short"]'});
-    this.modelBinder.watch('value: numMedEconFlights', {selector: '[name="med_econ"]'});
-    this.modelBinder.watch('value: numMedFirstClassFlights', {selector: '[name="med_first_class"]'});
-    this.modelBinder.watch('value: numLongEconFlights', {selector: '[name="long_econ"]'});
-    this.modelBinder.watch('value: numLongEconPlusFlights', {selector: '[name="long_econ_plus"]'});
-    this.modelBinder.watch('value: numLongBizClassFlights', {selector: '[name="long_biz_class"]'});
-    this.modelBinder.watch('value: numLongFirstClassFlights', {selector: '[name="long_first_class"]'});
+    this.ui.shortInput.val(this.category.get('milesShortFlights') || 0);
+    this.ui.medEconInput.val(this.category.get('milesMedEconFlights') || 0);
+    this.ui.medFirstClassInput.val(this.category.get('milesMedFirstClassFlights') || 0);
+    this.ui.longEconInput.val(this.category.get('milesLongEconFlights') || 0);
+    this.ui.longEconPlusInput.val(this.category.get('milesLongEconPlusFlights') || 0);
+    this.ui.longBizClassInput.val(this.category.get('milesLongBizClassFlights') || 0);
+    this.ui.longFirstClassInput.val(this.category.get('milesLongFirstClassFlights') || 0);
+  },
+  validateForm: function(){
+    var view = this;
+    function isDigit($input) {
+      var val = $input.val();
+      if(!val || val === '' || val === undefined || val.match(/^\d+$/) === null) {
+        view.displayError($input);
+        return false;
+      } else {
+        view.displaySuccess($input);
+        return true;
+      }
+    }
+
+    if(!isDigit(view.ui.shortInput)) return false;
+    if(!isDigit(view.ui.medEconInput)) return false;
+    if(!isDigit(view.ui.medFirstClassInput)) return false;
+    if(!isDigit(view.ui.longEconInput)) return false;
+    if(!isDigit(view.ui.longEconPlusInput)) return false;
+    if(!isDigit(view.ui.longBizClassInput)) return false;
+    if(!isDigit(view.ui.longFirstClassInput)) return false;
+
+    return true;
+  },
+  validateField: function(event) {
+    var $target = $(event.target);
+    var val = $target.val();
+    if(!val || val === '' || val.match(/^\d*$/) === null) {       
+      this.displayError($target);
+      return false;
+    } else {
+      this.displaySuccess($target);
+    }
+  },
+  displaySuccess: function($elem) {
+    $elem.parent().parent('div')
+      .addClass('has-success')
+      .removeClass('has-error');
+    $('.display-error')
+      .html('');
+  },
+  displayError: function($elem) {
+    $elem.parent().parent('div')
+      .addClass('has-error')
+      .removeClass('has-success');
+    $('.display-error')
+      .html('Indicated fields must contain a number.');
   },
   getNextInputView: function() {
-    var air = require('../../utils/ind-air-emissions'),
-    totalEmissions = 0,
-    numShortFlights = $('[name="short"]').val(),
-    numMedEconFlights = $('[name="med_econ"]').val(),
-    numMedFirstClassFlights = $('[name="med_first_class"]').val(),
-    numLongEconFlights = $('[name="long_econ"]').val(),
-    numLongEconPlusFlights = $('[name="long_econ_plus"]').val(),
-    numLongBizClassFlights = $('[name="long_biz_class"]').val(),
-    numLongFirstClassFlights = $('[name="long_first_class"]').val();
+    var view = this;  
+    if(!view.validateForm()) return; 
 
+    var numShortFlights = view.ui.shortInput.val()
+    , numMedEconFlights = view.ui.medEconInput.val()
+    , numMedFirstClassFlights = view.ui.medFirstClassInput.val()
+    , numLongEconFlights = view.ui.longEconInput.val()
+    , numLongEconPlusFlights = view.ui.longEconPlusInput.val()
+    , numLongBizClassFlights = view.ui.longBizClassInput.val()
+    , numLongFirstClassFlights = view.ui.longFirstClassInput.val();
+
+    var air = require('../../utils/ind-air-emissions');
     air.setCalculateBy('flightCount');
     air.useRFI = (this.category.get('useRFI')) ? 1 : 0 ;
     air.flight.shortHaul.annFlights = numShortFlights;
@@ -39,6 +104,7 @@ module.exports = Marionette.ItemView.extend({
     air.flight.longBusiness.annFlights = numLongBizClassFlights;
     air.flight.longFirst.annFlights = numLongFirstClassFlights;
     
+    var totalEmissions = 0;
     totalEmissions += air.totalEmissions('shortHaul');
     totalEmissions += air.totalEmissions('medEcon');
     totalEmissions += air.totalEmissions('medFirst');    
@@ -47,8 +113,7 @@ module.exports = Marionette.ItemView.extend({
     totalEmissions += air.totalEmissions('longBusiness');
     totalEmissions += air.totalEmissions('longFirst');
 
-
-    var attrs = {
+    this.category.set({
       numShortFlights: numShortFlights,
       numMedEconFlights: numMedEconFlights,
       numMedFirstClassFlights: numMedFirstClassFlights,
@@ -57,9 +122,7 @@ module.exports = Marionette.ItemView.extend({
       numLongBizClassFlights: numLongBizClassFlights,
       numLongFirstClassFlights: numLongFirstClassFlights,
       totalEmissions: totalEmissions
-    }
-
-    this.category.set(attrs);
+    });
     App.vent.trigger('goToNextCategory');
   }
 });

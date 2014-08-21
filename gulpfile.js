@@ -113,6 +113,12 @@ gulp.task('copy-images-to-dev', function() {
     .pipe(gulp.dest(config.dev.images));
 });
 
+gulp.task('copy-jqueryui-images-to-dev', function() {
+  //copy images to the dev folder
+  return gulp.src(config.app.styles + 'jquery-ui/images/**/*.{jpg,png,gif,jpeg,ico}')
+    .pipe(gulp.dest(config.dev.styles + 'jquery-ui/images/'));
+});
+
 gulp.task('copy-fonts-to-dev', function() {
   //copy images to the dev folder
   return gulp.src(config.app.styles + 'bootstrap-sass/fonts/bootstrap/**/*.{eot,svg,ttf,woff}')
@@ -239,23 +245,19 @@ gulp.task('watch-for-changes', function() {
 // Build a dev version of the app and serve it locally 
 gulp.task('server', function() {
     //run these subtasks in sequence
-    //runSequence('clean-dev', ['sass', 'browserify', 'package-vendor-libs', 'copy-html-to-dev', 'copy-php-to-dev'], 'connect','watch-for-changes');
-    // runSequence('clean-dev', ['sass', 'browserify', 'package-vendor-libs', 'copy-html-to-dev', 'copy-php-to-dev', 'copy-images-to-dev'],'watch-for-changes', 'start-node-server', 'open-browser');
-    //runSequence('clean-dev', ['sass', 'browserify', 'package-vendor-libs', 'copy-html-to-dev', 'copy-php-to-dev', 'copy-images-to-dev'],'watch-for-changes', 'start-node-server');
-    runSequence('clean-dev', ['sass', 'browserify', 'copy-html-to-dev', 'copy-php-to-dev', 'copy-images-to-dev', 'copy-fonts-to-dev'],'watch-for-changes', 'start-node-server');
+    runSequence('clean-dev', ['sass', 'browserify', 'copy-html-to-dev', 'copy-php-to-dev', 'copy-images-to-dev', 'copy-jqueryui-images-to-dev', 'copy-fonts-to-dev'],'watch-for-changes', 'start-node-server');
 });
 
 //Copy necessary files to build dir
 gulp.task('copy-to-build', function() {
     gulp.src(config.app.baseDir + '*.html')
-      // Replace the script calls in index to pull in the concatenated and minified single js script
-      //.pipe(replace('init.js','init.min.js'))
+      // Using gulpIf to limit replace to the index.html file, replace the script calls in index to pull in the concatenated and minified single js script
       .pipe(gulpIf(/index.html$/, replace('init.js','init.min.js')))
       .pipe(gulp.dest(config.build.baseDir));
     //copy the php files  
     gulp.src(config.app.baseDir + 'php/**/*.{php,html}')
       .pipe(gulp.dest(config.build.baseDir + 'php/'));
-    // Copy css into build dir
+    // Copy css into build dir - this will include the jquery-ui images that need to be copied
     gulp.src(config.dev.styles + '**/*').pipe(gulp.dest(config.build.styles));
 
     // Copy unbrowserfied lib javascript into build dir

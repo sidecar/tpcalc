@@ -7,7 +7,7 @@
  *
  * ========================================== */
 
-@import "./jquery-ui/jquery-ui.min.css";
+//@import "./jquery-ui/jquery-ui.min.css";
 @import "./jquery-ui/jquery-ui.structure.min.css";
 @import "./jquery-ui/jquery-ui.theme.min.css";
 @import "./bootstrap-sass/stylesheets/bootstrap";
@@ -1055,6 +1055,50 @@ ul {
 
 .percent-flights-by-length {
 	border:0; color:#000; font-weight:bold; width: 3em;
+}
+
+.ind-transit-table-container {
+	width: 70%;
+}
+
+.ind-transit-table {
+	border-collapse:collapse;
+	tr {border: none;}
+}
+
+.ind-transit-table>tbody>tr>td, 
+.ind-transit-table>tbody>tr>th, 
+.ind-transit-table>tfoot>tr>td, 
+.ind-transit-table>tfoot>tr>th, 
+.ind-transit-table>thead>tr>td, 
+.ind-transit-table>thead>tr>th {
+		vertical-align: middle;
+		border: none;
+		width: 40%;
+		input {
+			width: 100%;
+		}
+}
+
+.ind-transit-table>tbody>tr>td.first-cell, 
+.ind-transit-table>tbody>tr>th.first-cell, 
+.ind-transit-table>tfoot>tr>td.first-cell, 
+.ind-transit-table>tfoot>tr>th.first-cell, 
+.ind-transit-table>thead>tr>td.first-cell, 
+.ind-transit-table>thead>tr>th.first-cell {
+		width: 20%;
+}
+
+.home-energy-label-container {
+	margin-top: -5px;
+	span {
+		display: inline;
+	}
+}
+
+.display-error {
+	color: #dd0000;
+	font-size: 12px;
 }
 
 .biz-shipping-table-container {
