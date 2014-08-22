@@ -77,13 +77,14 @@ module.exports = Marionette.ItemView.extend({
     travel.attendees = attendees;
     travel.aveMileage = average;
 
-    var totalEmissions = travel.totalEmissions();
+    var averageEmissions = travel.totalEmissions();
 
     view.category.set({
       attendees: attendees,
       average: average,
-      totalEmissions: totalEmissions
+      averageEmissions: averageEmissions
     }); 
+    view.category.trigger('change:averageEmissions');
     App.vent.trigger('showInputView', 'hotel');
   }
 });

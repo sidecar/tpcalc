@@ -1,7 +1,6 @@
 'use strict';
 var $ = require('jquery')
 , Marionette = require('backbone.marionette')
-, Databinding = require('backbone.databinding')
 , App = require('../../app');
 
 var defaultTemplate = require('../../templates/business/biz-commute-default-template.hbs')
@@ -139,29 +138,16 @@ module.exports = Marionette.ItemView.extend({
       return true;
     }
 
-    this.modelBinder = new Databinding.ModelBinder(this, this.category);
-
-    var carEmployees = this.category.get('carEmployees') || false
-    , carMileage = this.category.get('carMileage') || false
-    , trainEmployees = this.category.get('train_employees') || undefined
-    , trainMileage = this.category.get('train_mileage') || undefined
-    , busEmployees = this.category.get('bus_employees') || undefined
-    , busMileage = this.category.get('bus_mileage') || undefined
-    , taxiEmployees = this.category.get('taxiEmployees') || false
-    , taxiMileage = this.category.get('taxiMileage') || false
-    , ferryEmployees = this.category.get('ferryEmployees') || false
-    , ferryMileage = this.category.get('ferryMileage') || false;
-    
-    if(carEmployees) this.modelBinder.watch('checked: carEmployees', {selector: '[name="car_employees"]'});
-    if(carMileage) this.modelBinder.watch('checked: carMileage', {selector: '[name="car_mileage"]'});
-    if(trainEmployees) this.modelBinder.watch('value: trainEmployees', {selector: '[name="train_employees"]'});
-    if(trainMileage) this.modelBinder.watch('value: trainMileage', {selector: '[name="train_mileage"]'});
-    if(busEmployees) this.modelBinder.watch('value: busEmployees', {selector: '[name="bus_employees"]'});
-    if(busMileage) this.modelBinder.watch('value: busMileage', {selector: '[name="bus_mileage"]'});
-    if(taxiEmployees) this.modelBinder.watch('checked: taxiEmployees', {selector: '[name="taxi_employees"]'});
-    if(taxiMileage) this.modelBinder.watch('checked: taxiMileage', {selector: '[name="taxi_mileage"]'});
-    if(ferryEmployees) this.modelBinder.watch('checked: ferryEmployees', {selector: '[name="ferry_employees"]'});
-    if(ferryMileage) this.modelBinder.watch('checked: ferryMileage', {selector: '[name="ferry_mileage"]'});
+    this.ui.carEmployeesInput.val(this.category.get('carEmployees') || 0);
+    this.ui.carMileageInput.val(this.category.get('carMileage') || 0);
+    this.ui.trainEmployeesInput.val(this.category.get('trainEmployees') || 0);
+    this.ui.trainMileageInput.val(this.category.get('trainMileage') || 0);
+    this.ui.busEmployeesInput.val(this.category.get('busEmployees') || 0);
+    this.ui.busMileageInput.val(this.category.get('busMileage') || 0);
+    this.ui.taxiEmployeesInput.val(this.category.get('taxiEmployees') || 0);
+    this.ui.taxiMileageInput.val(this.category.get('taxiMileage') || 0);
+    this.ui.ferryEmployeesInput.val(this.category.get('ferryEmployees') || 0);
+    this.ui.ferryMileageInput.val(this.category.get('ferryMileage') || 0);
 
   },
   validate: function() {
@@ -185,6 +171,7 @@ module.exports = Marionette.ItemView.extend({
       .parent('div')
       .addClass('has-success')
       .removeClass('has-error');
+    $('.display-error').html('');
   },
   displayError: function($elem) {
     $elem.parent()
@@ -192,6 +179,7 @@ module.exports = Marionette.ItemView.extend({
       .parent('div')
       .addClass('has-error')
       .removeClass('has-success');
+    $('.display-error').html('Indicated fields require a number');
   },
   getNextInputView: function() {   
     var attrs = {

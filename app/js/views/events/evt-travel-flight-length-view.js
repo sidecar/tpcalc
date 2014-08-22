@@ -84,17 +84,18 @@ module.exports = Marionette.ItemView.extend({
     travel.arrivedOnMedFlights = medFlights;
     travel.arrivedOnLongFlights = longFlights;
 
-    var totalEmissions = 0;
-    totalEmissions += travel.totalEmissions('shortHaul');
-    totalEmissions += travel.totalEmissions('medHaul');
-    totalEmissions += travel.totalEmissions('longHaul');
+    var lengthEmissions = 0;
+    lengthEmissions += travel.totalEmissions('shortHaul');
+    lengthEmissions += travel.totalEmissions('medHaul');
+    lengthEmissions += travel.totalEmissions('longHaul');
 
     view.category.set({
       shortFlights: shortFlights,
       medFlights: medFlights,
       longFlights: longFlights,
-      totalEmissions: totalEmissions
+      lengthEmissions: lengthEmissions
     }); 
+    view.category.trigger('change:lengthEmissions');
     App.vent.trigger('showInputView', 'hotel');
   }
 });

@@ -26,7 +26,6 @@ module.exports = Marionette.ItemView.extend({
   onShow: function() {
     var self = this;
     this.vehicle = this.category.get('currentFleetVehicle');
-    console.log('biz fleet onShow this.vehicle', this.vehicle);
     this.vehicle.validate = function(attrs, options) {
 
       if(!attrs.numVehicles || attrs.numVehicles == '' || attrs.numVehicles.match(/^\d*$/) == null) {       

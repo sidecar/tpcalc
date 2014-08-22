@@ -32,13 +32,35 @@ module.exports = App.module('events', function(Calc) {
     // Thank You View
     var evtThankYouView = require('./views/events/evt-thankyou-view');
 
+    var EventsTravelCategory = Category.extend({
+        defaults: {
+          averageEmissions: 0,
+          lengthEmissions: 0,
+          groundEmissions: 0,
+          hotelEmissions: 0,
+          totalEmissions: 0
+        },
+        initialize: function() {
+          this.set({currentInputView: this.get('viewList').first()});
+          this.bind('change', function(){this.get('calculator').trigger('change')})
+          var sumEmissions = function() {
+            var total = this.get('averageEmissions') + this.get('lengthEmissions') + this.get('groundEmissions') + this.get('hotelEmissions')
+            this.set({totalEmissions: total});
+          };
+          this.bind('change:averageEmissions', sumEmissions);
+          this.bind('change:lengthEmissions', sumEmissions);
+          this.bind('change:groundEmissions', sumEmissions);
+          this.bind('change:hotelEmissions', sumEmissions);
+        }    
+    });
+
     Calc.model = new Calculator({
       displayName: 'Events',
       slug: 'events',
       catCodes: catCodes,
       categories: new Categories([
         ////////////////////////////////////////////////////////
-        new Category({
+        new EventsTravelCategory({
           displayName: 'Travel',
           slug: 'travel',
           viewList: new ViewList([

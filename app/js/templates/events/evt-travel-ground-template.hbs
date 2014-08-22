@@ -1,56 +1,52 @@
 <div class="view-question">Add your attendee's non-plane travel details</div>
-		
-		<form name="evt_travel_ground_view" id="evt_travel_ground">
+<label>Number of attendees and one-way travel distance by transportation type</label>
+<div class="form-element-container padding-top-10">
+	<div class="form-element">
+		<span class="bold inline-block w40">Train: </span>&nbsp;
+		<input type="text" name="train_attendees" value="0" size="8" maxlength="6" class="inline-block numeric-big text-right form-control" />&nbsp;
+		attendees traveled&nbsp;
+		<input type="text" name="train_mileage" value="0" size="8" maxlength="6" class="inline-block numeric-big text-right form-control" />&nbsp;
+		miles
+	</div>
+</div>
 
-			<label>Number of attendees and one-way travel distance by transportation type</label>
-			<div class="form-element-container padding-top-10">
-				<div class="form-element">
-					<span class="bold inline-block w40">Train: </span>&nbsp;
-					<input type="text" name="evt_travel_train_attendees" value="0" size="8" maxlength="6" class="inline-block numeric-big text-right form-control" />&nbsp;
-					attendees traveled&nbsp;
-					<input type="text" name="evt_travel_train_mileage" value="0" size="8" maxlength="6" class="inline-block numeric-big text-right form-control" />&nbsp;
-					miles
-				</div>
-			</div>
+<div class="form-element-container">
+	<div class="form-element">
+		<span class="bold inline-block w40">Car: </span>&nbsp;
+		<input type="text" name="car_attendees" value="0" size="8" maxlength="6" class="inline-block numeric-big text-right form-control" />&nbsp;
+		attendees traveled&nbsp;
+		<input type="text" name="car_mileage" value="0" size="8" maxlength="6" class="inline-block numeric-big text-right form-control" />&nbsp;
+		miles
+	</div>
+</div>
 
-			<div class="form-element-container">
-				<div class="form-element">
-					<span class="bold inline-block w40">Car: </span>&nbsp;
-					<input type="text" name="evt_travel_car_attendees" value="0" size="8" maxlength="6" class="inline-block numeric-big text-right form-control" />&nbsp;
-					attendees traveled&nbsp;
-					<input type="text" name="evt_travel_car_mileage" value="0" size="8" maxlength="6" class="inline-block numeric-big text-right form-control" />&nbsp;
-					miles
-				</div>
-			</div>
+<div class="form-element-container">
+	<div class="form-element">
+		<span class="bold inline-block w40">Bus: </span>&nbsp;
+		<input type="text" name="bus_attendees" value="0" size="8" maxlength="6" class="inline-block numeric-big text-right form-control" />&nbsp;
+		attendees traveled&nbsp;
+		<input type="text" name="bus_mileage" value="0" size="8" maxlength="6" class="inline-block numeric-big text-right form-control" />&nbsp;
+		miles
+	</div>
+</div>
 
-			<div class="form-element-container">
-				<div class="form-element">
-					<span class="bold inline-block w40">Bus: </span>&nbsp;
-					<input type="text" name="evt_travel_bus_attendees" value="0" size="8" maxlength="6" class="inline-block numeric-big text-right form-control" />&nbsp;
-					attendees traveled&nbsp;
-					<input type="text" name="evt_travel_bus_mileage" value="0" size="8" maxlength="6" class="inline-block numeric-big text-right form-control" />&nbsp;
-					miles
-				</div>
-			</div>
+<div class="form-element-container">
+	<div class="form-element">
+		<span class="bold inline-block w40">Taxi: </span>&nbsp;
+		<input type="text" name="taxi_attendees" value="0" size="8" maxlength="6" class="inline-block numeric-big text-right form-control" />&nbsp;
+		attendees traveled&nbsp;
+		<input type="text" name="taxi_mileage" value="0" size="8" maxlength="6" class="inline-block numeric-big text-right form-control" />&nbsp;
+		miles
+	</div>
+</div>
 
-			<div class="form-element-container">
-				<div class="form-element">
-					<span class="bold inline-block w40">Taxi: </span>&nbsp;
-					<input type="text" name="evt_travel_taxi_attendees" value="0" size="8" maxlength="6" class="inline-block numeric-big text-right form-control" />&nbsp;
-					attendees traveled&nbsp;
-					<input type="text" name="evt_travel_taxi_mileage" value="0" size="8" maxlength="6" class="inline-block numeric-big text-right form-control" />&nbsp;
-					miles
-				</div>
-			</div>
-
-			<div class="form-element-container">
-				<div class="form-element">
-					<span class="bold inline-block w40">Ferry: </span>&nbsp;
-					<input type="text" name="evt_travel_ferry_attendees" value="0" size="8" maxlength="6" class="inline-block numeric-big text-right form-control" />&nbsp;
-					attendees traveled&nbsp;
-					<input type="text" name="evt_travel_ferry_mileage" value="0" size="8" maxlength="6" class="inline-block numeric-big text-right form-control" />&nbsp;
-					miles
-				</div>
-			</div>
-
-		</form>
+<div class="form-element-container">
+	<div class="form-element">
+		<span class="bold inline-block w40">Ferry: </span>&nbsp;
+		<input type="text" name="ferry_attendees" value="0" size="8" maxlength="6" class="inline-block numeric-big text-right form-control" />&nbsp;
+		attendees traveled&nbsp;
+		<input type="text" name="ferry_mileage" value="0" size="8" maxlength="6" class="inline-block numeric-big text-right form-control" />&nbsp;
+		miles
+	</div>
+</div>
+<p class="error-msg display-error"></p>

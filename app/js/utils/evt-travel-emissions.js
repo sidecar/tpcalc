@@ -158,29 +158,29 @@ var travel = {
 
 module.exports = travel;
 
-console.log('\nEVENT AIR');
-console.log('travel.calculateBy',travel.calculateBy);
-console.log('travel.flight.shortHaul',travel.flight.shortHaul);
+// console.log('\nEVENT AIR');
+// console.log('travel.calculateBy',travel.calculateBy);
+// console.log('travel.flight.shortHaul',travel.flight.shortHaul);
 
-console.log('\nflightMiles - shortHaul');
-travel.attendees = 25;
-travel.flight.shortHaul.oneWayKM = 1000;
-travel.setCalculateBy('flightDuration');
-console.log('travel.calculateBy',travel.calculateBy);
-console.log('travel.flight',travel.flight);
-console.log('travel.totalEmissions(shortHaul)',travel.totalEmissions('shortHaul'));
+// console.log('\nflightMiles - shortHaul');
+// travel.attendees = 25;
+// travel.flight.shortHaul.oneWayKM = 1000;
+// travel.setCalculateBy('flightDuration');
+// console.log('travel.calculateBy',travel.calculateBy);
+// console.log('travel.flight',travel.flight);
+// console.log('travel.totalEmissions(shortHaul)',travel.totalEmissions('shortHaul'));
 
-console.log('\nflightMiles - medHaul and longHaul');
-travel.flight.medHaul.oneWayKM = 1000;
-travel.flight.longHaul.oneWayKM = 1000;
-console.log('travel.totalEmissions()',travel.totalEmissions(''));
+// console.log('\nflightMiles - medHaul and longHaul');
+// travel.flight.medHaul.oneWayKM = 1000;
+// travel.flight.longHaul.oneWayKM = 1000;
+// console.log('travel.totalEmissions()',travel.totalEmissions(''));
 
-console.log('\nflightMiles - By average distance');
-travel.attendees = 50;
-travel.aveMileage = 1000;
-travel.setCalculateBy('averageDistance');
-console.log('travel.calculateBy',travel.calculateBy);
-console.log('travel.flight',travel.flight);
-console.log('travel.totalEmissions()',travel.totalEmissions());
+// console.log('\nflightMiles - By average distance');
+// travel.attendees = 50;
+// travel.aveMileage = 1000;
+// travel.setCalculateBy('averageDistance');
+// console.log('travel.calculateBy',travel.calculateBy);
+// console.log('travel.flight',travel.flight);
+// console.log('travel.totalEmissions()',travel.totalEmissions());
 
 
