@@ -2,17 +2,21 @@
  * EVENTS CALCULATOR - Spreadsheet Calculation Conversions
  * ==================================================== */
 
-
-
 /* -------------------------------------
  * Event Air Travel
  * ------------------------------------- */
 
+var constants = require('./emissions-constants');
+var zipSubregion = require('./zip-subregions');
+
 var travel = {
 
-	c : 			tpConstants,
+	c : constants,
 	aveMileage : 	0,
 	attendees : 	1,
+	arrivedOnShortFlights: 0,
+	arrivedOnMedFlights: 0,
+	arrivedOnLongFlights: 0,
 	useRFI : 		0, 			// 1: Yes, use Refractive Forcing Index (RFI). -  0: No, do not use RFI.
 	calculateBy : 	{
 		flightDuration : 		1,
@@ -100,9 +104,9 @@ var travel = {
 
 			case 'flightDuration': 	// Calculate the annual mileage for each flight type by number of attendees
 				miles = {
-					shortHaul :     this.attendees * 2 * oShortHaul.km * this.c.miletokm,
-					medHaul :     	this.attendees * 2 * oMedHaul.km * this.c.miletokm,
-					longHaul :     	this.attendees * 2 * oLongHaul.km * this.c.miletokm
+					shortHaul :     this.arrivedOnShortFlights * 2 * oShortHaul.km * this.c.miletokm,
+					medHaul :     	this.arrivedOnMedFlights * 2 * oMedHaul.km * this.c.miletokm,
+					longHaul :     	this.arrivedOnLongFlights * 2 * oLongHaul.km * this.c.miletokm
 				}
 				break;
 
