@@ -3,12 +3,12 @@ var $ = require('jquery')
 , Marionette = require('backbone.marionette')
 , App = require('../../app');
 
-var template = require('../../templates/events/evt-thankyou-template.hbs');
+var groundTemplate = require('../../templates/events/evt-travel-ground-template.hbs');
 
 module.exports = Marionette.ItemView.extend({
-	template: template,
-	events: {
-	},
+  template: groundTemplate,
+  events: {
+  },
   getNextInputView: function() {
     App.vent.trigger('goToNextCategory');
   }

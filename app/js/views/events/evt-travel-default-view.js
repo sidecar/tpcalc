@@ -3,7 +3,7 @@ var $ = require('jquery')
 , Marionette = require('backbone.marionette')
 , App = require('../../app');
 
-var defaultTemplate = require('../../templates/business/biz-travel-default-template.hbs');
+var defaultTemplate = require('../../templates/events/evt-travel-default-template.hbs');
 
 module.exports = Marionette.ItemView.extend({
   template: defaultTemplate,
@@ -12,7 +12,7 @@ module.exports = Marionette.ItemView.extend({
     useRFIRadio: 'input[name="use_rfi"]'
   },
   onShow: function() {
-    var method = this.category.get('method') || 'employee';
+    var method = this.category.get('method') || 'length';
     var useRFI = this.category.get('useRFI') || 'false';
     this.ui.methodRadio.filter('[value='+method+']').prop('checked', true);
     this.ui.useRFIRadio.filter('[value='+useRFI+']').prop('checked', true);

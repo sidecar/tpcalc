@@ -1,15 +1,27 @@
 <div class="view-question">Choose your preferred method for calculating attendee flight travel to your event</div>
 		
-		<form name="evt_travel_view" id="evt_travel">
+<div class="form-element-container padding-top-10">
+	<div class="form-element margin-bottom-20">
+		<input type="radio" name="method" value="length" class="float-left" /> <span class="float-left checkbox-text">Calculate over small, medium, and long flight distances</span>
+	</div>
+</div>
 
-			<div class="form-element-container padding-top-10">
-				<div class="form-element margin-bottom-20">
-					<input type="radio" name="evt_travel_flight_method" value="employee" class="float-left" /> <span class="float-left checkbox-text">Calculate over small, medium, and long flight distances</span>
-				</div>
-				<div class="clear-10"></div>
-				<div class="form-element">
-					<input type="radio" name="evt_travel_flight_method" value="miles" class="float-left" /> <span class="float-left checkbox-text">Calculate by average attendee flight distance</span>
-				</div>
-			</div>
+<div class="clear"></div>
 
-		</form>
+<div class="form-element-container">
+	<div class="form-element">
+		<input type="radio" name="method" value="average" class="float-left" /> <span class="float-left checkbox-text">Calculate by average attendee flight distance</span>
+	</div>
+</div>
+
+<div class="clear padding-top-10"></div>
+
+<div class="form-element-container padding-top-10">
+	<label>Would you like to use the Refractive Forcing Index?</label>
+	<div class="form-element">
+		<input type="radio" name="use_rfi" value="true" /><span class=""> Yes</span><br />
+		<input type="radio" name="use_rfi" value="false" class=""/><span class=""> No</span>
+	</div>
+</div>
+
+

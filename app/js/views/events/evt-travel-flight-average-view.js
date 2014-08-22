@@ -3,13 +3,13 @@ var $ = require('jquery')
 , Marionette = require('backbone.marionette')
 , App = require('../../app');
 
-var template = require('../../templates/events/evt-thankyou-template.hbs');
+var flightAverageTemplate = require('../../templates/events/evt-travel-flight-average-template.hbs');
 
 module.exports = Marionette.ItemView.extend({
-	template: template,
-	events: {
-	},
+  template: flightAverageTemplate,
+  events: {
+  },
   getNextInputView: function() {
-    App.vent.trigger('goToNextCategory');
+    App.vent.trigger('showInputView', 'hotel');
   }
 });

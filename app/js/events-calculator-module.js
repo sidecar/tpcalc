@@ -18,22 +18,22 @@ module.exports = App.module('events', function(Calc) {
     , Vehicle = require('./models/common-models').vehicle
     , Vehicles = require('./models/common-models').vehicles;
 
-    var defaultTravelView = require('./views/events/evt-travel-views').default
-    , flightAverageTravelView = require('./views/events/evt-travel-views').flightAverage
-    , flightLengthTravelView = require('./views/events/evt-travel-views').flightLength
-    , groundTravelView = require('./views/events/evt-travel-views').ground
-    , hotelTravelView = require('./views/events/evt-travel-views').hotel;
+    var defaultTravelView = require('./views/events/evt-travel-default-view')
+    , flightAverageTravelView = require('./views/events/evt-travel-flight-average-view')
+    , flightLengthTravelView = require('./views/events/evt-travel-flight-length-view')
+    , groundTravelView = require('./views/events/evt-travel-ground-view')
+    , hotelTravelView = require('./views/events/evt-travel-hotel-view');
 
-    var defaultVenueView = require('./views/events/evt-venue-views').default;
+    var defaultVenueView = require('./views/events/evt-venue-default-view');
 
-    var defaultWaterView = require('./views/events/evt-water-views').default;
+    var defaultWaterView = require('./views/events/evt-water-default-view');
 
-    var defaultMealsView = require('./views/events/evt-meals-views').default;
+    var defaultMealsView = require('./views/events/evt-meals-default-view');
     // Thank You View
     var evtThankYouView = require('./views/events/evt-thankyou-view');
 
     Calc.model = new Calculator({
-      displayName: 'Business',
+      displayName: 'Events',
       slug: 'events',
       catCodes: catCodes,
       categories: new Categories([
@@ -43,8 +43,8 @@ module.exports = App.module('events', function(Calc) {
           slug: 'travel',
           viewList: new ViewList([
             {name: 'default',  view: new defaultTravelView()},
-            {name: 'flightAverage',  view: new flightAverageTravelView()}, 
-            {name: 'flightLength',  view: new flightLengthTravelView()}, 
+            {name: 'average',  view: new flightAverageTravelView()}, 
+            {name: 'length',  view: new flightLengthTravelView()}, 
             {name: 'ground',  view: new groundTravelView()}, 
             {name: 'hotel',  view: new hotelTravelView()}
           ]),
