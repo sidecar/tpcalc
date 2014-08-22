@@ -1,17 +1,18 @@
 <div class="view-question">Add your event's attendee flight information by average one-way flight distance</div>
-		
-		<form name="evt_travel_flight_average_view" id="evt_travel_flight_average">
-
-			<label>Our event had ...</label>
-			<div class="form-element-container padding-top-10">
-				<div class="form-element-container">
-					<div class="form-element">
-						<input type="text" name="evt_travel_flight_attendees" value="0" size="4" maxlength="6" class="inline-block numeric text-right form-control" />&nbsp;
-						attendees who flew an average of&nbsp;
-						<input type="text" name="evt_travel_flight_average" value="0" size="4" maxlength="6" class="inline-block numeric text-right form-control" />&nbsp;
-						miles
-					</div>
-				</div>
+<label>Our event had ...</label>
+<div class="form-element-container padding-top-10">
+	<div class="form-element-container">
+		<div class="form-element">
+			<input type="text" name="attendees" value="0" size="4" maxlength="6" class="inline-block numeric text-right form-control" />&nbsp;attendees <span class="display-error"></span> 
 			</div>
+	</div>
 
-		</form>
+	<p>who flew an average of&nbsp;</p>
+
+	<div class="form-element-container">
+		<div class="form-element">
+			<input type="text" name="average" value="0" size="4" maxlength="6" class="inline-block numeric text-right form-control" />&nbsp;miles <span class="display-error"></span>
+		</div>
+	</div>
+</div>
+
