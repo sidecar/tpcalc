@@ -1,20 +1,16 @@
 <div class="view-question">Add information about the meals served at your event</div>
-	
-	<form name="evt_meals_view" id="evt_meals">
+<div class="form-element-container">
+	<label for="num-meals" data-error-msg="Total meals (breakfast/lunch/dinner) served to attendees" data-default-label="Total meals (breakfast/lunch/dinner) served to attendees">Total meals (breakfast/lunch/dinner) served to attendees</label>
+	<div class="form-element">
+		<input name="num-meals" value="0" class="form-control" maxlength="7" />
+	</div>
+	<div class="margin-bottom-20">For example, if 50 guests will be having breakfast, lunch, and dinner over 2 days, that would total 300 meals.</div>
+</div>
 
-		<div class="form-element-container">
-			<label for="evt_meals_total">Total meals (breakfast/lunch/dinner) served to attendees</label>
-			<div class="form-element">
-				<input name="evt_meals_attendees" value="0" class="form-control" maxlength="7" />
-			</div>
-			<div class="margin-bottom-20">For example, if 50 guests will be having breakfast, lunch, and dinner over 2 days, that would total 300 meals.</div>
-		</div>
-		
-		<div class="form-element-container">
-			<label for="evt_meals_vegetarian">Percent of vegetarian meals served ( 0%-100% )</label>
-			<div class="form-element">
-				<input name="evt_meals_vegetarian" value="0" class="form-control" maxlength="3" />
-			</div>
-		</div>
+<div class="form-element-container">
+	<label for="percent-veg" data-error-msg="Percent of vegetarian meals served ( 0%-100% )" data-default-label="Percent of vegetarian meals served ( 0%-100% )">Percent of vegetarian meals served ( 0%-100% )</label>
+	<div class="form-element">
+		<input name="percent-veg" value="0" class="form-control" maxlength="3" />
+	</div>
+</div>
 
-	</form>

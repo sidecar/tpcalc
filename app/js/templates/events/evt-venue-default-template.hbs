@@ -1,26 +1,23 @@
 <div class="view-question">Tell us about your event's venue</div>
-	
-	<form name="evt_venue_view" id="evt_venue">
-		<div class="form-element-container">
-			<label for="evt_venue_size">Venue square footage</label>
-			<div class="form-element">
-				<input name="evt_venue_size" value="0" class="form-control" maxlength="12" />
-			</div>
-		</div>
-		
-		<div class="form-element-container">
-			<label for="evt_venue_days">Number of days for the event</label>
-			<div class="form-element">
-				<input name="evt_venue_days" value="0" class="form-control" maxlength="3" />
-			</div>
-		</div>
 
-		<div class="form-element-container">
-			<label for="evt_venue_zip">Zip Code</label>
-			<div class="form-element">
-				<input name="evt_venue_zip" class="form-control" maxlength="11" />
-			</div>
-		</div>
-		
+<div class="form-element-container">
+	<label for="zip" data-error-msg="Enter a valid zip code" data-default-label="Zip Code">Zip Code</label>
+	<div class="form-element">
+		<input name="zip" class="form-control" maxlength="11" />
+	</div>
+</div>
 
-	</form>
+<div class="form-element-container">
+	<label for="square-feet" data-error-msg="Enter the venue's square footage" data-default-label="Venue square footage">Venue square footage</label>
+	<div class="form-element">
+		<input name="square-feet" value="0" class="form-control" maxlength="12" />
+	</div>
+</div>
+
+<div class="form-element-container">
+	<label for="days" data-error-msg="Enter the number of days for the event" data-default-label="Number of days for the event">Number of days for the event</label>
+	<div class="form-element">
+		<input name="days" value="0" class="form-control" maxlength="3" />
+	</div>
+</div>
+
