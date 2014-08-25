@@ -253,6 +253,7 @@ gulp.task('copy-to-build', function() {
     gulp.src(config.app.baseDir + '*.html')
       // Using gulpIf to limit replace to the index.html file, replace the script calls in index to pull in the concatenated and minified single js script
       .pipe(gulpIf(/index.html$/, replace('init.js','init.min.js')))
+      .pipe(gulpIf(/index.html$/, replace("<script>document.write('<script src=\"http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1\"></' + 'script>')</script>","")))
       .pipe(gulp.dest(config.build.baseDir));
     //copy the php files  
     gulp.src(config.app.baseDir + 'php/**/*.{php,html}')
