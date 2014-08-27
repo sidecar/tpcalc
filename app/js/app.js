@@ -30,9 +30,7 @@ function startCalcModule(name, args) {
 
   calc.start(args);
   calc.on('stop', function() {
-    console.log('App.vent before off', App.vent);
     App.vent.off();
-    console.log('App.vent after off', App.vent);
   });
 
   calc.initCalcLayout = require('./init-calc-layout');
