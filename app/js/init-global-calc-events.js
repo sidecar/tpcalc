@@ -3,11 +3,7 @@ var $ = require('jquery')
 , App = require('./app');
 
 module.exports = function(Calc) {
-  // $(document).on('keyup', function(event) {
-  //   var App = require('./app');
-  //   if(event.keyCode == 13) App.vent.trigger('next');
-  // });
-  App.vent.on('next', function(event) {
+  App.vent.on('next', function() {
     var currentCategory = Calc.model.get('currentCategory');
     var currentCategorySlug = currentCategory.get('slug');
     var currentViewModel = currentCategory.get('currentInputView');
@@ -15,7 +11,7 @@ module.exports = function(Calc) {
     currentView.getNextInputView();
   });
 
-  App.vent.on('prev', function(event) {     
+  App.vent.on('prev', function() {
     var currentCategory = Calc.model.get('currentCategory')
     , currentCategorySlug = currentCategory.get('slug')
     , currentViewModel = currentCategory.get('currentInputView')
@@ -58,7 +54,7 @@ module.exports = function(Calc) {
     App.router.navigate(Calc.baseRoute+'/'+newCategorySlug+'/'+currentViewModel.get('name'), {trigger: true});
   });  
 
-  App.vent.on('help', function(event) { 
+  App.vent.on('help', function(event) {
     $('#helpModal').modal(options);
   });  
 

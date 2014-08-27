@@ -15,24 +15,57 @@ function isMobile() {
 }
 App.mobile = isMobile();
 
+
+
+function startCalcModule(name, args) {
+  var calc = App.currentCalc,
+  newCalc = App.module(name);
+
+  if (calc && calc !== newCalc) {
+    calc.stop();
+  }
+
+  App.currentCalc = calc = newCalc;
+  //calcName = name;
+
+  calc.start(args);
+  calc.on('stop', function() {
+    console.log('App.vent before off', App.vent);
+    App.vent.off();
+    console.log('App.vent after off', App.vent);
+  });
+
+  calc.initCalcLayout = require('./init-calc-layout');
+  calc.initCalcLayout(calc);
+  calc.initGlobalEvents = require('./init-global-calc-events');
+  calc.initGlobalEvents(calc);
+  calc.initRouter = require('./init-calc-router');
+  calc.initRouter(calc);
+
+  var currentCategory = calc.model.get('currentCategory')
+    , currentCategorySlug = currentCategory.get('slug')
+    , currentViewModel = currentCategory.get('currentInputView');
+
+  App.router.navigate(calc.baseRoute+'/'+currentCategorySlug+'/'+currentViewModel.get('name'), {trigger: true});
+};
+
 App.addInitializer(function(options) {
   var individualCalcModule = require('./individual-calculator-module');
   var businessCalcModule = require('./business-calculator-module');
   var eventsCalcModule = require('./events-calculator-module');
-  var ModuleManager = require('./utils/module-manager');
-  var modManager = new ModuleManager();
-  App.commands.setHandler('appModule:start', modManager.startAppModule, modManager);
-  App.commands.setHandler('appModule:stop', modManager.stopAppModule, modManager);
+
   // Set up a controller for the router to use
   var Controller = require('./app-initializing-router').controller;
   App.controller = new Controller();
-  // Add the router to the app and app it the controller
+  // Add the router to the app and pass it the controller
   var Router = require('./app-initializing-router').router;
   App.router = new Router({controller: App.controller});
 
-  App.vent.on('startCalculator', function(calcName) {
-    App.router.navigate('#/'+calcName , {trigger: true});
-  });  
+  //var ModuleManager = require('./utils/module-manager');
+  //var modManager = new ModuleManager();
+  //App.commands.setHandler('calcModule:start', modManager.startAppModule, modManager);
+  App.commands.setHandler('calcModule:start', startCalcModule);
+
 });
 
 App.addRegions({

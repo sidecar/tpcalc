@@ -142,28 +142,28 @@ var groundTransport = {
 
 module.exports = groundTransport;
 
-console.log('\nEVENT TRANSIT');
-console.log('groundTransport.methods',groundTransport.methods);
+// console.log('\nEVENT TRANSIT');
+// console.log('groundTransport.methods',groundTransport.methods);
 
-groundTransport.car.oneWayMileage = 50;
-groundTransport.car.attendees = 25;
-console.log('groundTransport.mileage(car)',groundTransport.mileage('car'));
-console.log('groundTransport.emissionsByGas(CO2)',groundTransport.emissionsByGas('CO2'));
-console.log('groundTransport.totalEmissions(car)',groundTransport.totalEmissions('car'));
+// groundTransport.car.oneWayMileage = 50;
+// groundTransport.car.attendees = 25;
+// console.log('groundTransport.mileage(car)',groundTransport.mileage('car'));
+// console.log('groundTransport.emissionsByGas(CO2)',groundTransport.emissionsByGas('CO2'));
+// console.log('groundTransport.totalEmissions(car)',groundTransport.totalEmissions('car'));
 
-groundTransport.train.oneWayMileage = 50;
-groundTransport.train.attendees = 25;
-console.log('groundTransport.totalEmissions(train)',groundTransport.totalEmissions('train'));
+// groundTransport.train.oneWayMileage = 50;
+// groundTransport.train.attendees = 25;
+// console.log('groundTransport.totalEmissions(train)',groundTransport.totalEmissions('train'));
 
-groundTransport.bus.oneWayMileage = 50;
-groundTransport.bus.attendees = 25;
-console.log('groundTransport.totalEmissions(bus)',groundTransport.totalEmissions('bus'));
+// groundTransport.bus.oneWayMileage = 50;
+// groundTransport.bus.attendees = 25;
+// console.log('groundTransport.totalEmissions(bus)',groundTransport.totalEmissions('bus'));
 
-groundTransport.taxi.oneWayMileage = 50;
-groundTransport.taxi.attendees = 25;
-console.log('groundTransport.totalEmissions(taxi)',groundTransport.totalEmissions('taxi'));
+// groundTransport.taxi.oneWayMileage = 50;
+// groundTransport.taxi.attendees = 25;
+// console.log('groundTransport.totalEmissions(taxi)',groundTransport.totalEmissions('taxi'));
 
-groundTransport.ferry.oneWayMileage = 50;
-groundTransport.ferry.attendees = 25;
-console.log('groundTransport.totalEmissions(ferry)',groundTransport.totalEmissions('ferry'));
-console.log('groundTransport.totalEmissions()',groundTransport.totalEmissions());
+// groundTransport.ferry.oneWayMileage = 50;
+// groundTransport.ferry.attendees = 25;
+// console.log('groundTransport.totalEmissions(ferry)',groundTransport.totalEmissions('ferry'));
+// console.log('groundTransport.totalEmissions()',groundTransport.totalEmissions());

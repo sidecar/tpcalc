@@ -157,16 +157,5 @@ module.exports = App.module('individual', function(Calc) {
       ]), //end categories
       thankYouView: new indThankYouView()
     }); //end Calc.model
-    Calc.initCalcLayout = require('./init-calc-layout');
-    Calc.initCalcLayout(Calc);
-    Calc.initGlobalEvents = require('./init-global-calc-events');
-    Calc.initGlobalEvents(Calc);
-    Calc.initRouter = require('./init-calc-router');
-    Calc.initRouter(Calc);
   });// end Calc.addIntializer
-
-  Calc.addFinalizer(function(){
-    Calc.controller.hide();
-    Calc.stopListening();
-  });
 }); 

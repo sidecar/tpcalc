@@ -5,7 +5,7 @@ var $ = require('jquery')
 , App = require('./app');
 
 module.exports = function(Calc) {
-  
+
   var Router = Marionette.AppRouter.extend({
     appRoutes: {
       ':calculator/complete/thankyou': 'showThankYouView',
@@ -89,9 +89,9 @@ module.exports = function(Calc) {
       this.data = this.view = null;
     },
     // Makes sure that this subapp is running so that we can perform everything we need to
-    _ensureAppModuleIsRunning: function() {
-      App.execute('appModule:start', 'Calc');
-    }
+    // _ensureAppModuleIsRunning: function() {
+    //   App.execute('calcModule:start', 'Calc');
+    // }
   }); 
 
   Calc.controller = new Controller();

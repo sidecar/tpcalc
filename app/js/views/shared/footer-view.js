@@ -12,11 +12,11 @@ module.exports = Marionette.ItemView.extend({
   modelEvents: {
     "change:currentCategory": "render"
   },
-  nextBtnClicked: function(event) {
+  nextBtnClicked: function() {
     event.preventDefault();
     App.vent.trigger('next', event);
   },
-  prevBtnClicked: function(event) {
+  prevBtnClicked: function() {
     event.preventDefault();
     App.vent.trigger('prev', event);
   },

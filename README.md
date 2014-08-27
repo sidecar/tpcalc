@@ -89,9 +89,10 @@ More info here: http://howtonode.org/introduction-to-npm
 ## Run the project locally for development
 	gulp server
 Project will be running at port 3000 on localhost
-gulp-livereload is handling the browser reload. It only works with this script:
+gulp-livereload serves a script at port 35729, to use it a web page can call it with this script:
+  <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
+more info here:
 http://feedback.livereload.com/knowledgebase/articles/86180-how-do-i-add-the-script-tag-manually-
-I have no fucking clue how these two things work together (in other words: magic)
 
 ## Testing
 Test suite is built with Jasmine and the test runner is Karma

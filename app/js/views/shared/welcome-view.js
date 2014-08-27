@@ -1,4 +1,6 @@
 var $ = require('jquery')
+, _ = require('underscore')
+, Backbone = require('backbone')
 , Marionette = require('backbone.marionette')
 , App = require('../../app')
 , template = require("../../templates/shared/welcome-template.hbs");
@@ -11,6 +13,7 @@ module.exports = Marionette.ItemView.extend({
   },
   calcBtnClicked: function(event) {
     var calcName = $(event.target).data('calc');
-    App.vent.trigger('startCalculator', calcName);
+    //App.vent.trigger('startCalcFromWelcomeView', calcName);
+    App.execute('calcModule:start', calcName, undefined);
   }
 });

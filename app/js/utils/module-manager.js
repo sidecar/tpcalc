@@ -4,18 +4,26 @@ var Marionette = require('backbone.marionette'),
 
 module.exports = Marionette.Controller.extend({
   startAppModule: function(name, args) {
-    var newApp = App.module(name);
-    // Taking this out because I need to stop the calc mod then restart with a new model
-    // if (this.currentApp === newApp) {
-    //     return;
-    // }
-    if (this.currentApp) {
-        this.currentApp.stop();
-        App.vent.trigger('appModule:stopped', this.currentAppName);
+    var newCalc = App.module(name);
+    if (App.currentCalc && App.currentCalc !== newCalc) {
+      App.currentCalc.stopListening();
+      App.currentCalc.stop();
     }
-    this.currentApp = newApp;
-    this.currentAppName = name;
-    newApp.start(args);
-    App.vent.trigger('appModule:started', name);
+    App.currentCalc = newCalc;
+    App.currentCalcName = name;
+
+    App.currentCalc.start(args);
+
+    App.currentCalc.initCalcLayout = require('../init-calc-layout');
+    App.currentCalc.initCalcLayout(App.currentCalc);
+    App.currentCalc.initGlobalEvents = require('../init-global-calc-events');
+    App.currentCalc.initGlobalEvents(App.currentCalc);
+    App.currentCalc.initRouter = require('../init-calc-router');
+    App.currentCalc.initRouter(App.currentCalc);
+
+    App.currentCalc.on('stop', function() {
+      App.currentCalc.controller.hide();
+      App.currentCalc.stopListening();
+    });
   }
 });

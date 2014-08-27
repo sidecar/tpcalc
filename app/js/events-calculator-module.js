@@ -102,15 +102,5 @@ module.exports = App.module('events', function(Calc) {
       ]), //end categories
       thankYouView: new evtThankYouView()
     }); //end Calc.model
-    Calc.initCalcLayout = require('./init-calc-layout');
-    Calc.initCalcLayout(Calc);
-    Calc.initGlobalEvents = require('./init-global-calc-events');
-    Calc.initGlobalEvents(Calc);
-    Calc.initRouter = require('./init-calc-router');
-    Calc.initRouter(Calc);
-  });
-  Calc.addFinalizer(function(){
-    Calc.controller.hide();
-    Calc.stopListening();
   });
 }); 

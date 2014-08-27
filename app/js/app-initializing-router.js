@@ -10,7 +10,6 @@ module.exports.router = Marionette.AppRouter.extend({
   appRoutes: {
     ':calculator': 'showDefaultCalculator',
     ':categories/:calculator': 'showSelectCateogries',
-    //TODO add the possiblity of starting category specific calculators
     '*any': 'defaultRoute'    
   },
   before: {
@@ -24,10 +23,10 @@ module.exports.router = Marionette.AppRouter.extend({
 //TODO this needs to deal with edge case URLS like a mix of number and alphas
 module.exports.controller = Marionette.Controller.extend({
   showSelectCateogries: function(catCodes, calculator) {
-    App.execute('appModule:start', calculator, catCodes);
+    App.execute('calcModule:start', calculator, catCodes);
   },
   showDefaultCalculator: function(calculator) {
-    App.execute('appModule:start', calculator, undefined);
+    App.execute('calcModule:start', calculator, undefined);
   },
   defaultRoute: function() {
     var welcomeView = new WelcomeView();
