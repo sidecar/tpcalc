@@ -38,18 +38,6 @@ module.exports = Marionette.Layout.extend({
     var headerID = $target.data('reveal');
     $('#you-total-graph-header, #'+headerID).toggle();
   },
-  onShow: function() {
-    if(this.model.get('slug') !== 'individual') $("#us-avg-graph").remove();
-    $('.us-avg-graph-header').hide();
-    $('#us-avg-total-graph-header').show();
-    $('.you-graph-header').hide();
-    $('#you-total-graph-header').show();  
-  },
-  onDomRefresh: function() {
-    if(this.model.get('slug') !== 'individual') $("#us-avg-graph").remove();
-    $('.us-avg-graph-header').hide();
-    $('#us-avg-total-graph-header').show();
-  },
   onRender: function() {
     var calcModel = this.model;
     var YouGraphHeaderView = require('../../views/summary/you-graph-header-view')
@@ -80,13 +68,34 @@ module.exports = Marionette.Layout.extend({
     this.youGraphHeaderRegion.show(youGraphHeaderView); 
     this.youGraphRegion.show(youGraphView); 
     this.emissionsRegion.show(emissionsView); 
-    this.categoryOffsetsRegion.show(categoryOffsetsView); 
+  },
+  onShow: function() {
+    if(this.model.get('slug') !== 'individual') $("#us-avg-graph").remove();
+    $('.us-avg-graph-header').hide();
+    $('#us-avg-total-graph-header').show();
+    $('.you-graph-header').hide();
+    $('#you-total-graph-header').show();  
+  },
+  onDomRefresh: function() {
+    if(this.model.get('slug') !== 'individual') $("#us-avg-graph").remove();
+    $('.us-avg-graph-header').hide();
+    $('#us-avg-total-graph-header').show();
+
+    var categories = this.model.get('categories');
+    categories.each(function(category) {
+      var value = 'test'
+      , displayName = category.get('displayName')
+      , totalEmissions = category.get('totalEmissions')
+      , emissionPounds = totalEmissions*2204.622622
+      , offsetAllUnits = Math.ceil(emissionPounds/1000)
+      , monthlyOffsetPrice = numeral(offsetAllUnits * 5.95 / 12).format('$0.00')
+      $('.monthly-category-offsets').append('<option value="'+value+'">Offset '+displayName+' for '+monthlyOffsetPrice+'/mo</option>')
+    });
   },
   regions: {
     youGraphHeaderRegion: '[data-region=you-graph-header]',
     youGraphRegion: '[data-region=you-graph]',
     emissionsRegion: '[data-region=emissions]',
-    categoryOffsetsRegion: '[data-region=category-offsets]'
   },
   buyBtnClicked: function(event) {
     event.preventDefault();
@@ -105,7 +114,7 @@ module.exports = Marionette.Layout.extend({
     , emissionPoundsFormatted = numeral(emissionPounds).format('0,0')
     , offsetAllUnits = Math.ceil(emissionPounds/1000)
     , offsetAllPrice = numeral(offsetAllUnits * 5.95).format('$0.00')
-    , monthlyOffsetAllPrice = numeral(offsetAllUnits * 5.95 / 12).format('$0.00')
+    , monthlyOffsetPrice = numeral(offsetAllUnits * 5.95 / 12).format('$0.00')
     , trees = numeral(this.model.get('totalEmissions')/0.039).format('0,0')
     , usAverage = this.model.get('usAvgEmissionsMetricTons') * multiplier
     , usAverageFormatted = numeral(usAverage).format('0,0')
@@ -140,7 +149,7 @@ module.exports = Marionette.Layout.extend({
       emissionPounds: emissionPoundsFormatted,
       offsetAllUnits: offsetAllUnits,
       offsetAllPrice: offsetAllPrice,
-      monthlyOffsetAllPrice: monthlyOffsetAllPrice
+      monthlyOffsetPrice: monthlyOffsetPrice
     }
   }
 });

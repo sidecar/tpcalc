@@ -45,18 +45,13 @@
 	<form name="ind_summary_view">
 		<div class="form-element">
 			<select class="form-control">
-				<optgroup data-region="category-offsets" label="Monthly Offsets"></optgroup>
-{{!-- 				<optgroup label="Monthly Offsets">
-					<option selected="selected" value="">Offset All for {{monthlyOffsetAllPrice}}/mo</option>
-					<option value="">Offset Vehicle for $10.49/mo</option>
-					<option value="">Offset Public Transit for $10.49/mo</option>
-					<option value="">Offset Travel for $10.49/mo</option>
-					<option value="">Offset Home Energy for $10.49/mo</option>
-				</optgroup> --}}
+				<optgroup class="monthly-category-offsets" label="Monthly Offsets">
+					<option selected="selected" value="">Offset All for {{monthlyOffsetPrice}}/mo</option>
+				</optgroup>
 				<optgroup></optgroup>
 				<optgroup label="Offset Products for {{productType}}">
 					<option selected="selected" value="">Offset {{emissionPounds}}lbs for {{offsetAllPrice}}</option>
-					<option value="">Offset Monthly for {{monthlyOffsetAllPrice}}/mo</option>
+					<option value="">Offset Monthly for {{monthlyOffsetPrice}}/mo</option>
 				</optgroup>
 			</select>
 		</div>

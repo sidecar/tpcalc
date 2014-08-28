@@ -22,10 +22,10 @@ module.exports = Marionette.ItemView.extend({
     , categoryDisplayName = category.get('displayName')
     , emissionPounds = category.get('totalEmissions')*2204.622622
     , offsetUnits = Math.ceil(emissionPounds/1000)
-    , monthslyOffsetPrice = numeral(offsetUnits * 5.95 / 12).format('$0.00')
+    , monthlyOffsetPrice = numeral(offsetUnits * 5.95 / 12).format('$0.00')
     return {
       categoryDisplayName: categoryDisplayName,
-      monthslyOffsetPricePrice: monthslyOffsetPrice
+      monthlyOffsetPricePrice: monthlyOffsetPrice
     }
   }
 });
