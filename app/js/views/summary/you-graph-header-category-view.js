@@ -5,9 +5,9 @@ var $ = require('jquery')
 
 module.exports = Marionette.ItemView.extend({
   template: template,
-  //THIS SOLUTION IS SO NOT DOCUMENTED
-  //http://stackoverflow.com/questions/14656068/turning-off-div-wrap-for-backbone-marionette-itemview
   onRender: function () {
+    //THIS SOLUTION IS SO NOT DOCUMENTED
+    //http://stackoverflow.com/questions/14656068/turning-off-div-wrap-for-backbone-marionette-itemview
     // Get rid of that pesky wrapping-div.
     // Assumes 1 child element present in template.
     this.$el = this.$el.children();

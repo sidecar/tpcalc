@@ -15,8 +15,6 @@ function isMobile() {
 }
 App.mobile = isMobile();
 
-
-
 function startCalcModule(name, args) {
   var calc = App.currentCalc,
   newCalc = App.module(name);
@@ -26,7 +24,6 @@ function startCalcModule(name, args) {
   }
 
   App.currentCalc = calc = newCalc;
-  //calcName = name;
 
   calc.start(args);
   calc.on('stop', function() {
@@ -59,9 +56,6 @@ App.addInitializer(function(options) {
   var Router = require('./app-initializing-router').router;
   App.router = new Router({controller: App.controller});
 
-  //var ModuleManager = require('./utils/module-manager');
-  //var modManager = new ModuleManager();
-  //App.commands.setHandler('calcModule:start', modManager.startAppModule, modManager);
   App.commands.setHandler('calcModule:start', startCalcModule);
 
 });

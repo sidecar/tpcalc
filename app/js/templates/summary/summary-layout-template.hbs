@@ -45,25 +45,18 @@
 	<form name="ind_summary_view">
 		<div class="form-element">
 			<select class="form-control">
-				<optgroup label="Annual Offsets">
-					<option value="">Offset All for $9.08/yr</option>
-					<option value="">Offset Vehicle for $10.49/yr</option>
-					<option value="">Offset Public Transit for $10.49/yr</option>
-					<option value="">Offset Travel for $10.49/yr</option>
-					<option value="">Offset Home Energy for $10.49/yr</option>
-				</optgroup>
-				<optgroup></optgroup>
-				<optgroup label="Monthly Offsets">
-					<option selected="selected" value="">Offset All for $9.08/mo</option>
+				<optgroup data-region="category-offsets" label="Monthly Offsets"></optgroup>
+{{!-- 				<optgroup label="Monthly Offsets">
+					<option selected="selected" value="">Offset All for {{monthlyOffsetAllPrice}}/mo</option>
 					<option value="">Offset Vehicle for $10.49/mo</option>
 					<option value="">Offset Public Transit for $10.49/mo</option>
 					<option value="">Offset Travel for $10.49/mo</option>
 					<option value="">Offset Home Energy for $10.49/mo</option>
-				</optgroup>
+				</optgroup> --}}
 				<optgroup></optgroup>
-				<optgroup label="Offset Products for Individuals">
-					<option selected="selected" value="">Offset 1000lbs for $9.08</option>
-					<option value="">Offset Monthly for $10.49/mo</option>
+				<optgroup label="Offset Products for {{productType}}">
+					<option selected="selected" value="">Offset {{emissionPounds}}lbs for {{offsetAllPrice}}</option>
+					<option value="">Offset Monthly for {{monthlyOffsetAllPrice}}/mo</option>
 				</optgroup>
 			</select>
 		</div>

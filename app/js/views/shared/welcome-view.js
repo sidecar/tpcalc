@@ -13,7 +13,6 @@ module.exports = Marionette.ItemView.extend({
   },
   calcBtnClicked: function(event) {
     var calcName = $(event.target).data('calc');
-    //App.vent.trigger('startCalcFromWelcomeView', calcName);
     App.execute('calcModule:start', calcName, undefined);
   }
 });

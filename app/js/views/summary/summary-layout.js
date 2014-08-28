@@ -55,6 +55,7 @@ module.exports = Marionette.Layout.extend({
     var YouGraphHeaderView = require('../../views/summary/you-graph-header-view')
     var YouGraphView = require('../../views/summary/you-graph-view')
     var EmissionsView = require('../../views/summary/emissions-view');
+    var CategoryOffsetsView = require('../../views/summary/category-offsets-view');
     
     var youGraphHeaderView = new YouGraphHeaderView({
       model: calcModel,
@@ -71,14 +72,21 @@ module.exports = Marionette.Layout.extend({
       collection: calcModel.get('categories') 
     });
 
+    var categoryOffsetsView = new CategoryOffsetsView({
+      model: calcModel,
+      collection: calcModel.get('categories') 
+    });
+
     this.youGraphHeaderRegion.show(youGraphHeaderView); 
     this.youGraphRegion.show(youGraphView); 
     this.emissionsRegion.show(emissionsView); 
+    this.categoryOffsetsRegion.show(categoryOffsetsView); 
   },
   regions: {
     youGraphHeaderRegion: '[data-region=you-graph-header]',
     youGraphRegion: '[data-region=you-graph]',
-    emissionsRegion: '[data-region=emissions]'
+    emissionsRegion: '[data-region=emissions]',
+    categoryOffsetsRegion: '[data-region=category-offsets]'
   },
   buyBtnClicked: function(event) {
     event.preventDefault();
@@ -93,6 +101,11 @@ module.exports = Marionette.Layout.extend({
     , categoryDisplayName = categoryModel.get('displayName')
     , categorySlug = categoryModel.get('slug')
     , totalEmissions = numeral(this.model.get('totalEmissions')*multiplier).format('0,0')
+    , emissionPounds = this.model.get('totalEmissions')*2204.622622
+    , emissionPoundsFormatted = numeral(emissionPounds).format('0,0')
+    , offsetAllUnits = Math.ceil(emissionPounds/1000)
+    , offsetAllPrice = numeral(offsetAllUnits * 5.95).format('$0.00')
+    , monthlyOffsetAllPrice = numeral(offsetAllUnits * 5.95 / 12).format('$0.00')
     , trees = numeral(this.model.get('totalEmissions')/0.039).format('0,0')
     , usAverage = this.model.get('usAvgEmissionsMetricTons') * multiplier
     , usAverageFormatted = numeral(usAverage).format('0,0')
@@ -106,6 +119,8 @@ module.exports = Marionette.Layout.extend({
     } else {
       var usAvgGraphWidth = numeral(this.model.get('usAvgEmissionsMetricTons') / this.model.get('totalEmissions') * 320).format('0');
     }
+
+    var productTypeMap = {individual: 'Individuals', business: 'Businesses', events: 'Events'};
  
     return {
       calculatorDisplayName: calculatorDisplayName,
@@ -120,7 +135,12 @@ module.exports = Marionette.Layout.extend({
       usAvgTransit: usAvgTransitFormatted,
       usAvgTravel: usAvgTravelFormatted,
       usAvgHome: usAvgHomeFormatted,
-      usAvgGraphWidth: usAvgGraphWidth
+      usAvgGraphWidth: usAvgGraphWidth,
+      productType: productTypeMap[calculatorSlug],
+      emissionPounds: emissionPoundsFormatted,
+      offsetAllUnits: offsetAllUnits,
+      offsetAllPrice: offsetAllPrice,
+      monthlyOffsetAllPrice: monthlyOffsetAllPrice
     }
   }
 });
