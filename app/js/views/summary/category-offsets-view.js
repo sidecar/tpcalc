@@ -6,8 +6,8 @@ var Marionette = require('backbone.marionette')
 
 module.exports = Marionette.CompositeView.extend({
   template: template,
-  itemView: itemView,
-  itemViewContainer: '.category-offsets-item-container',
+  // itemView: itemView,
+  // itemViewContainer: '.category-offsets-item-container',
   onRender: function () {
     //THIS SOLUTION IS SO NOT DOCUMENTED
     //http://stackoverflow.com/questions/14656068/turning-off-div-wrap-for-backbone-marionette-itemview
