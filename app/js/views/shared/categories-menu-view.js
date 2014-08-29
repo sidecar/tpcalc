@@ -1,11 +1,13 @@
 var $ = require('jquery')
-, Marionette = require('backbone.marionette');
+, Marionette = require('backbone.marionette')
+, App = require('../../app');
 
 module.exports = Marionette.CollectionView.extend({
   tagName: 'ul',
   className: 'menu',
   onRender: function() {
-    $(this.el).append('<li class="help"><a href="#" data-toggle="modal" data-target="#helpModal" class="btn btn-default btn-circle-36 ico-help">Help</a></li>');
+    //$(this.el).append('<li><a href="#" data-toggle="modal" data-target="#methodologyModal" class="methodology-btn btn btn-default btn-circle-36 ico-methodology methodology-bg">Methodology</a></li>');
+    $(this.el).append('<li><a href="#" class="methodology-btn btn btn-default btn-circle-36 ico-methodology methodology-bg">Methodology</a></li>');
 
     $(function(){
       var fast = 200;
@@ -24,6 +26,13 @@ module.exports = Marionette.CollectionView.extend({
           .animate({right:'-8px'},faster);
       });
     });
-
+  },
+  onShow: function() {
+    var appRef = App;
+    $('.methodology-btn').on('click', function(event) {
+      event.preventDefault();
+      var topic = appRef.currentCalc.model.get('currentCategory').get('slug');
+      appRef.vent.trigger('methodologyModal', topic);
+    });
   }
 });

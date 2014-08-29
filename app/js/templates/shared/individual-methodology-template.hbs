@@ -1,0 +1,85 @@
+
+
+
+
+  <!-- Modal -->
+<div class="modal fade" id="methodologyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">Our Methodology</h4>
+      </div>
+      <div class="modal-body">
+
+        <a name="default"></a><h3>Sources:</h3> 
+        <p>Environmental Protection Agency • fueleconomy.gov • World Resources Institute • Commercial Buildings Energy Consumption Survey • Department of Energy • Beverage Industry Environmental Roundtable • Johns Hopkins Center for a Livable Future • </p> 
+
+        <p>Wherever possible, we use established emissions factors and protocols from expert sources:</p>
+        <ul>
+        <li>World Resources Institute provides greenhouse gas protocols for all common modes of transportation.</li>
+        <li>The EPA and Bureau of Transportation Statistics provide helpful data on vehicle efficiency in the US.</li>
+        <li>The EPA provides data on the carbon intensity of regional electricity production through its eGRID database. The Department of Energy also compiles statistics on regional carbon intensity.</li>
+        </ul>
+        <p>Where standard figures don't exist, we rely on industry surveys to inform our assumptions about average energy consumption from various activities.</p>
+
+        <p>Our online calculator is only meant to provide an estimate. It is designed to be as accurate as possible while still being easy to use. It is not a substitute for a full energy audit. In our experience, the results from our online calculator generally map quite well to more sophisticated analysis methods, but the calculator does rely on a number of assumptions about average emissions factors. If those assumptions don't accurately describe your lifestyle, business or event, the calculator may not yield reliable results for you. You can contact us at support@terrapass.com for more information or assistance.</p>
+
+        <!-- Individual Calculator Methodology -->
+
+         <a name="individual-vehicle"><h3>Vehicle</h3></a>
+        <p>We estimate the amount of carbon dioxide equivalent emissions your car emits into the air every year based on your mileage and the type of vehicle you drive. Based on the year, make, and model of your car, we use the U.S. Department of Energy's ratings to find your fuel economy, or miles per gallon of gas.</p> 
+
+        <p>The average American drives 12,000 miles per year, but you can adjust this figure based on how much you drive. Multiplying the number of miles you specify by the fuel economy rating gives us the total quantity of fuel you will use in a year, in gallons.</p>
+        <p>We apply the World Resources Institute’s (WRI) emission factors to calculate the total CO2e equivalent emissions from your vehicle.</p>
+
+
+        <h3>Special Case: Electric vehicles</h3>
+        <p>All-electric vehicles use electricity-charged batteries as fuel. Since electricity isn't measured in gallons, and since the greenhouse gas emissions from electricity use are not as simple as those for liquid fuels, our calculator treats these cars differently. Electric vehicle emissions are calculated by looking at your annual mileage (as reported by you) and the emission factor of the electricity generation in your area.</p> 
+
+        <h3>Special Case: Boats</h3>
+        <p>We calculate the footprint of your boat based on the amount of fuel you use each year, and the type of fuel you use. Based on the fuel type you select, we calculate the emissions using WRI’s emission factors.</p> 
+
+        <a name="individual-transit"><h3>Transit</h3></a>
+        <p>We estimate the amount of carbon dioxide your commute emits into the air every year based on your mode of transit and how far you travel. Multiplying the number of miles you specify by the frequency of your travel gives us the total annual mileage for each transit type.</p>
+
+        <p>We apply the World Resources Institute’s (WRI) emission factors to calculate the total CO2e equivalent emissions from your commute.</p>
+
+        <a name="individual-travel"><h3>Travel</h3></a>
+        <p>There are several different ways to calculate your carbon emissions from flying: by number of miles, number of flights, gallons of fuel, or individual trips. For any of these options, you can choose to factor in the Radiative Forcing Index (RFI). RFI accounts for more than just the carbon emissions from your flight. It also takes into account other emissions from burning fuel, like soot, contrails and other factors that magnify the warming effect in the upper atmosphere over time.</p>
+
+        <h4>Short, Medium & Long Flights</h4>
+        <p>We use assumptions based on the greenhouse gas emissions protocols developed by the World Resource Institute (WRI) to approximate the emissions from standard flight distances. The actual amount of fuel burned per passenger per mile depends on the type of plane, the number of people flying, the weight of the cargo, and other factors.</p>
+
+        <h4>The average distances for each flight are as follows:</h4>
+        <ul>
+        <li>Short Haul: 462 miles</li>
+        <li>Medium Haul: 1,108 miles</li>
+        <li>Long Haul: 6,482 miles</li>
+        </ul>
+
+        <h4>Direct vs. Layovers</h4>
+        <p>Because take-off and landing use more fuel than flying at the same altitude, we add an additional per-stopover emission calculation of 225 lbs CO2 for any flights that aren’t nonstop.</p>
+
+        <h4>Calculating Your Flight’s Emissions</h4>
+        <p>We start by calculating the distance between your origin and destination city, based on their latitude and longitude. This is a standard trigonometric calculation, and we ignore any stopovers you might make along the way. If you wish to calculate the effect of stopovers, simply enter the legs of the flight as separate trips.</p>
+
+        <p>Next we categorize your flight as a short-, medium-, or long-haul trip. Because planes burn more fuel at takeoff and landing than at cruising altitude, short-haul trips are less fuel-efficient per mile flown.</p>
+
+        <p>For each of the three types of trips, we use a different carbon index that indicates the amount of fuel burned, on average, per mile of the journey. By multiplying this index by the distance of your trip, we determine how much fuel was burned per passenger for that particular flight.</p>
+
+        <h4>Cabin Class</h4>
+        <p>Whether you fly coach, business, or first class makes a difference, too. More leg room means a higher emission factor for the larger portion of the space you take up.</p> 
+
+        <a name="individual-home"><h3>Home</h3></a>
+        <p>To calculate your home energy use, we use a combination of consumption, price and emissions statistics. Consumption and price information for electricity, natural gas, heating oil and propane all come from the Energy Information Administration at the Department of Energy.</p>
+
+        <p>Electricity emissions data comes from the EPA's eGRID program. Emission rates for electricity varies by area due to regional differences in fuel sources for power plants. You can check your electricity's emissions rate using the EPA's Power Profiler.</p>
+
+      </div>
+      <div class="modal-footer">
+        {{!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> --}}
+      </div>
+    </div>
+  </div>
+</div>

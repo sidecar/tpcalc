@@ -1,5 +1,6 @@
 "use strict";
 var $ = require('jquery')
+, bootstrap = require('bootstrap')
 , App = require('./app');
 
 module.exports = function(Calc) {
@@ -54,12 +55,19 @@ module.exports = function(Calc) {
     App.router.navigate(Calc.baseRoute+'/'+newCategorySlug+'/'+currentViewModel.get('name'), {trigger: true});
   });  
 
-  App.vent.on('help', function(event) {
-    $('#helpModal').modal(options);
+  App.vent.on('methodologyModal', function(topic) {
+    $('#methodologyModal').modal('toggle');
+    window.setTimeout(function() {
+      var oldTop = $('.modal-content').offset().top;
+      var $anchor = $('[name="'+Calc.model.get('slug')+'-'+topic+'"]') || $('[name="'+Calc.model.get('slug')+'"]');
+      var newTop = $anchor.offset().top;
+      var distance = Math.round(oldTop - newTop);
+      $('.modal-content').animate({top:distance}, 800);
+    }, 1000)
   });  
 
   App.vent.on('buy', function(event) { 
-    window.alert('The buy button was clicked.');
+    window.location = 'http://www.terrapass.com/';
   });  
 
   App.vent.on('errorAlert', function(msg) { 

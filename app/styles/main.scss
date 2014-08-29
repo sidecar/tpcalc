@@ -74,40 +74,40 @@ $orange: 		#f69400;
 .bg-orange:hover,
 .bg-green:hover { background-color: $light-gray !important; }
 
+.individual-vehicle-bg:hover,
+.individual-transit-bg:hover,
+.individual-travel-bg:hover,
+.individual-home-bg:hover,
+.business-site-bg:hover,
+.business-fleet-bg:hover,
+.business-travel-bg:hover,
+.business-commute-bg:hover,
+.business-shipping-bg:hover,
+.business-server-bg:hover,
+.events-travel-bg:hover,
+.events-venue-bg:hover,
+.events-water-bg:hover,
+.events-meals-bg:hover { background-color: $light-gray !important; }
 
-.individual-vehicle-bg { background-color: $peach !important; }
-.individual-transit-bg { background-color: $green !important; }
-.individual-travel-bg { background-color: $dark-blue !important; }
-.individual-home-bg { background-color: $light-blue !important; }
+.individual-vehicle-bg { background-color: $dark-blue !important; }
+.individual-transit-bg { background-color: $light-blue !important; }
+.individual-travel-bg { background-color: $dark-green !important; }
+.individual-home-bg { background-color: $green !important; }
 
-.business-site-bg { background-color: $peach !important; }
+.business-site-bg { background-color: #1E0770 !important; }
 .business-fleet-bg { background-color: $dark-blue !important; }
 .business-travel-bg { background-color: $light-blue !important; }
 .business-commute-bg { background-color: $green !important; }
 .business-shipping-bg { background-color: $dark-green !important; }
-.business-server-bg { background-color: $purple !important; }
+.business-server-bg { background-color: #91C03F !important; }
 
 .events-travel-bg { background-color: $dark-blue !important; }
 .events-venue-bg { background-color: $light-blue !important; }
 .events-water-bg { background-color: $dark-green !important; }
 .events-meals-bg { background-color: $green !important; }
 
-.individual-vehicle-color { color: $peach; }
-.individual-transit-color { color: $green; }
-.individual-travel-color { color: $dark-blue; }
-.individual-home-color { color: $light-blue; }
-
-.business-site-color { color: $peach; }
-.business-fleet-color { color: $dark-blue; }
-.business-travel-color { color: $light-blue; }
-.business-commute-color { color: $green; }
-.business-shipping-color { color: $dark-green; }
-.business-server-color { color: $purple; }
-
-.events-travel-color { color: $dark-blue; }
-.events-venue-color { color: $light-blue; }
-.events-water-color { color: $dark-green; }
-.events-meals-color { color: $green; }
+.help-bg { background-color: $dark-gray !important; }
+.methodology-bg { background-color: $dark-gray !important; }
 
 .welcome p {
 	text-align: center;
@@ -507,193 +507,134 @@ input.numeric-big {
 
  /* Individual Calculator */
 .ico-vehicle {
-	background: $peach url('../img/ico_vehicle.png') 0 0 no-repeat;
+	background-image: url('../img/ico_vehicle.png');
 	border: 0px solid #fff;
 }
 
 .ico-vehicle:hover {
-	background: $peach url('../img/ico_vehicle.png') 0 0 no-repeat;
+	background-image: url('../img/ico_vehicle.png');
 }
 
 .ico-transit {
-	background: $purple url('../img/ico_transit.png') 0 0 no-repeat;
+	background-image: url('../img/ico_transit.png');
 	border: 0px solid #fff;
 }
 
 .ico-transit:hover {
-	background: $purple url('../img/ico_transit.png') 0 0 no-repeat;
+	background-image: url('../img/ico_transit.png');
 }
 
 .ico-travel {
-	background: $dark-blue url('../img/ico_travel.png') 0 0 no-repeat;
+	background-image: url('../img/ico_travel.png');
 	border: 0px solid #fff;
 }
 
 .ico-travel:hover {
-	background: $dark-blue  url('../img/ico_travel.png') 0 0 no-repeat;
+	background-image: url('../img/ico_travel.png');
 }
 
 .ico-home {
-	background: $light-blue url('../img/ico_home_energy.png') 0 0 no-repeat;
+	background-image: url('../img/ico_home_energy.png');
 	border: 0px solid #fff;
 }
 
 .ico-home:hover {
-	background: $light-blue url('../img/ico_home_energy.png') 0 0 no-repeat;
+	background-image: url('../img/ico_home_energy.png');
 }
-
 
  /* Business Calculator - NEW */
 .ico-site {
-	background: $peach url('../img/ico_site.png') 0 0 no-repeat;
+	background-image: url('../img/ico_site.png');
 	border: 0px solid #fff;
 }
 
 .ico-site:hover {
-	background: $peach url('../img/ico_site.png') 0 0 no-repeat;
+	background-image: url('../img/ico_site.png');
 }
 
 .ico-server {
-	background: $purple url('../img/ico_server.png') 0 0 no-repeat;
+	background-image: url('../img/ico_server.png');
 	border: 0px solid #fff;
 }
 
 .ico-server:hover {
-	background: $purple url('../img/ico_server.png') 0 0 no-repeat;
+	background-image: url('../img/ico_server.png');
 }
 
 .ico-fleet {
-	background: $dark-blue url('../img/ico_fleet.png') 0 0 no-repeat;
+	background-image: url('../img/ico_fleet.png');
 	border: 0px solid #fff;
 }
 
 .ico-fleet:hover {
-	background: $dark-blue url('../img/ico_fleet.png') 0 0 no-repeat;
+	background-image: url('../img/ico_fleet.png');
 }
 
 .ico-business-travel {
-	background: $light-blue url('../img/ico_travel.png') 0 0 no-repeat;
+	background-image: url('../img/ico_travel.png');
 	border: 0px solid #fff;
 }
 
 .ico-business-travel:hover {
-	background: $light-blue  url('../img/ico_travel.png') 0 0 no-repeat;
+	background-image: url('../img/ico_travel.png');
 }
 
 .ico-commute {
-	background: $green url('../img/ico_commute.png') 0 0 no-repeat;
+	background-image: url('../img/ico_commute.png');
 	border: 0px solid #fff;
 }
 
 .ico-commute:hover {
-	background: $green  url('../img/ico_commute.png') 0 0 no-repeat;
+	background-image: url('../img/ico_commute.png');
 }
 
 .ico-shipping {
-	background: $dark-green url('../img/ico_shipping.png') 0 0 no-repeat;
+	background-image: url('../img/ico_shipping.png');
 	border: 0px solid #fff;
 }
 
 .ico-shipping:hover {
-	background: $dark-green url('../img/ico_shipping.png') 0 0 no-repeat;
+	background-image: url('../img/ico_shipping.png');
 }
-
-
- /* Business Calculator - OLD */
- /*
-.ico-site {
-	background: $light-blue url('../img/ico_site.png') 0 0 no-repeat;
-	border: 0px solid #fff;
-}
-
-.ico-site:hover {
-	background: $light-blue url('../img/ico_site.png') 0 0 no-repeat;
-}
-
-.ico-server {
-	background: $dark-purple url('../img/ico_server.png') 0 0 no-repeat;
-	border: 0px solid #fff;
-}
-
-.ico-server:hover {
-	background: $dark-purple url('../img/ico_server.png') 0 0 no-repeat;
-}
-
-.ico-fleet {
-	background: $peach url('../img/ico_fleet.png') 0 0 no-repeat;
-	border: 0px solid #fff;
-}
-
-.ico-fleet:hover {
-	background: $peach url('../img/ico_fleet.png') 0 0 no-repeat;
-}
-
-.ico-travel {
-	background: $dark-blue url('../img/ico_travel.png') 0 0 no-repeat;
-	border: 0px solid #fff;
-}
-
-.ico-travel:hover {
-	background: $dark-blue  url('../img/ico_travel.png') 0 0 no-repeat;
-}
-
-.ico-commute {
-	background: $purple url('../img/ico_commute.png') 0 0 no-repeat;
-	border: 0px solid #fff;
-}
-
-.ico-commute:hover {
-	background: $purple  url('../img/ico_commute.png') 0 0 no-repeat;
-}
-
-.ico-shipping {
-	background: $green url('../img/ico_shipping.png') 0 0 no-repeat;
-	border: 0px solid #fff;
-}
-
-.ico-shipping:hover {
-	background: $green url('../img/ico_shipping.png') 0 0 no-repeat;
-}
-*/
 
  /* Event Calculator */
 .ico-venue {
-	background: $light-blue url('../img/ico_venue.png') 0 0 no-repeat;
+	background-image: url('../img/ico_venue.png');
 	border: 0px solid #fff;
 }
 
 .ico-venue:hover {
-	background: $light-blue url('../img/ico_venue.png') 0 0 no-repeat;
+	background-image: url('../img/ico_venue.png');
 }
 
 .ico-meals {
-	background: $green url('../img/ico_meals.png') 0 0 no-repeat;
+	background-image: url('../img/ico_meals.png');
 	border: 0px solid #fff;
 }
 
 .ico-meals:hover {
-	background: $green url('../img/ico_meals.png') 0 0 no-repeat;
+	background-image: url('../img/ico_meals.png');
 }
 
 .ico-water {
-	background: $dark-green url('../img/ico_water.png') 0 0 no-repeat;
+	background-image: url('../img/ico_water.png');
 	border: 0px solid #fff;
 }
 
 .ico-water:hover {
-	background: $dark-green url('../img/ico_water.png') 0 0 no-repeat;
+	background-image: url('../img/ico_water.png');
 }
 
 
 
-.ico-help {
-	background: $dark-gray url('../img/ico_help.png') 0 0 no-repeat;
+.ico-methodology {
+	background-image: url('../img/ico_help.png');
 	border: 0px solid #fff;
 	color: #fff;
 }
 
-.ico-help:hover {
-	background: $dark-gray url('../img/ico_help.png') 0 0 no-repeat;
+.ico-methodology:hover {
+	background-image: url('../img/ico_help.png');
 	color: #fff;
 }
 
@@ -1122,4 +1063,8 @@ ul {
 		border-left: none;
 		text-align: right;
 		width: 40%;
+}
+
+.hide {
+	display: none;
 }

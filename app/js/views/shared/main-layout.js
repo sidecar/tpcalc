@@ -8,7 +8,7 @@ module.exports = Marionette.Layout.extend({
   regions: {
     testRegion: '[data-region=test]',
     headerRegion: '[data-region=header]',
-    helpRegion: '[data-region=help]',
+    methodologyRegion: '[data-region=methodology]',
     menuRegion: '[data-region=menu]',
     inputRegion: '[data-region=input]',
     footerRegion: '[data-region=footer]',

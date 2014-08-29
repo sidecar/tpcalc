@@ -22,11 +22,11 @@ var gulp = require('gulp')
 
 // Project configuration object
 var config = {
-    port:   9000,
-    app:    {},
-    dev:   {},
-    build:   {},
-    test:   {}
+  port:   9000,
+  app:    {},
+  dev:   {},
+  build:   {},
+  test:   {}
 }
 
 config.app.baseDir = 'app/'
@@ -79,9 +79,9 @@ gulp.task('test', function () {
 // Lint JavaScript and log lint errors
 gulp.task('lint', function() {
   return gulp.src([config.app.js + '**/*.js', '!./'+config.app.js + 'vendor/**/*.js'])
-      .pipe(jshint({ strict: false }))
-      .pipe(jshint())
-      .pipe(jshint.reporter('default'));
+    .pipe(jshint({ strict: false }))
+    .pipe(jshint())
+    .pipe(jshint.reporter('default'));
 });
 
 // gulp.task('package-vendor-libs', function() {
@@ -96,7 +96,7 @@ gulp.task('lint', function() {
 // });
 
 gulp.task('copy-html-to-dev', function(){
-    // Copy the index.html file into the dist dir
+  // Copy the index.html file into the dist dir
   return gulp.src(config.app.baseDir + '*.html')
     .pipe(gulp.dest(config.dev.baseDir));
 });
@@ -127,20 +127,20 @@ gulp.task('copy-fonts-to-dev', function() {
 
 // Compile sass then concatenate and minify all css
 gulp.task('sass', function() {
-    // return gulp.src([config.app.styles + '**/*.scss', config.app.styles + '**/*.scss'])
-    return gulp.src(config.app.styles + 'main.scss')
-        // Only compile sass for scss files
-        //http://stackoverflow.com/questions/21719833/gulp-how-to-add-src-files-in-the-middle-of-a-pipe?lq=1
-        .pipe(gulpIf(/[.]scss$/, sass({quiet: true})))
-        .pipe(concat('styles.min.css'))
-        .pipe(minifyCSS())
-        .pipe(gulp.dest(config.dev.styles))
+  // return gulp.src([config.app.styles + '**/*.scss', config.app.styles + '**/*.scss'])
+  return gulp.src(config.app.styles + 'main.scss')
+    // Only compile sass for scss files
+    //http://stackoverflow.com/questions/21719833/gulp-how-to-add-src-files-in-the-middle-of-a-pipe?lq=1
+    .pipe(gulpIf(/[.]scss$/, sass({quiet: true})))
+    .pipe(concat('styles.min.css'))
+    .pipe(minifyCSS())
+    .pipe(gulp.dest(config.dev.styles))
 });
 
 gulp.task('clean-dev', function() {
-    return gulp.src(config.dev.baseDir).pipe(clean());
-//  ^^^^^^
-//   This is the key here, to make sure tasks run asynchronously!
+  return gulp.src(config.dev.baseDir).pipe(clean());
+  // ^^^^^
+  // This is the key here, to make sure tasks run asynchronously!
 });
 
 gulp.task('clean-build', function() {
@@ -151,26 +151,26 @@ gulp.task('clean-build', function() {
 // Bundle javascript
 //for now trying to install all packages with NPM here goes
 gulp.task('browserify', function() {  
-    // give browserify a start point not a list of files
-    return gulp.src(config.app.js + 'init.js')
-        .pipe(browserify({
-          insertGlobals: true,
-          transform: ['hbsfy'],
-          // Allows you to skip .hbs in require statement along with .js and .json
-          extensions: ['.hbs']
-        }))
-        .pipe(gulp.dest(config.dev.js));
+  // give browserify a start point not a list of files
+  return gulp.src(config.app.js + 'init.js')
+    .pipe(browserify({
+      insertGlobals: true,
+      transform: ['hbsfy'],
+      // Allows you to skip .hbs in require statement along with .js and .json
+      extensions: ['.hbs']
+    }))
+    .pipe(gulp.dest(config.dev.js));
 });
 
 // Minify javascript after its been browserfied
 gulp.task('minify-js', function() {
   //grab init.js and libs.js mash em into one ugly messs
   return gulp.src(config.dev.js + 'init.js')
-      // Concatenate AND minify files and create a source map
-      .pipe(uglify('init.min.js', {
-        outSourceMap: 'init.min.js.map'
-      }))
-      .pipe(gulp.dest(config.build.js));
+    // Concatenate AND minify files and create a source map
+    .pipe(uglify('init.min.js', {
+      outSourceMap: 'init.min.js.map'
+    }))
+    .pipe(gulp.dest(config.build.js));
 });
 
 gulp.task('optimize-images', function() {
@@ -217,58 +217,58 @@ gulp.task('open-browser', function() {
 });
 
 gulp.task('watch-for-changes', function() {
-    // this does not work for me without the client side script but I don't see that documented Arghhh :-/
-    var server = livereload();
-    // If html files are changed copy them to the dev folder
-    gulp.watch(config.app.baseDir + '**/*.html').on('change', function (file) {
-      // ??? why am I able to access server inside this callback ???
-      runSequence(['copy-html-to-dev', 'copy-php-to-dev'], function() {
-        server.changed(file.path);
-      });
-    }); 
-    // If sass files are changed run sass task
-    gulp.watch(config.app.styles + '**/*.scss').on('change', function (file) {
-      // ??? why am I able to access server inside this callback ???
-      runSequence('sass', function() {
-        server.changed(file.path);
-      });
-    }); 
-    // If js files are changed run scripts task
-    gulp.watch(config.app.js + '**/*.js').on('change', function (file) {
-      // ??? why am I able to access server inside this callback ??
-      runSequence('browserify', function() {
-        server.changed(file.path);
-      });
-    }); 
+  // this does not work for me without the client side script but I don't see that documented Arghhh :-/
+  var server = livereload();
+  // If html files are changed copy them to the dev folder
+  gulp.watch(config.app.baseDir + '**/*.html').on('change', function (file) {
+    // ??? why am I able to access server inside this callback ???
+    runSequence(['copy-html-to-dev', 'copy-php-to-dev'], function() {
+      server.changed(file.path);
+    });
+  }); 
+  // If sass files are changed run sass task
+  gulp.watch(config.app.styles + '**/*.scss').on('change', function (file) {
+    // ??? why am I able to access server inside this callback ???
+    runSequence('sass', function() {
+      server.changed(file.path);
+    });
+  }); 
+  // If js files are changed run scripts task
+  gulp.watch(config.app.js + '**/*.js').on('change', function (file) {
+    // ??? why am I able to access server inside this callback ??
+    runSequence('browserify', function() {
+      server.changed(file.path);
+    });
+  }); 
 });
 
 // Build a dev version of the app and serve it locally 
 gulp.task('server', function() {
-    //run these subtasks in sequence
-    runSequence('clean-dev', ['sass', 'browserify', 'copy-html-to-dev', 'copy-php-to-dev', 'copy-images-to-dev', 'copy-jqueryui-images-to-dev', 'copy-fonts-to-dev'],'watch-for-changes', 'start-node-server');
+  //run these subtasks in sequence
+  runSequence('clean-dev', ['sass', 'browserify', 'copy-html-to-dev', 'copy-php-to-dev', 'copy-images-to-dev', 'copy-jqueryui-images-to-dev', 'copy-fonts-to-dev'],'watch-for-changes', 'start-node-server');
 });
 
 //Copy necessary files to build dir
 gulp.task('copy-to-build', function() {
-    gulp.src(config.app.baseDir + '*.html')
-      // Using gulpIf to limit replace to the index.html file, replace the script calls in index to pull in the concatenated and minified single js script
-      .pipe(gulpIf(/index.html$/, replace('init.js','init.min.js')))
-      .pipe(gulpIf(/index.html$/, replace("<script>document.write('<script src=\"http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1\"></' + 'script>')</script>","")))
-      .pipe(gulp.dest(config.build.baseDir));
-    //copy the php files  
-    gulp.src(config.app.baseDir + 'php/**/*.{php,html}')
-      .pipe(gulp.dest(config.build.baseDir + 'php/'));
-    // Copy css into build dir - this will include the jquery-ui images that need to be copied
-    gulp.src(config.dev.styles + '**/*').pipe(gulp.dest(config.build.styles));
+  gulp.src(config.app.baseDir + '*.html')
+    // Using gulpIf to limit replace to the index.html file, replace the script calls in index to pull in the concatenated and minified single js script
+    .pipe(gulpIf(/index.html$/, replace('init.js','init.min.js')))
+    .pipe(gulpIf(/index.html$/, replace("<script>document.write('<script src=\"http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1\"></' + 'script>')</script>","")))
+    .pipe(gulp.dest(config.build.baseDir));
+  //copy the php files  
+  gulp.src(config.app.baseDir + 'php/**/*.{php,html}')
+    .pipe(gulp.dest(config.build.baseDir + 'php/'));
+  // Copy css into build dir - this will include the jquery-ui images that need to be copied
+  gulp.src(config.dev.styles + '**/*').pipe(gulp.dest(config.build.styles));
 
-    // Copy unbrowserfied lib javascript into build dir
-    //gulp.src([config.dev.js + 'libs.min.js', config.dev.js + 'libs.min.js.map']).pipe(gulp.dest(config.build.js));
-    //gulp.src(config.dev.js + 'libs.min.js.map').pipe(gulp.dest(config.build.js));
+  // Copy unbrowserfied lib javascript into build dir
+  //gulp.src([config.dev.js + 'libs.min.js', config.dev.js + 'libs.min.js.map']).pipe(gulp.dest(config.build.js));
+  //gulp.src(config.dev.js + 'libs.min.js.map').pipe(gulp.dest(config.build.js));
 })
 
 // Build a production version of the app 
 // I should be able to run build task without running server task first 
 gulp.task('build', function() {
-    runSequence('clean-build',['sass', 'browserify'], 'minify-js', 'copy-to-build', 'optimize-images' );
+  runSequence('clean-build',['sass', 'browserify'], 'minify-js', 'copy-to-build', 'optimize-images' );
 });
 

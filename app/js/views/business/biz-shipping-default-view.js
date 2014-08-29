@@ -109,8 +109,12 @@ module.exports = Marionette.ItemView.extend({
     shipping.train.pounds = trainWeight;
 
     totalEmissions += shipping.totalEmissions().air;
+    console.log('totalEmissions', totalEmissions);
     totalEmissions += shipping.totalEmissions().truck;
+    console.log('totalEmissions', totalEmissions);
     totalEmissions += shipping.totalEmissions().train;
+    console.log('totalEmissions', totalEmissions);
+
 
     this.category.set({
       airShipments: airShipments,

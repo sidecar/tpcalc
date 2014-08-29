@@ -7,7 +7,7 @@ var MainLayout = require('./views/shared/main-layout')
   , CategoriesMenuView = require('./views/shared/categories-menu-view')
   , CategoryIconView = require('./views/shared/category-icon-view')
   , SummaryLayout = require('./views/summary/summary-layout')
-  , HelpView = require('./views/shared/help-view')
+  , MethodologyView = require('./views/shared/methodology-view')
   , EmissionsView = require('./views/summary/emissions-view');
 
 module.exports = function(Calc) {
@@ -22,13 +22,13 @@ module.exports = function(Calc) {
     itemView: CategoryIconView
   });
   var headerView = Calc.headerView = new HeaderView({model: calcModel});
-  var helpView = Calc.helpView = new HelpView({model: calcModel});
+  var methodologyView = Calc.methodologyView = new MethodologyView({model: calcModel});
   var footerView = Calc.footerView = new FooterView({model: calcModel});
 
   // Set up main layout
   App.body.show(mainLayout); // have to call show on a layout before it can do anything else
   mainLayout.headerRegion.show(headerView);
-  mainLayout.helpRegion.show(helpView);
+  mainLayout.methodologyRegion.show(methodologyView);
   mainLayout.footerRegion.show(footerView);
   mainLayout.menuRegion.show(categoriesMenuView);
   mainLayout.inputRegion.show(inputViewModel.get('view'));

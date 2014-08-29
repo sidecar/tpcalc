@@ -1,0 +1,148 @@
+
+
+
+
+  <!-- Modal -->
+<div class="modal fade" id="methodologyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">Our Methodology</h4>
+      </div>
+      <div class="modal-body">
+
+        <a name="default"></a><h3>Sources:</h3> 
+        <p>Environmental Protection Agency • fueleconomy.gov • World Resources Institute • Commercial Buildings Energy Consumption Survey • Department of Energy • Beverage Industry Environmental Roundtable • Johns Hopkins Center for a Livable Future • </p> 
+
+        <p>Wherever possible, we use established emissions factors and protocols from expert sources:</p>
+        <ul>
+        <li>World Resources Institute provides greenhouse gas protocols for all common modes of transportation.</li>
+        <li>The EPA and Bureau of Transportation Statistics provide helpful data on vehicle efficiency in the US.</li>
+        <li>The EPA provides data on the carbon intensity of regional electricity production through its eGRID database. The Department of Energy also compiles statistics on regional carbon intensity.</li>
+        </ul>
+        <p>Where standard figures don't exist, we rely on industry surveys to inform our assumptions about average energy consumption from various activities.</p>
+
+        <p>Our online calculator is only meant to provide an estimate. It is designed to be as accurate as possible while still being easy to use. It is not a substitute for a full energy audit. In our experience, the results from our online calculator generally map quite well to more sophisticated analysis methods, but the calculator does rely on a number of assumptions about average emissions factors. If those assumptions don't accurately describe your lifestyle, business or event, the calculator may not yield reliable results for you. You can contact us at support@terrapass.com for more information or assistance.</p>
+
+
+        <!-- Individual Calculator Methodology -->
+        <a name="individual"></a><div id="individual-methodology" class="hide">
+
+          <a name="individual-vehicle"></a><h3>Vehicle</h3>
+          <p>We estimate the amount of carbon dioxide equivalent emissions your car emits into the air every year based on your mileage and the type of vehicle you drive. Based on the year, make, and model of your car, we use the U.S. Department of Energy's ratings to find your fuel economy, or miles per gallon of gas.</p> 
+
+          <p>The average American drives 12,000 miles per year, but you can adjust this figure based on how much you drive. Multiplying the number of miles you specify by the fuel economy rating gives us the total quantity of fuel you will use in a year, in gallons.</p>
+          <p>We apply the World Resources Institute’s (WRI) emission factors to calculate the total CO2e equivalent emissions from your vehicle.</p>
+
+
+          <h3>Special Case: Electric vehicles</h3>
+          <p>All-electric vehicles use electricity-charged batteries as fuel. Since electricity isn't measured in gallons, and since the greenhouse gas emissions from electricity use are not as simple as those for liquid fuels, our calculator treats these cars differently. Electric vehicle emissions are calculated by looking at your annual mileage (as reported by you) and the emission factor of the electricity generation in your area.</p> 
+
+          <h3>Special Case: Boats</h3>
+          <p>We calculate the footprint of your boat based on the amount of fuel you use each year, and the type of fuel you use. Based on the fuel type you select, we calculate the emissions using WRI’s emission factors.</p> 
+
+          <a name="individual-transit"></a><h3>Transit</h3>
+          <p>We estimate the amount of carbon dioxide your commute emits into the air every year based on your mode of transit and how far you travel. Multiplying the number of miles you specify by the frequency of your travel gives us the total annual mileage for each transit type.</p>
+
+          <p>We apply the World Resources Institute’s (WRI) emission factors to calculate the total CO2e equivalent emissions from your commute.</p>
+
+          <a name="individual-travel"></a><h3>Travel</h3>
+          <p>There are several different ways to calculate your carbon emissions from flying: by number of miles, number of flights, gallons of fuel, or individual trips. For any of these options, you can choose to factor in the Radiative Forcing Index (RFI). RFI accounts for more than just the carbon emissions from your flight. It also takes into account other emissions from burning fuel, like soot, contrails and other factors that magnify the warming effect in the upper atmosphere over time.</p>
+
+          <h4>Short, Medium & Long Flights</h4>
+          <p>We use assumptions based on the greenhouse gas emissions protocols developed by the World Resource Institute (WRI) to approximate the emissions from standard flight distances. The actual amount of fuel burned per passenger per mile depends on the type of plane, the number of people flying, the weight of the cargo, and other factors.</p>
+
+          <h4>The average distances for each flight are as follows:</h4>
+          <ul>
+          <li>Short Haul: 462 miles</li>
+          <li>Medium Haul: 1,108 miles</li>
+          <li>Long Haul: 6,482 miles</li>
+          </ul>
+
+          <h4>Direct vs. Layovers</h4>
+          <p>Because take-off and landing use more fuel than flying at the same altitude, we add an additional per-stopover emission calculation of 225 lbs CO2 for any flights that aren’t nonstop.</p>
+
+          <h4>Calculating Your Flight’s Emissions</h4>
+          <p>We start by calculating the distance between your origin and destination city, based on their latitude and longitude. This is a standard trigonometric calculation, and we ignore any stopovers you might make along the way. If you wish to calculate the effect of stopovers, simply enter the legs of the flight as separate trips.</p>
+
+          <p>Next we categorize your flight as a short-, medium-, or long-haul trip. Because planes burn more fuel at takeoff and landing than at cruising altitude, short-haul trips are less fuel-efficient per mile flown.</p>
+
+          <p>For each of the three types of trips, we use a different carbon index that indicates the amount of fuel burned, on average, per mile of the journey. By multiplying this index by the distance of your trip, we determine how much fuel was burned per passenger for that particular flight.</p>
+
+          <h4>Cabin Class</h4>
+          <p>Whether you fly coach, business, or first class makes a difference, too. More leg room means a higher emission factor for the larger portion of the space you take up.</p> 
+
+          <a name="individual-home"></a><h3>Home</h3>
+          <p>To calculate your home energy use, we use a combination of consumption, price and emissions statistics. Consumption and price information for electricity, natural gas, heating oil and propane all come from the Energy Information Administration at the Department of Energy.</p>
+
+          <p>Electricity emissions data comes from the EPA's eGRID program. Emission rates for electricity varies by area due to regional differences in fuel sources for power plants. You can check your electricity's emissions rate using the EPA's Power Profiler.</p>
+
+        </div>
+
+        <!-- Business Calculator Methodology -->
+        <a name="business"></a><div id="business-methodology" class="hide">
+
+          <a name="business-site"></a><h3>Site</h3>
+          <p>We estimate emissions associated with building energy use (heating, air conditioning, lighting, etc.) by looking at your location and the amount of energy consumed. If you don’t know how much energy you use at your site, we can determine that from the amount of your utility bill.</p> 
+
+          <p>Your geography determines two things: the source of your electricity, and your seasonal patterns of energy consumption. For example, some regions of the country use a heavier mix of renewable sources to produce electricity. Regions with more extreme weather use more energy for temperature control.</p>
+
+          <a name="business-server"></a><h3>Server</h3>
+          <p>Servers are the big computers companies use to power their web sites, store sensitive data, and run ecommerce applications. Computers are highly energy-intensive. In the U.S., computer data centers are responsible for about 1.5% of our electricity use, a figure that is growing rapidly.</p>
+
+          <p>If your company doesn't have a large internet presence, computer data centers won't make up a significant portion of your carbon footprint. If you run a large-scale consumer web site, on the other hand, you're probably already aware of how high your utility bills are.</p>
+
+          <p>For companies with large-scale web sites, we estimate your footprint using information about the location of your data center and the approximate size (in number of servers). For others, we add a small constant emissions factor to your footprint.</p>
+
+          <a name="business-fleet"></a><h3>Fleet</h3> 
+          <p>Estimating emissions from company-owned vehicles is fairly easy. We just multiply the number of vehicles by the miles driven and the average fuel economy.</p>
+
+          <p>Because precise fuel economy numbers can be hard to come by, we just ask you for the number of vehicles in various vehicle classes. For each class, we use an average fuel economy figure.</p>
+
+          <a name="business-travel"></a><h3>Travel</h3>
+          <p>Employee travel can create emissions in a number of ways, but one overshadows all the others: plane travel. Our travel emissions calculator works by multiplying the number of employees who travel by the average number of trips they take each year. Using assumptions about the distance of a typical business trip, we assign emissions factors to various trip types.</p>
+
+          <p>Hotels are also sources of emissions, due to the energy needed to heat, cool, and light the rooms. Relatively speaking, these emissions are modest, but they can add up if you have a large traveling workforce.</p>
+
+          <a name="business-commute"></a><h3>Commute</h3>
+          <p>Calculating employee commutes is similar to that for company-owned vehicles. By multiplying the number of commuting employees by the average commute distance and assigning an emissions factor for different vehicle types, we can come up with a good estimate for emissions from employee commutes.</p>
+
+          <a name="business-shipping"></a><h3>Shipping</h3>
+          <p>We calculate your shipping footprint by looking at how much and how far you ship. Based on the freight type, we apply World Resource Institute’s (WRI) emission factors to figure out the total impact of your business shipments.</p> 
+
+        </div>
+
+        <!-- Events Calculator Methodology-->
+        <a name="events"></a><div id="events-methodology" class="hide">
+
+          <a name="events-travel"></a><h3>Travel</h3>
+          <p><i><strong>Air travel to the event</strong></i><br />
+          For most events, this is by far the most important category of emissions. Planes burn a lot of fuel, and these days many events bring together people from all over the country or even the world.</p>
+
+          <p><i><strong>Car travel to the event</strong></i><br />
+          When attendees drive to your event, they will collectively burn a modest amount of gasoline getting there.</p>
+
+          <p><i><strong>Hotel stays</strong></i><br />
+          Hot showers, lighting, and air conditioning all require electricity. For many events, this energy use can add up.</p>
+
+          <a name="events-venue"></a><h3>Venue</h3>
+          <p>Hotels and event venues are sources of emissions, due to the energy needed to heat, cool, and light the rooms. We estimate emissions associated with building energy use (heating, air conditioning, lighting, etc.) by looking at your event’s location and the amount of energy consumed. Then we use the data collected in the Commercial Buildings Energy Consumption Survey (CBECS) by the Energy Information Administration (EIA) to calculate the emissions associated with using the site for your event. </p>
+
+          <a name="events-water"></a><h3>Water</h3>
+          <p>Water bottles are a huge source of waste in the events industry. We encourage you to work with the event venue to find other ways to serve water to your guests. For those events that need to use water bottles, we calculate the carbon footprint of these water bottles with an emission factor from the Beverage Industry Environmental Roundtable.</p>
+
+          <a name="events-meals"></a><h3>Meals</h3>
+          <p>Food consumption can have a big impact on the environment. The food you choose to serve at your event makes a difference, too—vegetarian meals have a lower impact than meals containing meat. We use a study from the Johns Hopkins Center for a Livable Future that looks at the measurement and communication of greenhouse gas emissions from U.S. food consumption.</p>
+
+          <p>If you’re interested in learning more about the carbon footprint of a meal, check out the study we did with Lucky Peach to determine the climate impact of eating at home versus eating out at a restaurant.</p> 
+
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        {{!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> --}}
+      </div>
+    </div>
+  </div>
+</div>

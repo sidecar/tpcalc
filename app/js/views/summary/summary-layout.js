@@ -43,7 +43,6 @@ module.exports = Marionette.Layout.extend({
     var YouGraphHeaderView = require('../../views/summary/you-graph-header-view')
     var YouGraphView = require('../../views/summary/you-graph-view')
     var EmissionsView = require('../../views/summary/emissions-view');
-    var CategoryOffsetsView = require('../../views/summary/category-offsets-view');
     
     var youGraphHeaderView = new YouGraphHeaderView({
       model: calcModel,
@@ -56,11 +55,6 @@ module.exports = Marionette.Layout.extend({
     });
 
     var emissionsView = new EmissionsView({
-      model: calcModel,
-      collection: calcModel.get('categories') 
-    });
-
-    var categoryOffsetsView = new CategoryOffsetsView({
       model: calcModel,
       collection: calcModel.get('categories') 
     });
