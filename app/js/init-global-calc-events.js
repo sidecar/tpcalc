@@ -58,16 +58,17 @@ module.exports = function(Calc) {
   App.vent.on('methodologyModal', function(topic) {
     $('#methodologyModal').modal('toggle');
     window.setTimeout(function() {
-      var oldTop = $('.modal-content').offset().top;
       var $anchor = $('[name="'+Calc.model.get('slug')+'-'+topic+'"]') || $('[name="'+Calc.model.get('slug')+'"]');
-      var newTop = $anchor.offset().top;
-      var distance = Math.round(oldTop - newTop);
-      $('.modal-content').animate({top:distance}, 800);
+      $('#methodologyModal').animate({
+          scrollTop: $anchor.offset().top
+      }, 800);
     }, 1000)
   });
 
   App.vent.on('goBackToMethodologyTop', function() {
-    $('.modal-content').animate({top: 0}, 800);
+    $('#methodologyModal').animate({
+        scrollTop: '0px'
+    }, 800);
   });
 
   App.vent.on('buy', function(event) { 

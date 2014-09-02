@@ -10,7 +10,7 @@ module.exports = Marionette.Layout.extend({
     $('#'+this.model.get('slug')+'-methodology').removeClass('hide');
     $('.back-to-top-link').on('click', function(event) {
       event.preventDefault();
-      App.vent.trigger('goBackToMethodologyTop');
+      App.vent.trigger('goBackToMethodologyTop', $(event.target));
     });
   }
 });
