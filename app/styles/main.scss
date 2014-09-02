@@ -109,8 +109,10 @@ $orange: 		#f69400;
 .help-bg { background-color: $dark-gray !important; }
 .methodology-bg { background-color: $dark-gray !important; }
 
-.welcome p {
+.welcome-view-buttons-container {
 	text-align: center;
+	width: 250px;
+	margin: 10% auto 0;
 }
 
 .calculator-start-btn { 
@@ -186,7 +188,7 @@ $col3-width: 360px;
 
 body {
 	padding: 0px;
-	padding-top: 10px;
+	background: transparent;
 }
 
 input[type='radio'], input[type='checkbox'] {
@@ -1071,4 +1073,14 @@ ul {
 
 .back-to-top-link {
 	
+}
+
+html.welcome { 
+  background: url(../img/landing-page-bg-1600x900.jpg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../img/landing-page-bg-1600x900.jpg', sizingMethod='scale');
+	-ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../img/landing-page-bg-1600x900.jpg', sizingMethod='scale')";
 }

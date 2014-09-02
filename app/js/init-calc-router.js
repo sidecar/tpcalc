@@ -25,7 +25,7 @@ module.exports = function(Calc) {
       var inputViewModel = Calc.model.getViewModelBySlug(inputViewSlug);
       categoryModel.set({currentInputView: inputViewModel});
       var inputView = inputViewModel.get('view');
-      Calc.mainLayout.inputRegion.show(inputView);
+      Calc.mainLayout.mainRegion.show(inputView);
       // REBIND EVENTS AND RESET UI HASH WHEN VIEW IS RE-SHOWN 
       inputView.bindUIElements();
       inputView.delegateEvents();
@@ -34,7 +34,7 @@ module.exports = function(Calc) {
     },
     showThankYouView: function(calculator) {
       var thankYouView = Calc.model.get('thankYouView');
-      Calc.mainLayout.inputRegion.show(thankYouView); 
+      Calc.mainLayout.mainRegion.show(thankYouView); 
       Calc.mainLayout.headerRegion.$el.hide();
       this.setFooterButtonStates('thankyou');
     },

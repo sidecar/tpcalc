@@ -31,7 +31,7 @@ module.exports = function(Calc) {
   mainLayout.methodologyRegion.show(methodologyView);
   mainLayout.footerRegion.show(footerView);
   mainLayout.menuRegion.show(categoriesMenuView);
-  mainLayout.inputRegion.show(inputViewModel.get('view'));
+  mainLayout.mainRegion.show(inputViewModel.get('view'));
 
   // Set up the summary layout
   var summaryLayout = Calc.summaryLayout = new SummaryLayout({model: calcModel});
