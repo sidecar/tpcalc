@@ -7,7 +7,10 @@ var $ = require('jquery')
 module.exports = Marionette.Layout.extend({
 	template: template,
   onShow: function() {
-    console.log("$('#'+this.model.get('slug')+'-methodology')", $('#'+this.model.get('slug')+'-methodology'));
     $('#'+this.model.get('slug')+'-methodology').removeClass('hide');
+    $('.back-to-top-link').on('click', function(event) {
+      event.preventDefault();
+      App.vent.trigger('goBackToMethodologyTop');
+    });
   }
 });

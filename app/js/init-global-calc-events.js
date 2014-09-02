@@ -64,7 +64,11 @@ module.exports = function(Calc) {
       var distance = Math.round(oldTop - newTop);
       $('.modal-content').animate({top:distance}, 800);
     }, 1000)
-  });  
+  });
+
+  App.vent.on('goBackToMethodologyTop', function() {
+    $('.modal-content').animate({top: 0}, 800);
+  });
 
   App.vent.on('buy', function(event) { 
     window.location = 'http://www.terrapass.com/';
