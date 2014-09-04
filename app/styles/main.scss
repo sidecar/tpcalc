@@ -111,8 +111,59 @@ $orange: 		#f69400;
 
 .welcome-view-buttons-container {
 	text-align: center;
-	width: 250px;
-	margin: 10% auto 0;
+	width: 100%;
+}
+
+
+#welcome-logo {
+	margin: 20px auto;
+	width: 25%;
+}
+
+#logo-subtitle {
+	margin: 0 auto 20px;
+	text-transform: uppercase;
+	font-weight: 600;
+	font-size: 24px;
+	color: #fff;
+}
+
+
+
+/*
+ * Tablets
+ *-------------------------------------*/
+@media (min-width: 767px) and (max-width: 919px) {
+
+	#welcome-logo {
+		margin: 15px auto;
+		width: 50%;
+	}
+
+	#logo-subtitle {
+		margin: 0 auto 15px;
+		text-transform: uppercase;
+		font-weight: 600;
+		color: #fff;
+	}
+
+}
+
+
+/*
+ * Phones
+ *-------------------------------------*/
+@media (min-width: 0px) and (max-width: 767px) {
+
+	#welcome-logo {
+		margin: 10px auto;
+		width: 60%;
+	}
+
+	#logo-subtitle {
+		margin: 0 auto 10px;
+	}
+
 }
 
 .calculator-start-btn { 
