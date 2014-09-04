@@ -77,13 +77,12 @@ module.exports = Marionette.Layout.extend({
 
     var categories = this.model.get('categories');
     categories.each(function(category) {
-      var value = 'test'
-      , displayName = category.get('displayName')
+      var displayName = category.get('displayName')
       , totalEmissions = category.get('totalEmissions')
       , emissionPounds = totalEmissions*2204.622622
       , offsetAllUnits = Math.ceil(emissionPounds/1000)
       , monthlyOffsetPrice = numeral(offsetAllUnits * 5.95 / 12).format('$0.00')
-      $('.monthly-category-offsets').append('<option value="'+value+'">Offset '+displayName+' for '+monthlyOffsetPrice+'/mo</option>')
+      $('.monthly-category-offsets').append('<option value="monthly">Offset '+displayName+' for '+monthlyOffsetPrice+'/mo</option>')
     });
   },
   regions: {
@@ -93,7 +92,7 @@ module.exports = Marionette.Layout.extend({
   },
   buyBtnClicked: function(event) {
     event.preventDefault();
-    App.vent.trigger('buy', event);
+    App.vent.trigger('buy', this.model.get('slug'), $('[name="offset-select"]').val());
   },
   serializeData: function(){
     var multiplier = (this.model.get('emissionsUnit') === 'pounds') ? 2204.622622 : 1

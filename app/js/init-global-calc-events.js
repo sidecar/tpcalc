@@ -71,8 +71,13 @@ module.exports = function(Calc) {
     }, 800);
   });
 
-  App.vent.on('buy', function(event) { 
-    window.location = 'http://www.terrapass.com/';
+  App.vent.on('buy', function(calculator, selected) {
+    if (selected === 'all') {
+      var url = (calculator === 'individual') ? 'http://www.terrapass.com/shop/individuals-families/' : 'http://www.terrapass.com/shop/busines-carbon-offsets/';
+    } else {
+      var url = 'http://www.terrapass.com/shop/';
+    }
+    window.location = url;
   });  
 
   App.vent.on('errorAlert', function(msg) { 

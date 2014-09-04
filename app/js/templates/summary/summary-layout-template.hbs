@@ -44,14 +44,14 @@
 	<div>Your carbon footprint is <span class="bold">{{totalEmissions}} {{unitSymbol}} of CO2e/yr</span>. That's equivalent to {{trees}} urban trees planted. Offset @ $5.95 per 1,000 lbs/yr.</div>
 	<form name="ind_summary_view">
 		<div class="form-element">
-			<select class="form-control">
+			<select name="offset-select" class="form-control">
 				<optgroup class="monthly-category-offsets" label="Monthly Offsets">
-					<option selected="selected" value="">Offset All for {{monthlyOffsetPrice}}/mo</option>
+					<option selected="selected" value="monthly">Offset All for {{monthlyOffsetPrice}}/mo</option>
 				</optgroup>
 				<optgroup></optgroup>
 				<optgroup label="Offset Products for {{productType}}">
-					<option selected="selected" value="">Offset {{emissionPounds}}lbs for {{offsetAllPrice}}</option>
-					<option value="">Offset Monthly for {{monthlyOffsetPrice}}/mo</option>
+					<option selected="selected" value="all">Offset {{emissionPounds}} lbs for {{offsetAllPrice}}</option>
+					<option value="monthly">Offset Monthly for {{monthlyOffsetPrice}}/mo</option>
 				</optgroup>
 			</select>
 		</div>
