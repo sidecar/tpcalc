@@ -1,7 +1,6 @@
 'use strict';
 var $ = require('jquery')
 , Marionette = require('backbone.marionette')
-, Databinding = require('backbone.databinding')
 , App = require('../../app');
 
 var defaultTemplate = require('../../templates/individual/ind-travel-default-template.hbs');
@@ -9,21 +8,25 @@ var defaultTemplate = require('../../templates/individual/ind-travel-default-tem
 module.exports = Marionette.ItemView.extend({
   template: defaultTemplate,
   ui: {
-    methodSelect: 'input[name="method"]',
-    useRfi: 'input[name="use_rfi"]'
+    methodRadio: 'input[name="method"]',
+    useRFIRadio: 'input[name="use_rfi"]'
   },
   onShow: function() {
-    this.modelBinder = new Databinding.ModelBinder(this, this.category);
-    this.modelBinder.watch('checked: estimationMethod', {selector: '[name="method"]'});
-    this.modelBinder.watch('checked: useRFI', {selector: '[name="use_rfi"]'});
+    var method = this.category.get('method') || 'flights';
+    var useRFI = this.category.get('useRFI') || 'false';
+    this.ui.methodRadio.filter('[value='+method+']').prop('checked', true);
+    this.ui.useRFIRadio.filter('[value='+useRFI+']').prop('checked', true);
+    $('.help').on('click', function() {
+      $(this).popover({html:true});
+    });
   },
   getNextInputView: function() {
-    var estimationMethod = $('[name="method"]:checked').val();
+    var method = $('[name="method"]:checked').val();
     var useRFI = ($('[name="use_rfi"]:checked').val() == 'true') ? true : false ;
     this.category.set({
-      estimationMethod: estimationMethod,
+      method: method,
       useRFI: useRFI
     });
-    App.vent.trigger('showInputView', estimationMethod);
+    App.vent.trigger('showInputView', method);
   }
 });

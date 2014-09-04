@@ -2,12 +2,13 @@
 	
 	<div class="form-element-container padding-top-10">
 		<div class="form-element">
-			<input type="radio" name="method" value="miles" checked="checked" /><label for="method">By estimated number of miles travled</label>
+			<input type="radio" name="method" value="flights" checked="checked" /><label for="method">By specific flights</label>
 		</div>
 
 		<div class="form-element">
-			<input type="radio" name="method" value="flights" /><label for="method">By number of flights</label>
+			<input type="radio" name="method" value="miles" /><label for="method">By estimated number of miles travled</label>
 		</div>
+
 
 		<div class="form-element">
 			<input type="radio" name="method" value="fuel" /><label for="method">By estimated gallons of fuel</label>
@@ -19,7 +20,7 @@
 	</div>
 
 	<div class="form-element-container padding-top-10">
-		<label>Would you like to use the Refractive Forcing Index?</label>
+		<label>Would you like to use the Refractive Forcing Index?<span class="info help" data-toggle="popover" data-content="RFI factors in additional emissions besides carbon that are caused by burning fuel. <a href='http://www.ipcc.ch/' target='_blank'>Learn more from the Intergovernmental Panel on Climate Change</a> (IPCC)."></span></label>
 		<div class="form-element">
 			<input type="radio" name="use_rfi" value="true" /><span class=""> Yes</span><br />
 			<input type="radio" name="use_rfi" value="false" class=""/><span class=""> No</span>

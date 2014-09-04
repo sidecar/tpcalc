@@ -1,5 +1,6 @@
 'use strict';
-var App = require('./app');
+var $ = require('jquery') 
+, App = require('./app');
 
 var MainLayout = require('./views/shared/main-layout')
   , HeaderView = require('./views/shared/header-view')
@@ -11,7 +12,8 @@ var MainLayout = require('./views/shared/main-layout')
   , EmissionsView = require('./views/summary/emissions-view');
 
 module.exports = function(Calc) {
-  var calcModel = Calc.model
+  var appRef = App
+  , calcModel = Calc.model
   , currentCategory = calcModel.get('currentCategory')
   , inputViewModel = currentCategory.getCurrentInputView();
 

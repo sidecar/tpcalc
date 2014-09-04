@@ -16,6 +16,9 @@ module.exports = Marionette.ItemView.extend({
     var useRFI = this.category.get('useRFI') || 'false';
     this.ui.methodRadio.filter('[value='+method+']').prop('checked', true);
     this.ui.useRFIRadio.filter('[value='+useRFI+']').prop('checked', true);
+    $('.help').on('click', function() {
+      $(this).popover({html:true});
+    });
   },
   getNextInputView: function() {
     var method = $('input[name="method"]:checked').val();

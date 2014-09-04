@@ -1,6 +1,5 @@
 "use strict";
 var $ = require('jquery')
-, bootstrap = require('bootstrap')
 , App = require('./app');
 
 module.exports = function(Calc) {

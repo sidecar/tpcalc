@@ -72,16 +72,21 @@
   "main": "server.js",
   "browser": {
     "bootstrap": "./app/js/vendor/bootstrap.min.js",
-    "bootstrap-slider": "./app/js/vendor/bootstrap-slider.js"
+    "tooltip": "./app/js/vendor/tooltip.js",
+    "popover": "./app/js/vendor/popover.js"
   },
   "browserify-shim": {
     "bootstrap": {
       "exports": "bootstrap",
       "depends": "jquery:jQuery"
     },
-    "bootstrap-slider": {
-      "exports": "bootstrap-slider",
-      "depends": "bootstrap"
+    "tooltip": {
+      "exports": "tooltip",
+      "depends": "jquery:jQuery"
+    },
+    "popover": {
+      "exports": "popover",
+      "depends": "jquery:jQuery"
     }
   },
   "browserify": {

@@ -1,6 +1,9 @@
 'use strict';
 // For some reason have to make jquery available maybe in order to assign the $ symbol within Marionette and Backbone
 var $ = require('jquery')
+, bootstrap = require('bootstrap')
+, tooltip = require('tooltip')
+, popover = require('popover')
 , Backbone = require('backbone')
 , Marionette = require('backbone.marionette')
 // Have to assign the $ symbol in Marionette and Backbone to jquery
