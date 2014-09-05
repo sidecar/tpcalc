@@ -81,8 +81,11 @@ module.exports = Marionette.Layout.extend({
       , totalEmissions = category.get('totalEmissions')
       , emissionPounds = totalEmissions*2204.622622
       , offsetAllUnits = Math.ceil(emissionPounds/1000)
-      , monthlyOffsetPrice = numeral(offsetAllUnits * 5.95 / 12).format('$0.00')
-      $('.monthly-category-offsets').append('<option value="monthly">Offset '+displayName+' for '+monthlyOffsetPrice+'/mo</option>')
+      // , monthlyOffsetPrice = numeral(offsetAllUnits * 5.95 / 12).format('$0.00')
+      , monthlyOffsetUnits = Math.ceil(emissionPounds/12000) // total/12 mos./1000 lbs
+      , monthlyOffsetPrice = numeral(monthlyOffsetUnits * 5.95).format('$0.00');
+
+      $('.monthly-category-offsets').append('<option value="monthly">Offset '+displayName+' for '+monthlyOffsetPrice+'/mo</option>');
     });
   },
   regions: {
@@ -95,6 +98,11 @@ module.exports = Marionette.Layout.extend({
     App.vent.trigger('buy', this.model.get('slug'), $('[name="offset-select"]').val());
   },
   serializeData: function(){
+
+    function roundToNearestIncrement(price) {
+
+    }
+
     var multiplier = (this.model.get('emissionsUnit') === 'pounds') ? 2204.622622 : 1
     , unitSymbol = (this.model.get('emissionsUnit') === 'pounds') ? 'lbs' : 'mT'
     , calculatorDisplayName = this.model.get('displayName')
@@ -107,7 +115,8 @@ module.exports = Marionette.Layout.extend({
     , emissionPoundsFormatted = numeral(emissionPounds).format('0,0')
     , offsetAllUnits = Math.ceil(emissionPounds/1000)
     , offsetAllPrice = numeral(offsetAllUnits * 5.95).format('$0.00')
-    , monthlyOffsetPrice = numeral(offsetAllUnits * 5.95 / 12).format('$0.00')
+    , monthlyOffsetUnits = Math.ceil(emissionPounds/12000) // total/12 mos./1000 lbs
+    , monthlyOffsetPrice = numeral(monthlyOffsetUnits * 5.95).format('$0.00')
     , trees = numeral(this.model.get('totalEmissions')/0.039).format('0,0')
     , usAverage = this.model.get('usAvgEmissionsMetricTons') * multiplier
     , usAverageFormatted = numeral(usAverage).format('0,0')
