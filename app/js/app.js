@@ -33,11 +33,11 @@ function startCalcModule(name, args) {
     App.vent.off();
   });
 
-  calc.initCalcLayout = require('./init-calc-layout');
+  calc.initCalcLayout = require('./calc-layout');
   calc.initCalcLayout(calc);
-  calc.initGlobalEvents = require('./init-global-calc-events');
+  calc.initGlobalEvents = require('./global-events');
   calc.initGlobalEvents(calc);
-  calc.initRouter = require('./init-calc-router');
+  calc.initRouter = require('./calc-router');
   calc.initRouter(calc);
 
   var currentCategory = calc.model.get('currentCategory')

@@ -64,7 +64,8 @@
     "typeahead": "~0.1.0",
     "icao": "~1.0.1",
     "iata": "0.0.0",
-    "jquery-ui": "~1.10.5"
+    "jquery-ui": "~1.10.5",
+    "sane-email-validation": "~1.0.0"
   },
   "scripts": {
     "start": "node server.js"
