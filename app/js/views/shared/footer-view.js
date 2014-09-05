@@ -13,12 +13,10 @@ module.exports = Marionette.ItemView.extend({
     "change:currentCategory": "render"
   },
   nextBtnClicked: function() {
-    event.preventDefault();
-    App.vent.trigger('next', event);
+    App.vent.trigger('next');
   },
   prevBtnClicked: function() {
-    event.preventDefault();
-    App.vent.trigger('prev', event);
+    App.vent.trigger('prev');
   },
   disablePrevBtn: function() {
     $('.btn-prev').attr('disabled', 'disabled');

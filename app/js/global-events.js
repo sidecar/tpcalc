@@ -4,7 +4,6 @@ var $ = require('jquery')
 
 module.exports = function(Calc) {
   App.vent.on('next', function() {
-    console.log('next');
     var currentCategory = Calc.model.get('currentCategory');
     var currentCategorySlug = currentCategory.get('slug');
     var currentViewModel = currentCategory.get('currentInputView');
