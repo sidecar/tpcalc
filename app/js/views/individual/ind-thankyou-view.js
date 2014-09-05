@@ -52,25 +52,23 @@ module.exports = Marionette.ItemView.extend({
     return;
   },
   submitData: function() {
-    var categories = this.model.get('categories')
-    , data = {}
-    , email = this.ui.emailInput.val();
+    var email = this.ui.emailInput.val();
 
     if(isEmail(email)) {
       this.displaySuccess(this.ui.emailInput);
-      data.emailAddr = email;
-      data.trees = numeral(this.model.get('totalEmissions')/0.039).format('0,0');
+      var trees = numeral(this.model.get('totalEmissions')/0.039).format('0,0');
+      var categories = this.model.get('categories');
+      var data = [];
       categories.each(function(cat) {
         var emissions = cat.get('totalEmissions') || 0;
-        data['co2e_'+cat.get('slug')] = emissions;
+        data[cat.get('slug')] = emissions;
       });
-      console.log('data', data);
+
       $.ajax({
-        type: 'POST',
-        url: 'http://www.terrapass.com/email/email_send.php',
-        data: data,
+        url: encodeURI('/result/individual/'+email+'/'+trees+'/'+data['vehicle']+'/'+data['transit']+'/'+data['travel']+'/'+data['home']),
         success: function() { 
-          $('.send-results').hide(1000, function() {$('#thankyou-message').show(800)});
+          console.log('this.url', this.url);
+          $('.send-results').hide(750, function() {$('#thankyou-message').show(600)});
         }
       });
     } else {

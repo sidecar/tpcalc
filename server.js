@@ -48,6 +48,39 @@ app.get('/airport/icao/:iataCode', function(req, res) {
 	getData('http://services.faa.gov/airport/status/'+req.params.iataCode+'?format=application/json', res);
 });
 
+app.get('/result/individual/:email/:trees/:vehicle/:transit/:travel/:home', function(req, res) {
+	getData('http://www.terrapass.com/email/email_send.php?emailAddr'+req.params.iataCode
+		+'&trees='+req.params.trees
+		+'&co2e_vehicle='+req.params.vehicle
+		+'&co2e_transit='+req.params.transit
+		+'&co2e_travel='+req.params.travel
+		+'&co2e_home='+req.params.home
+		, res);
+});
+
+
+app.get('/result/business/:email/:trees/:vehicle/:transit/:travel/:home', function(req, res) {
+	getData('http://www.terrapass.com/email/email_send.php?emailAddr'+req.params.iataCode
+		+'&trees='+req.params.trees
+		+'&co2e_site='+req.params.site
+		+'&co2e_fleet='+req.params.fleet
+		+'&co2e_travel='+req.params.travel
+		+'&co2e_commute='+req.params.home
+		+'&co2e_shipping='+req.params.home
+		+'&co2e_server='+req.params.home
+		, res);
+});
+
+
+app.get('/result/events/:email/:trees/:vehicle/:transit/:travel/:home', function(req, res) {
+	getData('http://www.terrapass.com/email/email_send.php?emailAddr'+req.params.iataCode
+		+'&trees='+req.params.trees
+		+'&co2e_travel='+req.params.travel
+		+'&co2e_venue='+req.params.venue
+		+'&co2e_water='+req.params.water
+		+'&co2e_meals='+req.params.meals
+		, res);
+});
 
 app.listen(server_port, server_ip_address, function () {
   console.log( "Listening on " + server_ip_address + ", server_port " + server_port )
