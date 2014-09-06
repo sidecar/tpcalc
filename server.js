@@ -11,6 +11,7 @@ var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 var getData = function(url, res) {
 	client.get(url, function(parsedResponseData, rawResponseData){
 		res.send(parsedResponseData);
+		console.log('response', parsedResponseData)
 	});
 }
 
@@ -39,7 +40,6 @@ app.get('/vehicle/mpg/:id', function(req, res) {
 	getData('http://www.fueleconomy.gov/ws/rest/vehicle/'+req.params.id, res);
 });
 
-
 app.get('/airport/:key', function(req, res) {
 	getData('http://airportcode.riobard.com/search?q='+req.params.key+'&fmt=JSON', res);
 });
@@ -49,7 +49,7 @@ app.get('/airport/icao/:iataCode', function(req, res) {
 });
 
 app.get('/result/individual/:email/:trees/:vehicle/:transit/:travel/:home', function(req, res) {
-	getData('http://www.terrapass.com/email/email_send.php?emailAddr'+req.params.iataCode
+	getData('http://www.terrapass.com/email/individual_email_send.php?emailAddr='+req.params.email
 		+'&trees='+req.params.trees
 		+'&co2e_vehicle='+req.params.vehicle
 		+'&co2e_transit='+req.params.transit
@@ -58,22 +58,20 @@ app.get('/result/individual/:email/:trees/:vehicle/:transit/:travel/:home', func
 		, res);
 });
 
-
-app.get('/result/business/:email/:trees/:vehicle/:transit/:travel/:home', function(req, res) {
-	getData('http://www.terrapass.com/email/email_send.php?emailAddr'+req.params.iataCode
+app.get('/result/business/:email/:trees/:site/:fleet/:travel/:commute/:shipping/:server', function(req, res) {
+	getData('http://www.terrapass.com/email/business_email_send.php?emailAddr='+req.params.email
 		+'&trees='+req.params.trees
 		+'&co2e_site='+req.params.site
 		+'&co2e_fleet='+req.params.fleet
 		+'&co2e_travel='+req.params.travel
-		+'&co2e_commute='+req.params.home
-		+'&co2e_shipping='+req.params.home
-		+'&co2e_server='+req.params.home
+		+'&co2e_commute='+req.params.commute
+		+'&co2e_shipping='+req.params.shipping
+		+'&co2e_server='+req.params.server
 		, res);
 });
 
-
-app.get('/result/events/:email/:trees/:vehicle/:transit/:travel/:home', function(req, res) {
-	getData('http://www.terrapass.com/email/email_send.php?emailAddr'+req.params.iataCode
+app.get('/result/events/:email/:trees/:travel/:venue/:water/:meals', function(req, res) {
+	getData('http://www.terrapass.com/email/events_email_send.php?emailAddr='+req.params.email
 		+'&trees='+req.params.trees
 		+'&co2e_travel='+req.params.travel
 		+'&co2e_venue='+req.params.venue
@@ -86,20 +84,29 @@ app.listen(server_port, server_ip_address, function () {
   console.log( "Listening on " + server_ip_address + ", server_port " + server_port )
 });
 
-// app.get('/hello', function(req, res) {
-// 	var url = 'http://www.terrapass.com/wp-content/themes/terrapass/home/models/home-model.php?zip=94607';
-// 	client.get(url, function(parsedResponseData, rawResponseData){
-// 			// res.send(data.vehicle.city08[0]);
-// 			console.log(parsedResponseData);
-// 		});
-//     res.send(200);
-// });
 
-// app.get('/airport/:key', function(req, res) {
-// 	var url = 'http://www.terrapass.com/wp-content/themes/terrapass/flight/airports/airport_names.php?key='+req.params.key;
-// 	client.get(url, function(parsedResponseData, rawResponseData){
-// 		var xml = parsedResponseData;
-// 		var json = xml2json.parser( xml );
-// 		res.send(json.xml);
-// 	});	
-// });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

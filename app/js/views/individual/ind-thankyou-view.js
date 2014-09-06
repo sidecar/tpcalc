@@ -1,7 +1,6 @@
 'use strict';
 var $ = require('jquery')
 , Marionette = require('backbone.marionette')
-, Databinding = require('backbone.databinding')
 , App = require('../../app')
 , numeral = require('numeral')
 , isEmail = require( "sane-email-validation" );
@@ -65,10 +64,9 @@ module.exports = Marionette.ItemView.extend({
       });
 
       $.ajax({
-        url: encodeURI('/result/individual/'+email+'/'+trees+'/'+data['vehicle']+'/'+data['transit']+'/'+data['travel']+'/'+data['home']),
+        url: '/result/individual/'+encodeURIComponent(email)+'/'+trees+'/'+data['vehicle']+'/'+data['transit']+'/'+data['travel']+'/'+data['home'],
         success: function() { 
-          console.log('this.url', this.url);
-          $('.send-results').hide(750, function() {$('#thankyou-message').show(600)});
+          $('.send-results').hide(500, function() {$('#thankyou-message').show(300)});
         }
       });
     } else {
