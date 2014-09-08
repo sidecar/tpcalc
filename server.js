@@ -80,6 +80,11 @@ app.get('/result/events/:email/:trees/:travel/:venue/:water/:meals', function(re
 		, res);
 });
 
+app.get('/*', function(req, res){
+  // res.status(404).send('Not found');
+  res.redirect('/#/');
+});
+
 app.listen(server_port, server_ip_address, function () {
   console.log( "Listening on " + server_ip_address + ", server_port " + server_port )
 });
