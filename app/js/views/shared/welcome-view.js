@@ -17,6 +17,5 @@ module.exports = Marionette.ItemView.extend({
   calcBtnClicked: function(event) {
     var calcName = $(event.target).data('calc');
     App.execute('calcModule:start', calcName, undefined);
-    $('html').removeClass("welcome");
   }
 });

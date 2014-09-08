@@ -26,6 +26,10 @@ module.exports.controller = Marionette.Controller.extend({
     App.execute('calcModule:start', calculator, catCodes);
   },
   showDefaultCalculator: function(calculator) {
+    if(calculator !== 'individual' && calculator !== 'business' && calculator !== 'events') {
+      this.defaultRoute();
+      return;
+    } 
     App.execute('calcModule:start', calculator, undefined);
   },
   defaultRoute: function() {

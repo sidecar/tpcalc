@@ -13,6 +13,7 @@ module.exports = function(Calc) {
     },
     before: {
       ':calculator/:category/:inputView': function(fragment, args, next) {
+        $('html').removeClass("welcome");
         next();
       }
     }

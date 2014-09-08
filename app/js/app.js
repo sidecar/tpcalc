@@ -70,8 +70,9 @@ App.addRegions({
 //may need to be on 'initialize:after'
 App.on('start', function(options) {
   if (Backbone.history) {
-    Backbone.history.start();
-  }
+    //Backbone.history.start();
+    if (!Backbone.history.start()) router.navigate('404', { 'trigger': true });
+  } 
 });
 
 module.exports = App;
