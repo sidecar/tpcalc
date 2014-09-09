@@ -1,7 +1,7 @@
 'use strict';
 var $ = require('jquery')
 , Marionette = require('backbone.marionette')
-, Databinding = require('backbone.databinding')
+// , Databinding = require('backbone.databinding')
 , App = require('../../app');
 
 var defaultTemplate = require('../../templates/individual/ind-vehicle-default-template.hbs')
@@ -19,8 +19,9 @@ module.exports = Marionette.ItemView.extend({
       this.category.set({currentVehicle: new Vehicle()});
       this.vehicle = this.category.get('currentVehicle');
     } else {
-      this.modelBinder = new Databinding.ModelBinder(this, this.vehicle);
-      this.modelBinder.watch('value: vehicleType', {selector: '[name="vehicle_type"]'});
+      // this.modelBinder = new Databinding.ModelBinder(this, this.vehicle);
+      // this.modelBinder.watch('value: vehicleType', {selector: '[name="vehicle_type"]'});
+      this.ui.vehicleTypeSelect.val(this.vehicle.get('vehicleType'));
     }
   },
   getNextInputView: function() {

@@ -81,7 +81,6 @@ app.get('/result/events/:email/:trees/:travel/:venue/:water/:meals', function(re
 });
 
 app.get('/*', function(req, res){
-  // res.status(404).send('Not found');
   res.redirect('/#/');
 });
 

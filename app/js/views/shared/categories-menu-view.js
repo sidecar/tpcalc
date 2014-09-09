@@ -5,13 +5,13 @@ var $ = require('jquery')
 module.exports = Marionette.CollectionView.extend({
   tagName: 'ul',
   className: 'menu',
-  onRender: function() {
-    //$(this.el).append('<li><a href="#" data-toggle="modal" data-target="#methodologyModal" class="methodology-btn btn btn-default btn-circle-36 ico-methodology methodology-bg">Methodology</a></li>');
-    $(this.el).append('<li><a href="#" class="methodology-btn btn btn-default btn-circle-36 ico-methodology methodology-bg">Methodology</a></li>');
+  onShow: function() {
+    $(this.el).append('<li><a href="#" class="methodology-btn btn btn-default btn-circle-36 category-nav-btn ico-methodology methodology-bg">Methodology</a></li>');
 
     $(function(){
       var fast = 200;
       var faster = 50;
+      console.log($("#col-nav li"));
       $("#col-nav li").hover(function(){
         $(this).stop().animate({width:'240px'},fast,function(){});
         $(this).find('a').stop().animate({width:'240px'},fast);
@@ -26,8 +26,7 @@ module.exports = Marionette.CollectionView.extend({
           .animate({right:'-8px'},faster);
       });
     });
-  },
-  onShow: function() {
+
     var appRef = App;
     $('.methodology-btn').on('click', function(event) {
       event.preventDefault();
