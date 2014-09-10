@@ -8,14 +8,15 @@ var $ = require('jquery')
 module.exports = Marionette.ItemView.extend({
   className: 'welcome-view-buttons-container',
 	template: template,
-  // events: {
-  //   'click .calculator-start-btn': 'calcBtnClicked'
-  // },
+  events: {
+    //'click [data-calc="individual"]': 'indBtnClicked'
+  },
   onRender: function() {
     $('html').addClass("welcome");
-  }//,
-  // calcBtnClicked: function(event) {
-  //   var calcName = $(event.target).data('calc');
-  //   App.execute('calcModule:start', calcName, undefined);
-  // }
+  },
+  indBtnClicked: function(event) {
+    //var calcName = $(event.target).data('calc');
+    App.router.navigate('/#/individual' , {trigger: true});
+    //App.execute('calcModule:start', 'individual', undefined);
+  }
 });

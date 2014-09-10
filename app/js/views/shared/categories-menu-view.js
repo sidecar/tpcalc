@@ -11,7 +11,6 @@ module.exports = Marionette.CollectionView.extend({
     $(function(){
       var fast = 200;
       var faster = 50;
-      console.log($("#col-nav li"));
       $("#col-nav li").hover(function(){
         $(this).stop().animate({width:'240px'},fast,function(){});
         $(this).find('a').stop().animate({width:'240px'},fast);

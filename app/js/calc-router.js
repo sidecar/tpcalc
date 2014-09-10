@@ -13,6 +13,11 @@ module.exports = function(Calc) {
     },
     before: {
       ':calculator/:category/:inputView': function(fragment, args, next) {
+        ////////////////////////////////////////////////
+        // THIS IS A HAAAAAAAAACCCCCCCCKKKKKKKKK!!!!!!!!!
+        ////////////////////////////////////////////////
+        // if the calc has not been started yet, start it
+        if(!Calc.mainLayout.mainRegion) App.execute('calcModule:start', args[0], undefined);
         $('html').removeClass("welcome");
         next();
       }
@@ -26,6 +31,7 @@ module.exports = function(Calc) {
       var inputViewModel = Calc.model.getViewModelBySlug(inputViewSlug);
       categoryModel.set({currentInputView: inputViewModel});
       var inputView = inputViewModel.get('view');
+      console.log('showInputView route inputView', inputView);
       Calc.mainLayout.mainRegion.show(inputView);
       // REBIND EVENTS AND RESET UI HASH WHEN VIEW IS RE-SHOWN 
       inputView.bindUIElements();
@@ -91,9 +97,9 @@ module.exports = function(Calc) {
       this.data = this.view = null;
     },
     // Makes sure that this subapp is running so that we can perform everything we need to
-    // _ensureAppModuleIsRunning: function() {
-    //   App.execute('calcModule:start', 'Calc');
-    // }
+    _ensureAppModuleIsRunning: function(calc) {
+      App.execute('calcModule:start', calc, undefined);
+    }
   }); 
 
   Calc.controller = new Controller();
