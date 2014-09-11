@@ -21,22 +21,24 @@ app.use(express.static(__dirname + root));
 app.get('/gate/business/:name/:title/:company/:email/:employees', function(req, res) {
 	console.log(req.params);
 		getData('http://www.terrapass.com/working/form_bus_A.php?'
-		+'name='+req.params.trees
+		+'name='+req.params.name
 		+'&title='+req.params.title
 		+'&company='+req.params.company
 		+'&email='+req.params.email
 		+'&num_emps='+req.params.employees
+		+'&submit_form='+'Yes'
 		, res);
 });
 
 app.get('/gate/events/:name/:event/:company/:email/:phone', function(req, res) {
 		console.log(req.params);
 		getData('http://www.terrapass.com/working/form_event_A.php?'
-		+'name='+req.params.trees
+		+'name='+req.params.name
 		+'&event='+req.params.event
 		+'&company='+req.params.company
 		+'&email='+req.params.email
 		+'&phone='+req.params.phone
+		+'&submit_form='+'Yes'
 		, res);
 });
 
