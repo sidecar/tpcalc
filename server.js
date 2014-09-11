@@ -18,6 +18,32 @@ var getData = function(url, res) {
 var root = (process.env.CONTEXT === 'local'? '/dev' : '/dist');
 app.use(express.static(__dirname + root));
 
+app.get('/gate/business/:name/:title/:company/:email/:employees', function(req, res) {
+	console.log(req.params);
+		getData('http://www.terrapass.com/working/form_bus_A.php?'
+		+'name='+req.params.trees
+		+'&title='+req.params.title
+		+'&company='+req.params.company
+		+'&email='+req.params.email
+		+'&num_emps='+req.params.employees
+		, res);
+});
+
+app.get('/gate/events/:name/:event/:company/:email/:phone', function(req, res) {
+		console.log(req.params);
+		getData('http://www.terrapass.com/working/form_event_A.php?'
+		+'name='+req.params.trees
+		+'&event='+req.params.event
+		+'&company='+req.params.company
+		+'&email='+req.params.email
+		+'&phone='+req.params.phone
+		, res);
+});
+
+app.get('/vehicle/year', function(req, res) {
+	getData('http://www.fueleconomy.gov/ws/rest/vehicle/menu/year', res);
+});
+
 // fueleconomy.gov proxy api
 // to understand the xml being returned go here: http://www.fueleconomy.gov/feg/ws/wsData.shtml
 app.get('/vehicle/year', function(req, res) {

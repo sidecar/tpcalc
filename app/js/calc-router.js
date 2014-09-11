@@ -31,7 +31,6 @@ module.exports = function(Calc) {
       var inputViewModel = Calc.model.getViewModelBySlug(inputViewSlug);
       categoryModel.set({currentInputView: inputViewModel});
       var inputView = inputViewModel.get('view');
-      console.log('showInputView route inputView', inputView);
       Calc.mainLayout.mainRegion.show(inputView);
       // REBIND EVENTS AND RESET UI HASH WHEN VIEW IS RE-SHOWN 
       inputView.bindUIElements();

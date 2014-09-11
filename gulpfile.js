@@ -101,6 +101,12 @@ gulp.task('copy-html-to-dev', function(){
     .pipe(gulp.dest(config.dev.baseDir));
 });
 
+gulp.task('copy-gate-js-to-dev', function(){
+  // Copy the index.html file into the dist dir
+  return gulp.src(config.app.baseDir + 'gate.js')
+    .pipe(gulp.dest(config.dev.baseDir));
+});
+
 gulp.task('copy-php-to-dev', function(){
     // Copy the index.html file into the dist dir
   return gulp.src(config.app.baseDir + 'php/**/*.{php,html}')
@@ -239,13 +245,20 @@ gulp.task('watch-for-changes', function() {
     runSequence('browserify', function() {
       server.changed(file.path);
     });
+  });  
+  // If js files are changed run scripts task
+  gulp.watch(config.app.baseDir + 'gate.js').on('change', function (file) {
+    // ??? why am I able to access server inside this callback ??
+    runSequence('copy-gate-js-to-dev', function() {
+      server.changed(file.path);
+    });
   }); 
 });
 
 // Build a dev version of the app and serve it locally 
 gulp.task('server', function() {
   //run these subtasks in sequence
-  runSequence('clean-dev', ['sass', 'browserify', 'copy-html-to-dev', 'copy-php-to-dev', 'copy-images-to-dev', 'copy-jqueryui-images-to-dev', 'copy-fonts-to-dev'],'watch-for-changes', 'start-node-server');
+  runSequence('clean-dev', ['sass', 'browserify', 'copy-html-to-dev', 'copy-gate-js-to-dev', 'copy-php-to-dev', 'copy-images-to-dev', 'copy-jqueryui-images-to-dev', 'copy-fonts-to-dev'],'watch-for-changes', 'start-node-server');
 });
 
 //Copy necessary files to build dir

@@ -15,8 +15,242 @@
     <link rel="stylesheet" href="css/styles.min.css">
     <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,500,500italic,700,700italic'>
   </head>
-  <body>
-    <h1>Events Calculator Gate</h1>
-    <a href="/#/events">Go to events calculator</a>
-  </body>
+<body><div><div id="calculator-container">
+  
+  <div id="col-content">
+    <header data-region="header"><div><h1>
+<div class="header-first-line">Events</div> 
+<span class="events-travel-color">Foobar</span>
+
+</h1>
+
+</div></header>
+    
+    <div data-region="main">
+      <div>
+     
+    <div class="view-question">Lorem ipsum e pluribus unum dolore iacare</div> 
+
+    <!--////////////////////////////////////////////////////////-->
+    <!--/////// FORM //////////////-->
+    <!--////////////////////////////////////////////////////////-->
+
+    <form role="form">
+
+      <div class="form-element-container">
+        <label for="name" data-error-msg="Please enter your name" data-default-label="Your name:">Your name:</label>
+        <div class="form-element">
+          <input type="text" name="name" class="form-control">
+        </div>
+      </div>
+
+      <div class="form-element-container">
+        <label for="event" data-error-msg="Please enter your event title" data-default-label="Your event:">Your event:</label>
+        <div class="form-element">
+          <input type="text" name="event" class="form-control">
+        </div>
+      </div>
+
+      <div class="form-element-container">
+        <label for="company" data-error-msg="Please enter the name of your company" data-default-label="Your company name:">Your company/organization:</label>
+        <div class="form-element">
+          <input type="text" name="company" class="form-control">
+        </div>
+      </div>
+
+      <div class="form-element-container">
+        <label for="email" data-error-msg="Please enter your email" data-default-label="Your email:">Your email:</label>
+        <div class="form-element">
+          <input type="text" name="email" class="form-control">
+        </div>
+      </div>
+
+      <div class="form-element-container">
+        <label for="phone" data-error-msg="Please enter your phone" data-default-label="Your phone:">Your phone number:</label>
+        <div class="form-element">
+          <input type="text" name="phone" class="form-control">
+        </div>
+      </div>
+
+    </form>
+
+    <!--////////////////////////////////////////////////////////-->
+    <!--/////// FORM //////////////-->
+    <!--////////////////////////////////////////////////////////-->
+
+</div></div>
+    <footer data-region="footer"><div><div class="left"><button type="button" class="btn btn-prev btn-lg events-travel-bg" disabled="disabled">Prev</button></div>
+<div class="right"><button type="button" class="btn btn-next btn-lg events-travel-bg">Next</button></div>
+</div></footer>
+  </div>
+  <div id="col-summary" data-region="summary"><div><h1><div class="header-first-line">Your Carbon</div> <span class="dark-gray">Dashboard</span></h1>
+
+
+<div data-region="you-graph-header"><div><h2 id="you-total-graph-header" class="you-graph-header graph-header" style="display: block;">Your Total <span class="summary-total">0 lbs of CO2e/yr</span></h2>
+<div class="you-graph-header-container"><h2 id="you-travel-graph-header" class="you-graph-header graph-header" style="display: none;">Travel<span class="summary-total">0 lbs of CO2e/yr</span></h2><h2 id="you-venue-graph-header" class="you-graph-header graph-header" style="display: none;">Venue<span class="summary-total">0 lbs of CO2e/yr</span></h2><h2 id="you-water-graph-header" class="you-graph-header graph-header" style="display: none;">Water<span class="summary-total">0 lbs of CO2e/yr</span></h2><h2 id="you-meals-graph-header" class="you-graph-header graph-header" style="display: none;">Meals<span class="summary-total">0 lbs of CO2e/yr</span></h2></div></div></div>
+
+<div data-region="you-graph"><div><div style="width: 320px" class="you-table">
+  <table cellspacing="0" cellpadding="0" width="100%" border="0">
+
+    <tbody><tr class="graph">
+    <td id="you-graph-cat-travel" width="NaN%" class="you-graph-category graph-category events-travel-bg" data-reveal="you-travel-graph-header"></td><td id="you-graph-cat-venue" width="NaN%" class="you-graph-category graph-category events-venue-bg" data-reveal="you-venue-graph-header"></td><td id="you-graph-cat-water" width="NaN%" class="you-graph-category graph-category events-water-bg" data-reveal="you-water-graph-header"></td><td id="you-graph-cat-meals" width="NaN%" class="you-graph-category graph-category events-meals-bg" data-reveal="you-meals-graph-header"></td></tr>
+  </tbody></table>
+</div>
+</div></div>
+
+<div data-region="emissions"><div><h2>Your Emissions <span class="summary-total"><a class="toggleEmissionsUnit" href="">See results in mT</a></span></h2>
+<div class="offset"><div class="offset-category"><div class="btn btn-default btn-circle-12 events-travel-bg inline-block"></div><div class="offset-category-title">Travel</div>
+<div class="offset-category-amount">0 lbs CO2e/yr</div>
+</div><div class="offset-category"><div class="btn btn-default btn-circle-12 events-venue-bg inline-block"></div><div class="offset-category-title">Venue</div>
+<div class="offset-category-amount">0 lbs CO2e/yr</div>
+</div><div class="offset-category"><div class="btn btn-default btn-circle-12 events-water-bg inline-block"></div><div class="offset-category-title">Water</div>
+<div class="offset-category-amount">0 lbs CO2e/yr</div>
+</div><div class="offset-category"><div class="btn btn-default btn-circle-12 events-meals-bg inline-block"></div><div class="offset-category-title">Meals</div>
+<div class="offset-category-amount">0 lbs CO2e/yr</div>
+</div></div></div></div>
+
+<div class="total">
+  <h2 id="total-title" class="bold">Total</h2>
+  <div>Your carbon footprint is <span class="bold">0 lbs of CO2e/yr</span>. That's equivalent to planting 0 urban trees.</div>
+  <form name="ind_summary_view">
+    <div class="form-element">
+      <select name="offset-select" class="form-control">
+        <optgroup class="monthly-category-offsets" label="Monthly Offsets">
+          <option selected="selected" value="monthly">Offset All for $0.00/mo</option>
+        <option value="monthly">Offset Travel for $0.00/mo</option><option value="monthly">Offset Venue for $0.00/mo</option><option value="monthly">Offset Water for $0.00/mo</option><option value="monthly">Offset Meals for $0.00/mo</option></optgroup>
+        <optgroup></optgroup>
+        <optgroup label="Offset Products for Events">
+          <option selected="selected" value="all">Offset 0 lbs for $0.00</option>
+          <option value="monthly">Offset Monthly for $0.00/mo</option>
+        </optgroup>
+      </select>
+    </div>
+    <div class="form-element"><button type="button" id="buyBtn" class="btn btn-lg  events-travel-bg">Buy Offsets</button></div>
+  </form>
+</div></div></div>
+</div></div>  
+<script type="text/javascript">
+      document.write([
+          "\<script src='",
+          ("https:" == document.location.protocol) ? "https://" : "http://",
+          "ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js' type='text/javascript'>\<\/script>" 
+      ].join(''));
+  </script>
+  <script>
+
+    (function($, window, document, undefined) {
+      $(document).ready(function() {
+
+        function validateFields () {
+
+          function displaySuccess($elem) {
+            $elem.parent()
+            .parent('div')
+            .addClass('has-success')
+            .removeClass('has-error');
+          };
+
+          function displayError($elem) {
+            $elem.parent()
+            .parent('div')
+            .addClass('has-error')
+            .removeClass('has-success');
+          };
+          
+          function isString($elem) {
+            var val = $elem.val();
+            if(typeof val === 'string' && val.length) return true;
+            return false;
+          }
+
+          function isEmail($elem) {
+            var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+            return regex.test($elem.val());
+          }
+
+          function isPhone($elem) {
+            var regex = /(\()*((\d){3})(\)*)[ -.]*((\d){3})[ -.]*((\d){4})[ a-zA-Z0-9,-.]{0,10}/;
+            return regex.test($elem.val());
+          }
+
+          var $name = $('[name="name"]')
+          , $event = $('[name="event"]')
+          , $company = $('[name="company"]')
+          , $email = $('[name="email"]')
+          , $phone = $('[name="phone"]');
+
+          if (isString($name)) {
+            displaySuccess($name)
+          } else {
+            displayError($name)
+              return false;
+          }
+
+          if (isString($event)) {
+            displaySuccess($event)
+          } else {
+            displayError($event);
+            return false;
+          }
+
+          if (isString($company)) {
+            displaySuccess($company)
+          } else {
+            displayError($company);
+            return false;
+          }
+
+          if (isEmail($email)) {
+            displaySuccess($email)
+          } else {
+            displayError($email);
+            return false;
+          }
+
+          if (isPhone($phone)) {
+            displaySuccess($phone)
+          } else {
+            displayError($phone);
+            return false;
+          }
+
+          return true;
+        };
+
+        $('.btn-next').click(function() {
+          if(validateFields()) {
+
+            var data = {};
+            data.name = $('[name="name"]').val();
+            data.event = $('[name="event"]').val();
+            data.company = $('[name="company"]').val();
+            data.email = encodeURIComponent($('[name="email"]').val());
+            data.phone = $('[name="phone"]').val().replace(/[^\d]/, '');
+
+            $.ajax({
+              url: '/gate/events/'+data.name+'/'+data.event+'/'+data.company+'/'+data.email+'/'+data.phone,
+              success: function() { 
+                console.log('success');
+                window.location = "/#/business";
+              }
+            });
+
+          }
+        });
+
+      });
+    })(window.jQuery, window, document);
+
+  </script>
+  <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+  <script>
+    // (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+    // function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+    // e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+    // e.src='//www.google-analytics.com/analytics.js';
+    // r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+    // ga('create','UA-XXXXX-X');ga('send','pageview');
+  </script>
+  <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script><script src="http://localhost:35729/livereload.js?snipver=1"></script>
+</body>
 </html>
