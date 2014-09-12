@@ -54,17 +54,15 @@ note: This list can and should be edited/ammeded and is not 100% fufilled
 - Gulp - Task Runner
 - Browserify - JS Module management
 - SASS- CSS Preprocessing handled by gulp-sass
-- Flatstrap sass - A flat version of Bootstrap
-- jQuery Mobile - Will be used for UI elements that need to be touch enabled for mobile
 - Backbone (jQuery, Underscore) - MV* framework
 - Backbone.Marionette (Backbone, Backbone.BabySitter, Backbone.Wreqr) - Adds structure to Backbone
 - Handlebars - Templating
 - hbsfy - Handlebars template transform for browserify
 - jQueryUI for Browserify https://www.npmjs.org/package/jquery-ui specifically for the range slider
 note: there is another way to do handlebars templateting in Marionette, see 'Building Better Backbone Apps With Marionette pg. 38'
-- NYTimes' Stickit for two-way databinding
-- Karma/Karma-Jasmine(2.*) - Test runner/Test framework
+- Backbone.databinding for two-way databinding
 - numerals.js and JS-Quantities for number formatting
+- jQuery Mobile - Will be used for UI elements that need to be touch enabled for mobile
 
 ## Project Setup
 
