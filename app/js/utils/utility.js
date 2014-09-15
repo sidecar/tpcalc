@@ -1,5 +1,4 @@
-var $ = require('jquery')
-, Qty = require('js-quantities');
+var $ = require('jquery');
 
 module.exports.getJSON = function(reqUrl, callback) {
 	var reqObj = $.ajax({url: reqUrl, dataType: "json", async: false, failure: function(){
@@ -89,9 +88,8 @@ module.exports.xmltojson = function(xml) {
 
 module.exports.getTotalEmissions = function(MTC02, gCH4, gN20) {
 	var num = MTC02 + (((21*gCH4 + 310*gN20)/1000)/1000);
-	var qty = Qty(''+num); //for some damn reason has to be a string
-	var rounded = qty.toPrec('0.01');
-	return rounded.toFloat();
+	var rounded = Math.round(num * 100) / 100;
+	return rounded;
 };
 
 module.exports.getTotalCH4 = function(vehicleClass, year, mileage) {

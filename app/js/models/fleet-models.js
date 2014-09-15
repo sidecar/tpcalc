@@ -1,7 +1,6 @@
 'use strict';
 var _ = require('underscore')
 , Backbone = require('backbone')
-, Qty = require('js-quantities')
 , utils = require('../utils/utility');
 
 var FleetVehicle = Backbone.Model.extend({

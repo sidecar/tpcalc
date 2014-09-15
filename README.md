@@ -51,6 +51,7 @@ note: This list can and should be edited/ammeded and is not 100% fufilled
 - NPM - Package Mangagement
 - Gulp - Task Runner
 - Browserify - Common JS Module management
+- Browserify Shim - to shim in vender javascript to be used like a Common JS module
 - SASS- CSS Preprocessing handled by gulp-sass
 - Backbone (jQuery, Underscore) - MV* framework
 - Backbone.Marionette (Backbone, Backbone.BabySitter, Backbone.Wreqr) - Adds structure to Backbone

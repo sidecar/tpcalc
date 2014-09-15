@@ -1,7 +1,6 @@
 'use strict';
 var _ = require('underscore')
 , Backbone = require('backbone')
-, LocalStorage = require("backbone.localstorage")
 , numeral = require('numeral');
 
 var Calculator = Backbone.Model.extend({ 
