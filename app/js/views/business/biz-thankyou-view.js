@@ -51,6 +51,9 @@ module.exports = Marionette.ItemView.extend({
     return;
   },
   submitData: function() {
+
+    console.log('this.model', this.model);
+
     var email = this.ui.emailInput.val();
 
     if(isEmail(email)) {

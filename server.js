@@ -76,27 +76,48 @@ app.get('/airport/icao/:iataCode', function(req, res) {
 	getData('http://services.faa.gov/airport/status/'+req.params.iataCode+'?format=application/json', res);
 });
 
-app.get('/result/individual/:email/:trees/:vehicle/:transit/:travel/:home', function(req, res) {
-	getData('http://www.terrapass.com/email/individual_email_send.php?emailAddr='+req.params.email
-		+'&trees='+req.params.trees
-		+'&co2e_vehicle='+req.params.vehicle
-		+'&co2e_transit='+req.params.transit
-		+'&co2e_travel='+req.params.travel
-		+'&co2e_home='+req.params.home
-		, res);
+// app.get('/result/individual/:email/:trees/:vehicle/:transit/:travel/:home', function(req, res) {
+// 	getData('http://www.terrapass.com/email/individual_email_send.php?emailAddr='+req.params.email
+// 		+'&trees='+req.params.trees
+// 		+'&co2e_vehicle='+req.params.vehicle
+// 		+'&co2e_transit='+req.params.transit
+// 		+'&co2e_travel='+req.params.travel
+// 		+'&co2e_home='+req.params.home
+// 		, res);
+// });
+
+app.get('/result/individual', function(req, res) {
+	console.log('req.query', req.query);
+	http.post('http://www.terrapass.com/working/csv_output_ind.php', req.query, function(res){
+	    //response.setEncoding('utf8');
+	    res.on('data', function(chunk) {
+	        console.log(chunk);
+	    });
+	});
 });
 
-app.get('/result/business/:email/:trees/:site/:fleet/:travel/:commute/:shipping/:server', function(req, res) {
-	getData('http://www.terrapass.com/email/business_email_send.php?emailAddr='+req.params.email
-		+'&trees='+req.params.trees
-		+'&co2e_site='+req.params.site
-		+'&co2e_fleet='+req.params.fleet
-		+'&co2e_travel='+req.params.travel
-		+'&co2e_commute='+req.params.commute
-		+'&co2e_shipping='+req.params.shipping
-		+'&co2e_server='+req.params.server
-		, res);
+// app.get('/result/business/:email/:trees/:site/:fleet/:travel/:commute/:shipping/:server', function(req, res) {
+// 	getData('http://www.terrapass.com/email/business_email_send.php?emailAddr='+req.params.email
+// 		+'&trees='+req.params.trees
+// 		+'&co2e_site='+req.params.site
+// 		+'&co2e_fleet='+req.params.fleet
+// 		+'&co2e_travel='+req.params.travel
+// 		+'&co2e_commute='+req.params.commute
+// 		+'&co2e_shipping='+req.params.shipping
+// 		+'&co2e_server='+req.params.server
+// 		, res);
+// });
+
+app.get('/result/business', function(req, res) {
+	console.log('req.query', req.query);
+	http.post('http://www.terrapass.com/working/csv_output_bus.php', req.query, function(res){
+	    //response.setEncoding('utf8');
+	    res.on('data', function(chunk) {
+	        console.log(chunk);
+	    });
+	});
 });
+
 
 app.get('/result/events/:email/:trees/:travel/:venue/:water/:meals', function(req, res) {
 	getData('http://www.terrapass.com/email/events_email_send.php?emailAddr='+req.params.email
@@ -108,16 +129,6 @@ app.get('/result/events/:email/:trees/:travel/:venue/:water/:meals', function(re
 		, res);
 });
 
-app.get('/test', function(req, res) {
-	console.log('req.params', req);
-	// http.post('http://localhost/postscript.php', { name: 'Sam', email: 'sam@emberlabs.org' }, function(res){
-	//     response.setEncoding('utf8');
-	//     res.on('data', function(chunk) {
-	//         console.log(chunk);
-	//         $('.send-results').hide(500, function() {$('#thankyou-message').show(300)});
-	//     });
-	// });
-});
 
 app.get('/*', function(req, res){
   res.redirect('/#/');
