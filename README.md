@@ -93,6 +93,8 @@ gulp-livereload serves a script at port 35729, to use it a web page can call it 
 more info here:
 http://feedback.livereload.com/knowledgebase/articles/86180-how-do-i-add-the-script-tag-manually-
 
+## NPM packaged dependencies are listed in package.json, dev dependencies are those packages which are used only in developemnet such as those for the gulp tasks or for testing
+
 ## Testing
 Test suite is built with Jasmine and the test runner is Karma
 	gulp test
@@ -111,12 +113,6 @@ http://stackoverflow.com/questions/17838607/making-an-iframe-responsive
 Categories should can be turned on and off based on url params
 
 ## Dump csv of data ready for pivot table
-
-## Use existing data end points
-http://www.terrapass.com/wp-content/themes/terrapass/flight/airports/airport_names.php?key=oak
-http://www.terrapass.com/wp-content/themes/terrapass/flight/models/flight-model.php?from=oak&to=den (seems broken)
-http://www.terrapass.com//wp-content/themes/terrapass/js/year_make.js
-http://www.terrapass.com/wp-content/themes/terrapass/road/models/car-model.php?year=2013&make=toyota
 
 ## Contributing changes
 

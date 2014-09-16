@@ -34,7 +34,7 @@ module.exports = Marionette.Layout.extend({
     this.vehicle = this.category.get('currentVehicle');
 
     this.vehicle.validate = function(attrs, options) {
-      if(!attrs.description || attrs.description == '') {
+      if(!attrs.descriptionId || attrs.descriptionId == '') {
         self.displayError(self.ui.descriptionSelect);
         return false;
       } else {
@@ -67,14 +67,14 @@ module.exports = Marionette.Layout.extend({
 
     this.modelBinder = new Databinding.ModelBinder(this, this.vehicle);
     
-    var description = this.vehicle.get('description') || undefined
+    var description = this.vehicle.get('descriptionId') || undefined
     , isDiesel = this.vehicle.get('isDiesel') || undefined
     , usesBiodiesel = this.vehicle.get('usesBiodiesel') || undefined
     , fuelType = this.vehicle.get('fuelType') || undefined;
 
     if(fuelType) {
       this.loadDescriptionSelect();
-      this.modelBinder.watch('value: description', {selector: '[name="description"]'});
+      this.modelBinder.watch('value: descriptionId', {selector: '[name="description"]'});
       if(isDiesel) {
         this.loadUsesBiodiesel();
         this.modelBinder.watch('value: usesBiodiesel', {selector: '[name="usesBiodiesel"]'});
@@ -117,7 +117,7 @@ module.exports = Marionette.Layout.extend({
   descriptionSelectChanged: function(event) {
     this.displaySuccess(this.ui.descriptionSelect);
     var target = event.target;
-    this.vehicle.set({description: $(event.target).val()});
+    this.vehicle.set({descriptionId: $(event.target).val()});
     if(this.isDiesel(target.options[target.selectedIndex].text)) {
       if (_.isUndefined(this.usesBiodieselRegion.currentView)) this.loadUsesBiodiesel();
       this.usesBiodieselRegion.$el.show();
@@ -203,9 +203,9 @@ module.exports = Marionette.Layout.extend({
   },
   getNextInputView: function() {
     var self = this, mpg;
-
     var attrs = {
-      description: this.ui.descriptionSelect.val(),
+      descriptionId: this.ui.descriptionSelect.val(),
+      description: this.ui.descriptionSelect[0].options[this.ui.descriptionSelect[0].selectedIndex].text,
       usesBiodiesel: this.ui.usesBiodiesel.val(),
       biodieselBlend: this.ui.biodieselBlendSelect.val()
     }

@@ -1,9 +1,11 @@
-var express = require('express');
-var app = express();
-var Client = require('node-rest-client').Client;
-var client = new Client();
-var opn = require('opn');
-var xml2json = require("node-xml2json");
+var express = require('express')
+, app = express()
+, Client = require('node-rest-client').Client
+, client = new Client()
+, opn = require('opn')
+, xml2json = require("node-xml2json")
+, http = require('http');
+http.post = require('http-post');
 
 var server_port = parseInt(process.env.OPENSHIFT_INTERNAL_PORT) || parseInt(process.env.OPENSHIFT_NODEJS_PORT)|| process.env.PORT || 8080;
 var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
@@ -11,7 +13,7 @@ var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 var getData = function(url, res) {
 	client.get(url, function(parsedResponseData, rawResponseData){
 		res.send(parsedResponseData);
-		console.log('response', parsedResponseData)
+		//console.log('response', parsedResponseData)
 	});
 }
 
@@ -19,8 +21,7 @@ var root = (process.env.CONTEXT === 'local'? '/dev' : '/dist');
 app.use(express.static(__dirname + root));
 
 app.get('/gate/business/:name/:title/:company/:email/:employees', function(req, res) {
-	console.log(req.params);
-		getData('http://www.terrapass.com/working/form_bus_A.php?'
+	getData('http://www.terrapass.com/working/form_bus_A.php?'
 		+'name='+req.params.name
 		+'&title='+req.params.title
 		+'&company='+req.params.company
@@ -31,8 +32,7 @@ app.get('/gate/business/:name/:title/:company/:email/:employees', function(req, 
 });
 
 app.get('/gate/events/:name/:event/:company/:email/:phone', function(req, res) {
-		console.log(req.params);
-		getData('http://www.terrapass.com/working/form_event_A.php?'
+	getData('http://www.terrapass.com/working/form_event_A.php?'
 		+'name='+req.params.name
 		+'&event='+req.params.event
 		+'&company='+req.params.company
@@ -108,6 +108,17 @@ app.get('/result/events/:email/:trees/:travel/:venue/:water/:meals', function(re
 		, res);
 });
 
+app.get('/test', function(req, res) {
+	console.log('req.params', req);
+	// http.post('http://localhost/postscript.php', { name: 'Sam', email: 'sam@emberlabs.org' }, function(res){
+	//     response.setEncoding('utf8');
+	//     res.on('data', function(chunk) {
+	//         console.log(chunk);
+	//         $('.send-results').hide(500, function() {$('#thankyou-message').show(300)});
+	//     });
+	// });
+});
+
 app.get('/*', function(req, res){
   res.redirect('/#/');
 });
@@ -115,3 +126,21 @@ app.get('/*', function(req, res){
 app.listen(server_port, server_ip_address, function () {
   console.log( "Listening on " + server_ip_address + ", server_port " + server_port )
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
