@@ -57,8 +57,8 @@ module.exports = App.module('business', function(Calc) {
             {name: 'default',  view: new siteDefaultView()},
             {name: 'add',  view: new siteAddView()}
           ]),
-          completed: false,
           // defaults that show up in the view
+          zip: '',
           electricityAmount: 0,
           electricityUnit: 'dollars',
           electricityInterval: 'month',
@@ -76,8 +76,9 @@ module.exports = App.module('business', function(Calc) {
           gasolineInterval: 'month',
           dieselAmount: 0,
           dieselUnit: 'dollars',
-          dieselInterval: 'month'
+          dieselInterval: 'month',
           // end of defaults
+          completed: false
         }),
         ////////////////////////////////////////////////////////
         new Category({
@@ -91,6 +92,7 @@ module.exports = App.module('business', function(Calc) {
             {name: 'plane',  view: new planeFleetView()},
             {name: 'list',  view: new listFleetView({collection: fleetVehicles})}
           ]),
+          fleetVehicles: fleetVehicles,
           completed: false
         }),
         ////////////////////////////////////////////////////////
@@ -102,7 +104,6 @@ module.exports = App.module('business', function(Calc) {
             {name: 'employee',  view: new employeeTravelView()}, 
             {name: 'miles',  view: new milesTravelView()}
           ]),
-          completed: false,
           method: "employee",
           useRFI: false,
           numEmployeesTraveling: 0,
@@ -112,7 +113,8 @@ module.exports = App.module('business', function(Calc) {
           totalAnnMiles: 0,
           percentShortHaulMiles: 0,
           percentMedHaulMiles: 0,
-          percentLongHaulMiles: 0
+          percentLongHaulMiles: 0,
+          completed: false
         }),
         ////////////////////////////////////////////////////////
         new Category({
@@ -121,6 +123,17 @@ module.exports = App.module('business', function(Calc) {
           viewList: new ViewList([
             {name: 'default',  view: new defaultCommuteView()}
           ]),
+          busEmployees: 0,
+          busMileage: 0,
+          calculator: 0,
+          carEmployees: 0,
+          carMileage: 0,
+          ferryEmployees: 0,
+          ferryMileage: 0,
+          taxiEmployees: 0,
+          taxiMileage: 0,
+          trainEmployees: 0,
+          trainMileage: 0,
           completed: false
         }),
         ////////////////////////////////////////////////////////
@@ -130,6 +143,12 @@ module.exports = App.module('business', function(Calc) {
           viewList: new ViewList([
             {name: 'default',  view: new defaultShippingView()}
           ]),
+          trainDistance: 0,
+          trainShipments: 0,
+          trainWeight: 0,
+          truckDistance: 0,
+          truckShipments: 0,
+          truckWeight: 0,
           completed: false
         }),
         ////////////////////////////////////////////////////////
@@ -139,6 +158,8 @@ module.exports = App.module('business', function(Calc) {
           viewList: new ViewList([
             {name: 'default',  view: new defaultServerView()}
           ]),
+          zip: '',
+          numServers: 0,
           completed: false
         })
       ]), //end categories

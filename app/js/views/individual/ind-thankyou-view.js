@@ -3,10 +3,7 @@ var $ = require('jquery')
 , Marionette = require('backbone.marionette')
 , App = require('../../app')
 , numeral = require('numeral')
-, isEmail = require('sane-email-validation')
-, numeral = require('numeral')
-, http = require('http');
-http.post = require('http-post');
+, isEmail = require('sane-email-validation');
 
 var template = require('../../templates/individual/ind-thankyou-template.hbs');
 
@@ -54,11 +51,11 @@ module.exports = Marionette.ItemView.extend({
     return;
   },
   submitData: function() {
-    console.log('this.model', this.model);
     var self = this;
     var email = this.ui.emailInput.val();
     if(isEmail(email)) {
       this.displaySuccess(this.ui.emailInput);
+      var trees = numeral(this.model.get('totalEmissions')/0.039).format('0,0');
       var categories = this.model.get('categories')
       , vehicle = categories.findWhere({slug: 'vehicle'})
       , transit = categories.findWhere({slug: 'transit'})
@@ -118,7 +115,6 @@ module.exports = Marionette.ItemView.extend({
       });
       
       var url = '/result/individual';
-
       var data = {
         vehicles: vehicleDataString,
         vehicleTotalEmissions: numeral(vehicle.get('totalEmissions')).format('0.00'),
@@ -168,7 +164,9 @@ module.exports = Marionette.ItemView.extend({
         homePropaneAmount: home.get('propaneAmount'),
         homePropaneInterval: home.get('propaneInterval'),
         homePropaneUnit: home.get('propaneUnit'),
-        homeTotalEmissions: numeral(home.get('totalEmissions')).format('0.00')
+        homeTotalEmissions: numeral(home.get('totalEmissions')).format('0.00'),
+        trees: trees,
+        email: encodeURIComponent(email)
       };
 
       $.ajax({
@@ -176,6 +174,10 @@ module.exports = Marionette.ItemView.extend({
         data: data,
         success: function() { 
           $('.send-results').hide(500, function() {$('#thankyou-message').show(300)});
+        },
+        error: function(xhr, status, error) {
+          // Display a generic error for now.
+          console.log('error', xhr.responseText);
         }
       });
 
@@ -184,27 +186,6 @@ module.exports = Marionette.ItemView.extend({
     }
   }
 });
-
-// var trees = numeral(this.model.get('totalEmissions')/0.039).format('0,0');
-// var url = '/result/individual/'+encodeURIComponent(email)
-//   +'/'
-//   +trees
-//   +'/'
-//   +data['vehicle']
-//   +'/'
-//   +data['transit']
-//   +'/'
-//   +data['travel']
-//   +'/'+
-//   data['home'];
-
-// categories.each(function(cat) {
-//   calc[cat.get('slug')] = cat;
-// var emissions = cat.get('totalEmissions') || 0;
-// data[cat.get('slug')] = emissions;
-// });
-
-
 
 
 

@@ -59,7 +59,9 @@
     "iata": "0.0.0",
     "jquery-ui": "~1.10.5",
     "sane-email-validation": "~1.0.0",
-    "http-post": "~0.1.1"
+    "http-post": "~0.1.1",
+    "request": "~2.42.0",
+    "csv": "~0.4.0"
   },
   "scripts": {
     "start": "node server.js"

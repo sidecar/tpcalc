@@ -70,6 +70,28 @@ module.exports = App.module('events', function(Calc) {
             {name: 'ground',  view: new groundTravelView()}, 
             {name: 'hotel',  view: new hotelTravelView()}
           ]),
+          attendees: 0,
+          averageEmissions: 0,
+          busAttendees: 0,
+          busMileage: 0,
+          carAttendees: 0,
+          carMileage: 0,
+          ferryAttendees: 0,
+          ferryMileage: 0,
+          groundEmissions: 0,
+          hotelEmissions: 0,
+          lengthEmissions: 0,
+          longFlights: 0,
+          medFlights: 0,
+          method: "length",
+          nights: 0,
+          shortFlights: 0,
+          taxiAttendees: 0,
+          taxiMileage: 0,
+          trainAttendees: 0,
+          trainMileage: 0,
+          useRFI: false,
+          totalEmissions: 0,
           completed: false
         }),
         ////////////////////////////////////////////////////////
@@ -79,6 +101,10 @@ module.exports = App.module('events', function(Calc) {
           viewList: new ViewList([
             {name: 'default',  view: new defaultVenueView()}
           ]),
+          days: 0,
+          venueSize: 0,
+          zipCode: '',
+          totalEmissions: 0,
           completed: false
         }),
         ////////////////////////////////////////////////////////
@@ -88,6 +114,8 @@ module.exports = App.module('events', function(Calc) {
           viewList: new ViewList([
             {name: 'default',  view: new defaultWaterView()}
           ]),
+          bottles: 0,
+          totalEmissions: 0,
           completed: false
         }),
         ////////////////////////////////////////////////////////
@@ -97,6 +125,8 @@ module.exports = App.module('events', function(Calc) {
           viewList: new ViewList([
             {name: 'default',  view: new defaultMealsView()}
           ]),
+          numMeals: 0,
+          percentVeg: 0,
           completed: false
         })
       ]), //end categories
