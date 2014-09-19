@@ -257,13 +257,13 @@ $emailAddr = $_REQUEST['emailAddr'];
             </td>
           </tr>
             <tr>
-            <td width="952" align="center" style="padding: 20px 0 38px;"><p style="line-height: 1.2; vertical-align: baseline; font-family: "Myriad Pro", "Lucida Grande", "Lucida Sans Unicode", Arial, sans-serif; color: #3c3c3c; font-size: 14.58px; font-weight: 100; letter-spacing: 2px; -moz-text-size-adjust: none; -webkit-text-size-adjust: none; -ms-text-size-adjust: none; margin: 0; padding: 0;">Your carbon footprint is the equivalent of planing '.number_format($trees).' urban trees.</p></td>
+            <td width="952" align="center" style="padding: 20px 0 38px;"><p style="line-height: 1.2; vertical-align: baseline; font-family: "Myriad Pro", "Lucida Grande", "Lucida Sans Unicode", Arial, sans-serif; color: #3c3c3c; font-size: 14.58px; font-weight: 100; letter-spacing: 2px; -moz-text-size-adjust: none; -webkit-text-size-adjust: none; -ms-text-size-adjust: none; margin: 0; padding: 0;">Your carbon footprint is the equivalent of planting '.number_format($trees).' urban trees.</p></td>
           </tr>
             <tr>
             <td width="952" style="padding: 0 0 0 135px;"><table width="817" cellspacing="0" cellpadding="0" border="0" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; border-collapse:collapse">
                 <tr>
                   <td width="315" valign="middle"><h3 style="color: #0a61ae; line-height: 100%; vertical-align: baseline; font-family: "Myriad Pro", "Lucida Grande", "Lucida Sans Unicode", Arial, sans-serif; font-size: 24.5px; font-weight: bold; letter-spacing: 4px; -moz-text-size-adjust: none; -webkit-text-size-adjust: none; -ms-text-size-adjust: none; margin: 0; padding: 0;">TRAVEL</h3></td>
-                  <td width="52"><img src="http://www.terrapass.com/email/img/ico_air_travel_evt.png" alt="" title="" border="0" style="display: block; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; margin: 0; padding: 0;" height="41" /></td>
+                  <td width="52"><img src="http://www.terrapass.com/tpcalc.services/email/img/ico_air_travel_evt.png" alt="" title="" border="0" style="display: block; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; margin: 0; padding: 0;" height="41" /></td>
                   <td width="387" valign="middle" style="padding: 0 0 0 63px;"><h4 style="color: #0a61ae; font-weight: 900; line-height: 100%; vertical-align: baseline; font-family: "Myriad Pro", "Lucida Grande", "Lucida Sans Unicode", Arial, sans-serif; font-size: 37px; letter-spacing: 1.4px; -moz-text-size-adjust: none; -webkit-text-size-adjust: none; -ms-text-size-adjust: none; margin: 0; padding: 0;">'.number_format($co2e_travel).' lbs CO2e</h4></td>
                 </tr>
                 <tr>
@@ -271,7 +271,7 @@ $emailAddr = $_REQUEST['emailAddr'];
                 </tr>
                 <tr>
                   <td width="315" valign="middle"><h3 style="color: #2ba7e5; line-height: 100%; vertical-align: baseline; font-family: "Myriad Pro", "Lucida Grande", "Lucida Sans Unicode", Arial, sans-serif; font-size: 24.5px; font-weight: bold; letter-spacing: 4px; -moz-text-size-adjust: none; -webkit-text-size-adjust: none; -ms-text-size-adjust: none; margin: 0; padding: 0;">VENUE</h3></td>
-                  <td width="52"><img src="http://www.terrapass.com/email/img/ico_venue.png" alt="" title="" border="0" style="display: block; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; margin: 0; padding: 0;" height="49" /></td>
+                  <td width="52"><img src="http://www.terrapass.com/tpcalc.services/email/img/ico_venue.png" alt="" title="" border="0" style="display: block; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; margin: 0; padding: 0;" height="49" /></td>
                   <td width="450" valign="middle" style="padding: 0 0 0 63px;"><h4 style="color: #2ba7e5; font-weight: 900; line-height: 100%; vertical-align: baseline; font-family: "Myriad Pro", "Lucida Grande", "Lucida Sans Unicode", Arial, sans-serif; font-size: 37px; letter-spacing: 1.4px; -moz-text-size-adjust: none; -webkit-text-size-adjust: none; -ms-text-size-adjust: none; margin: 0; padding: 0;">'.number_format($co2e_venue).' lbs CO2e</h4></td>
                 </tr>
                 <tr>
@@ -279,7 +279,7 @@ $emailAddr = $_REQUEST['emailAddr'];
                 </tr>
                 <tr>
                   <td width="315" valign="middle"><h3 style="color: #41ad49; line-height: 100%; vertical-align: baseline; font-family: "Myriad Pro", "Lucida Grande", "Lucida Sans Unicode", Arial, sans-serif; font-size: 24.5px; font-weight: bold; letter-spacing: 4px; -moz-text-size-adjust: none; -webkit-text-size-adjust: none; -ms-text-size-adjust: none; margin: 0; padding: 0;">WATER</h3></td>
-                  <td width="52"><img src="http://www.terrapass.com/email/img/ico_ico_water.png" alt="" title="" border="0" style="display: block; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; margin: 0; padding: 0;" height="52" /></td>
+                  <td width="52"><img src="http://www.terrapass.com/tpcalc.services/email/img/ico_ico_water.png" alt="" title="" border="0" style="display: block; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; margin: 0; padding: 0;" height="52" /></td>
                   <td width="450" valign="middle" style="padding: 0 0 0 63px;"><h4 style="color: #41ad49; font-weight: 900; line-height: 100%; vertical-align: baseline; font-family: "Myriad Pro", "Lucida Grande", "Lucida Sans Unicode", Arial, sans-serif; font-size: 37px; letter-spacing: 1.4px; -moz-text-size-adjust: none; -webkit-text-size-adjust: none; -ms-text-size-adjust: none; margin: 0; padding: 0;">'.number_format($co2e_water).' lbs CO2e</h4></td>
                 </tr>
                 <tr>
@@ -287,7 +287,7 @@ $emailAddr = $_REQUEST['emailAddr'];
                 </tr>
                 <tr>
                   <td width="315" valign="middle"><h3 style="color: #1d7768; line-height: 100%; vertical-align: baseline; font-family: "Myriad Pro", "Lucida Grande", "Lucida Sans Unicode", Arial, sans-serif; font-size: 24.5px; font-weight: bold; letter-spacing: 4px; -moz-text-size-adjust: none; -webkit-text-size-adjust: none; -ms-text-size-adjust: none; margin: 0; padding: 0;">MEALS</h3></td>
-                  <td width="52"><img src="http://www.terrapass.com/email/img/ico_meals.png" alt="" title="" border="0" style="display: block; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; margin: 0; padding: 0;" height="46" /></td>
+                  <td width="52"><img src="http://www.terrapass.com/tpcalc.services/email/img/ico_meals.png" alt="" title="" border="0" style="display: block; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; margin: 0; padding: 0;" height="46" /></td>
                   <td width="450" valign="middle" style="padding: 0 0 0 63px;"><h4 style="color: #1d7768; font-weight: 900; line-height: 100%; vertical-align: baseline; font-family: "Myriad Pro", "Lucida Grande", "Lucida Sans Unicode", Arial, sans-serif; font-size: 37px; letter-spacing: 1.4px; -moz-text-size-adjust: none; -webkit-text-size-adjust: none; -ms-text-size-adjust: none; margin: 0; padding: 0;">'.number_format($co2e_meals).' lbs CO2e</h4></td>
                 </tr>
                 <tr>

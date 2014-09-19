@@ -125,7 +125,6 @@ if($_SERVER['HTTP_HOST'] == 'swirlreview.com') {
 //  fputcsv($file,explode(',',$line));
 // }
 
-fseek($file, 1);
 fputcsv($file, $values);
 
 fclose($file);

@@ -102,18 +102,15 @@ app.get('/result/individual', function(appRequest, appResponse) {
 });
 
 app.get('/result/business', function(appRequest, appResponse) {
-
-	console.log('appRequest.query', appRequest.query);
-
 	client.get('http://www.terrapass.com/tpcalc.services/email/business_email_send.php'
 		+'?emailAddr='+appRequest.query.email 
 		+'&trees='+appRequest.query.trees
-		+'&co2e_site='+appRequest.query.site
-		+'&co2e_fleet='+appRequest.query.fleet
-		+'&co2e_travel='+appRequest.query.travel
-		+'&co2e_commute='+appRequest.query.commute
-		+'&co2e_shipping='+appRequest.query.shipping
-		+'&co2e_server='+appRequest.query.server,
+		+'&co2e_site='+appRequest.query.siteTotalEmissions
+		+'&co2e_fleet='+appRequest.query.fleetTotalEmissions
+		+'&co2e_travel='+appRequest.query.travelTotalEmissions
+		+'&co2e_commute='+appRequest.query.commuteTotalEmissions
+		+'&co2e_shipping='+appRequest.query.shippingTotalEmissions
+		+'&co2e_server='+appRequest.query.serverTotalEmissions,
 		function(parsedResponseData, rawResponseData){
 			appResponse.send(parsedResponseData);
 			console.log(parsedResponseData);
@@ -129,10 +126,10 @@ app.get('/result/events', function(appRequest, appResponse) {
 	client.get('http://www.terrapass.com/tpcalc.services/email/events_email_send.php'
 		+'?emailAddr='+appRequest.query.email 
 		+'&trees='+appRequest.query.trees
-		+'&co2e_travel='+appRequest.query.travel
-		+'&co2e_venue='+appRequest.query.venue
-		+'&co2e_water='+appRequest.query.water
-		+'&co2e_meals='+appRequest.query.meals,
+		+'&co2e_travel='+appRequest.query.travelTotalEmissions
+		+'&co2e_venue='+appRequest.query.venueTotalEmissions
+		+'&co2e_water='+appRequest.query.waterTotalEmissions
+		+'&co2e_meals='+appRequest.query.mealsTotalEmissions,
 		function(parsedResponseData, rawResponseData){
 			appResponse.send(parsedResponseData);
 			console.log(parsedResponseData);
