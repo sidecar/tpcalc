@@ -81,23 +81,13 @@ if($_SERVER['HTTP_HOST'] == 'swirlreview.com') {
 	$file = fopen('/var/www/clients/terrapass/working/data_evt.csv', 'a');
 } else {
 	//terrapass.com
-  // $file = fopen('/home/terrapas/public_html/working/data_evt.csv', 'a');
 	$file = fopen(getcwd().'/data_evt.csv', 'a');
 }
 
-// foreach ($values as $line){
-//  fseek($file, 1);
-//  fputcsv($file,explode(',',$line));
-// }
-
 fwrite($file, "\n");
 fputcsv($file, $values);
-
 fclose($file);
 
-// REPLACE HARD CODED VALUES BELOW WITH VARIABLES FROM ABOVE
-// header("Location: summary.php?trees=".$trees."&co2e_vehicle=".$travelTotalEmissions."&co2e_transit=".$venueTotalEmissions."&co2e_travel=".$waterTotalEmissions."&co2e_home=".$mealsTotalEmissions);
-// header("Location: http://www.terrapass.com/email/events_email_send.php?emailAddr=".$email."&trees=".$trees."&co2e_vehicle=".$travelTotalEmissions."&co2e_transit=".$venueTotalEmissions."&co2e_travel=".$waterTotalEmissions."&co2e_home=".$mealsTotalEmissions);
 exit;
 
 ?>

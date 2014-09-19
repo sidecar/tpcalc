@@ -132,17 +132,10 @@ if($_SERVER['HTTP_HOST'] == 'swirlreview.com') {
   $file = fopen(getcwd().'/data_bus.csv', 'a');
 }
 
-// foreach ($values as $line){
-//  fseek($file, 1);
-//  fputcsv($file,explode(',',$line));
-// }
-
 fwrite($file, "\n");
 fputcsv($file, $values);
 fclose($file);
 
-// REPLACE HARD CODED VALUES BELOW WITH VARIABLES FROM ABOVE
-// header("Location: summary.php?trees=".$trees."&co2e_vehicle=".$siteTotalEmissions."&co2e_transit=".$fleetTotalEmissions."&co2e_travel=".$travelTotalEmissions."&co2e_home=".$commuteTotalEmissions."&co2e_home=".$shippingTotalEmissions."&co2e_home=".$serverTotalEmissions);
-// header("Location: http://www.terrapass.com/email/business_email_send.php?emailAddr=".$email."&trees=".$trees."&co2e_vehicle=".$siteTotalEmissions."&co2e_transit=".$fleetTotalEmissions."&co2e_travel=".$travelTotalEmissions."&co2e_home=".$commuteTotalEmissions."&co2e_home=".$shippingTotalEmissions."&co2e_home=".$serverTotalEmissions);
 exit;
+
 ?>
