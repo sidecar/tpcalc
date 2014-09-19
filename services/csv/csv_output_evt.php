@@ -38,6 +38,7 @@ $mealsNumMeals = $_REQUEST['mealsNumMeals'];
 $mealsPercentVeg = $_REQUEST['mealsPercentVeg'];
 $mealsTotalEmissions = $_REQUEST['mealsTotalEmissions'];
 $trees = $_REQUEST['trees'];
+$email = urldecode($_REQUEST['email']);
 
 $values = array(
   $today, 
@@ -71,7 +72,8 @@ $values = array(
   $waterTotalEmissions,
   $mealsNumMeals,
   $mealsPercentVeg,
-  $mealsTotalEmissions
+  $mealsTotalEmissions,
+  $email
 );
 
 if($_SERVER['HTTP_HOST'] == 'swirlreview.com') {
@@ -88,6 +90,7 @@ if($_SERVER['HTTP_HOST'] == 'swirlreview.com') {
 //  fputcsv($file,explode(',',$line));
 // }
 
+fwrite($file, "\n");
 fputcsv($file, $values);
 
 fclose($file);

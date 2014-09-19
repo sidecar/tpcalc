@@ -56,7 +56,7 @@ $homePropaneInterval = $_REQUEST['homePropaneInterval'];
 $homePropaneUnit = $_REQUEST['homePropaneUnit'];
 $homeTotalEmissions = $_REQUEST['homeTotalEmissions'];
 $trees = $_REQUEST['trees'];
-$email = $_REQUEST['email'];
+$email = urldecode($_REQUEST['email']);
 
 $values = array(
   $today, 
@@ -108,7 +108,8 @@ $values = array(
   $homePropaneAmount,
   $homePropaneInterval,
   $homePropaneUnit,
-  $homeTotalEmissions
+  $homeTotalEmissions,
+  $email
 );
 
 if($_SERVER['HTTP_HOST'] == 'swirlreview.com') {
@@ -125,8 +126,8 @@ if($_SERVER['HTTP_HOST'] == 'swirlreview.com') {
 //  fputcsv($file,explode(',',$line));
 // }
 
+fwrite($file, "\n");
 fputcsv($file, $values);
-
 fclose($file);
 
 // REPLACE HARD CODED VALUES BELOW WITH VARIABLES FROM ABOVE
