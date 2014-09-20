@@ -117,7 +117,7 @@ module.exports = Marionette.ItemView.extend({
       var url = '/result/individual';
       var data = {
         vehicles: vehicleDataString,
-        vehicleTotalEmissions: numeral(vehicle.get('totalEmissions')).format('0.00'),
+        vehicleTotalEmissions: numeral(vehicle.get('totalEmissions')*2204.62262).format('0.00'),
         transitBusInterval: transit.get('busInterval'),
         transitBusMileage: transit.get('busMileage'),
         transitFerryInterval: transit.get('ferryInterval'),
@@ -126,7 +126,7 @@ module.exports = Marionette.ItemView.extend({
         transitTaxiMileage: transit.get('taxiMileage'),
         transitTrainInterval: transit.get('trainInterval'),
         transitTrainMileage: transit.get('trainMileage'),
-        transitTotalEmissions: numeral(transit.get('totalEmissions')).format('0.00'),
+        transitTotalEmissions: numeral(transit.get('totalEmissions')*2204.62262).format('0.00'),
         flights: flightDataString,
         travelEstimationMethod: travel.get('estimationMethod'),
         travelMilesLongBizClassFlights: travel.get('milesLongBizClassFlights'),
@@ -144,7 +144,7 @@ module.exports = Marionette.ItemView.extend({
         travelNumMedFirstClassFlights: travel.get('numMedFirstClassFlights'),
         travelNumShortFlights: travel.get('numShortFlights'),
         travelUseRFI: travel.get('useRFI'),
-        travelTotalEmissions: numeral(travel.get('totalEmissions')).format('0.00'),
+        travelTotalEmissions: numeral(travel.get('totalEmissions')*2204.62262).format('0.00'),
         homeDieselAmount: home.get('dieselAmount'),
         homeDieselInterval: home.get('dieselInterval'),
         homeDieselUnit: home.get('dieselUnit'),
@@ -164,7 +164,7 @@ module.exports = Marionette.ItemView.extend({
         homePropaneAmount: home.get('propaneAmount'),
         homePropaneInterval: home.get('propaneInterval'),
         homePropaneUnit: home.get('propaneUnit'),
-        homeTotalEmissions: numeral(home.get('totalEmissions')).format('0.00'),
+        homeTotalEmissions: numeral(home.get('totalEmissions')*2204.62262).format('0.00'),
         trees: trees,
         email: encodeURIComponent(email)
       };
