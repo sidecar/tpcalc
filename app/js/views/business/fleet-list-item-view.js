@@ -28,7 +28,7 @@ module.exports = Marionette.ItemView.extend({
   vehicleTypeDisplayNames: {
     car: 'Car',
     truck: 'Pickup Truck',
-    deliverytruck: 'Delivery Truck',
+    deliveryTruck: 'Delivery Truck',
     semi: 'Semi Truck',
     ecar: 'Electric Car',
     boat: 'Boat',

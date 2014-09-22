@@ -26,7 +26,7 @@ var fleet = {
 	vehicleTypes : [
 		'car',
 		'truck',
-		'deliverytruck',
+		'deliveryTruck',
 		'semi',
 		'boat',
 		'ecar'

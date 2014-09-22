@@ -20,7 +20,6 @@ var FleetVehicle = Backbone.Model.extend({
     this.on('change', this.calculateEmissions, this);
   },
   calculateEmissions: function() {
-
     var vehicleType = this.get('vehicleType')
     , numVehicles = this.get('numVehicles')
     , mileage = this.get('mileage')
