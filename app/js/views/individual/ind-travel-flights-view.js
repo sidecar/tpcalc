@@ -70,21 +70,21 @@ module.exports = Marionette.ItemView.extend({
           if(inputArray[e].hasOwnProperty(y)) {
             tempArray.push(inputArray[e][y]);
           }
-        }
+        } // end for in loop
 
         for(var l = 0; l < tempArray.length; l++ ) {
           if(typeof tempArray[l] === 'string'){
             // t will be an int indicating the position of the search term if it exists in th search
-            var t = tempArray[l].toLowerCase().replace(/\s+/g, '').indexOf(searchTerm.toLowerCase().replace(/\s+/g, ''));
-            if (t !== -1) {
+            var posOfSearchTerm = tempArray[l].toLowerCase().replace(/\s+/g, '').indexOf(searchTerm.toLowerCase().replace(/\s+/g, ''));
+            if (posOfSearchTerm !== -1) {
               //if a match is found, add it to the matches array and don't look at other members of the temp array to avoid adding the same object twice to the final array of matches
               arrayOfMatches.push(inputArray[e]);
               break;
             } 
           }          
-        }
+        } // end for loop
 
-      } //end for in
+      } // end for loop
       if (arrayOfMatches.length > 0) {
         callback(null, arrayOfMatches);
       } else {
@@ -94,12 +94,17 @@ module.exports = Marionette.ItemView.extend({
 
     function typeAheadCallback(query, result) {
       var that = self;
-      searchJSON(function(err, items) {
+      searchJSON(function(err, arrayOfMatches) {
         if (err) {
-          //console.log(err);
+            return err;
         } else {
-          var resultsArray = _.map(items, function(obj) {
-            return obj.iata +' - '+ obj.name;
+          var resultsArray = _.map(arrayOfMatches, function(obj) {
+            console.log('obj', obj);
+            var countryOrState = (obj.country === 'United States') ? obj.state : obj.country ;
+            var city = obj.city;
+            var icaoOrBlank = (obj.icao && obj.icao !== '\\N') ? ' ('+obj.icao+')' : '';
+            var symbol = (obj.iata) ?  ' ('+obj.iata+')' : icaoOrBlank;
+            return obj.name + symbol + ', ' + city;
           });
           result(resultsArray);
         }

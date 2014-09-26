@@ -105,9 +105,10 @@ Produces a complete project in the /dist directory
 
 ## Features
 
-## Responsive iframe
-http://stackoverflow.com/questions/12676725/responsive-iframe-google-maps-and-weird-resizing?rq=1
-http://stackoverflow.com/questions/17838607/making-an-iframe-responsive
+## Mobile 
+	<meta name="viewport"  content="width=490">
+Using the viewport meta tag to control layout on mobile browsers
+https://developer.mozilla.org/en-US/docs/Mozilla/Mobile/Viewport_meta_tag
 
 ## Configurable via url parameters
 Categories should can be turned on and off based on url params
