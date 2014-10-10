@@ -273,10 +273,6 @@ gulp.task('copy-to-build', function() {
     .pipe(gulp.dest(config.build.baseDir + 'php/'));
   // Copy css into build dir - this will include the jquery-ui images that need to be copied
   gulp.src(config.dev.styles + '**/*').pipe(gulp.dest(config.build.styles));
-
-  // Copy unbrowserfied lib javascript into build dir
-  //gulp.src([config.dev.js + 'libs.min.js', config.dev.js + 'libs.min.js.map']).pipe(gulp.dest(config.build.js));
-  //gulp.src(config.dev.js + 'libs.min.js.map').pipe(gulp.dest(config.build.js));
 })
 
 // Build a production version of the app 

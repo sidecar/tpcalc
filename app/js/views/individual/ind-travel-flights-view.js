@@ -4,7 +4,7 @@ var $ = require('jquery')
 , Marionette = require('backbone.marionette')
 , Databinding = require('backbone.databinding')
 , App = require('../../app')
-, Typeahead = require('typeahead')
+, Typeahead = require('../../utils/typeahead-modified')
 , utils = require('../../utils/utility');
 
 var flightsTemplate = require('../../templates/individual/ind-travel-flights-template.hbs');
@@ -39,7 +39,6 @@ module.exports = Marionette.ItemView.extend({
     }
 
     this.flight.validate = function(attrs, options) {
-      //console.log('validate');
       if(!attrs.from || attrs.from === '') {
         self.displayError(self.ui.from);
         return false;
@@ -93,24 +92,22 @@ module.exports = Marionette.ItemView.extend({
     }
 
     function typeAheadCallback(query, result) {
-      var that = self;
       searchJSON(function(err, arrayOfMatches) {
         if (err) {
             return err;
         } else {
           var resultsArray = _.map(arrayOfMatches, function(obj) {
-            console.log('obj', obj);
             var countryOrState = (obj.country === 'United States') ? obj.state : obj.country ;
             var city = obj.city;
             var icaoOrBlank = (obj.icao && obj.icao !== '\\N') ? ' ('+obj.icao+')' : '';
             var symbol = (obj.iata) ?  ' ('+obj.iata+')' : icaoOrBlank;
-            return obj.name + symbol + ', ' + city;
+            obj.displayString = obj.name + symbol + ', ' + city;
+            return obj;
           });
           result(resultsArray);
         }
       }, query, airports);
     }
-
 
     var fromInput = this.ui.from.get(0);
     var typeAheadFrom = Typeahead(fromInput , {
@@ -124,7 +121,6 @@ module.exports = Marionette.ItemView.extend({
 
   },
   displaySuccess: function($elem) {
-    //console.log('displaySuccess');
     $elem.parent()
       .prev('label')
       .html(function() {
@@ -145,12 +141,30 @@ module.exports = Marionette.ItemView.extend({
       .removeClass('has-success');
   },
   getNextInputView: function() {
-    var attrs = {
-      roundTrip: $('[name="round_trip"]:checked').val(),
-      from: this.ui.from.val(),
-      to: this.ui.to.val()
+    function getSymbol(obj) {
+      if(obj.iata) return obj.iata;
+      if(obj.icao && obj.icao.indexOf("\N") === -1 ) return obj.icao;
+      return obj.city;
     }
-    if(this.flight.validate(attrs)) {
+
+    if(this.flight.validate({from: this.ui.from.val(), to: this.ui.to.val() })) {
+      var from = JSON.parse(this.ui.from.attr('data-object'));
+      var to = JSON.parse(this.ui.to.attr('data-object'));
+      var fromLatitude = from.latitude;
+      var fromLongitude = from.longitude;    
+      var toLatitude = to.latitude;
+      var toLongitude = to.longitude;
+      var fromIATA = getSymbol(from);
+      var toIATA = getSymbol(to);
+      var attrs = {
+        roundTrip: $('[name="round_trip"]:checked').val(),
+        fromLatitude: fromLatitude, 
+        fromLongitude: fromLongitude, 
+        toLatitude: toLatitude, 
+        toLongitude: toLongitude,
+        fromIATA: fromIATA,
+        toIATA: toIATA 
+      }
       this.flight.set(attrs);
       this.flight.calculateDistance();
       App.vent.trigger('showInputView', 'list');

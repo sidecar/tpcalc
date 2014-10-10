@@ -9,7 +9,7 @@ Create a github repo. In this case git://github.com/sidecar/tpcalc.git.git
 Create an account at http://openshift.redhat.com/
 Create a namespace, if you haven't already do so for example 'sidecar'
 	rhc domain create <yournamespace>
-Create a nodejs application (you can name it anything via -a) and choose node versino with -t
+Create a nodejs application (you can name it anything via -a) and choose node version with -t
 	rhc app create -a <yourappname>  -t nodejs-0.10
 Open shift will create a local repo called '<yourappname>' 
 Merge the github repo as the upsteam of the existing local repo
@@ -18,7 +18,8 @@ Merge the github repo as the upsteam of the existing local repo
 	git remote add upstream -m master git://github.com/sidecar/tpcalc.git.git
 	git pull -s recursive -X theirs upstream master
 
-Optionally, specify the custom version of Node.js you want to run with (Default is v0.10.25). If you want to more later version of Node (example v0.11.11), you can change to that by just writing it to the end of the NODEJS_VERSION file and committing that change.
+Optionally, specify the custom version of Node.js you want to run with (Default is v0.10.25). 
+If you want to use a later version of Node (example v0.11.11), you can do so by just writing it at the end of the NODEJS_VERSION file and committing that change.
 
 echo 0.11.11 >> .openshift/markers/NODEJS_VERSION
 git commit . -m 'use Node version 0.11.11'

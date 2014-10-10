@@ -369,7 +369,7 @@ $emailAddr = $_REQUEST['emailAddr'];
 									<td width="952" height="16" style="height: 16px; line-height: 16px; mso-line-height-rule: exactly;"></td>
 								</tr>
 								<tr>
-									<td width="952" align="center"><p id="address" style="line-height: 1.2; vertical-align: baseline; font-family: "Myriad Pro", "Lucida Grande", "Lucida Sans Unicode", Arial, sans-serif; color: #ffffff; font-size: 11px; font-weight: 100; font-style:italic; letter-spacing:0px; -moz-text-size-adjust: none; -webkit-text-size-adjust: none; -ms-text-size-adjust: none; margin: 0; padding: 0;">527 Howard St, San Francisco, CA 94105&nbsp;&nbsp;&bull;&nbsp;&nbsp;877.210.9581</p></td>
+									<td width="952" align="center"><p id="address" style="line-height: 1.2; vertical-align: baseline; font-family: "Myriad Pro", "Lucida Grande", "Lucida Sans Unicode", Arial, sans-serif; color: #ffffff; font-size: 11px; font-weight: 100; font-style:italic; letter-spacing:0px; -moz-text-size-adjust: none; -webkit-text-size-adjust: none; -ms-text-size-adjust: none; margin: 0; padding: 0;">1900 Addison Street, Suite 200, Berkeley, CA 94704&nbsp;&nbsp;&bull;&nbsp;&nbsp;877.210.9581</p></td>
 								</tr>
 								<tr>
 									<td width="952" height="12" style="height: 12px; line-height: 12px; mso-line-height-rule: exactly;"></td>

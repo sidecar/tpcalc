@@ -1,6 +1,8 @@
 // vendor
 var xtend = require('xtend');
 var dom = require('dom');
+var _ = require('underscore');
+
 
 var defaults = {
     source: [],
@@ -11,12 +13,10 @@ var defaults = {
 }
 
 var Typeahead = function (element, options) {
+    var self = this;
     if (!(this instanceof Typeahead)) {
         return new Typeahead(element, options);
     }
-
-    var self = this;
-
     self.element = dom(element);
     self.options = xtend({}, defaults, options);
     self.matcher = self.options.matcher || self.matcher
@@ -25,7 +25,6 @@ var Typeahead = function (element, options) {
     self.updater = self.options.updater || self.updater
     self.menu = dom(self.options.menu);
     dom(document.body).append(self.menu);
-
     self.source = self.options.source;
     self.shown = false;
     self.listen();
@@ -39,12 +38,13 @@ proto.constructor = Typeahead;
 // select the current item
 proto.select = function() {
     var self = this;
-    var val = self.menu.find('.active').attr('data-value');
-
+    var selected = self.menu.find('.active');
+    var obj = self.menu.find('.active').attr('data-object');
+    var val = selected.attr('data-value');
     self.element
       .value(self.updater(val))
+      .attr('data-object', obj)
       .emit('change');
-
     return self.hide();
 }
 
@@ -119,9 +119,8 @@ proto.lookup = function (event) {
 
 proto.process = function (items) {
     var self = this;
-
     items = items.filter(self.matcher.bind(self));
-    items = self.sorter(items)
+    items = self.sorter(items);
 
     if (!items.length) {
       return self.shown ? self.hide() : self
@@ -131,7 +130,7 @@ proto.process = function (items) {
 }
 
 proto.matcher = function (item) {
-  return ~item.toLowerCase().indexOf(this.query.toLowerCase())
+  return ~item.displayString.toLowerCase().indexOf(this.query.toLowerCase())
 }
 
 proto.sorter = function (items) {
@@ -141,8 +140,8 @@ proto.sorter = function (items) {
     var item;
 
     while (item = items.shift()) {
-      if (!item.toLowerCase().indexOf(this.query.toLowerCase())) beginswith.push(item)
-      else if (~item.indexOf(this.query)) caseSensitive.push(item)
+      if (!item.displayString.toLowerCase().indexOf(this.query.toLowerCase())) beginswith.push(item)
+      else if (~item.displayString.indexOf(this.query)) caseSensitive.push(item)
       else caseInsensitive.push(item)
     }
 
@@ -161,8 +160,8 @@ proto.render = function (items) {
 
     items = items.map(function (item) {
         var li = dom(self.options.item);
-        li.attr('data-value', item)
-          .find('a').html(self.highlighter(item));
+        li.attr('data-value', item.displayString).attr('data-object', JSON.stringify(item))
+          .find('a').html(self.highlighter(item.displayString));
         return li;
     })
 
