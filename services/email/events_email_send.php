@@ -387,7 +387,7 @@ $emailAddr = $_REQUEST['emailAddr'];
   $terrapass  = 'nbsales@terrapass.com' . ', ';
   $terrapass .= 'kristi@terrapass.com';
 
-  mail($terrapass, 'Terrapass Calculator Submission', $recipient, $headers);
+  mail($terrapass, 'Terrapass Events Calculator Submission', 'The individual calculator was completed by '.$recipient, $headers);
   
   // ADD CODE HERE TO HANDLE WHAT HAPPENS AFTER SUBMIT
   
