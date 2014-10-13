@@ -22,7 +22,7 @@ var root = (process.env.CONTEXT === 'local'? '/dev' : '/dist');
 app.use(express.static(__dirname + root));
 
 app.get('/gate/business/:name/:title/:company/:email/:employees', function(req, res) {
-	getData('http://www.terrapass.com/tpcalc.services/csv/form_bus_A.php?'
+	getData('http://www.terrapass.com/tpcalc.services/gate/business.php?'
 		+'name='+req.params.name
 		+'&title='+req.params.title
 		+'&company='+req.params.company
@@ -33,7 +33,7 @@ app.get('/gate/business/:name/:title/:company/:email/:employees', function(req, 
 });
 
 app.get('/gate/events/:name/:event/:company/:email/:phone', function(req, res) {
-	getData('http://www.terrapass.com/tpcalc.services/csv/form_event_A.php?'
+	getData('http://www.terrapass.com/tpcalc.services/gate/events.php?'
 		+'name='+req.params.name
 		+'&event='+req.params.event
 		+'&company='+req.params.company

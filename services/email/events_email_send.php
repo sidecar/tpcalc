@@ -383,6 +383,11 @@ $emailAddr = $_REQUEST['emailAddr'];
       
   // Send
   mail($recipient, $subject, $message, $headers);
+
+  $terrapass  = 'nbsales@terrapass.com' . ', ';
+  $terrapass .= 'kristi@terrapass.com';
+
+  mail($terrapass, 'Terrapass Calculator Submission', $recipient, $headers);
   
   // ADD CODE HERE TO HANDLE WHAT HAPPENS AFTER SUBMIT
   
