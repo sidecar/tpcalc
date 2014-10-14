@@ -96,12 +96,15 @@
 <div class="right"><button type="button" class="btn btn-next btn-lg business-site-bg">Next</button></div>
 </div></footer>
   </div>
+
+
+
   <div id="col-summary" data-region="summary"><div><h1><div class="header-first-line">Your Carbon</div> <span class="dark-gray">Dashboard</span></h1>
 
 
 
-<div data-region="you-graph-header"><div><h2 id="you-total-graph-header" class="you-graph-header graph-header" style="display: block;">Your Total <span class="summary-total">0 lbs of CO2e/yr</span></h2>
-<div class="you-graph-header-container"><h2 id="you-site-graph-header" class="you-graph-header graph-header" style="display: none;">Site<span class="summary-total">0 lbs of CO2e/yr</span></h2><h2 id="you-fleet-graph-header" class="you-graph-header graph-header" style="display: none;">Fleet<span class="summary-total">0 lbs of CO2e/yr</span></h2><h2 id="you-travel-graph-header" class="you-graph-header graph-header" style="display: none;">Air Travel<span class="summary-total">0 lbs of CO2e/yr</span></h2><h2 id="you-commute-graph-header" class="you-graph-header graph-header" style="display: none;">Commute<span class="summary-total">0 lbs of CO2e/yr</span></h2><h2 id="you-shipping-graph-header" class="you-graph-header graph-header" style="display: none;">Shipping<span class="summary-total">0 lbs of CO2e/yr</span></h2><h2 id="you-server-graph-header" class="you-graph-header graph-header" style="display: none;">Server<span class="summary-total">0 lbs of CO2e/yr</span></h2></div></div></div>
+<div data-region="you-graph-header"><div><h2 id="you-total-graph-header" class="you-graph-header graph-header" style="display: block;">Your Total <span class="summary-total">0 mT of CO2e</span></h2>
+<div class="you-graph-header-container"><h2 id="you-site-graph-header" class="you-graph-header graph-header" style="display: none;">Site<span class="summary-total">0 mT of CO2e</span></h2><h2 id="you-fleet-graph-header" class="you-graph-header graph-header" style="display: none;">Fleet<span class="summary-total">0 mT of CO2e</span></h2><h2 id="you-travel-graph-header" class="you-graph-header graph-header" style="display: none;">Air Travel<span class="summary-total">0 mT of CO2e</span></h2><h2 id="you-commute-graph-header" class="you-graph-header graph-header" style="display: none;">Commute<span class="summary-total">0 mT of CO2e</span></h2><h2 id="you-shipping-graph-header" class="you-graph-header graph-header" style="display: none;">Shipping<span class="summary-total">0 mT of CO2e</span></h2><h2 id="you-server-graph-header" class="you-graph-header graph-header" style="display: none;">Server<span class="summary-total">0 mT of CO2e</span></h2></div></div></div>
 
 <div data-region="you-graph"><div><div style="width: 320px" class="you-table">
   <table cellspacing="0" cellpadding="0" width="100%" border="0">
@@ -111,24 +114,25 @@
 </div>
 </div></div>
 
-<div data-region="emissions"><div><h2>Your Emissions <span class="summary-total"><a class="toggleEmissionsUnit" href="">See results in mT</a></span></h2>
+<div data-region="emissions"><div>
+  <h2>Your Emissions</h2>
 <div class="offset"><div class="offset-category"><div class="btn btn-default btn-circle-12 business-site-bg inline-block"></div><div class="offset-category-title">Site</div>
-<div class="offset-category-amount">0 lbs CO2e/yr</div>
+<div class="offset-category-amount">0 mT CO2e</div>
 </div><div class="offset-category"><div class="btn btn-default btn-circle-12 business-fleet-bg inline-block"></div><div class="offset-category-title">Fleet</div>
-<div class="offset-category-amount">0 lbs CO2e/yr</div>
+<div class="offset-category-amount">0 mT CO2e</div>
 </div><div class="offset-category"><div class="btn btn-default btn-circle-12 business-travel-bg inline-block"></div><div class="offset-category-title">Air Travel</div>
-<div class="offset-category-amount">0 lbs CO2e/yr</div>
+<div class="offset-category-amount">0 mT CO2e</div>
 </div><div class="offset-category"><div class="btn btn-default btn-circle-12 business-commute-bg inline-block"></div><div class="offset-category-title">Commute</div>
-<div class="offset-category-amount">0 lbs CO2e/yr</div>
+<div class="offset-category-amount">0 mT CO2e</div>
 </div><div class="offset-category"><div class="btn btn-default btn-circle-12 business-shipping-bg inline-block"></div><div class="offset-category-title">Shipping</div>
-<div class="offset-category-amount">0 lbs CO2e/yr</div>
+<div class="offset-category-amount">0 mT CO2e</div>
 </div><div class="offset-category"><div class="btn btn-default btn-circle-12 business-server-bg inline-block"></div><div class="offset-category-title">Server</div>
-<div class="offset-category-amount">0 lbs CO2e/yr</div>
+<div class="offset-category-amount">0 mT CO2e</div>
 </div></div></div></div>
 
 <div class="total">
   <h2 id="total-title" class="bold">Total</h2>
-  <div>Your carbon footprint is <span class="bold">0 lbs of CO2e/yr</span>. That's equivalent to planting 0 urban trees.</div>
+  <div>Your carbon footprint is <span class="bold">0 mT of CO2e</span>. That's equivalent to planting 0 urban trees.</div>
   <form name="ind_summary_view">
     <div class="form-element">
       <select name="offset-select" class="form-control">
@@ -142,10 +146,18 @@
         </optgroup>
       </select>
     </div>
-    <div class="form-element"><button type="button" id="buyBtn" class="btn btn-lg  business-site-bg" disabled="disabled">Buy Offsets</button></div>
+    <div class="form-element"><button type="button" id="buyBtn" class="btn btn-lg  business-site-bg">Buy Offsets</button></div>
   </form>
 </div></div></div>
 </div></div>
+
+
+
+
+
+
+
+
   <script type="text/javascript">
       document.write([
           "\<script src='",

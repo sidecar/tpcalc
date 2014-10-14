@@ -6,7 +6,7 @@ var _ = require('underscore')
 var Calculator = Backbone.Model.extend({ 
   defaults: {
     totalEmissions: 0,
-    emissionsUnit: 'pounds',
+    emissionsUnit: 'tonnes',
   },
   initialize: function() {
     this.on('change', this.calculateEmissions, this);
