@@ -1,15 +1,17 @@
 // vendor
-var xtend = require('xtend');
-var dom = require('dom');
-var _ = require('underscore');
+var xtend = require('xtend')
+, dom = require('dom')
+, _ = require('underscore')
+, $ = require('jquery');
+
 
 
 var defaults = {
     source: [],
-    items: 8,
+    items: 10,
     menu: '<ul class="typeahead hidden"></ul>',
     item: '<li><a href="#"></a></li>',
-    minLength: 3
+    minLength: 1
 }
 
 var Typeahead = function (element, options) {
@@ -278,6 +280,7 @@ proto.blur = function (e) {
 }
 
 proto.click = function (e) {
+  console.log('target = ', e.currentTarget);
     e.stopPropagation();
     e.preventDefault();
     this.select();
