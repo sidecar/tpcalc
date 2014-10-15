@@ -11,62 +11,37 @@ var zipSubregion = require('./zip-subregions');
 
 var venue = {
 
-	c : 				constants,
-	zipCode : 			94111,
-	venueSize : 		500,	// square feet
-	days : 				2,
-	CBECSelectricity : 	53.87,
-	CBECSgas : 			0.054584372,
+  c :         constants,
+  zipCode :       94111,
+  venueSize :     500,  // square feet
+  days :        2,
+  CBECSGreenE: 0.049,
 
-	electricity : function() {	// kWh/room
+  egridSubregion : function(zip) {
+    
+    var zip = ( zip == undefined ) ? this.zipCode : zip;
+    return zipSubregion[zip]['egridSubregion'];
 
-		var kwhRoom = this.CBECSelectricity * this.venueSize/this.c.kwhtobtu * 1000 / 365;
-		return kwhRoom;
+  },
+  
+  electricityFactor : function(zip) {
 
-	},
+    var factor = this.c.egridSubregionGas[this.egridSubregion(zip)];
+    return factor;
 
-	gas : function() {	// btu/room
+  },
 
-		var btuRoom = this.CBECSgas * 1000 * this.venueSize / 365;
-		return btuRoom;
+  gasFactor :   0.055,
 
-	},
+  totalEmissions : function() {
+    
+    var CO2e = (this.venueSize * this.days * this.electricityFactor(this.zipCode).CO2e * this.CBECSGreenE) / 2204.6;
+    console.log('CO2e', CO2e);
+    return CO2e;
 
-	egridSubregion : function(zip) {
-		
-		var zip = ( zip == undefined ) ? this.zipCode : zip;
-		return zipSubregion[zip]['egridSubregion'];
-
-	},
-	
-	electricityFactor : function(zip) {
-
-		var factor = this.c.egridSubregionGas[this.egridSubregion(zip)];
-		return factor;
-
-	},
-
-	gasFactor : 	0.055,
-
-	totalEmissions : function() {
-
-		var elec 		= this.electricity();
-		var eFactor 	= this.electricityFactor(this.zipCode);
-		var gas 		= this.gas();
-		var gasFactor 	= this.gasFactor;
-
-		CO2e = this.venueSize * this.days * 0.001 * ( elec * eFactor.CO2e + gas * gasFactor * 0.001);
-		return CO2e;
-
-	}
+  }
 
 }
 
 module.exports = venue;
 
-// console.log('\nVENUE');
-// venue.zipCode = '94111';
-// venue.venueSize = 500;
-// venue.days = 2;
-// console.log('venue',venue);
-// console.log('venue.totalEmissions',venue.totalEmissions());

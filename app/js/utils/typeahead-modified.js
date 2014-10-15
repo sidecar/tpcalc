@@ -95,6 +95,7 @@ proto.show = function () {
 
 // hide the popup menu
 proto.hide = function () {
+    console.log("hiding");
     this.menu.addClass('hidden');
     this.shown = false;
     return this;
@@ -110,7 +111,7 @@ proto.lookup = function (event) {
     }
 
     if (self.source instanceof Function) {
-        self.source(self.query, self.process.bind(self));
+        self.source(self.query, self.process.bind(self), self.hide.bind(self));
     }
     else {
         self.process(self.source);
@@ -125,6 +126,7 @@ proto.process = function (items) {
     items = self.sorter(items);
 
     if (!items.length) {
+        //console.log("no items found");
       return self.shown ? self.hide() : self
     }
 
@@ -132,6 +134,8 @@ proto.process = function (items) {
 }
 
 proto.matcher = function (item) {
+    // console.log("proto.mathcher() item to match", item);
+    // console.log("current.query", this.query.toLowerCase());
   return ~item.displayString.toLowerCase().indexOf(this.query.toLowerCase())
 }
 
@@ -248,6 +252,7 @@ proto.keypress = function (e) {
 }
 
 proto.keyup = function (e) {
+
     var self = this;
 
     switch(e.keyCode) {
@@ -280,7 +285,6 @@ proto.blur = function (e) {
 }
 
 proto.click = function (e) {
-  console.log('target = ', e.currentTarget);
     e.stopPropagation();
     e.preventDefault();
     this.select();

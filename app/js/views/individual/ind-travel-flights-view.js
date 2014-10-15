@@ -91,9 +91,10 @@ module.exports = Marionette.ItemView.extend({
       } 
     }
 
-    function typeAheadCallback(query, result) {
+    function typeAheadCallback(query, result, noMatchesFoundCallback) {
       searchJSON(function(err, arrayOfMatches) {
         if (err) {
+            noMatchesFoundCallback();
             return err;
         } else {
           var resultsArray = _.map(arrayOfMatches, function(obj) {
@@ -111,12 +112,12 @@ module.exports = Marionette.ItemView.extend({
 
     var fromInput = this.ui.from.get(0);
     var typeAheadFrom = Typeahead(fromInput , {
-      source: function(query, result) { typeAheadCallback(query, result); }
+      source: function(query, result, noMatchesFoundCallback) { typeAheadCallback(query, result, noMatchesFoundCallback); }
     });
 
     var toInput = this.ui.to.get(0);
     var typeAheadTo = Typeahead(toInput , {
-      source: function(query, result) { typeAheadCallback(query, result); }
+      source: function(query, result, noMatchesFoundCallback) { typeAheadCallback(query, result, noMatchesFoundCallback); }
     });
 
   },
