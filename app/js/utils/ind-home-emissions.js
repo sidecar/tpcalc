@@ -13,7 +13,7 @@ var zipSubregion = require('./zip-subregions');
 var homeEnergyPrices = require('./home-energy-prices');
 
 var home = {
-	
+
 	c : constants,
 	zipCode : '93551',
 	defaultZip: '93551',
@@ -117,11 +117,11 @@ var home = {
 	residentialCost : function(fuelType) {
 
 		if ( fuelType != undefined ) {
-		
-			if ( !this.isValidFuelType(fuelType) ) { return false; }
-		
 
-		} 
+			if ( !this.isValidFuelType(fuelType) ) { return false; }
+
+
+		}
 
 		cost = {
 
@@ -140,7 +140,7 @@ var home = {
 	isValidFuelType : function(fuelType) {
 
 		if ( fuelType == undefined ) { return false; }
-	
+
 		if ( this.fuelTypes.indexOf(fuelType.toLowerCase()) == -1 ) { return false; }
 		return true;
 
@@ -155,7 +155,7 @@ var home = {
 	annualUsage : function(fuelType) {
 
 		if ( !this.isValidFuelType(fuelType) ) { return false; }
-	
+
 		var fuel = this.fuel[fuelType];
 		var usage = ( fuel.method == 'dollars' ) ? this.annualUsageByDollars(fuelType) : this.annualUsageByEnergy(fuelType);
 		return usage;
@@ -169,7 +169,7 @@ var home = {
 		var amount = fuel.amount;
 		var monthMultiplier = ( fuel.interval = 'year' ) ? 1 : 12;
 		var units;
-		
+
 		switch(fuelType.toLowerCase()) {
 
 			case 'electricity':
@@ -178,6 +178,7 @@ var home = {
 
 			case 'naturalgas':
 				usage = fuel.amount * monthMultiplier * this.c.standardCubicFeet[fuel.units]/1000; // Convert to kcf from scf
+				console.log('fuel.units = ' +fuel.units);
 				break;
 
 			case 'heatingoil':
@@ -211,10 +212,10 @@ var home = {
 		var amount = fuel.amount;
 		var cost = this.residentialCost();
 		var monthMultiplier = ( fuel.interval == 'year' ) ? 1 : 12;
-	
+
 		return amount / cost[fuelType] * monthMultiplier;
-		
-	}, 
+
+	},
 
 	homeEnergyFactors : function() {
 
@@ -274,16 +275,16 @@ var home = {
 		var annualUsage = this.annualUsage();
 		var oFuelType;
 
-	
+
 		if ( fuelType != undefined ) {
-	
+
 
 			if ( !this.isValidFuelType(fuelType) ) { return false; }
 			oFuelType = this.fuel[fuelType];
 
 		} else {
-	
-		
+
+
 			fuelType = this.validatedFuelType(fuelType);
 			oFuelType = '';
 		}
@@ -329,7 +330,7 @@ var home = {
 
 		}
 
-	
+
 		return ( fuelType == undefined ) ? emissionsByGas : emissionsByGas[fuelType];
 
 	},
@@ -338,9 +339,9 @@ var home = {
 
 		var oFuelType;
 		var CO2e;
-	
+
 		var homeEmissions = 	this.homeEmissionsByGas();
-	
+
 		var eElectricity = 		homeEmissions.electricity;
 		var eNaturalGas = 		homeEmissions.naturalGas;
 		var eHeatingOil = 		homeEmissions.heatingOil;
@@ -354,7 +355,7 @@ var home = {
 			oFuelType = this.fuel[fuelType];
 
 		} else {
-		
+
 			fuelType = this.validatedFuelType(fuelType);
 			oFuelType = '';
 

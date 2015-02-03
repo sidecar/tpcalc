@@ -82,7 +82,7 @@ module.exports = Marionette.ItemView.extend({
   validateField: function(event) {
     var $target = $(event.target);
     var val = $target.val();
-    if(validation.isDigit(val)) {       
+    if(validation.isDigit(val)) {
       this.displaySuccess($target);
     } else {
       this.displayError($target);
@@ -111,8 +111,8 @@ module.exports = Marionette.ItemView.extend({
       .html(' must contain a number');
   },
   getNextInputView: function() {
-    var view = this;  
-    if(!view.validateForm()) return; 
+    var view = this;
+    if(!view.validateForm()) return;
 
     var electricityAmount = view.ui.electricityAmountInput.val()
     , electricityUnit = view.ui.electricityUnitSelect.val()
@@ -141,6 +141,8 @@ module.exports = Marionette.ItemView.extend({
     home.fuel.naturalGas.amount = naturalGasAmount;
     home.fuel.naturalGas.method = (naturalGasUnit === 'dollars') ? 'dollars' : 'energy' ;
     home.fuel.naturalGas.interval = naturalGasInterval;
+    console.log('home.fuel.naturalGas = ');
+    console.log(home.fuel.naturalGas);
     home.fuel.heatingOil.amount = heatingOilAmount;
     home.fuel.heatingOil.method = (heatingOilUnit === 'dollars') ? 'dollars' : 'energy' ;
     home.fuel.heatingOil.interval = heatingOilInterval;
