@@ -5,10 +5,39 @@ var $ = require('jquery')
 
 var defaultTemplate = require('../../templates/individual/ind-vehicle-default-template.hbs')
 
-module.exports = Marionette.ItemView.extend({ 
+module.exports = Marionette.ItemView.extend({
   template: defaultTemplate,
   ui: {
     vehicleTypeSelect: 'select[name="vehicle_type"]'
+  },
+  validateForm: function() {
+    if(this.ui.vehicleTypeSelect.val()) {
+      this.displaySuccess($('select[name="vehicle_type"]'));
+    } else {
+      this.displayError($('select[name="vehicle_type"]'));
+      return false;
+    }
+    return true;
+  },
+  displaySuccess: function($elem) {
+    $elem.parent()
+      .prev('label')
+      .html(function() {
+          return $(this).data('default-label');
+        })
+      .parent('div')
+      .addClass('has-success')
+      .removeClass('has-error');
+  },
+  displayError: function($elem) {
+    $elem.parent()
+      .prev('label')
+      .html(function() {
+          return $(this).data('error-msg');
+        })
+      .parent('div')
+      .addClass('has-error')
+      .removeClass('has-success');
   },
   onShow: function() {
     this.vehicle = this.category.get('currentVehicle');
@@ -22,12 +51,13 @@ module.exports = Marionette.ItemView.extend({
     }
   },
   getNextInputView: function() {
-    var oldVehicleType = this.vehicle.get('vehicleType')
-    , newVehicleType = this.ui.vehicleTypeSelect.val();
-    if(oldVehicleType !== newVehicleType) {
-      this.vehicle.set({vehicleType: newVehicleType});
+    if(this.validateForm()) {
+      var oldVehicleType = this.vehicle.get('vehicleType')
+      , newVehicleType = this.ui.vehicleTypeSelect.val();
+      if(oldVehicleType !== newVehicleType) {
+        this.vehicle.set({vehicleType: newVehicleType});
+      }
+      App.vent.trigger('showInputView', newVehicleType);
     }
-    App.vent.trigger('showInputView', newVehicleType);
-    return;
   }
 });

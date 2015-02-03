@@ -100,6 +100,11 @@ http://feedback.livereload.com/knowledgebase/articles/86180-how-do-i-add-the-scr
 	gulp build
 Produces a complete project in the /dist directory
 
+## Updating Staging
+Currently pushing hosted on OpenShift
+Push to staging via Git with
+	git push openshift masterß
+
 ## Features
 
 ## Mobile
