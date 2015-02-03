@@ -16,7 +16,7 @@ module.exports = function(Calc) {
     , currentCategorySlug = currentCategory.get('slug')
     , currentViewModel = currentCategory.get('currentInputView')
     , previousViewModel = currentViewModel.get('previousViewModel');
-    if(previousViewModel === undefined){ 
+    if(previousViewModel === undefined){
       Calc.controller.goToPrevCategory();
       return;
     } else {
@@ -43,16 +43,16 @@ module.exports = function(Calc) {
     Calc.controller.goToPrevCategory();
   });
 
-  App.vent.on('category', function(event) { 
+  App.vent.on('category', function(event) {
     var newCategorySlug = $(event.target).data('category');
     var oldCategory = Calc.model.get('currentCategory');
     var oldCategorySlug = oldCategory.get('slug');
-    if(newCategorySlug === oldCategorySlug) return; 
+    if(newCategorySlug === oldCategorySlug) return;
     var newCategory = Calc.model.getCategoryBySlug(newCategorySlug);
     var currentViewModel = newCategory.getCurrentInputView();
     Calc.model.set({currentCategory: newCategory});
     App.router.navigate(Calc.baseRoute+'/'+newCategorySlug+'/'+currentViewModel.get('name'), {trigger: true});
-  });  
+  });
 
   App.vent.on('methodologyModal', function(topic) {
     $('#methodologyModal').modal('toggle');
@@ -76,15 +76,15 @@ module.exports = function(Calc) {
     } else {
       var url = 'http://www.terrapass.com/shop/';
     }
-    window.location = url;
-  });  
+    window.open(url);
+  });
 
-  App.vent.on('errorAlert', function(msg) { 
+  App.vent.on('errorAlert', function(msg) {
     window.alert(msg);
     return;
   });
 
   App.vent.on('toggleEmissionsUnit', function() {
     Calc.model.toggleEmissionsUnit();
-  });  
+  });
 };
