@@ -11,14 +11,14 @@ Create a namespace, if you haven't already do so for example 'sidecar'
 	rhc domain create <yournamespace>
 Create a nodejs application (you can name it anything via -a) and choose node version with -t
 	rhc app create -a <yourappname>  -t nodejs-0.10
-Open shift will create a local repo called '<yourappname>' 
+Open shift will create a local repo called '<yourappname>'
 Merge the github repo as the upsteam of the existing local repo
 
 	cd tpcalc
 	git remote add upstream -m master git://github.com/sidecar/tpcalc.git.git
 	git pull -s recursive -X theirs upstream master
 
-Optionally, specify the custom version of Node.js you want to run with (Default is v0.10.25). 
+Optionally, specify the custom version of Node.js you want to run with (Default is v0.10.25).
 If you want to use a later version of Node (example v0.11.11), you can do so by just writing it at the end of the NODEJS_VERSION file and committing that change.
 
 echo 0.11.11 >> .openshift/markers/NODEJS_VERSION
@@ -31,21 +31,21 @@ This application will then run at http://<yourappname>-<yournamespace>.rhcloud.c
 ( See env @ http://<yourappname>-<yourappname>.rhcloud.com/env )
 
 
-## Build concerns 
+## Build concerns
 I based the build concerns for this project on http://davidtucker.net/articles/automating-with-grunt/
 note: This list can and should be edited/ammeded and is not 100% fufilled
-- lint JavaScript code 
+- lint JavaScript code
 - compile my SASS/Compass code to a standard file that includes the Bootstrap framework.
-- utilize Browserify to manage dependencies between different logic groups of my JavaScript code using CommonJS modules and compile that to a single JavaScript file that I can load for my site. 
-- create a build then launch the preview server 
+- utilize Browserify to manage dependencies between different logic groups of my JavaScript code using CommonJS modules and compile that to a single JavaScript file that I can load for my site.
+- create a build then launch the preview server
 - be able to automatically compile my SASS code when .scss files are changed
-- minify images that are included in my static site after the site is built but before it is deployed to the host. 
+- minify images that are included in my static site after the site is built but before it is deployed to the host.
 - automatically package JavaScript code with Browserify when any of those files in my work directory change
-- be able to automatically compress and minify my JavaScript when building 
+- be able to automatically compress and minify my JavaScript when building
 - minify all CSS files that are compiled from the SASS code before deployment
-- delete the contents of the build directory before I initiate a new build process. 
+- delete the contents of the build directory before I initiate a new build process.
 - Nice to haves:
-- be able to utilize a hash of my CSS/JS files' filename to help ensure that the viewers of my site don't end up loaded an older cached version of these files. 
+- be able to utilize a hash of my CSS/JS files' filename to help ensure that the viewers of my site don't end up loaded an older cached version of these files.
 - be able to deploy to both a staging or production environment
 
 ## Tech Stack
@@ -69,7 +69,7 @@ note: there is another way to do handlebars templateting in Marionette, see 'Bui
 ## Project Setup
 
 ### Install node
-- If you're using the excellent homebrew package manager, you can install node with one command: 
+- If you're using the excellent homebrew package manager, you can install node with one command:
 	brew install node
 - Or follow the directions here: http://howtonode.org/how-to-install-nodejs
 
@@ -96,17 +96,13 @@ http://feedback.livereload.com/knowledgebase/articles/86180-how-do-i-add-the-scr
 
 ## NPM packaged dependencies are listed in package.json, dev dependencies are those packages which are used only in developemnet such as those for the gulp tasks or for testing
 
-## Testing
-Test suite is built with Jasmine and the test runner is Karma
-	gulp test
-
 ## Building
 	gulp build
 Produces a complete project in the /dist directory
 
 ## Features
 
-## Mobile 
+## Mobile
 	<meta name="viewport"  content="width=490">
 Using the viewport meta tag to control layout on mobile browsers
 https://developer.mozilla.org/en-US/docs/Mozilla/Mobile/Viewport_meta_tag
