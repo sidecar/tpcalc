@@ -95,7 +95,6 @@ proto.show = function () {
 
 // hide the popup menu
 proto.hide = function () {
-    console.log("hiding");
     this.menu.addClass('hidden');
     this.shown = false;
     return this;

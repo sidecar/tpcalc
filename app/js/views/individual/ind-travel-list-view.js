@@ -23,11 +23,11 @@ module.exports = Marionette.CompositeView.extend({
     var currentFlight = this.category.get('currentFlight');
     this.collection.add(currentFlight);
     var totalDistance = this.collection.getTotalDistance();
-    var air = require('../../utils/ind-air-emissions');
-    air.setCalculateBy('itinerary');
-    air.itinerary.annMiles = totalDistance;
-    air.useRFI = this.category.get('useRFI');
-    var totalEmissions = air.totalEmissions('itinerary');
+    var flightEmissionsCalculator = require('../../utils/ind-air-emissions');
+    flightEmissionsCalculator.setCalculateBy('itinerary');
+    flightEmissionsCalculator.itinerary.annMiles = totalDistance;
+    flightEmissionsCalculator.useRFI = this.category.get('useRFI');
+    var totalEmissions = flightEmissionsCalculator.totalEmissions('itinerary');
     this.category.set({totalEmissions: totalEmissions});
     // in order to get the newly added vehicle rendered call...
     this.render();

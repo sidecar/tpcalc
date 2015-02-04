@@ -17,7 +17,6 @@ module.exports = Marionette.ItemView.extend({
     from: '[name="from"]'
   },
   onShow: function() {
-    console.log('flights');
     var self = this;
     self.utils = utils;
 
@@ -150,16 +149,17 @@ module.exports = Marionette.ItemView.extend({
     }
 
     if(this.flight.validate({from: this.ui.from.val(), to: this.ui.to.val() })) {
-      var from = JSON.parse(this.ui.from.attr('data-object'));
-      var to = JSON.parse(this.ui.to.attr('data-object'));
-      var fromLatitude = from.latitude;
-      var fromLongitude = from.longitude;
-      var toLatitude = to.latitude;
-      var toLongitude = to.longitude;
-      var fromIATA = getSymbol(from);
-      var toIATA = getSymbol(to);
+      var from = JSON.parse(this.ui.from.attr('data-object')),
+        to = JSON.parse(this.ui.to.attr('data-object')),
+        fromLatitude = from.latitude,
+        fromLongitude = from.longitude,
+        toLatitude = to.latitude,
+        toLongitude = to.longitude,
+        fromIATA = getSymbol(from),
+        toIATA = getSymbol(to),
+        roundTrip = ($('[name="round_trip"]:checked').val() === "true") ? true : false;
       var attrs = {
-        roundTrip: $('[name="round_trip"]:checked').val(),
+        roundTrip: roundTrip,
         fromLatitude: fromLatitude,
         fromLongitude: fromLongitude,
         toLatitude: toLatitude,
