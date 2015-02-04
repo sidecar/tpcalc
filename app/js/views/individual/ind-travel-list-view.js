@@ -26,6 +26,7 @@ module.exports = Marionette.CompositeView.extend({
     var air = require('../../utils/ind-air-emissions');
     air.setCalculateBy('itinerary');
     air.itinerary.annMiles = totalDistance;
+    air.useRFI = this.category.get('useRFI');
     var totalEmissions = air.totalEmissions('itinerary');
     this.category.set({totalEmissions: totalEmissions});
     // in order to get the newly added vehicle rendered call...

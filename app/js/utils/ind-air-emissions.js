@@ -39,7 +39,7 @@ var air = {
 		var obj = this.calculateBy;
 		for (var prop in obj ) {
 			if ( obj.hasOwnProperty(prop)){
-			
+
 				obj[prop] = ( prop.toLowerCase() == by.toLowerCase() ) ? 1 : 0;
 			}
 		}
@@ -108,7 +108,7 @@ var air = {
 		jetFuel : 		0,
 		aviationGas : 	0
 
-	}, 
+	},
 
 	itinerary : {
 
@@ -152,7 +152,7 @@ var air = {
 					longBusiness : 	oLongBusiness.annMiles,
 					longFirst :     oLongFirst.annMiles
 				}
-			
+
 				break;
 
 			case 'flightCount': 	// Do nothing. 'annMiles' has already been defined.
@@ -165,7 +165,7 @@ var air = {
 					longBusiness : 	oLongBusiness.annFlights * 2 * oLongBusiness.km * this.c.miletokm,
 					longFirst : 	oLongFirst.annFlights * 2 * oLongFirst.km * this.c.miletokm
 				}
-			
+
 				break;
 
 			case 'fuel': 			// We don't even need a mileage calculation for this, bruh! We're using gallons.
@@ -185,7 +185,7 @@ var air = {
 	totalEmissions : function(flightMethod) {
 
 		var oFlightMethod = ( this.isValidFlightMethod(flightMethod) ) ? this[flightMethod] : '';
-		var rfindex = ( this.useRFI == 1 ) ? this.c.rfi : 1;
+		var rfindex = ( this.useRFI === true ) ? this.c.rfi : 1;
 		var calculateBy = this.getCalculateBy();
 		var CO2e;
 		var fShortHaul = 	this.c.transportFactors.shortHaul/this.c.miletokm,
@@ -207,9 +207,9 @@ var air = {
 					medEcon : 		this.flightAnnMiles('medEcon') * fMedEcon/1000 * rfindex,
 					medFirst : 		this.flightAnnMiles('medFirst') * fMedFirst/1000 * rfindex,
 					longEcon : 		this.flightAnnMiles('longEcon') * fLongEcon/1000 * rfindex,
-					longEconPlus : 	this.flightAnnMiles('longEconPlus') * fLongEconPlus/1000 * rfindex,	
-					longBusiness : 	this.flightAnnMiles('longBusiness') * fLongBusiness/1000 * rfindex,	
-					longFirst : 	this.flightAnnMiles('longFirst') * fLongFirst/1000 * rfindex	
+					longEconPlus : 	this.flightAnnMiles('longEconPlus') * fLongEconPlus/1000 * rfindex,
+					longBusiness : 	this.flightAnnMiles('longBusiness') * fLongBusiness/1000 * rfindex,
+					longFirst : 	this.flightAnnMiles('longFirst') * fLongFirst/1000 * rfindex
 				}
 				break;
 

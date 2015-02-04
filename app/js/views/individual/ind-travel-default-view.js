@@ -22,7 +22,7 @@ module.exports = Marionette.ItemView.extend({
   },
   getNextInputView: function() {
     var method = $('[name="method"]:checked').val();
-    var useRFI = ($('[name="use_rfi"]:checked').val() == 'true') ? true : false ;
+    var useRFI = ($('[name="use_rfi"]:checked').val() === 'true') ? true : false ;
     this.category.set({
       method: method,
       useRFI: useRFI
