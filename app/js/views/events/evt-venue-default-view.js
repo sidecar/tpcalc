@@ -57,7 +57,7 @@ module.exports = Marionette.ItemView.extend({
   validateZip: function(event) {
     var $target = $(event.target);
     var val = $target.val();
-    if(validation.zip(val)) {       
+    if(validation.zip(val)) {
       this.displaySuccess($target);
     } else {
       this.displayError($target);
@@ -66,7 +66,7 @@ module.exports = Marionette.ItemView.extend({
   validateHasDigit: function(event) {
     var $target = $(event.target);
     var val = $target.val();
-    if(validation.isDigit(val)) {       
+    if(validation.isDigit(val)) {
       this.displaySuccess($target);
     } else {
       this.displayError($target);
@@ -93,8 +93,8 @@ module.exports = Marionette.ItemView.extend({
       .removeClass('has-success');
   },
   getNextInputView: function() {
-    var view = this;  
-    if(!view.validateForm()) return; 
+    var view = this;
+    if(!view.validateForm()) return;
 
     var zip = view.ui.zipInput.val()
     , squareFeet = view.ui.squareFeetInput.val()
@@ -102,7 +102,7 @@ module.exports = Marionette.ItemView.extend({
 
     var venue = require('../../utils/evt-venue-emissions')
     venue.zipCode = zip;
-    venue.size = squareFeet;
+    venue.venueSize = squareFeet;
     venue.days = days;
 
     var totalEmissions = venue.totalEmissions();

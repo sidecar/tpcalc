@@ -18,12 +18,12 @@ var venue = {
   CBECSGreenE: 0.049,
 
   egridSubregion : function(zip) {
-    
+
     var zip = ( zip == undefined ) ? this.zipCode : zip;
     return zipSubregion[zip]['egridSubregion'];
 
   },
-  
+
   electricityFactor : function(zip) {
 
     var factor = this.c.egridSubregionGas[this.egridSubregion(zip)];
@@ -34,9 +34,13 @@ var venue = {
   gasFactor :   0.055,
 
   totalEmissions : function() {
-    
+    // console.log('this.zipCode = ' + this.zipCode);
+    // console.log('this.electricityFactor(this.zipCode).CO2e = ');
+    // console.log(this.electricityFactor(this.zipCode).CO2e);
+    // console.log('this.venueSize = ');
+    // console.log(this.venueSize);
     var CO2e = (this.venueSize * this.days * this.electricityFactor(this.zipCode).CO2e * this.CBECSGreenE) / 2204.6;
-    console.log('CO2e', CO2e);
+    // console.log('evt-venue-emissions totalEmissions() CO2e = ', CO2e);
     return CO2e;
 
   }
