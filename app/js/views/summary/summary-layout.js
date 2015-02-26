@@ -1,4 +1,4 @@
-var $ = require('jquery') 
+var $ = require('jquery')
 , Marionette = require('backbone.marionette')
 , App = require('../../app')
 , template = require('../../templates/summary/summary-layout-template.hbs')
@@ -43,11 +43,11 @@ module.exports = Marionette.Layout.extend({
     var YouGraphHeaderView = require('../../views/summary/you-graph-header-view')
     var YouGraphView = require('../../views/summary/you-graph-view')
     var EmissionsView = require('../../views/summary/emissions-view');
-    
+
     var youGraphHeaderView = new YouGraphHeaderView({
       model: calcModel,
       collection: calcModel.get('categories')
-    });   
+    });
 
     var youGraphView = new YouGraphView({
       model: calcModel,
@@ -56,19 +56,19 @@ module.exports = Marionette.Layout.extend({
 
     var emissionsView = new EmissionsView({
       model: calcModel,
-      collection: calcModel.get('categories') 
+      collection: calcModel.get('categories')
     });
 
-    this.youGraphHeaderRegion.show(youGraphHeaderView); 
-    this.youGraphRegion.show(youGraphView); 
-    this.emissionsRegion.show(emissionsView); 
+    this.youGraphHeaderRegion.show(youGraphHeaderView);
+    this.youGraphRegion.show(youGraphView);
+    this.emissionsRegion.show(emissionsView);
   },
   onShow: function() {
     if(this.model.get('slug') !== 'individual') $("#us-avg-graph").remove();
     $('.us-avg-graph-header').hide();
     $('#us-avg-total-graph-header').show();
     $('.you-graph-header').hide();
-    $('#you-total-graph-header').show();  
+    $('#you-total-graph-header').show();
   },
   onDomRefresh: function() {
     if(this.model.get('slug') !== 'individual') $("#us-avg-graph").remove();
@@ -99,10 +99,6 @@ module.exports = Marionette.Layout.extend({
   },
   serializeData: function(){
 
-    function roundToNearestIncrement(price) {
-
-    }
-
     var multiplier = (this.model.get('emissionsUnit') === 'pounds') ? 2204.622622 : 1
     , unitSymbol = (this.model.get('emissionsUnit') === 'pounds') ? 'lbs' : 'mT'
     , calculatorDisplayName = this.model.get('displayName')
@@ -113,6 +109,8 @@ module.exports = Marionette.Layout.extend({
     , totalEmissions = numeral(this.model.get('totalEmissions')*multiplier).format('0,0')
     , emissionPounds = this.model.get('totalEmissions')*2204.622622
     , emissionPoundsFormatted = numeral(emissionPounds).format('0,0')
+    , yourCarbonFootprint = (calculatorSlug === 'individual') ? emissionPoundsFormatted : totalEmissions
+    , yourCarbonFootprintSymbol = (calculatorSlug === 'individual') ? 'lbs' : 'mT'
     , offsetAllUnits = Math.ceil(emissionPounds/1000)
     , offsetAllPrice = numeral(offsetAllUnits * 5.95).format('$0.00')
     , monthlyOffsetUnits = Math.ceil(emissionPounds/12000) // total/12 mos./1000 lbs
@@ -132,7 +130,7 @@ module.exports = Marionette.Layout.extend({
     }
 
     var productTypeMap = {individual: 'Individuals', business: 'Businesses', events: 'Events'};
- 
+
     return {
       calculatorDisplayName: calculatorDisplayName,
       calculatorSlug: calculatorSlug,
@@ -149,6 +147,8 @@ module.exports = Marionette.Layout.extend({
       usAvgGraphWidth: usAvgGraphWidth,
       productType: productTypeMap[calculatorSlug],
       emissionPounds: emissionPoundsFormatted,
+      yourCarbonFootprint: yourCarbonFootprint,
+      yourCarbonFootprintSymbol: yourCarbonFootprintSymbol,
       offsetAllUnits: offsetAllUnits,
       offsetAllPrice: offsetAllPrice,
       monthlyOffsetPrice: monthlyOffsetPrice

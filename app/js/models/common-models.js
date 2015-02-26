@@ -3,10 +3,10 @@ var _ = require('underscore')
 , Backbone = require('backbone')
 , numeral = require('numeral');
 
-var Calculator = Backbone.Model.extend({ 
+var Calculator = Backbone.Model.extend({
   defaults: {
     totalEmissions: 0,
-    emissionsUnit: 'tonnes',
+    emissionsUnit: 'pounds' //pounds or tonnes
   },
   initialize: function() {
     this.on('change', this.calculateEmissions, this);
@@ -44,7 +44,7 @@ var Calculator = Backbone.Model.extend({
        newListofCats.push(categories.at([catCode - 1]));
     })
     categories.reset(newListofCats);
-  },   
+  },
   getCategoryBySlug: function(slug) {
     var categories = this.get('categories')
     , category = categories.findWhere({slug: slug});
@@ -60,7 +60,7 @@ var Calculator = Backbone.Model.extend({
     var categories = this.get('categories');
     var totalEmissions = 0;
     categories.forEach(function(item){
-      totalEmissions += item.getTotalEmissions(); 
+      totalEmissions += item.getTotalEmissions();
     });
     this.set({totalEmissions: totalEmissions});
   },
@@ -68,7 +68,7 @@ var Calculator = Backbone.Model.extend({
     return this.totalEmissions;
   }
 });
-module.exports.calculator = Calculator;  
+module.exports.calculator = Calculator;
 
 var Category = Backbone.Model.extend({
   defaults: {
@@ -77,7 +77,7 @@ var Category = Backbone.Model.extend({
   initialize: function() {
     this.set({currentInputView: this.get('viewList').first()});
     this.bind('change', function(){this.get('calculator').trigger('change')})
-  },      
+  },
   getCurrentInputView: function() {
     var views = this.get('viewList');
     if(this.get('currentInputView') === undefined) {
@@ -97,10 +97,10 @@ var Category = Backbone.Model.extend({
 });
 module.exports.category = Category;
 
-var Categories = Backbone.Collection.extend({      
+var Categories = Backbone.Collection.extend({
   model: Category
 });
-module.exports.categories = Categories;      
+module.exports.categories = Categories;
 
 var ViewModel = Backbone.Model;
 module.exports.viewModel = ViewModel;

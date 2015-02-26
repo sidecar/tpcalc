@@ -11,10 +11,10 @@ $co2e_venue = intval($_REQUEST['co2e_venue']);
 $co2e_water = intval($_REQUEST['co2e_water']);
 $co2e_meals = intval($_REQUEST['co2e_meals']);
 
-$co2e_total = 
-$co2e_travel + 
-$co2e_venue + 
-$co2e_water + 
+$co2e_total =
+$co2e_travel +
+$co2e_venue +
+$co2e_water +
 $co2e_meals;
 
 $co2e_travel_percentage = ($co2e_travel > 0 ? $co2e_travel/$co2e_total : 0);
@@ -31,7 +31,7 @@ $emailAddr = $_REQUEST['emailAddr'];
 
 ?>
 
-<? 
+<?
 // <style type="text/css">
 // #outlook a {
 //     padding: 0;
@@ -126,7 +126,7 @@ $emailAddr = $_REQUEST['emailAddr'];
 //     Inspired by Campaign Monitor's article on using phone numbers in email: http://www.campaignmonitor.com/blog/post/3571/using-phone-numbers-in-html-email/.
 
 //     Step 1 (Step 2: line 224)
-    
+
 //     a[href^="tel"], a[href^="sms"] {
 //                 text-decoration: none;
 //                 color: black; /* or whatever your want */
@@ -140,7 +140,7 @@ $emailAddr = $_REQUEST['emailAddr'];
 //                 pointer-events: auto;
 //                 cursor: default;
 //             }
-            
+
 //     #address {
 //         color: #FFFFFF !important;
 //         text-decoration: none !important;
@@ -173,7 +173,7 @@ $emailAddr = $_REQUEST['emailAddr'];
 //     #bubbleContent {
 //         line-height: 1.2;
 //     }
-    
+
 //     #address {
 //         color: #FFFFFF !important;
 //         text-decoration: none !important;
@@ -199,35 +199,38 @@ $emailAddr = $_REQUEST['emailAddr'];
 <?php
 
 //START Send Email to selected recipient
-            
+
   ini_set("SMTP", "10.1.2.74");
   ini_set("smtp_port", "25");
-  
+
   $from = 'support@terrapass.com';
   //$recipient = 'jed@swirl.net';
   $recipient = $emailAddr;
   $subject = 'Thank you for calculating your footprint with TerraPass. Here’s your emissions profile.';
-  
+
   $treesSet = '';
   $i=0;
   while($i<$trees) {
-  
+
     $treesSet .= '<img src="http://swirlreview.com/clients/images/terrapass/email/_images/icon_tree_20x32.png" alt="" title="" border="0" style="outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; margin: 0; padding: 0;" />';
-    
+
     $i++;
-  
+
     if($i % 36 == 0) {
       $treesSet .= "<br>";
     }
-    
+
   }
-  
+
   //echo "trees: ".$trees."<br>";
   //echo $treesSet;
   //exit;
-  
+
   $message = '
+  <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
   <html>
+      <head></head>
+  <body>
   <table cellpadding="0" cellspacing="0" border="0" id="backgroundTable" style="border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; line-height: 100%; margin: 0; padding: 0;">
       <tr>
         <td width="1000" style="padding: 20px 18px;"><table width="962" cellpadding="0" cellspacing="0" border="0" align="center" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; padding: 20px 18px; border-collapse:collapse">
@@ -248,9 +251,9 @@ $emailAddr = $_REQUEST['emailAddr'];
               <table cellspacing="0" cellpadding="0" border="0" style="border-collapse:collapse">
               <tr>
                 <td align="left">
-                
+
                 '.$treesSet.'
-                
+
                 </td>
               </tr>
               </table>
@@ -300,7 +303,7 @@ $emailAddr = $_REQUEST['emailAddr'];
                 <tr>
                   <td colspan="3" height="20" style="height: 20px; line-height: 20px;"></td>
                 </tr>
-                
+
               </table></td>
           </tr>
             <tr>
@@ -367,20 +370,20 @@ $emailAddr = $_REQUEST['emailAddr'];
       </tr>
     </table>
     <!-- End of wrapper table -->
-  
+  </body>
   </html>';
-  
+
   $headers = 'From: '.$from."\n".'Reply-To: '.$from. "\r\n" .'X-Mailer: PHP/' . phpversion();
   $headers .= 'MIME-Version: 1.0' . "\r\n";
   $headers .= 'Content-type: text/html; charset=utf-8' . "\r\n";
   //$headers .= 'Cc: '."jed@swirl.net". "\r\n";
-  
+
   // In case any of our lines are larger than 70 characters, we should use wordwrap()
   $message = wordwrap($message, 70);
-  
+
   //echo $message;
   //exit;
-      
+
   // Send
   mail($recipient, $subject, $message, $headers);
 
@@ -388,9 +391,9 @@ $emailAddr = $_REQUEST['emailAddr'];
   $terrapass .= 'kristi@terrapass.com';
 
   mail($terrapass, 'Terrapass Events Calculator Submission', 'The individual calculator was completed by '.$recipient, $headers);
-  
+
   // ADD CODE HERE TO HANDLE WHAT HAPPENS AFTER SUBMIT
-  
+
 //END Send Email to selected recipient
 
 ?>
