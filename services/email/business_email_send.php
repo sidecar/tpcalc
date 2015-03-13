@@ -214,7 +214,7 @@ $emailAddr = $_REQUEST['emailAddr'];
   $from = 'support@terrapass.com';
   //$recipient = 'jed@swirl.net';
   $recipient = $emailAddr;
-  $subject = 'Thank you for calculating your footprint with TerraPass. Here’s your emissions profile.';
+  $subject = 'Thank you for calculating your footprint with TerraPass. Here is your emissions profile.';
 
   $treesSet = '';
   $i=0;
@@ -235,9 +235,7 @@ $emailAddr = $_REQUEST['emailAddr'];
   //exit;
 
   $message = '
-  <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
   <html>
-      <head></head>
   <body>
   <table cellpadding="0" cellspacing="0" border="0" id="backgroundTable" style="border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; line-height: 100%; margin: 0; padding: 0;">
       <tr>
@@ -397,13 +395,13 @@ $emailAddr = $_REQUEST['emailAddr'];
   </body>
   </html>';
 
-  $headers = 'From: '.$from."\n".'Reply-To: '.$from. "\r\n" .'X-Mailer: PHP/' . phpversion();
-  $headers .= 'MIME-Version: 1.0' . "\r\n";
-  $headers .= 'Content-type: text/html; charset=utf-8' . "\r\n";
+  $headers = 'From: '.$from."\n".'Reply-To: '.$from. "\n" .'X-Mailer: PHP/' . phpversion();
+  $headers .= 'Content-type: text/html; charset=ISO-8859-1' . "\n";
+  $headers .= 'MIME-Version: 1.0' . "\n";
   //$headers .= 'Cc: '."jed@swirl.net". "\r\n";
 
   // In case any of our lines are larger than 70 characters, we should use wordwrap()
-  $message = wordwrap($message, 70);
+  // $message = wordwrap($message, 70);
 
   //echo $message;
   //exit;

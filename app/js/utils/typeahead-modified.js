@@ -10,7 +10,7 @@ var defaults = {
     source: [],
     items: 10,
     menu: '<ul class="typeahead hidden"></ul>',
-    item: '<li><a href="#"></a></li>',
+    item: '<li><a class="typeahead-element" href="#"></a></li>',
     minLength: 1
 }
 
@@ -36,6 +36,8 @@ var Typeahead = function (element, options) {
 var proto = Typeahead.prototype;
 
 proto.constructor = Typeahead;
+
+
 
 // select the current item
 proto.select = function() {
@@ -177,6 +179,12 @@ proto.render = function (items) {
         self.menu.append(item);
     });
 
+    $('.typeahead-element').on('click', function(){
+        self.select()
+        e.stopPropagation();
+        e.preventDefault();
+    })
+
     return this;
 }
 
@@ -251,7 +259,6 @@ proto.keypress = function (e) {
 }
 
 proto.keyup = function (e) {
-
     var self = this;
 
     switch(e.keyCode) {
@@ -284,9 +291,9 @@ proto.blur = function (e) {
 }
 
 proto.click = function (e) {
+    // this.select();
     e.stopPropagation();
     e.preventDefault();
-    this.select();
 }
 
 proto.mouseenter = function (e) {
