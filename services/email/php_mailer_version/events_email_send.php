@@ -1,7 +1,6 @@
 <?php
+  require 'PHPMailer-master/PHPMailerAutoload.php';
 
-/*
-*/
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
@@ -27,186 +26,7 @@ $co2e_venue_pixels = $co2e_venue_percentage*250;
 $co2e_water_pixels = $co2e_water_percentage*250;
 $co2e_meals_pixels = $co2e_meals_percentage*250;
 
-$emailAddr = $_REQUEST['emailAddr'];
-
-?>
-
-<?
-// <style type="text/css">
-// #outlook a {
-//     padding: 0;
-// }
-
-// body {
-//     width: 100%;
-//     margin: 0;
-//     padding: 0;
-// }
-
-// .ExternalClass {
-//     width: 100%;
-// }
-
-// .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {
-//     line-height: 100%;
-// }
-
-// #backgroundTable {
-//     margin: 0;
-//     padding: 0;
-//     width: 100%;
-//     line-height: 100%;
-// }
-// h1, h2, h3, h4, h5, p {
-//     margin: 0;
-//     padding: 0;
-//     font-family: \'Myriad Pro\', \'Lucida Grande\', \'Lucida Sans Unicode\', Arial, sans-serif;
-//     vertical-align: baseline;
-//     -moz-text-size-adjust: none;
-//     -webkit-text-size-adjust: none;
-//     -ms-text-size-adjust: none;
-// }
-// h1 {
-//     color: #124c9e;
-//     font-size: 160px;
-//     font-weight: 100;
-//     letter-spacing: 1px;
-// }
-// h2 {
-//     color: #124c9e;
-//     font-size: 33px;
-//     font-weight: 100;
-//     letter-spacing: 1.4px
-// }
-// h3 {
-//     font-size: 24.5px;
-//     font-weight: bold;
-//     letter-spacing: 9px;
-// }
-// h4 {
-//     font-size: 37px;
-//     font-weight: bold;
-//     letter-spacing: 1.4px
-// }
-// h5 {
-//     font-style: italic;
-//     font-size: 27.14px;
-//     font-weight: 100;
-// }
-// p {
-//     line-height: 1.2;
-//     color: #3c3c3c;
-//     font-size: 14.58px;
-//     font-weight: 100;
-//     letter-spacing: 2px
-// }
-// table td {
-//     border-collapse: collapse;
-// }
-
-// /***************************************************
-// ****************************************************
-// MOBILE TARGETING
-
-// Use @media queries with care.  You should not bring these styles inline -- so it's recommended to apply them AFTER you bring the other stlying inline.
-
-// Note: test carefully with Yahoo.
-// Note 2: Don't bring anything below this line inline.
-// ****************************************************
-// ***************************************************/
-
-// /* NOTE: To properly use @media queries and play nice with yahoo mail, use attribute selectors in place of class, id declarations.
-// table[class=classname]
-// Read more: http://www.campaignmonitor.com/blog/post/3457/media-query-issues-in-yahoo-mail-mobile-email/
-// */
-// @media only screen and (max-device-width: 480px) {
-
-//      A nice and clean way to target phone numbers you want clickable and avoid a mobile phone from linking other numbers that look like, but are not phone numbers.  Use these two blocks of code to "unstyle" any numbers that may be linked.  The second block gives you a class to apply with a span tag to the numbers you would like linked and styled.
-
-//     Inspired by Campaign Monitor's article on using phone numbers in email: http://www.campaignmonitor.com/blog/post/3571/using-phone-numbers-in-html-email/.
-
-//     Step 1 (Step 2: line 224)
-
-//     a[href^="tel"], a[href^="sms"] {
-//                 text-decoration: none;
-//                 color: black; /* or whatever your want */
-//                 pointer-events: none;
-//                 cursor: default;
-//             }
-
-//     .mobile_link a[href^="tel"], .mobile_link a[href^="sms"] {
-//                 text-decoration: default;
-//                 color: orange !important; /* or whatever your want */
-//                 pointer-events: auto;
-//                 cursor: default;
-//             }
-
-//     #address {
-//         color: #FFFFFF !important;
-//         text-decoration: none !important;
-//     }
-// }
-
-// /* More Specific Targeting */
-
-// @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
-//     /* You guessed it, ipad (tablets, smaller screens, etc) */
-
-//     /* Step 1a: Repeating for the iPad */
-//     a[href^="tel"], a[href^="sms"] {
-//                 text-decoration: none;
-//                 color: blue; /* or whatever your want */
-//                 pointer-events: none;
-//                 cursor: default;
-//             }
-
-//     .mobile_link a[href^="tel"], .mobile_link a[href^="sms"] {
-//                 text-decoration: default;
-//                 color: orange !important;
-//                 pointer-events: auto;
-//                 cursor: default;
-//             }
-// }
-
-// @media only screen and (-webkit-min-device-pixel-ratio: 2) {
-//     /* Put your iPhone 4g styles in here */
-//     #bubbleContent {
-//         line-height: 1.2;
-//     }
-
-//     #address {
-//         color: #FFFFFF !important;
-//         text-decoration: none !important;
-//     }
-// }
-
-// /* Following Android targeting from:
-// http://developer.android.com/guide/webapps/targeting.html
-// http://pugetworks.com/2011/04/css-media-queries-for-targeting-different-mobile-devices/  */
-// @media only screen and (-webkit-device-pixel-ratio:.75){
-//     /* Put CSS for low density (ldpi) Android layouts in here */
-// }
-// @media only screen and (-webkit-device-pixel-ratio:1){
-//     /* Put CSS for medium density (mdpi) Android layouts in here */
-// }
-// @media only screen and (-webkit-device-pixel-ratio:1.5){
-//     /* Put CSS for high density (hdpi) Android layouts in here */
-// }
-// </style>
-
-?>
-
-<?php
-
-//START Send Email to selected recipient
-
-  ini_set("SMTP", "10.1.2.74");
-  ini_set("smtp_port", "25");
-
-  $from = 'support@terrapass.com';
-  //$recipient = 'jed@swirl.net';
-  $recipient = $emailAddr;
-  $subject = 'Thank you for calculating your footprint with TerraPass. Here’s your emissions profile.';
+  $submittersEmailAddr = $_REQUEST['emailAddr'];
 
   $treesSet = '';
   $i=0;
@@ -222,12 +42,9 @@ $emailAddr = $_REQUEST['emailAddr'];
 
   }
 
-  //echo "trees: ".$trees."<br>";
-  //echo $treesSet;
-  //exit;
-
   $message = '
   <html>
+  <body>
   <table cellpadding="0" cellspacing="0" border="0" id="backgroundTable" style="border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; line-height: 100%; margin: 0; padding: 0;">
       <tr>
         <td width="1000" style="padding: 20px 18px;"><table width="962" cellpadding="0" cellspacing="0" border="0" align="center" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; padding: 20px 18px; border-collapse:collapse">
@@ -367,30 +184,38 @@ $emailAddr = $_REQUEST['emailAddr'];
       </tr>
     </table>
     <!-- End of wrapper table -->
-
+  </body>
   </html>';
 
-  $headers = 'From: '.$from."\n".'Reply-To: '.$from. "\r\n" .'X-Mailer: PHP/' . phpversion();
-  $headers .= 'MIME-Version: 1.0' . "\r\n";
-  $headers .= 'Content-type: text/html; charset=utf-8' . "\r\n";
-  //$headers .= 'Cc: '."jed@swirl.net". "\r\n";
+  $mail = new PHPMailer;
+  //$mail->SMTPDebug = 3;                               // Enable verbose debug output
+  $mail->isSMTP();                                      // Set mailer to use SMTP
+  $mail->Host = '72.47.233.176';  // Specify main and backup SMTP servers
+  // $mail->Host = 'mail.terrapass.com';  // Specify main and backup SMTP servers
+  $mail->SMTPAuth = true;                               // Enable SMTP authentication
+  $mail->Username = 'tpcalc@terrapass.com';                 // SMTP username
+  $mail->Password = 'Terrapass!@#1';                           // SMTP password
+  // //$mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
+  $mail->Port = 25;
+  $mail->From = 'support@terrapass.com';
+  $mail->FromName = 'TerraPass';
+  // // $mail->ClearAllRecipients( ) // clear all
+  $mail->addAddress($submittersEmailAddr);
+  $mail->addReplyTo('support@terrapass.com', 'TerraPass Support');
+  $mail->isHTML(true);                                  // Set email format to HTML
+  $mail->Subject = 'Thank you for calculating your footprint with TerraPass. Here is your emissions profile.';
+  $mail->Body    = $message;
+  $mail->AltBody = 'Thank you for calculating your footprint with TerraPass.';
 
-  // In case any of our lines are larger than 70 characters, we should use wordwrap()
-  $message = wordwrap($message, 70);
 
-  //echo $message;
-  //exit;
+  if(!$mail->send()) {
+      echo 'Message could not be sent.';
+      echo 'Mailer Error: ' . $mail->ErrorInfo;
+  } else {
+      echo 'Message has been sent';
+  }
 
-  // Send
-  mail($recipient, $subject, $message, $headers);
+  //mail($terrapass, 'Terrapass Events Calculator Submission', 'The individual calculator was completed by '.$recipient, $headers);
 
-  $terrapass  = 'nbsales@terrapass.com' . ', ';
-  $terrapass .= 'kristi@terrapass.com';
-
-  mail($terrapass, 'Terrapass Events Calculator Submission', 'The individual calculator was completed by '.$recipient, $headers);
-
-  // ADD CODE HERE TO HANDLE WHAT HAPPENS AFTER SUBMIT
-
-//END Send Email to selected recipient
 
 ?>

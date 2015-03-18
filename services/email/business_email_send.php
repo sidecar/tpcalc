@@ -214,7 +214,7 @@ $emailAddr = $_REQUEST['emailAddr'];
   $from = 'support@terrapass.com';
   //$recipient = 'jed@swirl.net';
   $recipient = $emailAddr;
-  $subject = 'Thank you for calculating your footprint with TerraPass. Here is your emissions profile.';
+  $subject = 'Thank you for calculating your footprint with TerraPass. Here’s your emissions profile.';
 
   $treesSet = '';
   $i=0;
@@ -236,7 +236,6 @@ $emailAddr = $_REQUEST['emailAddr'];
 
   $message = '
   <html>
-  <body>
   <table cellpadding="0" cellspacing="0" border="0" id="backgroundTable" style="border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; line-height: 100%; margin: 0; padding: 0;">
       <tr>
         <td width="1000" style="padding: 20px 18px;"><table width="962" cellpadding="0" cellspacing="0" border="0" align="center" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; padding: 20px 18px; border-collapse:collapse">
@@ -392,16 +391,16 @@ $emailAddr = $_REQUEST['emailAddr'];
       </tr>
     </table>
     <!-- End of wrapper table -->
-  </body>
+
   </html>';
 
-  $headers = 'From: '.$from."\n".'Reply-To: '.$from. "\n" .'X-Mailer: PHP/' . phpversion();
-  $headers .= 'Content-type: text/html; charset=ISO-8859-1' . "\n";
-  $headers .= 'MIME-Version: 1.0' . "\n";
+  $headers = 'From: '.$from."\n".'Reply-To: '.$from. "\r\n" .'X-Mailer: PHP/' . phpversion();
+  $headers .= 'MIME-Version: 1.0' . "\r\n";
+  $headers .= 'Content-type: text/html; charset=utf-8' . "\r\n";
   //$headers .= 'Cc: '."jed@swirl.net". "\r\n";
 
   // In case any of our lines are larger than 70 characters, we should use wordwrap()
-  // $message = wordwrap($message, 70);
+  $message = wordwrap($message, 70);
 
   //echo $message;
   //exit;

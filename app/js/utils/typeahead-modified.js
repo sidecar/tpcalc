@@ -291,7 +291,7 @@ proto.blur = function (e) {
 }
 
 proto.click = function (e) {
-    // this.select();
+    // t his.select();
     e.stopPropagation();
     e.preventDefault();
 }
