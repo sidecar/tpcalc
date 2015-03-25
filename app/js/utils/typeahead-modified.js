@@ -182,9 +182,8 @@ proto.render = function (items) {
     });
 
     $('.typeahead-element').on('click', function(e){
-        self.select()
-        e.stopPropagation();
         e.preventDefault();
+        self.select()
     })
 
     return this;
