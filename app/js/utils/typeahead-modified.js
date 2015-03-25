@@ -47,10 +47,10 @@ proto.select = function() {
     var val = selected.attr('data-value');
     self.element
       //.value(self.updater(val))
-      .value(val)
+      //.value(val)
       .attr('data-object', obj)
       .emit('change');
-    self.element.value = val;
+    self.element[0].value = val;
     return self.hide();
 }
 
