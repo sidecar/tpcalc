@@ -1,30 +1,30 @@
 <?php
-  require 'PHPMailer-master/PHPMailerAutoload.php';
+  require 'phpmailer/PHPMailerAutoload.php';
 
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
+  ini_set('display_errors', 1);
+  error_reporting(E_ALL);
 
-$trees = intval($_REQUEST['trees']);
-$co2e_travel = intval($_REQUEST['co2e_travel']);
-$co2e_venue = intval($_REQUEST['co2e_venue']);
-$co2e_water = intval($_REQUEST['co2e_water']);
-$co2e_meals = intval($_REQUEST['co2e_meals']);
+  $trees = intval($_REQUEST['trees']);
+  $co2e_travel = intval($_REQUEST['co2e_travel']);
+  $co2e_venue = intval($_REQUEST['co2e_venue']);
+  $co2e_water = intval($_REQUEST['co2e_water']);
+  $co2e_meals = intval($_REQUEST['co2e_meals']);
 
-$co2e_total =
-$co2e_travel +
-$co2e_venue +
-$co2e_water +
-$co2e_meals;
+  $co2e_total =
+  $co2e_travel +
+  $co2e_venue +
+  $co2e_water +
+  $co2e_meals;
 
-$co2e_travel_percentage = ($co2e_travel > 0 ? $co2e_travel/$co2e_total : 0);
-$co2e_venue_percentage = ($co2e_venue > 0 ? $co2e_venue/$co2e_total : 0);
-$co2e_water_percentage = ($co2e_water > 0 ? $co2e_water/$co2e_total : 0);
-$co2e_meals_percentage = ($co2e_meals > 0 ? $co2e_meals/$co2e_total : 0);
+  $co2e_travel_percentage = ($co2e_travel > 0 ? $co2e_travel/$co2e_total : 0);
+  $co2e_venue_percentage = ($co2e_venue > 0 ? $co2e_venue/$co2e_total : 0);
+  $co2e_water_percentage = ($co2e_water > 0 ? $co2e_water/$co2e_total : 0);
+  $co2e_meals_percentage = ($co2e_meals > 0 ? $co2e_meals/$co2e_total : 0);
 
-$co2e_travel_pixels = $co2e_travel_percentage*250;
-$co2e_venue_pixels = $co2e_venue_percentage*250;
-$co2e_water_pixels = $co2e_water_percentage*250;
-$co2e_meals_pixels = $co2e_meals_percentage*250;
+  $co2e_travel_pixels = $co2e_travel_percentage*250;
+  $co2e_venue_pixels = $co2e_venue_percentage*250;
+  $co2e_water_pixels = $co2e_water_percentage*250;
+  $co2e_meals_pixels = $co2e_meals_percentage*250;
 
   $submittersEmailAddr = $_REQUEST['emailAddr'];
 
@@ -215,7 +215,22 @@ $co2e_meals_pixels = $co2e_meals_percentage*250;
       echo 'Message has been sent';
   }
 
-  //mail($terrapass, 'Terrapass Events Calculator Submission', 'The individual calculator was completed by '.$recipient, $headers);
 
+  $mail->ClearAllRecipients( ) // clear all
+  $mail->addAddress('nbsales@terrapass.com');
+  $mail->addAddress('kristi@terrapass.com');
+  $mail->addReplyTo('support@terrapass.com', 'TerraPass Support');
+  $mail->isHTML(true);                                  // Set email format to HTML
+  $mail->Subject = 'TEST: Terrapass Events Calculator Submission';
+  $mail->Body    = 'TEST: The event calculator was completed by '.$recipient;
+
+  if(!$mail->send()) {
+      echo 'Message could not be sent.';
+      echo 'Mailer Error: ' . $mail->ErrorInfo;
+  } else {
+      echo 'Message has been sent';
+  }
+
+?>
 
 ?>

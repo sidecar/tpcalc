@@ -1,5 +1,5 @@
 <?php
-  require 'PHPMailer-master/PHPMailerAutoload.php';
+  require 'phpmailer/PHPMailerAutoload.php';
 
   ini_set('display_errors', 1);
   error_reporting(E_ALL);
@@ -201,18 +201,29 @@
   </html>';
 
   $mail = new PHPMailer;
-  //$mail->SMTPDebug = 3;                               // Enable verbose debug output
+  //$mail->SMTPDebug = 3;  //Enable verbose debug output
   $mail->isSMTP();                                      // Set mailer to use SMTP
-  $mail->Host = '72.47.233.176';  // Specify main and backup SMTP servers
-  // $mail->Host = 'mail.terrapass.com';  // Specify main and backup SMTP servers
   $mail->SMTPAuth = true;                               // Enable SMTP authentication
-  $mail->Username = 'tpcalc@terrapass.com';                 // SMTP username
-  $mail->Password = 'Terrapass!@#1';                           // SMTP password
-  // //$mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
+  //$mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
   $mail->Port = 25;
+
+  /*
+    TerraPass
+  */
+  // $mail->Host = '72.47.233.176';  // Specify main and backup SMTP servers (Actually the IP address not the SMTP works)
+  // $mail->Username = 'tpcalc@terrapass.com';                 // SMTP username
+  // $mail->Password = 'Terrapass!@#1';                           // SMTP password
+
+  /*
+    Sidecar
+  */
+  //$mail->Host = '5l7g-gkdt.accessdomain.com';  // Specify main and backup SMTP servers (Sidecaragency.com)                          // Enable TLS encryption, `ssl` also accepted
+  $mail->Host = '70.32.69.69';  // Specify main and backup SMTP servers (Actually the IP address not the SMTP works)                          // Enable TLS encryption, `ssl` also accepted
+  $mail->Username = 'testing@sidecaragency.com';                 // SMTP username
+  $mail->Password = 'Scbb!@#123';   //SMTP password
+
   $mail->From = 'support@terrapass.com';
   $mail->FromName = 'TerraPass';
-  // // $mail->ClearAllRecipients( ) // clear all
   $mail->addAddress($submittersEmailAddr);
   $mail->addReplyTo('support@terrapass.com', 'TerraPass Support');
   $mail->isHTML(true);                                  // Set email format to HTML
@@ -220,12 +231,26 @@
   $mail->Body    = $message;
   $mail->AltBody = 'Thank you for calculating your footprint with TerraPass.';
 
+  if(!$mail->send()) {
+      echo 'Message could not be sent.';
+      echo 'Mailer Error: ' . $mail->ErrorInfo;
+  } else {
+      echo 'Message has been sent to '.$submittersEmailAddr."\r\n";
+  }
+
+  $mail->ClearAllRecipients(); // clear all
+  $mail->addAddress('nbsales@terrapass.com');
+  $mail->addAddress('kristi@terrapass.com');
+  $mail->addReplyTo('support@terrapass.com', 'TerraPass Support');
+  $mail->isHTML(true);                                  // Set email format to HTML
+  $mail->Subject = 'TEST: Terrapass Individual Calculator Submission';
+  $mail->Body    = 'TEST: The individual calculator was completed by '.$submittersEmailAddr;
 
   if(!$mail->send()) {
       echo 'Message could not be sent.';
       echo 'Mailer Error: ' . $mail->ErrorInfo;
   } else {
-      echo 'Message has been sent';
+      echo 'Message has been sent to nbsales@terrapass.com and kristi@terrapass.com';
   }
 
 ?>

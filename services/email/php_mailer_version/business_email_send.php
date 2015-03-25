@@ -1,38 +1,38 @@
 <?php
-  require 'PHPMailer-master/PHPMailerAutoload.php';
+  require 'phpmailer/PHPMailerAutoload.php';
 
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
+  ini_set('display_errors', 1);
+  error_reporting(E_ALL);
 
-$trees = intval($_REQUEST['trees']);
-$co2e_site = intval($_REQUEST['co2e_site']);
-$co2e_fleet = intval($_REQUEST['co2e_fleet']);
-$co2e_travel = intval($_REQUEST['co2e_travel']);
-$co2e_commute = intval($_REQUEST['co2e_commute']);
-$co2e_shipping = intval($_REQUEST['co2e_shipping']);
-$co2e_server = intval($_REQUEST['co2e_server']);
+  $trees = intval($_REQUEST['trees']);
+  $co2e_site = intval($_REQUEST['co2e_site']);
+  $co2e_fleet = intval($_REQUEST['co2e_fleet']);
+  $co2e_travel = intval($_REQUEST['co2e_travel']);
+  $co2e_commute = intval($_REQUEST['co2e_commute']);
+  $co2e_shipping = intval($_REQUEST['co2e_shipping']);
+  $co2e_server = intval($_REQUEST['co2e_server']);
 
-$co2e_total =
-$co2e_site +
-$co2e_fleet +
-$co2e_travel +
-$co2e_commute +
-$co2e_shipping +
-$co2e_server ;
+  $co2e_total =
+  $co2e_site +
+  $co2e_fleet +
+  $co2e_travel +
+  $co2e_commute +
+  $co2e_shipping +
+  $co2e_server ;
 
-$co2e_site_percentage = ($co2e_site > 0 ? $co2e_site/$co2e_total : 0);
-$co2e_fleet_percentage = ($co2e_fleet > 0 ? $co2e_fleet/$co2e_total : 0);
-$co2e_travel_percentage = ($co2e_travel > 0 ? $co2e_travel/$co2e_total : 0);
-$co2e_commute_percentage = ($co2e_commute > 0 ? $co2e_commute/$co2e_total : 0);
-$co2e_shipping_percentage = ($co2e_shipping > 0 ? $co2e_shipping/$co2e_total : 0);
-$co2e_server_percentage = ($co2e_server > 0 ? $co2e_server/$co2e_total : 0);
+  $co2e_site_percentage = ($co2e_site > 0 ? $co2e_site/$co2e_total : 0);
+  $co2e_fleet_percentage = ($co2e_fleet > 0 ? $co2e_fleet/$co2e_total : 0);
+  $co2e_travel_percentage = ($co2e_travel > 0 ? $co2e_travel/$co2e_total : 0);
+  $co2e_commute_percentage = ($co2e_commute > 0 ? $co2e_commute/$co2e_total : 0);
+  $co2e_shipping_percentage = ($co2e_shipping > 0 ? $co2e_shipping/$co2e_total : 0);
+  $co2e_server_percentage = ($co2e_server > 0 ? $co2e_server/$co2e_total : 0);
 
-$co2e_site_pixels = $co2e_site_percentage*250;
-$co2e_fleet_pixels = $co2e_fleet_percentage*250;
-$co2e_travel_pixels = $co2e_travel_percentage*250;
-$co2e_commute_pixels = $co2e_commute_percentage*250;
-$co2e_shipping_pixels = $co2e_shipping_percentage*250;
-$co2e_server_pixels = $co2e_server_percentage*250;
+  $co2e_site_pixels = $co2e_site_percentage*250;
+  $co2e_fleet_pixels = $co2e_fleet_percentage*250;
+  $co2e_travel_pixels = $co2e_travel_percentage*250;
+  $co2e_commute_pixels = $co2e_commute_percentage*250;
+  $co2e_shipping_pixels = $co2e_shipping_percentage*250;
+  $co2e_server_pixels = $co2e_server_percentage*250;
 
   $submittersEmailAddr = $_REQUEST['emailAddr'];
 
@@ -223,7 +223,6 @@ $co2e_server_pixels = $co2e_server_percentage*250;
   $mail->Port = 25;
   $mail->From = 'support@terrapass.com';
   $mail->FromName = 'TerraPass';
-  // // $mail->ClearAllRecipients( ) // clear all
   $mail->addAddress($submittersEmailAddr);
   $mail->addReplyTo('support@terrapass.com', 'TerraPass Support');
   $mail->isHTML(true);                                  // Set email format to HTML
@@ -231,6 +230,20 @@ $co2e_server_pixels = $co2e_server_percentage*250;
   $mail->Body    = $message;
   $mail->AltBody = 'Thank you for calculating your footprint with TerraPass.';
 
+  if(!$mail->send()) {
+      echo 'Message could not be sent.';
+      echo 'Mailer Error: ' . $mail->ErrorInfo;
+  } else {
+      echo 'Message has been sent';
+  }
+
+  $mail->ClearAllRecipients( ) // clear all
+  $mail->addAddress('nbsales@terrapass.com');
+  $mail->addAddress('kristi@terrapass.com');
+  $mail->addReplyTo('support@terrapass.com', 'TerraPass Support');
+  $mail->isHTML(true);                                  // Set email format to HTML
+  $mail->Subject = 'TEST: Terrapass Business Calculator Submission';
+  $mail->Body    = 'TEST: The business calculator was completed by '.$recipient;
 
   if(!$mail->send()) {
       echo 'Message could not be sent.';

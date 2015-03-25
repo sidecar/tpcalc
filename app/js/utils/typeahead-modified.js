@@ -46,9 +46,11 @@ proto.select = function() {
     var obj = self.menu.find('.active').attr('data-object');
     var val = selected.attr('data-value');
     self.element
-      .value(self.updater(val))
+      //.value(self.updater(val))
+      .value(val)
       .attr('data-object', obj)
       .emit('change');
+    self.element.value = val;
     return self.hide();
 }
 
@@ -179,7 +181,7 @@ proto.render = function (items) {
         self.menu.append(item);
     });
 
-    $('.typeahead-element').on('click', function(){
+    $('.typeahead-element').on('click', function(e){
         self.select()
         e.stopPropagation();
         e.preventDefault();
