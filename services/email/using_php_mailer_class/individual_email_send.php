@@ -1,5 +1,5 @@
 <?php
-  require 'PHPMailer-master/PHPMailerAutoload.php';
+  require 'phpmailer/PHPMailerAutoload.php';
 
   ini_set('display_errors', 1);
   error_reporting(E_ALL);
@@ -200,73 +200,57 @@
   </body>
   </html>';
 
-  /* --------------------------------
-   * FUNCTION:  dumpConsole()
-   * USAGE:   Prints to console information about what's going on in the code.
-   * PARAMETERS:
-   *        $str_name: The name of the parameter that will be printed to screen
-   *        $boo_clearsession: (T/F) A flag that says whether the session should be cleared.
-   *        $boo_exit: (T/F) A flag that says whether the program should end.
-   * AUTHOR:    Maurice Wright
-   * -------------------------------- */
-  function dumpConsole($str_name, $str_value=null, $boo_clearsession = FALSE, $boo_exit = FALSE) {
-    if ($str_value) {
-      $openjs = "<script type='text/javascript'>if (typeof console != 'undefined') { " . chr(10) . "console.log('" . $str_name . "=','";
-    } else {
-      echo"<script type='text/javascript'>if (typeof console != 'undefined') { " . chr(10) . "console.log('" . $str_name . "');}</script>";
-      return;
-    }
-    $closejs = chr(10) . "}</script>";
-    if ( is_array($str_value) || is_object($str_value) ) {
-      $str_value = addslashes(print_r($str_value,true));
-    } else {
-      $str_value = addslashes($str_value);
-    }
-    $str_value = str_replace(chr(10),'\n',$str_value);
-    $str_value = str_replace(chr(13),'\n',$str_value);
-    $str_value = str_replace("</script","<\/script",$str_value);
-    $str_msg = $openjs . $str_value . "');" . chr(10);
-    if (!empty($boo_clearsession)) {
-      session_destroy();
-      print_r ($_SESSION);
-      $str_msg = $str_msg . "console.log('Session destroyed');" . chr(10);
-    }
-    echo $str_msg . $closejs;
-    if (!empty($boo_exit)) {
-      exit();
-    }
-  }
+  $altMessage = '
+    Thank youn for joining us in the fight against climate change by taking a step towards lowering your carbon footprint.
 
+    <a href="http://www.terrapass.com/shop/" target="_blank">PURCHASE OFFSETS NOW FOR $5.95 PER 1,000 LBS</a>
+
+    Every offset you purchase helps keep carbon out of our atmosphere.
+
+    To get more Terrapass updates, <a href="applewebdata://6246ED41-D9E0-439E-A2EE-EA8F8631C080#" target="_blank">click here</a> to subscribe to our mailing list.
+    <a href="https://twitter.com/terrapass">follow on Twitter</a>  |  <a href="https://www.facebook.com/terrapass">friend on Facebook</a>  |  <a href="applewebdata://6246ED41-D9E0-439E-A2EE-EA8F8631C080#">forward to a friend</a> | <a href="https://www.pinterest.com/terrapass/">find on Pinterest</a> | <a href="https://www.linkedin.com/company/85641" target="_blank">join on LinkedIn</a>
+
+    Copyright © 2014 TerraPass, Inc. All Rights Reserved';
 
   $mail = new PHPMailer;
-
-  $mail->SMTPDebug = 3;                               // Enable verbose debug output
-
   $mail->isSMTP();                                      // Set mailer to use SMTP
-  $mail->Host = '72.47.233.176';  // Specify main and backup SMTP servers
   $mail->SMTPAuth = true;                               // Enable SMTP authentication
+  $mail->Port = 25;
+
+  // Using TerraPass SMTP server on MediaTemple
+  $mail->Host = '72.47.233.176';  // Specify main and backup SMTP servers (Actually the IP address not the SMTP works)
   $mail->Username = 'tpcalc@terrapass.com';                 // SMTP username
   $mail->Password = 'Terrapass!@#1';                           // SMTP password
-  // //$mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
-  $mail->Port = 25;
+
   $mail->From = 'support@terrapass.com';
   $mail->FromName = 'TerraPass';
-  // // $mail->ClearAllRecipients( ) // clear all
-  $mail->addAddress('brandon@sidecaragency.com');
+  $mail->addAddress($submittersEmailAddr);
   $mail->addReplyTo('support@terrapass.com', 'TerraPass Support');
   $mail->isHTML(true);                                  // Set email format to HTML
-
   $mail->Subject = 'Thank you for calculating your footprint with TerraPass. Here is your emissions profile.';
   $mail->Body    = $message;
-  $mail->AltBody = 'Thank you for calculating your footprint with TerraPass.';
-
-  dumpConsole("mail class", $mail);
+  $mail->AltBody = $altMessage;
 
   if(!$mail->send()) {
       echo 'Message could not be sent.';
       echo 'Mailer Error: ' . $mail->ErrorInfo;
   } else {
-      echo 'Message has been sent';
+      echo 'Message has been sent to '.$submittersEmailAddr."\r\n";
+  }
+
+  $mail->ClearAllRecipients(); // clear all
+  $mail->addAddress('nbsales@terrapass.com');
+  $mail->addAddress('kristi@terrapass.com');
+  $mail->addReplyTo('support@terrapass.com', 'TerraPass Support');
+  $mail->isHTML(true);                                  // Set email format to HTML
+  $mail->Subject = 'Terrapass Individual Calculator Submission';
+  $mail->Body    = 'The individual calculator was completed by'.$submittersEmailAddr;
+
+  if(!$mail->send()) {
+      echo 'Message could not be sent.';
+      echo 'Mailer Error: ' . $mail->ErrorInfo;
+  } else {
+      echo 'Message has been sent to nbsales@terrapass.com and kristi@terrapass.com';
   }
 
 ?>

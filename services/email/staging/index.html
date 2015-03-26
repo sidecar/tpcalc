@@ -1,0 +1,23 @@
+<html>
+  <head>
+    <title></title>
+  </head>
+  <body>
+  <h2>TerraPass Email Generation Script Tester</h2>
+    <p>
+      <!-- <form action="http://www.sidecaragency.com/terrapass/email/email_sender.php" method="post"> -->
+      <form action="email_sender.php" method="post">
+        <label for="User">Your Email</label>
+        <input type="text" id="Email" name="emailAddr" />
+        <input type="hidden" name="trees" value="10" />
+        <input type="hidden" name="co2e_vehicle" value="100" />
+        <input type="hidden" name="co2e_transit" value="100" />
+        <input type="hidden" name="co2e_travel" value="100" />
+        <input type="hidden" name="co2e_home" value="100" />
+        <div class="button">
+          <button type="submit">Trigger Email</button>
+        </div>
+      </form>
+    </p>
+  </body>
+</html>

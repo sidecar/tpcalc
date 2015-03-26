@@ -200,24 +200,26 @@
   </body>
   </html>';
 
+  $altMessage = '
+    Thank youn for joining us in the fight against climate change by taking a step towards lowering your carbon footprint.
+
+    <a href="http://www.terrapass.com/shop/" target="_blank">PURCHASE OFFSETS NOW FOR $5.95 PER 1,000 LBS</a>
+
+    Every offset you purchase helps keep carbon out of our atmosphere.
+
+    To get more Terrapass updates, <a href="applewebdata://6246ED41-D9E0-439E-A2EE-EA8F8631C080#" target="_blank">click here</a> to subscribe to our mailing list.
+    <a href="https://twitter.com/terrapass">follow on Twitter</a>  |  <a href="https://www.facebook.com/terrapass">friend on Facebook</a>  |  <a href="applewebdata://6246ED41-D9E0-439E-A2EE-EA8F8631C080#">forward to a friend</a> | <a href="https://www.pinterest.com/terrapass/">find on Pinterest</a> | <a href="https://www.linkedin.com/company/85641" target="_blank">join on LinkedIn</a>
+
+    Copyright © 2014 TerraPass, Inc. All Rights Reserved';
+
   $mail = new PHPMailer;
-  //$mail->SMTPDebug = 3;  //Enable verbose debug output
+  $mail->SMTPDebug = 3;  //Enable verbose debug output
   $mail->isSMTP();                                      // Set mailer to use SMTP
   $mail->SMTPAuth = true;                               // Enable SMTP authentication
   //$mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
   $mail->Port = 25;
 
-  /*
-    TerraPass
-  */
-  // $mail->Host = '72.47.233.176';  // Specify main and backup SMTP servers (Actually the IP address not the SMTP works)
-  // $mail->Username = 'tpcalc@terrapass.com';                 // SMTP username
-  // $mail->Password = 'Terrapass!@#1';                           // SMTP password
-
-  /*
-    Sidecar
-  */
-  //$mail->Host = '5l7g-gkdt.accessdomain.com';  // Specify main and backup SMTP servers (Sidecaragency.com)                          // Enable TLS encryption, `ssl` also accepted
+  // Using Sidecar SMTP Server on MediaTemple
   $mail->Host = '70.32.69.69';  // Specify main and backup SMTP servers (Actually the IP address not the SMTP works)                          // Enable TLS encryption, `ssl` also accepted
   $mail->Username = 'testing@sidecaragency.com';                 // SMTP username
   $mail->Password = 'Scbb!@#123';   //SMTP password
@@ -229,7 +231,7 @@
   $mail->isHTML(true);                                  // Set email format to HTML
   $mail->Subject = 'Thank you for calculating your footprint with TerraPass. Here is your emissions profile.';
   $mail->Body    = $message;
-  $mail->AltBody = 'Thank you for calculating your footprint with TerraPass.';
+  $mail->AltBody = $altMessage;
 
   if(!$mail->send()) {
       echo 'Message could not be sent.';
