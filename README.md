@@ -1,7 +1,5 @@
 # _TerraPass Carbon Emissions Calculator_
 
-
-
 ## Steps to getting an app running on OpenShift with a custom Node.js version
 Based on https://github.com/ramr/nodejs-custom-version-openshift
 
@@ -100,10 +98,21 @@ http://feedback.livereload.com/knowledgebase/articles/86180-how-do-i-add-the-scr
 	gulp build
 Produces a complete project in the /dist directory
 
-## Updating Staging
-Currently pushing hosted on OpenShift
-Push to staging via Git with
-	git push openshift masterß
+## Updating Production
+Currently production is hosted on OpenShift
+Push to production via Git with
+	git push openshift master
+
+## Secondary Repo on Github
+	git push github master
+
+## Typical Workflow
+	- make a change in the /app direcotry
+	- `gulp build` to output to /dist directory
+	- `git add -A` to add untracked files to your git index
+	- `git commit -m` to commit changes and add comment
+	- `git push openshift master` to push to production
+	- `git push github master` to push to secondary repo
 
 ## Features
 

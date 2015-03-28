@@ -123,13 +123,20 @@
                 </tr>
                 <tr>
                   <td width="315" valign="middle">
-                  <div style="position: relative; float: left; background-color: #0a61ae; width: '.$co2e_vehicle_pixels.'px; height: 41px;"></div>
-                  <div style="position: relative; float: left; background-color: #2ba7e5; width: '.$co2e_transit_pixels.'px; height: 41px;"></div>
-                  <div style="position: relative; float: left; background-color: #41ad49; width: '.$co2e_travel_pixels.'px; height: 41px;"></div>
-                  <div style="position: relative; float: left; background-color: #1d7768; width: '.$co2e_home_pixels.'px; height: 41px;"></div>
-                </td>
-                  <td width="52" align="center"><p style="color: #000000; line-height: 1.2; vertical-align: baseline; font-family: \'Myriad Pro\', \'Lucida Grande\', \'Lucida Sans Unicode\', Arial, sans-serif; font-size: 25px; font-weight: bold; letter-spacing: 2px; -moz-text-size-adjust: none; -webkit-text-size-adjust: none; -ms-text-size-adjust: none; margin: 0; padding: 0;"><strong>vs</strong></p></td>
-                  <td width="450" valign="middle" style="padding: 0 0 0 63px;"><img src="http://www.terrapass.com/tpcalc.services/email/img/email_bar_chart.png" alt="A Graph of the Average U.S. Footprint" title="A Graph of the Average U.S. Footprint" border="0" style="outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; margin: 0; padding: 0;" /></td>
+                    <div style="position: relative; float: left; background-color: #0a61ae; width: '.$co2e_vehicle_pixels.'px; height: 41px;"></div>
+                    <div style="position: relative; float: left; background-color: #2ba7e5; width: '.$co2e_transit_pixels.'px; height: 41px;"></div>
+                    <div style="position: relative; float: left; background-color: #41ad49; width: '.$co2e_travel_pixels.'px; height: 41px;"></div>
+                    <div style="position: relative; float: left; background-color: #1d7768; width: '.$co2e_home_pixels.'px; height: 41px;"></div>
+                  </td>
+                  <td width="52" align="center">
+                    <p style="color: #000000; line-height: 1.2; vertical-align: baseline; font-family: \'Myriad Pro\', \'Lucida Grande\', \'Lucida Sans Unicode\', Arial, sans-serif; font-size: 25px; font-weight: bold; letter-spacing: 2px; -moz-text-size-adjust: none; -webkit-text-size-adjust: none; -ms-text-size-adjust: none; margin: 0; padding: 0;"><strong>vs</strong></p>
+                  </td>
+                  <td width="450" valign="middle" style="padding: 0 0 0 63px;">
+                    <div style="position: relative; float: left; background-color: #0a61ae; width: 51px; height: 41px;"></div>
+                    <div style="position: relative; float: left; background-color: #2ba7e5; width: 25px; height: 41px;"></div>
+                    <div style="position: relative; float: left; background-color: #41ad49; width: 31px; height: 41px;"></div>
+                    <div style="position: relative; float: left; background-color: #1d7768; width: 71px; height: 41px;"></div>
+                  </td>
                 </tr>
               </table></td>
           </tr>
