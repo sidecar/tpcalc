@@ -18,7 +18,7 @@ var Flight = Backbone.Model.extend({
       {lon: toLongitude, lat: toLatitude},
       {unit: 'mi'}
     );
-    var multiplier = (this.get('roundTrip') === 'true') ? 2 : 1; 
+    var multiplier = this.get('roundTrip') ? 2 : 1; 
     var distance = between*multiplier;
     this.set({distance: distance});
   }, // end caculateDistance
