@@ -196,12 +196,10 @@ var air = {
 			fLongBusiness = this.c.transportFactors.longBusiness/this.c.miletokm,
 			fLongFirst =	this.c.transportFactors.longFirst/this.c.miletokm
 
-
 		switch(calculateBy) {
 
 			case 'flightMiles':
 			case 'flightCount':
-
 				CO2e = {
 					shortHaul : 	this.flightAnnMiles('shortHaul') * fShortHaul/1000 * rfindex,
 					medEcon : 		this.flightAnnMiles('medEcon') * fMedEcon/1000 * rfindex,
@@ -224,7 +222,7 @@ var air = {
 			case 'itinerary':
 
 				CO2e = {
-					itinerary : 	this.itinerary.annMiles * this.c.transportFactors.defaultFactor/1000 * rfindex
+					itinerary : 	this.itinerary.annMiles / this.c.miletokm * this.c.transportFactors.defaultFactor/1000 * rfindex
 				}
 				break;
 
@@ -251,6 +249,7 @@ var air = {
 			return CO2e;
 
 		}
+    console.log(CO2e)
 
 		return CO2e;
 
