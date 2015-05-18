@@ -19,9 +19,7 @@ module.exports = Marionette.CompositeView.extend({
     'click #add-flight': 'addFlightClicked',
     'click .delete': 'deleteClicked'
   },
-  onShow: function() {
-    var currentFlight = this.category.get('currentFlight');
-    this.collection.add(currentFlight);
+  calculateTotal : function () {
     var totalDistance = this.collection.getTotalDistance();
     var flightEmissionsCalculator = require('../../utils/ind-air-emissions');
     flightEmissionsCalculator.setCalculateBy('itinerary');
@@ -29,11 +27,17 @@ module.exports = Marionette.CompositeView.extend({
     flightEmissionsCalculator.useRFI = this.category.get('useRFI');
     var totalEmissions = flightEmissionsCalculator.totalEmissions('itinerary');
     this.category.set({totalEmissions: totalEmissions});
+  },
+  onShow: function() {
+    var currentFlight = this.category.get('currentFlight');
+    this.collection.add(currentFlight);
+    this.calculateTotal();
     // in order to get the newly added vehicle rendered call...
     this.render();
   },
   deleteClicked: function(event) {
     this.collection.remove( this.collection.get($(event.target).data('cid')) );
+    this.calculateTotal();
     this.render();
   },
   addFlightClicked: function(event) {
