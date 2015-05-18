@@ -59,11 +59,14 @@ module.exports = Marionette.ItemView.extend({
     fuelType = this.ui.fuelTypeSelect.val(),
     fuelGallons = this.ui.fuelGallonsInput.val();
 
+    air.useRFI = this.category.get('useRFI');
+
     air.setCalculateBy('fuel');
     air.fuel[fuelType] = fuelGallons;
 
     totalEmissions += air.totalEmissions('jetFuel');
     totalEmissions += air.totalEmissions('aviationGas');
+
 
     var attrs = {
       fuelGallons: fuelGallons,

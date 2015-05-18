@@ -96,6 +96,7 @@ module.exports = Marionette.ItemView.extend({
 
     var air = require('../../utils/ind-air-emissions');
     air.setCalculateBy('flightMiles');
+    air.useRFI = this.category.get('useRFI');
     air.flight.shortHaul.annMiles = milesShortFlights;
     air.flight.medEcon.annMiles = milesMedEconFlights;
     air.flight.medFirst.annMiles = milesMedFirstClassFlights;

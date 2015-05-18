@@ -14,7 +14,7 @@ var zipSubregion = require('./zip-subregions');
 var air = {
 
 	c : 			constants,
-	useRFI : 		0, 			// 1: Yes, use Refractive Forcing Index (RFI). -  0: No, do not use RFI.
+	useRFI : 		false, 			// 1: Yes, use Refractive Forcing Index (RFI). -  0: No, do not use RFI.
 	calculateBy : 	{
 		flightMiles : 	1,
 		flightCount : 	0,
@@ -185,7 +185,7 @@ var air = {
 	totalEmissions : function(flightMethod) {
 
 		var oFlightMethod = ( this.isValidFlightMethod(flightMethod) ) ? this[flightMethod] : '';
-		var rfindex = ( this.useRFI === true ) ? this.c.rfi : 1;
+		var rfindex = ( this.useRFI ) ? this.c.rfi : 1;
 		var calculateBy = this.getCalculateBy();
 		var CO2e;
 		var fShortHaul = 	this.c.transportFactors.shortHaul/this.c.miletokm,
@@ -216,15 +216,15 @@ var air = {
 			case 'fuel':
 
 				CO2e = {
-					jetFuel : 		this.fuel.jetFuel * this.c.transportFactors.jetFuel/1000,
-					aviationGas : 	this.fuel.aviationGas * this.c.transportFactors.aviationGas/1000
+					jetFuel : 		this.fuel.jetFuel * this.c.transportFactors.jetFuel/1000 * rfindex,
+					aviationGas : 	this.fuel.aviationGas * this.c.transportFactors.aviationGas/1000 * rfindex
 				}
 				break;
 
 			case 'itinerary':
 
 				CO2e = {
-					itinerary : 	this.itinerary.annMiles * this.c.transportFactors.defaultFactor/1000
+					itinerary : 	this.itinerary.annMiles * this.c.transportFactors.defaultFactor/1000 * rfindex
 				}
 				break;
 
