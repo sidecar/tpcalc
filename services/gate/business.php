@@ -18,6 +18,7 @@ if(isset($_REQUEST['submit_form']) && $_REQUEST['submit_form'] == "Yes") {
 	$from = 'support@terrapass.com';
   $recipient  = 'nbsales@terrapass.com' . ', ';
   $recipient .= 'kristi@terrapass.com';
+  $recipient .= ',business@terrapass.com';
   $subject = 'TerraPass Business Calculator Lead Generation Form Submission';
 	
 	$message = '

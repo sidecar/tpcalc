@@ -252,6 +252,7 @@
   $mail->ClearAllRecipients( ) // clear all
   $mail->addAddress('nbsales@terrapass.com');
   $mail->addAddress('kristi@terrapass.com');
+  $mail->addAddress('ops@terrapass.com');
   $mail->addReplyTo('support@terrapass.com', 'TerraPass Support');
   $mail->isHTML(true);                                  // Set email format to HTML
   $mail->Subject = 'Terrapass Business Calculator Submission';
