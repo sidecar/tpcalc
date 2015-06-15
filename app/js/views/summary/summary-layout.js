@@ -95,7 +95,7 @@ module.exports = Marionette.Layout.extend({
   },
   buyBtnClicked: function(event) {
     event.preventDefault();
-    App.vent.trigger('buy', this.model.get('slug'), $('[name="offset-select"]').val());
+    App.vent.trigger('buy', this.model.get('slug'), $('[name="offset-select"]').val(), Math.ceil(this.model.get('totalEmissions')*2204.622622));
   },
   serializeData: function(){
 

@@ -70,7 +70,12 @@ module.exports = function(Calc) {
     }, 800);
   });
 
-  App.vent.on('buy', function(calculator, selected) {
+  App.vent.on('buy', function(calculator, selected, lbs) {
+    var calculatorID = calculator === 'individual' ? '7550' : '7599'
+    var url = 'http://staging.terrapass.com/cart/?add-to-cart='+calculatorID+'&weight_needed='+(lbs/1000)+'&unit=1,000%20lbs'
+    return window.open(url);
+
+    // old way 6.15.15
     if (selected === 'all') {
       var url = (calculator === 'individual') ? 'http://www.terrapass.com/shop/individuals-families/' : 'http://www.terrapass.com/shop/busines-carbon-offsets/';
     } else {
