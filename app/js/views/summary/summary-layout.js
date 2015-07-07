@@ -109,8 +109,8 @@ module.exports = Marionette.Layout.extend({
     , totalEmissions = numeral(this.model.get('totalEmissions')*multiplier).format('0,0')
     , emissionPounds = this.model.get('totalEmissions')*2204.622622
     , emissionPoundsFormatted = numeral(emissionPounds).format('0,0')
-    , yourCarbonFootprint = (calculatorSlug === 'individual') ? emissionPoundsFormatted : totalEmissions
-    , yourCarbonFootprintSymbol = (calculatorSlug === 'individual') ? 'lbs' : 'mT'
+    , yourCarbonFootprint =  totalEmissions
+    , yourCarbonFootprintSymbol = unitSymbol 
     , offsetAllUnits = Math.ceil(emissionPounds/1000)
     , offsetAllPrice = numeral(offsetAllUnits * 5.95).format('$0.00')
     , monthlyOffsetUnits = Math.ceil(emissionPounds/12000) // total/12 mos./1000 lbs
