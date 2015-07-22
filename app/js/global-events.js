@@ -82,7 +82,7 @@ module.exports = function(Calc) {
     if(calculator === 'individual') {
       url += '&weight_needed='+Math.ceil(lbs/1000)+'&unit=1,000%20lbs'
     } else {
-      url += '&weight_needed='+Math.ceil(lbs/2204.622622)+'&unit=1%20mT'
+      url += '&weight_needed='+Math.ceil(lbs/1000)/2.204622622+'&unit=1%20mT'
     }
     return window.open(url);
 
