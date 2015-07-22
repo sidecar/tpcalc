@@ -78,7 +78,7 @@ module.exports = function(Calc) {
       lbs /= 12
       calculatorID = calculator === 'individual' ? '7565' : '9546'
     }
-    var url = 'http://terrapass.com/cart/?add-to-cart='+calculatorID+'&weight_needed='+(lbs/1000)+'&unit=1,000%20lbs'
+    var url = 'http://terrapass.com/cart/?add-to-cart='+calculatorID+'&weight_needed='+Math.ceil(lbs/1000)+'&unit=1,000%20lbs'
     return window.open(url);
 
     // old way 6.15.15

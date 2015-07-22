@@ -81,7 +81,6 @@ module.exports = Marionette.Layout.extend({
       , totalEmissions = category.get('totalEmissions')
       , emissionPounds = totalEmissions*2204.622622
       , offsetAllUnits = Math.ceil(emissionPounds/1000)
-      // , monthlyOffsetPrice = numeral(offsetAllUnits * 5.95 / 12).format('$0.00')
       , monthlyOffsetUnits = Math.ceil(emissionPounds/12000) // total/12 mos./1000 lbs
       , monthlyOffsetPrice = numeral(monthlyOffsetUnits * 5.95).format('$0.00');
 
