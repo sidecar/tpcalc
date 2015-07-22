@@ -71,9 +71,15 @@ module.exports = function(Calc) {
   });
 
   App.vent.on('buy', function(calculator, selected, lbs) {
-    //var calculatorID = calculator === 'individual' ? '7550' : '7599'
-    //var url = 'http://staging.terrapass.com/cart/?add-to-cart='+calculatorID+'&weight_needed='+(lbs/1000)+'&unit=1,000%20lbs'
-    //return window.open(url);
+    var calculatorID
+    if (selected === 'all') {
+      calculatorID = calculator === 'individual' ? '7550' : '7599'
+    } else {
+      lbs /= 12
+      calculatorID = calculator === 'individual' ? '7565' : '9546'
+    }
+    var url = 'http://terrapass.com/cart/?add-to-cart='+calculatorID+'&weight_needed='+(lbs/1000)+'&unit=1,000%20lbs'
+    return window.open(url);
 
     // old way 6.15.15
     if (selected === 'all') {
