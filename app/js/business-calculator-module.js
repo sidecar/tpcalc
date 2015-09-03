@@ -47,6 +47,7 @@ module.exports = App.module('business', function(Calc) {
     Calc.model = new Calculator({
       displayName: 'Business',
       slug: 'business',
+      emissionsUnit : 'tonnes',
       catCodes: catCodes,
       categories: new Categories([
         ////////////////////////////////////////////////////////

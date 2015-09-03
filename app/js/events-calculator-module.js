@@ -57,6 +57,7 @@ module.exports = App.module('events', function(Calc) {
     Calc.model = new Calculator({
       displayName: 'Events',
       slug: 'events',
+      emissionsUnit : 'tonnes',
       catCodes: catCodes,
       categories: new Categories([
         ////////////////////////////////////////////////////////
