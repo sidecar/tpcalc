@@ -42,7 +42,7 @@ module.exports = Marionette.Layout.extend({
       }
 
       if(self.vehicle.get('isDiesel')){
-        console.log('validating isDiesel');
+        //console.log('validating isDiesel');
         if(!attrs.usesBiodiesel || attrs.usesBiodiesel == '') {
           self.displayError(self.ui.usesBiodiesel);
           return false;
@@ -50,10 +50,10 @@ module.exports = Marionette.Layout.extend({
           self.displaySuccess(self.ui.usesBiodiesel);
         }
 
-        if(self.ui.usesBiodiesel.val() == 'yes') {
-          console.log('self.ui.usesBiodiesel.val() == yes');
+        if (self.vehicle.get('usesBiodiesel')) {
+          //console.log('self.ui.usesBiodiesel.val() == yes');
           if(!attrs.biodieselBlend || attrs.biodieselBlend == '') {
-          console.log('biodiesel blend has not been chosen');
+          //console.log('biodiesel blend has not been chosen');
             self.displayError(self.ui.biodieselBlendSelect);
             return false;
           } else {
