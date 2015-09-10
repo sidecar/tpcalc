@@ -2,14 +2,12 @@
 var $ = require('jquery')
 , _ = require('underscore')
 , Marionette = require('backbone.marionette')
-, App = require('../../app')
-, numeral = require('numeral');
+, App = require('../../app');
 
 var listTemplate = require('../../templates/individual/ind-vehicle-list-template.hbs');
 
 var itemView = require('./vehicle-list-item-view');
 
-var utils = require('../../utils/utility');
 
 module.exports = Marionette.CompositeView.extend({
   template: listTemplate,

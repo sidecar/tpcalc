@@ -465,7 +465,6 @@ var vehicle = {
   },
 
   totalCarEmissions : function(fuel) {
-
     var mtCO2   = this.carEmissionsByGas('CO2');
     var gCH4  = this.carEmissionsByGas('CH4');
     var gN2O  = this.carEmissionsByGas('N2O');
@@ -478,7 +477,10 @@ var vehicle = {
       e85 :         mtCO2.e85 + ( gCH4.e85*this.c.mtCH4toCO2e + gN2O.e85*this.c.mtN2OtoCO2e )/1000,
     }
 
-    return ( typeof(fuel) != 'undefined' && fuel != '' ) ? CO2e[fuel.toLowerCase()] : CO2e;
+    if ( typeof(fuel) != 'undefined' && fuel != '' ){
+      return ( /bioDies/.test(fuel) ) ? CO2e[fuel] : CO2e[fuel.toLowerCase()] 
+    }
+    return CO2e
 
   },
 

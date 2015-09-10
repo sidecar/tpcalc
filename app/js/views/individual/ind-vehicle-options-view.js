@@ -137,13 +137,13 @@ module.exports = Marionette.Layout.extend({
         'selectedOptionText': 'Which blend of biodiesel does your car use?',
         'selectedOptionVal': '',
         'items': [
-          {'text':'B100 (100%)', 'value':'b100'},
-          {'text':'B99 (99%)', 'value':'b99'},
-          {'text':'B80 (80%)', 'value':'b80'},
-          {'text':'B50 (50%)', 'value':'b50'},
-          {'text':'B20 (20%)', 'value':'b20'},
-          {'text':'B5 (5%)', 'value':'b5'},
-          {'text':'B2 (2%)', 'value':'b2'}
+          {'text':'B100 (100%)', 'value':'bioDieselB100'},
+          //{'text':'B99 (99%)', 'value':'b99'},
+          //{'text':'B80 (80%)', 'value':'b80'},
+          //{'text':'B50 (50%)', 'value':'b50'},
+          {'text':'B20 (20%)', 'value':'bioDieselB20'}
+          //{'text':'B5 (5%)', 'value':'b5'},
+          //{'text':'B2 (2%)', 'value':'b2'}
         ]
       }
     }));
